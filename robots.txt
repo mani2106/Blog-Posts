@@ -1,1 +1,1 @@
-Sitemap: https://fastpages.fast.ai/sitemap.xml
+Sitemap: https://mani2106.github.io/Blog-Posts/sitemap.xml
