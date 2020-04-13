@@ -4,10 +4,7 @@ title: About Me
 permalink: /about/
 ---
 
-This is where you put the contents of your *About* page. Like all your pages, it's in [Markdown](https://guides.github.com/features/mastering-markdown/) format.
+A passionate Software Engineer and Data Science Practitioner, interested in Machine Learning, Deep Learning and Data Science.
+More of my work can be found [here](https://github.com/mani2106/Competition-Notebooks).
 
-This website is powered by **[fastpages](https://github.com/fastai/fastpages)** [^1].
-
-
-
-[^1]:a blogging platform that natively supports Jupyter notebooks in addition to other formats.
+You can also contact me with information in the bottom of this page.
