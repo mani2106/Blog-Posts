@@ -1,0 +1,129 @@
+<h1 id="extracting-data-from-wikipedia-for-language-model">Extracting data from wikipedia for language model</h1>
+
+<p>This post explains how I downloaded and extracted wiki dump archive using <a href="https://github.com/attardi/wikiextractor">wikiextractor</a>.</p>
+
+<p>This code was used on a kaggle environment, which can be found <a href="https://www.kaggle.com/manimaranp/tamil-wiki-data-extraction">here</a>. You can fork and change as per your needs.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For JSON data extraction
+import json
+# For path manipulations
+from pathlib import Path
+# For preprocessing
+import string
+# For deleting files and folders
+import shutil
+
+# To clone necessary files
+import git
+# To download the dump
+import requests as req
+# To use wikiextractor
+import subprocess
+# To clean and process data
+import pandas as pd
+</code></pre></div></div>
+
+<h1 id="setup-output-paths">Setup output paths</h1>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DATA_PATH = Path('/kaggle/working/')
+EXTRACTED_PATH = DATA_PATH/'extracted'
+EXTRACTED_PATH.mkdir()
+</code></pre></div></div>
+
+<h1 id="request-file-from-wikipedia">Request file from wikipedia</h1>
+<p>You can use a different link here</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bzip_file = req.get('https://dumps.wikimedia.org/tawiki/latest/tawiki-latest-pages-articles.xml.bz2')
+</code></pre></div></div>
+
+<h1 id="save-request-content-to-a-file">Save request content to a file</h1>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>with open(DATA_PATH/'tawiki-latest-pages-articles.xml.bz2', 'wb') as f:
+    f.write(bzip_file.content)
+</code></pre></div></div>
+
+<h1 id="clone-wiki-extractor-from-github">Clone wiki extractor from github</h1>
+<p>Thanks to <a href="https://github.com/attardi">attardi</a> and GitPython</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git.Git(str(DATA_PATH)).clone("https://github.com/attardi/wikiextractor.git")
+</code></pre></div></div>
+
+<h1 id="use-wikiextractor-to-get-data-from-the-dump">Use wikiextractor to get data from the dump</h1>
+<p>This runs the wikiextractor cloned from github.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>run_stat = subprocess.run(
+    ['python',
+    # File to run
+    str(DATA_PATH/'wikiextractor/WikiExtractor.py'),
+    # Processing parameters get as json
+    '-s', '--json',
+    # Directory to store Extracted text
+    '-o', str(DATA_PATH/'extracted'),
+    # Archive file to extract from
+    str(DATA_PATH/'tawiki-latest-pages-articles.xml.bz2')]
+)
+</code></pre></div></div>
+
+<h1 id="get-list-of-files-extracted-from-the-extraction-folder">Get list of files extracted from the extraction folder</h1>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>files_extracted = [str(f) for f in EXTRACTED_PATH.rglob("*/*")]
+</code></pre></div></div>
+
+<h1 id="load-json-data-from-the-files">Load json data from the files</h1>
+<p>Since all files are stored as json we can load them like below, This gives us a list of dictionaries</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lang_text = [json.loads(line) 
+             for _file in files_extracted 
+             for line in open(_file)]
+</code></pre></div></div>
+
+<p>or this</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lang_text = []
+for _file in files_extracted:
+    with open(_file, 'r') as f:
+        file_lines = f.readlines() 
+    for line in file_lines:
+        lang_text.append(json.loads(line))
+</code></pre></div></div>
+
+<h1 id="preprocessing">Preprocessing</h1>
+<p>You can use any of the following, or skip the preprocessing altogether if you wish so.</p>
+
+<h2 id="filter-english-words-from-text">Filter English words from text</h2>
+
+<p>Check each word after removing their punctuations, if it is an english word</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>filter_english = lambda text: ' '.join([word for word in text.split() if word.translate(str.maketrans('', '', string.punctuation)).isalpha() is False])
+</code></pre></div></div>
+
+<p>or</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>def filter_english(text):
+    words = []
+    # Spltting words
+    for word in text.split():
+        # Replace symbols
+        word = word.translate(str.maketrans('', '', string.punctuation))
+        if not word.isalpha():
+            words.append(word)
+    return ' '.join(words)
+</code></pre></div></div>
+
+<h2 id="form-dataframe-and-apply-preprocessing">Form dataframe and apply preprocessing</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Since we have a list of dictionaries.
+lang_df = pd.DataFrame(lang_text)
+lang_df['text'] = lang_df['text'].apply(filter_english)
+</code></pre></div></div>
+
+<h1 id="store-the-output-in-compressed-format">Store the output in compressed format</h1>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lang_df.to_csv(DATA_PATH/'filtered_data.csv.tar.gz', header=True)
+</code></pre></div></div>
+
+<p>The above saved file can be loaded with <code class="highlighter-rouge">pd.read_csv</code>.</p>
+
+<p>You can find the full code for this in <a href="https://gist.github.com/mani2106/97c0af61c9fde6e6cd7f6304f1b593af">Github gist</a> or with the output in <a href="https://www.kaggle.com/manimaranp/tamil-wiki-data-extraction">kaggle</a>.</p>
+
+<h1 id="clean-up-the-downloaded-files-if-required">Clean up the downloaded files, (if required)</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>shutil.rmtree(str(EXTRACTED_PATH))
+shutil.rmtree(str(DATA_PATH/'wikiextractor'))
+Path(DATA_PATH/'tawiki-latest-pages-articles.xml.bz2').unlink()
+</code></pre></div></div>

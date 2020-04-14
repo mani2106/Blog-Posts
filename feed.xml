@@ -1,4 +1,132 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://mani2106.github.io/Blog-Posts/feed.xml" rel="self" type="application/atom+xml" /><link href="https://mani2106.github.io/Blog-Posts/" rel="alternate" type="text/html" /><updated>2020-04-14T01:43:01-05:00</updated><id>https://mani2106.github.io/Blog-Posts/feed.xml</id><title type="html">Manimaran Paneerselvam’s blog</title><subtitle>This is where I write about my work on data science. I will also post Notebooks and sample codes to solve some interesting problems that I face everyday.</subtitle><entry><title type="html">Building a Pokemon Classifier</title><link href="https://mani2106.github.io/Blog-Posts/pokemon-classifer/image-classification/fastai/2019/06/01/Fast_ai_lesson_2_pokemon_classifier.html" rel="alternate" type="text/html" title="Building a Pokemon Classifier" /><published>2019-06-01T00:00:00-05:00</published><updated>2019-06-01T00:00:00-05:00</updated><id>https://mani2106.github.io/Blog-Posts/pokemon-classifer/image-classification/fastai/2019/06/01/Fast_ai_lesson_2_pokemon_classifier</id><content type="html" xml:base="https://mani2106.github.io/Blog-Posts/pokemon-classifer/image-classification/fastai/2019/06/01/Fast_ai_lesson_2_pokemon_classifier.html">&lt;!--
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://mani2106.github.io/Blog-Posts/feed.xml" rel="self" type="application/atom+xml" /><link href="https://mani2106.github.io/Blog-Posts/" rel="alternate" type="text/html" /><updated>2020-04-14T01:47:47-05:00</updated><id>https://mani2106.github.io/Blog-Posts/feed.xml</id><title type="html">Manimaran Paneerselvam’s blog</title><subtitle>This is where I write about my work on data science. I will also post Notebooks and sample codes to solve some interesting problems that I face everyday.</subtitle><entry><title type="html">Wiki Data Extraction</title><link href="https://mani2106.github.io/Blog-Posts/2020/04/14/wiki-data-extraction.html" rel="alternate" type="text/html" title="Wiki Data Extraction" /><published>2020-04-14T00:00:00-05:00</published><updated>2020-04-14T00:00:00-05:00</updated><id>https://mani2106.github.io/Blog-Posts/2020/04/14/wiki-data-extraction</id><content type="html" xml:base="https://mani2106.github.io/Blog-Posts/2020/04/14/wiki-data-extraction.html">&lt;h1 id=&quot;extracting-data-from-wikipedia-for-language-model&quot;&gt;Extracting data from wikipedia for language model&lt;/h1&gt;
+
+&lt;p&gt;This post explains how I downloaded and extracted wiki dump archive using &lt;a href=&quot;https://github.com/attardi/wikiextractor&quot;&gt;wikiextractor&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;This code was used on a kaggle environment, which can be found &lt;a href=&quot;https://www.kaggle.com/manimaranp/tamil-wiki-data-extraction&quot;&gt;here&lt;/a&gt;. You can fork and change as per your needs.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# For JSON data extraction
+import json
+# For path manipulations
+from pathlib import Path
+# For preprocessing
+import string
+# For deleting files and folders
+import shutil
+
+# To clone necessary files
+import git
+# To download the dump
+import requests as req
+# To use wikiextractor
+import subprocess
+# To clean and process data
+import pandas as pd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;setup-output-paths&quot;&gt;Setup output paths&lt;/h1&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;DATA_PATH = Path('/kaggle/working/')
+EXTRACTED_PATH = DATA_PATH/'extracted'
+EXTRACTED_PATH.mkdir()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;request-file-from-wikipedia&quot;&gt;Request file from wikipedia&lt;/h1&gt;
+&lt;p&gt;You can use a different link here&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;bzip_file = req.get('https://dumps.wikimedia.org/tawiki/latest/tawiki-latest-pages-articles.xml.bz2')
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;save-request-content-to-a-file&quot;&gt;Save request content to a file&lt;/h1&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;with open(DATA_PATH/'tawiki-latest-pages-articles.xml.bz2', 'wb') as f:
+    f.write(bzip_file.content)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;clone-wiki-extractor-from-github&quot;&gt;Clone wiki extractor from github&lt;/h1&gt;
+&lt;p&gt;Thanks to &lt;a href=&quot;https://github.com/attardi&quot;&gt;attardi&lt;/a&gt; and GitPython&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git.Git(str(DATA_PATH)).clone(&quot;https://github.com/attardi/wikiextractor.git&quot;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;use-wikiextractor-to-get-data-from-the-dump&quot;&gt;Use wikiextractor to get data from the dump&lt;/h1&gt;
+&lt;p&gt;This runs the wikiextractor cloned from github.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;run_stat = subprocess.run(
+    ['python',
+    # File to run
+    str(DATA_PATH/'wikiextractor/WikiExtractor.py'),
+    # Processing parameters get as json
+    '-s', '--json',
+    # Directory to store Extracted text
+    '-o', str(DATA_PATH/'extracted'),
+    # Archive file to extract from
+    str(DATA_PATH/'tawiki-latest-pages-articles.xml.bz2')]
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;get-list-of-files-extracted-from-the-extraction-folder&quot;&gt;Get list of files extracted from the extraction folder&lt;/h1&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;files_extracted = [str(f) for f in EXTRACTED_PATH.rglob(&quot;*/*&quot;)]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;load-json-data-from-the-files&quot;&gt;Load json data from the files&lt;/h1&gt;
+&lt;p&gt;Since all files are stored as json we can load them like below, This gives us a list of dictionaries&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lang_text = [json.loads(line) 
+             for _file in files_extracted 
+             for line in open(_file)]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;or this&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lang_text = []
+for _file in files_extracted:
+    with open(_file, 'r') as f:
+        file_lines = f.readlines() 
+    for line in file_lines:
+        lang_text.append(json.loads(line))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;preprocessing&quot;&gt;Preprocessing&lt;/h1&gt;
+&lt;p&gt;You can use any of the following, or skip the preprocessing altogether if you wish so.&lt;/p&gt;
+
+&lt;h2 id=&quot;filter-english-words-from-text&quot;&gt;Filter English words from text&lt;/h2&gt;
+
+&lt;p&gt;Check each word after removing their punctuations, if it is an english word&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;filter_english = lambda text: ' '.join([word for word in text.split() if word.translate(str.maketrans('', '', string.punctuation)).isalpha() is False])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;or&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;def filter_english(text):
+    words = []
+    # Spltting words
+    for word in text.split():
+        # Replace symbols
+        word = word.translate(str.maketrans('', '', string.punctuation))
+        if not word.isalpha():
+            words.append(word)
+    return ' '.join(words)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;form-dataframe-and-apply-preprocessing&quot;&gt;Form dataframe and apply preprocessing&lt;/h2&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Since we have a list of dictionaries.
+lang_df = pd.DataFrame(lang_text)
+lang_df['text'] = lang_df['text'].apply(filter_english)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;store-the-output-in-compressed-format&quot;&gt;Store the output in compressed format&lt;/h1&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;lang_df.to_csv(DATA_PATH/'filtered_data.csv.tar.gz', header=True)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The above saved file can be loaded with &lt;code class=&quot;highlighter-rouge&quot;&gt;pd.read_csv&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You can find the full code for this in &lt;a href=&quot;https://gist.github.com/mani2106/97c0af61c9fde6e6cd7f6304f1b593af&quot;&gt;Github gist&lt;/a&gt; or with the output in &lt;a href=&quot;https://www.kaggle.com/manimaranp/tamil-wiki-data-extraction&quot;&gt;kaggle&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;clean-up-the-downloaded-files-if-required&quot;&gt;Clean up the downloaded files, (if required)&lt;/h1&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;shutil.rmtree(str(EXTRACTED_PATH))
+shutil.rmtree(str(DATA_PATH/'wikiextractor'))
+Path(DATA_PATH/'tawiki-latest-pages-articles.xml.bz2').unlink()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name></name></author><summary type="html">Extracting data from wikipedia for language model</summary></entry><entry><title type="html">Building a Pokemon Classifier</title><link href="https://mani2106.github.io/Blog-Posts/pokemon-classifer/image-classification/fastai/2019/06/01/Fast_ai_lesson_2_pokemon_classifier.html" rel="alternate" type="text/html" title="Building a Pokemon Classifier" /><published>2019-06-01T00:00:00-05:00</published><updated>2019-06-01T00:00:00-05:00</updated><id>https://mani2106.github.io/Blog-Posts/pokemon-classifer/image-classification/fastai/2019/06/01/Fast_ai_lesson_2_pokemon_classifier</id><content type="html" xml:base="https://mani2106.github.io/Blog-Posts/pokemon-classifer/image-classification/fastai/2019/06/01/Fast_ai_lesson_2_pokemon_classifier.html">&lt;!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
