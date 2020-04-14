@@ -1,12 +1,11 @@
 ---
-title: "Wiki data extraction"
-summary: "Data extraction from Wikimedia dump"
+title: Wiki data extraction
+layout: post
+summary: Data extraction from Wikimedia dump
 toc: true
 comments: true
 categories: [data-cleaning, language-model]
 ---
-
-
 # Extracting data from wikipedia for language model
 
 This post explains how I downloaded and extracted wiki dump archive using [wikiextractor](https://github.com/attardi/wikiextractor).
