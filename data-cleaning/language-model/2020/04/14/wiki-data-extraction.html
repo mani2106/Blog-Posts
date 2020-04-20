@@ -254,9 +254,9 @@ window.onload = wrap_img;
 </code></pre></div></div>
 <p>Form dataframe and apply preprocessing</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Since we have a list of dictionaries.
-lang_df = pd.DataFrame(lang_text)
-lang_df['text'] = lang_df['text'].apply(filter_english)
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Since we have a list of dictionaries.
+</span><span class="n">lang_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lang_text</span><span class="p">)</span>
+<span class="n">lang_df</span><span class="p">[</span><span class="s">'text'</span><span class="p">]</span> <span class="o">=</span> <span class="n">lang_df</span><span class="p">[</span><span class="s">'text'</span><span class="p">]</span><span class="o">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">filter_english</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h1 id="store-the-output-in-compressed-format">
