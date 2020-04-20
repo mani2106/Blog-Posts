@@ -131,7 +131,7 @@ def filter_english(text):
 ```
 Form dataframe and apply preprocessing
 
-```
+```python
 # Since we have a list of dictionaries.
 lang_df = pd.DataFrame(lang_text)
 lang_df['text'] = lang_df['text'].apply(filter_english)
