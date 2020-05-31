@@ -72,7 +72,7 @@ run_stat = subprocess.run(
     ['python',
     # File to run
     str(DATA_PATH/'wikiextractor/WikiExtractor.py'),
-    # Processing parameters get as json
+    # Processing parameters to get as json
     '-s', '--json',
     # Directory to store Extracted text
     '-o', str(DATA_PATH/'extracted'),
