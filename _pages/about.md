@@ -8,4 +8,4 @@ A passionate Software Engineer and Data Science Practitioner, interested in Mach
 
 More of my work can be found [here](https://github.com/mani2106/Competition-Notebooks).
 
-You can also contact me via email @ manimaran_p@outlook.com
+You can also contact me via email @ <manimaran_p@outlook.com>
