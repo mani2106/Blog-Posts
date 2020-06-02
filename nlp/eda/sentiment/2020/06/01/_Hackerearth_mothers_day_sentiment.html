@@ -10,15 +10,21 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="In this notebook I explore a competition dataset of tweets reacting to Mother’s day" />
 <meta property="og:description" content="In this notebook I explore a competition dataset of tweets reacting to Mother’s day" />
-<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/05/30/_Hackerearth_mothers_day_sentiment.html" />
-<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/05/30/_Hackerearth_mothers_day_sentiment.html" />
+<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/06/01/_Hackerearth_mothers_day_sentiment.html" />
+<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/06/01/_Hackerearth_mothers_day_sentiment.html" />
 <meta property="og:site_name" content="Manimaran Paneerselvam’s blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-05-30T00:00:00-05:00" />
+<meta property="article:published_time" content="2020-06-01T00:00:00-05:00" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"Manimaran Paneerselvam"},"description":"In this notebook I explore a competition dataset of tweets reacting to Mother’s day","@type":"BlogPosting","headline":"Mother’s day Sentiment analysis","url":"https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/05/30/_Hackerearth_mothers_day_sentiment.html","datePublished":"2020-05-30T00:00:00-05:00","dateModified":"2020-05-30T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/05/30/_Hackerearth_mothers_day_sentiment.html"},"@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Manimaran Paneerselvam"},"description":"In this notebook I explore a competition dataset of tweets reacting to Mother’s day","@type":"BlogPosting","headline":"Mother’s day Sentiment analysis","url":"https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/06/01/_Hackerearth_mothers_day_sentiment.html","datePublished":"2020-06-01T00:00:00-05:00","dateModified":"2020-06-01T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/06/01/_Hackerearth_mothers_day_sentiment.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Paneerselvam's blog" /><link rel="shortcut icon" type="image/x-icon" href="/Blog-Posts/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Paneerselvam's blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-168240544-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/Blog-Posts/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>Mother’s day Sentiment analysis | Manimaran Paneerselvam’s blog</title>
 <meta name="generator" content="Jekyll v4.0.0" />
 <meta property="og:title" content="Mother’s day Sentiment analysis" />
@@ -26,17 +32,23 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="In this notebook I explore a competition dataset of tweets reacting to Mother’s day" />
 <meta property="og:description" content="In this notebook I explore a competition dataset of tweets reacting to Mother’s day" />
-<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/05/30/_Hackerearth_mothers_day_sentiment.html" />
-<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/05/30/_Hackerearth_mothers_day_sentiment.html" />
+<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/06/01/_Hackerearth_mothers_day_sentiment.html" />
+<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/06/01/_Hackerearth_mothers_day_sentiment.html" />
 <meta property="og:site_name" content="Manimaran Paneerselvam’s blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-05-30T00:00:00-05:00" />
+<meta property="article:published_time" content="2020-06-01T00:00:00-05:00" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"Manimaran Paneerselvam"},"description":"In this notebook I explore a competition dataset of tweets reacting to Mother’s day","@type":"BlogPosting","headline":"Mother’s day Sentiment analysis","url":"https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/05/30/_Hackerearth_mothers_day_sentiment.html","datePublished":"2020-05-30T00:00:00-05:00","dateModified":"2020-05-30T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/05/30/_Hackerearth_mothers_day_sentiment.html"},"@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Manimaran Paneerselvam"},"description":"In this notebook I explore a competition dataset of tweets reacting to Mother’s day","@type":"BlogPosting","headline":"Mother’s day Sentiment analysis","url":"https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/06/01/_Hackerearth_mothers_day_sentiment.html","datePublished":"2020-06-01T00:00:00-05:00","dateModified":"2020-06-01T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/06/01/_Hackerearth_mothers_day_sentiment.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
-<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Paneerselvam's blog" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Paneerselvam's blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-168240544-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
 
 <script>
 function wrap_img(fn) {
@@ -87,8 +99,8 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Mother&#39;s day Sentiment analysis</h1><p class="page-description">In this notebook I explore a competition dataset of tweets reacting to Mother's day</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-05-30T00:00:00-05:00" itemprop="datePublished">
-        May 30, 2020
+    <h1 class="post-title p-name" itemprop="name headline">Mother&#39;s day Sentiment analysis</h1><p class="page-description">In this notebook I explore a competition dataset of tweets reacting to Mother's day</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-06-01T00:00:00-05:00" itemprop="datePublished">
+        Jun 1, 2020
       </time>
        • <span class="read-time" title="Estimated read time">
     
@@ -1104,7 +1116,7 @@ They also contribute immensely to nation building and capacity building as careg
         theme="github-light"
         crossorigin="anonymous"
         async>
-</script><a class="u-url" href="/Blog-Posts/nlp/eda/sentiment/2020/05/30/_Hackerearth_mothers_day_sentiment.html" hidden></a>
+</script><a class="u-url" href="/Blog-Posts/nlp/eda/sentiment/2020/06/01/_Hackerearth_mothers_day_sentiment.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
