@@ -24,7 +24,7 @@ where $\theta_0$ is a constant, $\theta_1$...$\theta_n$ are the parameters of th
     In simple ML terms(I think)
     Each one of the parameter represent the weight of each feature in the dataset, that we are using to build the model
 
-This is the formula for the cost function with mean of square differences.$^0$
+This is the formula for the cost function with mean of square differences[^0].
 
 $$\frac{1}{2m}\sum_{i=1}^{m}  (h_\theta(x) - y)^2$$
 
@@ -35,7 +35,7 @@ A sample pseudocode for the mean of squares of errors would be
 
 - Calculate the sum of square differences / errors between each value $(X*\theta)$ vector and y vector
   - For each training example
-    - Multiply the feature values $X_1$, $X_2$,..$X_n$ with it's corresponding weights $\theta_1$, $\theta_2$$\cdots$$\theta_n$ and add the constant $\theta_0$
+    - Multiply the feature values $X_1$, $X_2$,..$X_n$ with it's corresponding weights $\theta_1$, $\theta_2\cdots\theta_n$, and add the constant, $\theta_0$.
 
     - Subtract the above value from the $y$ target value of that example and square the difference.
 
@@ -47,11 +47,11 @@ It can be represented like $h_0(x) = \theta_0+\theta_1X_1+\theta_2X_2+\cdots+\th
 
 # Gradient Descent
 
-We need to update the parameters $\theta_0$, $\theta_1$, $\theta_2$$\cdots$$\theta_n$ so that the cost function
+We need to update the parameters $\theta_0,\theta_1, \theta_2\cdots\theta_n$ so that the cost function
 
 $$J(\theta_0, \theta_1,\cdots\theta_n) = \frac{1}{2m}\sum_{i=1}^{m}  (h_\theta(x^i) - y^i)^2$$ can be minimized.
 
-So to find the minimum for the parameters $\theta_0$, $\theta_1$, $\theta_2$$\cdots$$\theta_n$ the update is performed like below
+So to find the minimum for the parameters $\theta_0,\theta_1,\theta_2\cdots\theta_n$ the update is performed like below
 
 $$\theta_j := \theta_j *\alpha \frac{\partial}{\partial \theta_j}*J(\theta_0, \theta_1,\cdots\theta_j)$$
 
@@ -60,13 +60,13 @@ Where,
 - The `:=` is assignment operator
 - The $\theta_j$ is the parameter to update, `j` is the feature index number
 - The $\alpha$ is the learning rate
-- The $\frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1,\cdots\theta_j)$ is the derivative term of the cost function, it is like `slope`$^2$ of the line `tangent`$^1$ to the curve touching on  where the $\theta$ is present in that curve.
+- The $\frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1,\cdots\theta_j)$ is the derivative term of the cost function, it is like `slope`[^2] of the line `tangent`[^1] to the curve touching on  where the $\theta$ is present in that curve.
 
 For each feature in the dataset the update has to be done simultaneously for each parameter $\theta$, until the convergence / error given by cost function at its minimum.
 
 ## Deriving the derivative term $\frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1,\cdots\theta_j)$
 
-$^3$To simplify the problem I am considering that we have 2 parameters $\theta_0$ and $\theta_1$, our hypothesis $h_0(x)$ function becomes $\theta_0+\theta_1X$
+[^3]To simplify the problem I am considering that we have 2 parameters $\theta_0$ and $\theta_1$, our hypothesis $h_0(x)$ function becomes $\theta_0+\theta_1X$
 
 Now let $g(\theta_0, \theta_1)$ be our derivative term
 
@@ -157,14 +157,14 @@ I tried to implement this in python which can be found [here](https://github.com
 - [How to implement a machine learning algorithm](https://machinelearningmastery.com/how-to-implement-a-machine-learning-algorithm/)
 - [Understanding math in Machine learning](https://machinelearningmastery.com/techniques-to-understand-machine-learning-algorithms-without-the-background-in-mathematics/)
 
-- $^0$ Most of the content and explanation is from Coursera's  - Machine Learning class
+- [^0] Most of the content and explanation is from Coursera's  - Machine Learning class
 
-- $^1$ Tangent is a line which touches exactly at one point of a curve.
+- [^1] Tangent is a line which touches exactly at one point of a curve.
 
-- $^2$ Slope of a line given any two points on the line is the ratio number of points we need to *rise/descend* and move *away/towards* the origin to the meet the other point.
+- [^2] Slope of a line given any two points on the line is the ratio number of points we need to *rise/descend* and move *away/towards* the origin to the meet the other point.
 
 ![ref image](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.lB1cJDzX1MWkf5DcHqewLAHaFj%26pid%3DApi&f=1)
 
 - *Image from [wikihow](http://www.wikihow.com/Find-the-Slope-of-a-Line-Using-Two-Points)*
 
-- $^3$ Derivation referred from [here](https://math.stackexchange.com/questions/70728/partial-derivative-in-gradient-descent-for-two-variables)
+- [^3] Derivation referred from [here](https://math.stackexchange.com/questions/70728/partial-derivative-in-gradient-descent-for-two-variables)
