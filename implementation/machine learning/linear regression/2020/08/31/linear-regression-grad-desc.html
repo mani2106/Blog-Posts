@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Wiki data extraction | Manimaran Paneerselvam’s blog</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Wiki data extraction" />
+<meta name="author" content="Manimaran Paneerselvam" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Implementing Linear Regression with Gradient Descent" />
+<meta property="og:description" content="Implementing Linear Regression with Gradient Descent" />
+<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html" />
+<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html" />
+<meta property="og:site_name" content="Manimaran Paneerselvam’s blog" />
+<meta property="og:image" content="https://mani2106.github.io/Blog-Posts/images/demo_grad.gif" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-08-31T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Manimaran Paneerselvam"},"description":"Implementing Linear Regression with Gradient Descent","@type":"BlogPosting","headline":"Wiki data extraction","dateModified":"2020-08-31T00:00:00-05:00","datePublished":"2020-08-31T00:00:00-05:00","url":"https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html","image":"https://mani2106.github.io/Blog-Posts/images/demo_grad.gif","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Paneerselvam's blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-168240544-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/Blog-Posts/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Wiki data extraction | Manimaran Paneerselvam’s blog</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Wiki data extraction" />
+<meta name="author" content="Manimaran Paneerselvam" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Implementing Linear Regression with Gradient Descent" />
+<meta property="og:description" content="Implementing Linear Regression with Gradient Descent" />
+<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html" />
+<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html" />
+<meta property="og:site_name" content="Manimaran Paneerselvam’s blog" />
+<meta property="og:image" content="https://mani2106.github.io/Blog-Posts/images/demo_grad.gif" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-08-31T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Manimaran Paneerselvam"},"description":"Implementing Linear Regression with Gradient Descent","@type":"BlogPosting","headline":"Wiki data extraction","dateModified":"2020-08-31T00:00:00-05:00","datePublished":"2020-08-31T00:00:00-05:00","url":"https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html","image":"https://mani2106.github.io/Blog-Posts/images/demo_grad.gif","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Paneerselvam's blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-168240544-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/Blog-Posts/">Manimaran Paneerselvam&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/Blog-Posts/about/">About Me</a><a class="page-link" href="/Blog-Posts/search/">Search</a><a class="page-link" href="/Blog-Posts/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Wiki data extraction</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-08-31T00:00:00-05:00" itemprop="datePublished">
+        Aug 31, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      5 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#Implementation">Implementation</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#Machine Learning">Machine Learning</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#Linear Regression">Linear Regression</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#implementing-linear-regression-with-gradient-descent">Implementing Linear Regression with Gradient Descent</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#the-cost-function">The Cost Function</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#gradient-descent">Gradient Descent</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#deriving-the-derivative-term-fracpartialpartial-theta_j-jtheta_0-theta_1cdotstheta_j">Deriving the derivative term $\frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1,\cdots\theta_j)$</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#resources-and-references">Resources and references</a></li>
+</ul><h1 id="implementing-linear-regression-with-gradient-descent">
+<a class="anchor" href="#implementing-linear-regression-with-gradient-descent" aria-hidden="true"><span class="octicon octicon-link"></span></a>Implementing Linear Regression with Gradient Descent</h1>
+
+<p>This post is my understanding of Linear Regression, Please feel free to comment and point out any errors if seen.</p>
+
+<h2 id="the-cost-function">
+<a class="anchor" href="#the-cost-function" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Cost Function</h2>
+
+<p>The cost function is used to measure the correctness of the current solution(hypothesis), the function
+can be mean of squares/square roots of the errors. It is represented as the following</p>
+
+<p><code>J($\theta_0$, $\theta_1$,..$\theta_n$)</code></p>
+
+<p>where $\theta_0$ is a constant, $\theta_1$…$\theta_n$ are the parameters of the equation we are trying to solve</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>In simple ML terms(I think)
+Each one of the parameter represent the weight of each feature in the dataset, that we are using to build the model
+</code></pre></div></div>
+
+<p>This is the formula for the cost function with mean of square differences.$^0$</p>
+
+<p><code>$$\frac{1}{2m}\sum_{i=1}^{m}  (h_\theta(x) - y)^2$$</code></p>
+
+<p>where $h_0(x)$ is the hypothesis or the predicted value for $y$
+and $m$ is the number of training examples</p>
+
+<p>A sample pseudocode for the mean of squares of errors would be</p>
+
+<ul>
+  <li>Calculate the sum of square differences / errors between each value <code>$(X*\theta)$</code> vector and <code>y</code> vector
+    <ul>
+      <li>For each training example
+        <ul>
+          <li>
+            <p>Multiply the feature values <code>$X_1$, $X_2$,..$X_n$</code> with it’s corresponding weights <code>$\theta_1$, $\theta_2$$\cdots$$\theta_n$</code> and add the constant <code>$\theta_0$</code></p>
+          </li>
+          <li>
+            <p>Subtract the above value from the <code>$y$</code> target value of that example and square the difference.</p>
+          </li>
+        </ul>
+      </li>
+      <li>Sum all the differences / errors</li>
+    </ul>
+  </li>
+  <li>Take the mean of the differences by the dividing with the number of training examples.</li>
+</ul>
+
+<p>It can be represented like <code>$h_0(x) = \theta_0+\theta_1X_1+\theta_2X_2+\cdots+\theta_nX_n$</code> where $n$ is the number of features we are using for the problem.</p>
+
+<h1 id="gradient-descent">
+<a class="anchor" href="#gradient-descent" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gradient Descent</h1>
+
+<p>We need to update the parameters <code>$\theta_0$, $\theta_1$, $\theta_2$$\cdots$$\theta_n$</code> so that the cost function</p>
+
+<p><code>$$J(\theta_0, \theta_1,\cdots\theta_n) = \frac{1}{2m}\sum_{i=1}^{m}  (h_\theta(x^i) - y^i)^2$$</code> can be minimized.</p>
+
+<p>So to find the minimum for the parameters <code>$\theta_0$, $\theta_1$, $\theta_2$$\cdots$$\theta_n$</code> the update is performed like below</p>
+
+<p><code>$$\theta_j := \theta_j *\alpha \frac{\partial}{\partial \theta_j}*J(\theta_0, \theta_1,\cdots\theta_j)$$</code></p>
+
+<p>Where,</p>
+
+<ul>
+  <li>The <code class="highlighter-rouge">:=</code> is assignment operator</li>
+  <li>The <code>$\theta_j$</code> is the parameter to update, <code class="highlighter-rouge">j</code> is the feature index number</li>
+  <li>The <code>$\alpha$</code> is the learning rate</li>
+  <li>The <code>$\frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1,\cdots\theta_j)$</code> is the derivative term of the cost function, it is like <code class="highlighter-rouge">slope</code>$^2$ of the line <code class="highlighter-rouge">tangent</code>$^1$ to the curve touching on  where the <code>$\theta$</code> is present in that curve.</li>
+</ul>
+
+<p>For each feature in the dataset the update has to be done simultaneously for each parameter <code>$\theta$</code>, until the convergence / error given by cost function at its minimum.</p>
+
+<h2 id="deriving-the-derivative-term-fracpartialpartial-theta_j-jtheta_0-theta_1cdotstheta_j">
+<a class="anchor" href="#deriving-the-derivative-term-fracpartialpartial-theta_j-jtheta_0-theta_1cdotstheta_j" aria-hidden="true"><span class="octicon octicon-link"></span></a>Deriving the derivative term <code>$\frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1,\cdots\theta_j)$</code>
+</h2>
+
+<p>$^3$To simplify the problem I am considering that we have 2 parameters $\theta_0$ and $\theta_1$, our hypothesis $h_0(x)$ function becomes $\theta_0+\theta_1X$</p>
+
+<p>Now let $g(\theta_0, \theta_1)$ be our derivative term</p>
+
+<p><code>$$g(\theta_0, \theta_1)=J(\theta_0, \theta_1)$$</code></p>
+
+<p><code>$$= (\frac{1}{2m}\sum_{i=1}^{m}  (h_\theta(x^i) - y^i)^2)$$</code></p>
+
+<p><code>$$=(\frac{1}{2m}\sum_{i=1}^{m}  (\theta_0+\theta_1X^i - y^i)^2)$$</code></p>
+
+<p>consider <code>$$f(\theta_0, \theta_1) = h_\theta(x^i) - y^i$$</code></p>
+
+<p>now our equation becomes</p>
+
+<p><code>$$g(\theta_0, \theta_1)=\frac{1}{2m}\sum_{i=1}^{m} (f(\theta_0, \theta_1)^i)^2$$</code></p>
+
+<p>subsutituting the value of $f(\theta_0, \theta_1)$ the equation becomes</p>
+
+<p><code>$$g(f(\theta_0, \theta_1)^i)=\frac{1}{2m}\sum_{i=1}^{m} (\theta_0+\theta_1X^i - y^i)^2 \tag{1}$$</code></p>
+
+<p>Now let us derive the partial derivative for $(1)$</p>
+
+<p><code>$$\frac{\partial}{\partial \theta_j}g(f(\theta_0, \theta_1)^i) =\frac{\partial}{\partial \theta_j}\frac{1}{2m}\sum_{i=1}^{m} (f(\theta_0, \theta_1)^i)^2$$</code></p>
+
+<p>Let <code class="highlighter-rouge">j</code> be <code class="highlighter-rouge">0</code></p>
+
+<p><code>$$\frac{\partial}{\partial \theta_0}g(f(\theta_0, \theta_1)^i) =\frac{\partial}{\partial \theta_0}\frac{1}{2m}\sum_{i=1}^{m} (f(\theta_0, \theta_1)^i)^2$$</code></p>
+
+<p>since we are performing the partial derivative with respect to $\theta_0$ other variables are considered constant, the following is similar to $\frac{\partial}{\partial x}$ of $(x^2+y)$ which is $2x$</p>
+
+<p><code>$$=\frac{1}{m}\sum_{i=1}^{m}  f(\theta_0, \theta_1)^i$$</code></p>
+
+<p><code>$$=\frac{1}{m}\sum_{i=1}^{m}  (h_\theta(x) - y)$$</code></p>
+
+<p>This is because of the <strong>chain rule</strong>, when we take derivative of a function like $(1)$, we need to use this formula below</p>
+
+<p><code>$$\frac{\partial}{\partial \theta_j}g(f(\theta_0, \theta_1)) = \frac{\partial}{\partial \theta_j}g(\theta_0, \theta_1) * \frac{\partial}{\partial \theta_j} f(\theta_0, \theta_1)\tag{2}$$</code></p>
+
+<p>In case when <code class="highlighter-rouge">j = 0</code> the partial derivative of $g$ becomes</p>
+
+<p><code>$$\frac{\partial}{\partial \theta_0}g(\theta_0, \theta_1) =\frac{1}{\cancel2m}*\cancel2(\sum_{i=1}^{m}  f(\theta_0, \theta_1)^i)^{2-1}=\frac{1}{m}\sum_{i=1}^{m}  f(\theta_0, \theta_1)^i$$</code></p>
+
+<p>and the partial derivative of $f$ becomes</p>
+
+<p><code>$$\frac{\partial}{\partial \theta_0}f(\theta_0, \theta_1) = \frac{\partial}{\partial \theta_0}(h_\theta(x^i) - y^i)\tag{3}$$</code></p>
+
+<p><code>$$\frac{\partial}{\partial \theta_0}f(\theta_0, \theta_1) = \frac{\partial}{\partial \theta_0}(\theta_0+\theta_1X^i - y^i) = 1$$</code></p>
+
+<p>since other variables are considered constants, that gives us</p>
+
+<p><code>$$\frac{\partial}{\partial \theta_j}g(\theta_0, \theta_1) * \frac{\partial}{\partial \theta_j} f(\theta_0, \theta_1)=\frac{1}{m}\sum_{i=1}^{m}  f(\theta_0, \theta_1)^i * 1 = \frac{1}{m}\sum_{i=1}^{m}  f(\theta_0, \theta_1)^i$$</code></p>
+
+<p>Let’s start from Equation $(1)$ to perform the partial derivative when <code class="highlighter-rouge">j = 1</code></p>
+
+<p>The partial derivative of $g(\theta_0, \theta_1)$ with respect to $\theta_1$ is same from the last derivation but the partial derivative of $f(\theta_0, \theta_1)$ becomes</p>
+
+<p>Consider $(3)$ when <code class="highlighter-rouge">j = 1</code></p>
+
+<p><code>$$\frac{\partial}{\partial \theta_1}f(\theta_1, \theta_1) = \frac{\partial}{\partial \theta_1}(h_\theta(x^i) - y^i) = \frac{\partial}{\partial \theta_1}(\theta_0+\theta_1X^i - y^i)$$</code></p>
+
+<p>variables other than $\theta_1$ are considered constants, so they become 0 and $\frac{\partial}{\partial \theta_1}\theta_1$ = 1, so our equation becomes</p>
+
+<p><code>$$\frac{\partial}{\partial \theta_1}f(\theta_0, \theta_1)= 0+1* X^i-0 =X^i$$</code></p>
+
+<p>and according to the chain rule $(2)$ and replacing the partials</p>
+
+<p><code>$$\frac{\partial}{\partial \theta_1}g(f(\theta_0, \theta_1)) = \frac{\partial}{\partial \theta_1}g(\theta_0, \theta_1) * \frac{\partial}{\partial \theta_1} f(\theta_0, \theta_1)$$</code></p>
+
+<p><code>$$= \frac{1}{m}\sum_{i=1}^{m}  f(\theta_0, \theta_1)^i * X^i$$</code></p>
+
+<p><code>$$= \frac{1}{m}\sum_{i=1}^{m}  (\theta_0+\theta_1X^i - y^i) * X^i$$</code></p>
+
+<p>Now we can use the derivatives in the Gradient Descent algorithm</p>
+
+<p><code>$$\theta_j := \theta_j *\alpha \frac{\partial}{\partial \theta_j}*J(\theta_0, \theta_1,\cdots\theta_j)$$</code></p>
+
+<p>repeat until convergence {
+<code>$$\theta_0 := \theta_0 *\alpha \frac{1}{m}\sum_{i=1}^{m}  (\theta_0+\theta_1X^i - y^i)$$</code></p>
+
+<p><code>$$\theta_1 := \theta_1 *\alpha \frac{1}{m}\sum_{i=1}^{m}  (\theta_0+\theta_1X^i - y^i)* X^i$$</code>
+}</p>
+
+<p>One disadvantage in Gradient Descent is that depending on the position it is initialized at the start, but in linear regression the cost function (mean of sqaured errors) is a convex function (ie) it is in shape of a <code class="highlighter-rouge">bowl</code> when plotted on the graph.</p>
+
+<p>I tried to implement this in python which can be found <a href="https://github.com/mani2106/Algorithm-Implementations">here</a></p>
+
+<h1 id="resources-and-references">
+<a class="anchor" href="#resources-and-references" aria-hidden="true"><span class="octicon octicon-link"></span></a>Resources and references</h1>
+
+<ul>
+  <li><a href="https://machinelearningmastery.com/how-to-implement-a-machine-learning-algorithm/">How to implement a machine learning algorithm</a></li>
+  <li>
+    <p><a href="https://machinelearningmastery.com/techniques-to-understand-machine-learning-algorithms-without-the-background-in-mathematics/">Understanding math in Machine learning</a></p>
+  </li>
+  <li>
+    <p>$^0$ Most of the content and explanation is from Coursera’s  - Machine Learning class</p>
+  </li>
+  <li>
+    <p>$^1$ Tangent is a line which touches exactly at one point of a curve.</p>
+  </li>
+  <li>$^2$ Slope of a line given any two points on the line is the ratio number of points we need to <em>rise/descend</em> and move <em>away/towards</em> the origin to the meet the other point.</li>
+</ul>
+
+<p><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.lB1cJDzX1MWkf5DcHqewLAHaFj%26pid%3DApi&amp;f=1" alt="ref image"></p>
+
+<ul>
+  <li>
+    <p><em>Image from <a href="http://www.wikihow.com/Find-the-Slope-of-a-Line-Using-Two-Points">wikihow</a></em></p>
+  </li>
+  <li>
+    <p>$^3$ Derivation referred from <a href="https://math.stackexchange.com/questions/70728/partial-derivative-in-gradient-descent-for-two-variables">here</a></p>
+  </li>
+</ul>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="mani2106/Blog-Posts"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/Blog-Posts/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/Blog-Posts/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/Blog-Posts/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Manimaran Paneerselvam</li>
+          <li><a class="u-email" href="mailto:manimaran_p@outlook.com">manimaran_p@outlook.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>This is where I write about my work on data science. I will also post Notebooks and sample codes to solve some interesting problems that I face everyday.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/mani2106" title="mani2106"><svg class="svg-icon grey"><use xlink:href="/Blog-Posts/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/manimaran-p" title="manimaran-p"><svg class="svg-icon grey"><use xlink:href="/Blog-Posts/assets/minima-social-icons.svg#linkedin"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
