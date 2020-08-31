@@ -3,9 +3,9 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Wiki data extraction | Manimaran Paneerselvam’s blog</title>
+<title>Gradient Descent for Linear Regression | Manimaran Paneerselvam’s blog</title>
 <meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="Wiki data extraction" />
+<meta property="og:title" content="Gradient Descent for Linear Regression" />
 <meta name="author" content="Manimaran Paneerselvam" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Implementing Linear Regression with Gradient Descent" />
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-08-31T00:00:00-05:00" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"Manimaran Paneerselvam"},"description":"Implementing Linear Regression with Gradient Descent","@type":"BlogPosting","headline":"Wiki data extraction","dateModified":"2020-08-31T00:00:00-05:00","datePublished":"2020-08-31T00:00:00-05:00","url":"https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html","image":"https://mani2106.github.io/Blog-Posts/images/demo_grad.gif","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html"},"@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Manimaran Paneerselvam"},"description":"Implementing Linear Regression with Gradient Descent","@type":"BlogPosting","headline":"Gradient Descent for Linear Regression","dateModified":"2020-08-31T00:00:00-05:00","datePublished":"2020-08-31T00:00:00-05:00","url":"https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html","image":"https://mani2106.github.io/Blog-Posts/images/demo_grad.gif","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Paneerselvam's blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -26,9 +26,9 @@
 <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-168240544-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
 
 <link rel="shortcut icon" type="image/x-icon" href="/Blog-Posts/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Wiki data extraction | Manimaran Paneerselvam’s blog</title>
+<title>Gradient Descent for Linear Regression | Manimaran Paneerselvam’s blog</title>
 <meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="Wiki data extraction" />
+<meta property="og:title" content="Gradient Descent for Linear Regression" />
 <meta name="author" content="Manimaran Paneerselvam" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Implementing Linear Regression with Gradient Descent" />
@@ -40,7 +40,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-08-31T00:00:00-05:00" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"Manimaran Paneerselvam"},"description":"Implementing Linear Regression with Gradient Descent","@type":"BlogPosting","headline":"Wiki data extraction","dateModified":"2020-08-31T00:00:00-05:00","datePublished":"2020-08-31T00:00:00-05:00","url":"https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html","image":"https://mani2106.github.io/Blog-Posts/images/demo_grad.gif","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html"},"@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Manimaran Paneerselvam"},"description":"Implementing Linear Regression with Gradient Descent","@type":"BlogPosting","headline":"Gradient Descent for Linear Regression","dateModified":"2020-08-31T00:00:00-05:00","datePublished":"2020-08-31T00:00:00-05:00","url":"https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html","image":"https://mani2106.github.io/Blog-Posts/images/demo_grad.gif","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/implementation/machine%20learning/linear%20regression/2020/08/31/linear-regression-grad-desc.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
@@ -117,7 +117,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Wiki data extraction</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-08-31T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Gradient Descent for Linear Regression</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-08-31T00:00:00-05:00" itemprop="datePublished">
         Aug 31, 2020
       </time>
        • <span class="read-time" title="Estimated read time">
