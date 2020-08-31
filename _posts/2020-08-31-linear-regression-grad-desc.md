@@ -1,5 +1,5 @@
 ---
-title: Wiki data extraction
+title: Gradient Descent for Linear Regression
 layout: post
 summary: Data extraction from Wikimedia dump
 toc: true
