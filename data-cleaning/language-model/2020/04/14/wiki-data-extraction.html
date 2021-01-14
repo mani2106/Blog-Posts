@@ -2,9 +2,10 @@
 <html lang="en"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>Wiki data extraction | Manimaran Paneerselvam’s blog</title>
-<meta name="generator" content="Jekyll v4.0.0" />
+<meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Wiki data extraction" />
 <meta name="author" content="Manimaran Paneerselvam" />
 <meta property="og:locale" content="en_US" />
@@ -16,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-04-14T00:00:00-05:00" />
 <script type="application/ld+json">
-{"datePublished":"2020-04-14T00:00:00-05:00","url":"https://mani2106.github.io/Blog-Posts/data-cleaning/language-model/2020/04/14/wiki-data-extraction.html","@type":"BlogPosting","headline":"Wiki data extraction","dateModified":"2020-04-14T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/data-cleaning/language-model/2020/04/14/wiki-data-extraction.html"},"author":{"@type":"Person","name":"Manimaran Paneerselvam"},"description":"This post explains how I downloaded and extracted wiki dump archive using wikiextractor.","@context":"https://schema.org"}</script>
+{"url":"https://mani2106.github.io/Blog-Posts/data-cleaning/language-model/2020/04/14/wiki-data-extraction.html","headline":"Wiki data extraction","dateModified":"2020-04-14T00:00:00-05:00","datePublished":"2020-04-14T00:00:00-05:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/data-cleaning/language-model/2020/04/14/wiki-data-extraction.html"},"author":{"@type":"Person","name":"Manimaran Paneerselvam"},"description":"This post explains how I downloaded and extracted wiki dump archive using wikiextractor.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Paneerselvam's blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -24,35 +25,12 @@
 
 <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-168240544-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
 
-<link rel="shortcut icon" type="image/x-icon" href="/Blog-Posts/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Wiki data extraction | Manimaran Paneerselvam’s blog</title>
-<meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="Wiki data extraction" />
-<meta name="author" content="Manimaran Paneerselvam" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="This post explains how I downloaded and extracted wiki dump archive using wikiextractor." />
-<meta property="og:description" content="This post explains how I downloaded and extracted wiki dump archive using wikiextractor." />
-<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/data-cleaning/language-model/2020/04/14/wiki-data-extraction.html" />
-<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/data-cleaning/language-model/2020/04/14/wiki-data-extraction.html" />
-<meta property="og:site_name" content="Manimaran Paneerselvam’s blog" />
-<meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-04-14T00:00:00-05:00" />
-<script type="application/ld+json">
-{"datePublished":"2020-04-14T00:00:00-05:00","url":"https://mani2106.github.io/Blog-Posts/data-cleaning/language-model/2020/04/14/wiki-data-extraction.html","@type":"BlogPosting","headline":"Wiki data extraction","dateModified":"2020-04-14T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/data-cleaning/language-model/2020/04/14/wiki-data-extraction.html"},"author":{"@type":"Person","name":"Manimaran Paneerselvam"},"description":"This post explains how I downloaded and extracted wiki dump archive using wikiextractor.","@context":"https://schema.org"}</script>
-<!-- End Jekyll SEO tag -->
-
-<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
-<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Paneerselvam's blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
-
-
-
-<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-168240544-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
-
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+<link rel="shortcut icon" type="image/x-icon" href="/Blog-Posts/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
     <script>
     document.addEventListener("DOMContentLoaded", function() {
         renderMathInElement( document.body, {
@@ -95,7 +73,8 @@ window.onload = wrap_img;
     elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
     });
 </script>
-</head><body><header class="site-header">
+</head>
+<body><header class="site-header">
 
   <div class="wrapper"><a class="site-title" rel="author" href="/Blog-Posts/">Manimaran Paneerselvam&#39;s blog</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -196,7 +175,7 @@ window.onload = wrap_img;
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s">'/kaggle/working/'</span><span class="p">)</span>
 <span class="n">EXTRACTED_PATH</span> <span class="o">=</span> <span class="n">DATA_PATH</span><span class="o">/</span><span class="s">'extracted'</span>
-<span class="n">EXTRACTED_PATH</span><span class="o">.</span><span class="n">mkdir</span><span class="p">()</span>
+<span class="n">EXTRACTED_PATH</span><span class="p">.</span><span class="n">mkdir</span><span class="p">()</span>
 </code></pre></div></div>
 
 <h1 id="data-extraction">
@@ -206,26 +185,26 @@ window.onload = wrap_img;
 <a class="anchor" href="#request-file-from-wikipedia" aria-hidden="true"><span class="octicon octicon-link"></span></a>Request file from wikipedia.</h2>
 <p>You can use a different link here.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bzip_file</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://dumps.wikimedia.org/tawiki/latest/tawiki-latest-pages-articles.xml.bz2'</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">bzip_file</span> <span class="o">=</span> <span class="n">req</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://dumps.wikimedia.org/tawiki/latest/tawiki-latest-pages-articles.xml.bz2'</span><span class="p">)</span>
 </code></pre></div></div>
 <h2 id="save-request-content-to-a-file">
 <a class="anchor" href="#save-request-content-to-a-file" aria-hidden="true"><span class="octicon octicon-link"></span></a>Save request content to a file</h2>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="o">/</span><span class="s">'tawiki-latest-pages-articles.xml.bz2'</span><span class="p">,</span> <span class="s">'wb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">bzip_file</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">bzip_file</span><span class="p">.</span><span class="n">content</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h2 id="clone-wiki-extractor-from-github">
 <a class="anchor" href="#clone-wiki-extractor-from-github" aria-hidden="true"><span class="octicon octicon-link"></span></a>Clone wiki extractor from github</h2>
 <p>Thanks to <a href="https://github.com/attardi">attardi</a> and GitPython</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">git</span><span class="o">.</span><span class="n">Git</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="p">))</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="s">"https://github.com/attardi/wikiextractor.git"</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">git</span><span class="p">.</span><span class="n">Git</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="p">)).</span><span class="n">clone</span><span class="p">(</span><span class="s">"https://github.com/attardi/wikiextractor.git"</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h2 id="use-wikiextractor-to-get-data-from-the-dump">
 <a class="anchor" href="#use-wikiextractor-to-get-data-from-the-dump" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use wikiextractor to get data from the dump</h2>
 <p>This runs the wikiextractor cloned from github.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">run_stat</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">run_stat</span> <span class="o">=</span> <span class="n">subprocess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span>
     <span class="p">[</span><span class="s">'python'</span><span class="p">,</span>
     <span class="c1"># File to run
 </span>    <span class="nb">str</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="o">/</span><span class="s">'wikiextractor/WikiExtractor.py'</span><span class="p">),</span>
@@ -239,12 +218,12 @@ window.onload = wrap_img;
 </code></pre></div></div>
 <p>Get list of files extracted from the extraction folder</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">files_extracted</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">EXTRACTED_PATH</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s">"*/*"</span><span class="p">)]</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">files_extracted</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">EXTRACTED_PATH</span><span class="p">.</span><span class="n">rglob</span><span class="p">(</span><span class="s">"*/*"</span><span class="p">)]</span>
 </code></pre></div></div>
 
 <p>Load json data from the files, since all files are stored as json we can load them like below, This gives us a list of dictionaries</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lang_text</span> <span class="o">=</span> <span class="p">[</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> 
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lang_text</span> <span class="o">=</span> <span class="p">[</span><span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> 
                 <span class="k">for</span> <span class="n">_file</span> <span class="ow">in</span> <span class="n">files_extracted</span> 
                 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">_file</span><span class="p">)]</span>
 </code></pre></div></div>
@@ -252,9 +231,9 @@ window.onload = wrap_img;
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lang_text</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">_file</span> <span class="ow">in</span> <span class="n">files_extracted</span><span class="p">:</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">_file</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-        <span class="n">file_lines</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span> 
+        <span class="n">file_lines</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="n">readlines</span><span class="p">()</span> 
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">file_lines</span><span class="p">:</span>
-        <span class="n">lang_text</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
+        <span class="n">lang_text</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
 </code></pre></div></div>
 <h1 id="preprocessing">
 <a class="anchor" href="#preprocessing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Preprocessing</h1>
@@ -265,43 +244,43 @@ window.onload = wrap_img;
 
 <p>Check each word after removing their punctuations, if it is an english word</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">filter_english</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">text</span><span class="p">:</span> <span class="s">' '</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
-    <span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> 
-    <span class="k">if</span> <span class="n">word</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s">''</span><span class="p">,</span> <span class="s">''</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span><span class="o">.</span><span class="n">isalpha</span><span class="p">()</span> <span class="ow">is</span> <span class="bp">False</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">filter_english</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">text</span><span class="p">:</span> <span class="s">' '</span><span class="p">.</span><span class="n">join</span><span class="p">([</span>
+    <span class="n">word</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="p">.</span><span class="n">split</span><span class="p">()</span> 
+    <span class="k">if</span> <span class="n">word</span><span class="p">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">str</span><span class="p">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s">''</span><span class="p">,</span> <span class="s">''</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">punctuation</span><span class="p">)).</span><span class="n">isalpha</span><span class="p">()</span> <span class="ow">is</span> <span class="bp">False</span>
 <span class="p">])</span>
 </code></pre></div></div>
 <p>or</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">filter_english</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
     <span class="n">words</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="c1"># Spltting words
-</span>    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
+</span>    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">text</span><span class="p">.</span><span class="n">split</span><span class="p">():</span>
         <span class="c1"># Replace symbols
-</span>        <span class="n">trans_table</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s">''</span><span class="p">,</span> <span class="s">''</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">)</span>
-        <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">trans_table</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">word</span><span class="o">.</span><span class="n">isalpha</span><span class="p">():</span>
-            <span class="n">words</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s">' '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+</span>        <span class="n">trans_table</span> <span class="o">=</span> <span class="nb">str</span><span class="p">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s">''</span><span class="p">,</span> <span class="s">''</span><span class="p">,</span> <span class="n">string</span><span class="p">.</span><span class="n">punctuation</span><span class="p">)</span>
+        <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="p">.</span><span class="n">translate</span><span class="p">(</span><span class="n">trans_table</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">word</span><span class="p">.</span><span class="n">isalpha</span><span class="p">():</span>
+            <span class="n">words</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">' '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
 </code></pre></div></div>
 <p>Form dataframe and apply preprocessing</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Since we have a list of dictionaries.
-</span><span class="n">lang_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lang_text</span><span class="p">)</span>
-<span class="n">lang_df</span><span class="p">[</span><span class="s">'text'</span><span class="p">]</span> <span class="o">=</span> <span class="n">lang_df</span><span class="p">[</span><span class="s">'text'</span><span class="p">]</span><span class="o">.</span><span class="nb">apply</span><span class="p">(</span><span class="n">filter_english</span><span class="p">)</span>
+</span><span class="n">lang_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lang_text</span><span class="p">)</span>
+<span class="n">lang_df</span><span class="p">[</span><span class="s">'text'</span><span class="p">]</span> <span class="o">=</span> <span class="n">lang_df</span><span class="p">[</span><span class="s">'text'</span><span class="p">].</span><span class="nb">apply</span><span class="p">(</span><span class="n">filter_english</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h1 id="store-the-output-in-compressed-format">
 <a class="anchor" href="#store-the-output-in-compressed-format" aria-hidden="true"><span class="octicon octicon-link"></span></a>Store the output in compressed format</h1>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lang_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="o">/</span><span class="s">'filtered_data.csv.tar.gz'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">lang_df</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="o">/</span><span class="s">'filtered_data.csv.tar.gz'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </code></pre></div></div>
-<p>The above saved file can be loaded with <code class="highlighter-rouge">pd.read_csv</code>.</p>
+<p>The above saved file can be loaded with <code class="language-plaintext highlighter-rouge">pd.read_csv</code>.</p>
 
 <p>You can find the full code for this in <a href="https://gist.github.com/mani2106/97c0af61c9fde6e6cd7f6304f1b593af">Github gist</a> or with the output in <a href="https://www.kaggle.com/manimaranp/tamil-wiki-data-extraction">kaggle</a>.</p>
 
 <h1 id="clean-up-the-downloaded-files-if-required">
 <a class="anchor" href="#clean-up-the-downloaded-files-if-required" aria-hidden="true"><span class="octicon octicon-link"></span></a>Clean up the downloaded files, (if required)</h1>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">EXTRACTED_PATH</span><span class="p">))</span>
-<span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="o">/</span><span class="s">'wikiextractor'</span><span class="p">))</span>
-<span class="n">Path</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="o">/</span><span class="s">'tawiki-latest-pages-articles.xml.bz2'</span><span class="p">)</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">shutil</span><span class="p">.</span><span class="n">rmtree</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">EXTRACTED_PATH</span><span class="p">))</span>
+<span class="n">shutil</span><span class="p">.</span><span class="n">rmtree</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="o">/</span><span class="s">'wikiextractor'</span><span class="p">))</span>
+<span class="n">Path</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="o">/</span><span class="s">'tawiki-latest-pages-articles.xml.bz2'</span><span class="p">).</span><span class="n">unlink</span><span class="p">()</span>
 </code></pre></div></div>
 
   </div><!-- from https://github.com/utterance/utterances -->
