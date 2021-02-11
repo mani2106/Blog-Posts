@@ -11,13 +11,13 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="The second notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning" />
 <meta property="og:description" content="The second notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning" />
-<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/10/_d2lai_exercises_pt2.html" />
-<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/10/_d2lai_exercises_pt2.html" />
+<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/07/d2lai_exercises_pt2.html" />
+<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/07/d2lai_exercises_pt2.html" />
 <meta property="og:site_name" content="Manimaran Paneerselvam’s blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-02-10T00:00:00-06:00" />
+<meta property="article:published_time" content="2021-02-07T00:00:00-06:00" />
 <script type="application/ld+json">
-{"url":"https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/10/_d2lai_exercises_pt2.html","headline":"Data Preprocessing - d2l.ai Exercises - Part 2","dateModified":"2021-02-10T00:00:00-06:00","datePublished":"2021-02-10T00:00:00-06:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/10/_d2lai_exercises_pt2.html"},"author":{"@type":"Person","name":"Manimaran Paneerselvam"},"description":"The second notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning","@context":"https://schema.org"}</script>
+{"url":"https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/07/d2lai_exercises_pt2.html","headline":"Data Preprocessing - d2l.ai Exercises - Part 2","dateModified":"2021-02-07T00:00:00-06:00","datePublished":"2021-02-07T00:00:00-06:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/07/d2lai_exercises_pt2.html"},"author":{"@type":"Person","name":"Manimaran Paneerselvam"},"description":"The second notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Paneerselvam's blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -94,8 +94,8 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Data Preprocessing - d2l.ai Exercises - Part 2</h1><p class="page-description">The second notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-02-10T00:00:00-06:00" itemprop="datePublished">
-        Feb 10, 2021
+    <h1 class="post-title p-name" itemprop="name headline">Data Preprocessing - d2l.ai Exercises - Part 2</h1><p class="page-description">The second notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-02-07T00:00:00-06:00" itemprop="datePublished">
+        Feb 7, 2021
       </time>
        • <span class="read-time" title="Estimated read time">
     
@@ -124,19 +124,19 @@ window.onload = wrap_img;
         <div class="pb-5 d-flex flex-wrap flex-justify-end">
           <div class="px-2">
 
-    <a href="https://github.com/mani2106/Blog-Posts/tree/master/_notebooks/2021-02-07_d2lai_exercises_pt2.ipynb" role="button" target="_blank">
+    <a href="https://github.com/mani2106/Blog-Posts/tree/master/_notebooks/2021-02-07-d2lai_exercises_pt2.ipynb" role="button" target="_blank">
 <img class="notebook-badge-image" src="/Blog-Posts/assets/badges/github.svg" alt="View On GitHub">
     </a>
 </div>
 
           <div class="px-2">
-    <a href="https://mybinder.org/v2/gh/mani2106/Blog-Posts/master?filepath=_notebooks%2F2021-02-07_d2lai_exercises_pt2.ipynb" target="_blank">
+    <a href="https://mybinder.org/v2/gh/mani2106/Blog-Posts/master?filepath=_notebooks%2F2021-02-07-d2lai_exercises_pt2.ipynb" target="_blank">
         <img class="notebook-badge-image" src="/Blog-Posts/assets/badges/binder.svg" alt="Open In Binder"/>
     </a>
 </div>
 
           <div class="px-2">
-    <a href="https://colab.research.google.com/github/mani2106/Blog-Posts/blob/master/_notebooks/2021-02-07_d2lai_exercises_pt2.ipynb" target="_blank">
+    <a href="https://colab.research.google.com/github/mani2106/Blog-Posts/blob/master/_notebooks/2021-02-07-d2lai_exercises_pt2.ipynb" target="_blank">
         <img class="notebook-badge-image" src="/Blog-Posts/assets/badges/colab.svg" alt="Open In Colab"/>
     </a>
 </div>
@@ -148,7 +148,7 @@ window.onload = wrap_img;
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
-# file to edit: _notebooks/2021-02-07_d2lai_exercises_pt2.ipynb
+# file to edit: _notebooks/2021-02-07-d2lai_exercises_pt2.ipynb
 -->
 
 <div class="container" id="notebook-container">
@@ -961,7 +961,7 @@ Name: median_house_value, dtype: float64</pre>
         theme="github-light"
         crossorigin="anonymous"
         async>
-</script><a class="u-url" href="/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/10/_d2lai_exercises_pt2.html" hidden></a>
+</script><a class="u-url" href="/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/07/d2lai_exercises_pt2.html" hidden></a>
 </article>
       </div>
     </main><footer class="site-footer h-card">
