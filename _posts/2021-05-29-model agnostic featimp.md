@@ -1,13 +1,17 @@
 ---
 title: Explaining prediction models and individual predictions
 layout: post
-summary: The following script tries to reproduce an algorithm from the paper titled `Explaining prediction models and individual predictions`
+summary: Implementation of algo from Explaining prediction models and individual predictions.
 toc: true
 comments: true
 categories: [take-home, Implementation]
 ---
 
-### The following script tries to reproduce one algorithm from the paper titled `Explaining prediction models and individual predictions`
+The following script tries to reproduce one algorithm from the paper titled `Explaining prediction models and individual predictions`
+
+You can have a look at the resultant json [here](https://github.com/mani2106/Poshmark-assignment)
+
+The json would have record level information of each feature and its impact on the prediction.
 
 ```python
 import os
@@ -108,7 +112,3 @@ feats = get_feat_imp_data(model, X_train, X_test)
 with open('feat_imps_1.json', 'w') as f:
     json.dump(feats, f)
 ```
-
-You can have a look at the resultant json [here](https://github.com/mani2106/Poshmark-assignment)
-
-The json would have record level information of each feature and its impact on the prediction.
