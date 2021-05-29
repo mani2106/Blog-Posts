@@ -38,9 +38,13 @@ X_test = pd.read_csv(os.path.join(file_path, 'test.csv'), index_col=0)
 
 # TODO try to complete numba usage
 # @numba.jit(nopython=True)
-def shuffle_feature_records(full_data: np.array, feature_data: np.array, feature_index: int, m: int) -> List[np.array]:
+def shuffle_feature_records(
+    full_data: np.array,
+    feature_data: np.array,
+    feature_index: int,
+    m: int) -> List[np.array]:
     """
-    Randomly selects a record from data and selects `m` no of records
+    Randomly selects `m` no of records to compare and calculate feature importances
     """
     feat_len = len(feature_data)
     feature_indices = np.arange(0, feat_len, dtype=np.uint8)
@@ -81,7 +85,14 @@ def shuffle_feature_records(full_data: np.array, feature_data: np.array, feature
 
     return arrs
 
-def get_feat_imp_data(model: Pipeline, X_train: pd.DataFrame, X_test: pd.DataFrame) -> dict:
+def get_feat_imp_data(
+    model: Pipeline,
+    X_train: pd.DataFrame,
+    X_test: pd.DataFrame) -> dict:
+    """
+    Loops over the available data and sends them for calculation
+    """
+    # Get features for 100 records
     tr_data = X_train[X_train['id'].isin(range(0, 101))].copy()
     te_data = X_test[X_test['id'].isin(range(0, 101))].copy()
 
@@ -91,8 +102,8 @@ def get_feat_imp_data(model: Pipeline, X_train: pd.DataFrame, X_test: pd.DataFra
     cols = data.columns.tolist()
 
     feat_imp = {}
+    # send them one by one to calculate
     for d in data.values:
-        # get id no of the data instance
         col_imp = {}
         for feat_index in range(data.shape[1]):
             b1, b2 = shuffle_feature_records(X_train.values, d, feature_index=feat_index, m=4)
