@@ -1024,9 +1024,6 @@ array([[ 0.,  1.,  2.,  3.],
     
     
 <div class="cell border-box-sizing code_cell rendered">
-<details class="description">
-      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
-        <p></p>
 <div class="input">
 
 <div class="inner_cell">
@@ -1038,8 +1035,10 @@ array([[ 0.,  1.,  2.,  3.],
     </div>
 </div>
 </div>
-
-    </details>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+</p>
 <div class="output_wrapper">
 <div class="output">
 
@@ -1049,7 +1048,7 @@ array([[ 0.,  1.,  2.,  3.],
 <pre>
 <span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
 <span class="ansi-red-intense-fg ansi-bold">InvalidArgumentError</span>                      Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-3-0f11f2009278&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-4-0f11f2009278&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
 <span class="ansi-green-fg">      1</span> <span class="ansi-red-intense-fg ansi-bold">#collapse</span>
 <span class="ansi-green-intense-fg ansi-bold">----&gt; 2</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>A <span class="ansi-yellow-intense-fg ansi-bold">/</span> tf<span class="ansi-yellow-intense-fg ansi-bold">.</span>reduce_sum<span class="ansi-yellow-intense-fg ansi-bold">(</span>A<span class="ansi-yellow-intense-fg ansi-bold">,</span> axis<span class="ansi-yellow-intense-fg ansi-bold">=</span><span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
 <span class="ansi-green-fg">      3</span> <span class="ansi-red-intense-fg ansi-bold"># This produces an error</span>
@@ -1105,6 +1104,7 @@ array([[ 0.,  1.,  2.,  3.],
 </div>
 </div>
 
+    </details>
 </div>
     
 
@@ -1294,11 +1294,33 @@ array([[0.        , 0.16666667, 0.33333334, 0.5       ],
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's see the shapes of the numerator and denominator of the above</p>
+<p>Let's see the shapes and values of the numerator and denominator of the above</p>
 
 </div>
 </div>
 </div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Numerator:  (5, 4)
+Denominator: (5, 1)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
     
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -1363,7 +1385,7 @@ array([[0.        , 0.16666667, 0.33333334, 0.5       ],
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>I am not able to get the underlying concept needed to answer this question, I have asked some <a href="https://discuss.d2l.ai/t/linear-algebra/30/7?u=manimaran_p">help</a>, or you can comment below to help me understand this one, thanks in advance.</p>
+<p>A user <a href="https://discuss.d2l.ai/t/linear-algebra/30/7">suggested</a> to look at the streets of manhattan in google maps, to understand the question better,! as suggested the maps picture looked like a big piece of land cut into several small rectangular boxes, very much like 2d coordinate space, where each intersection of street can be treated as an point in that space.</p>
 
 </div>
 </div>
@@ -1371,7 +1393,7 @@ array([[0.        , 0.16666667, 0.33333334, 0.5       ],
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A user suggested to look at the streets of manhattan in google maps, to understand the question better,! as suggested the maps picture looked like a big piece of land cut into several small rectangular boxes, very much like 2d coordinate space, where each intersection of street can be treated as an point in that space.</p>
+<p>Let's look at sample screenshot from google maps of manhattan streets.</p>
 
 </div>
 </div>
@@ -1404,6 +1426,7 @@ and there is also a special geometry called taxicab geometry, with manhattan dis
 <p>Let's define them as coordinates,<br>
 72nd street, 2nd Avenue -&gt; $(72, 2)$<br>
 76th street, 1st Avenue -&gt; $(76, 1)$</p>
+<p>so according to the formula the answer would be $(4, 1)$ ie 4 streets and 1 avenue, and we don't travel diagonally unless we are flying.</p>
 
 </div>
 </div>

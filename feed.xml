@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://mani2106.github.io/Blog-Posts/feed.xml" rel="self" type="application/atom+xml" /><link href="https://mani2106.github.io/Blog-Posts/" rel="alternate" type="text/html" /><updated>2021-05-29T09:09:27-05:00</updated><id>https://mani2106.github.io/Blog-Posts/feed.xml</id><title type="html">Manimaran Paneerselvam’s blog</title><subtitle>This is where I write about my work on data science. I will also post Notebooks and sample codes to solve some interesting problems that I face everyday.</subtitle><author><name>Manimaran Paneerselvam</name><email>manimaran_p@outlook.com</email></author><entry><title type="html">Explaining prediction models and individual predictions</title><link href="https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html" rel="alternate" type="text/html" title="Explaining prediction models and individual predictions" /><published>2021-05-29T00:00:00-05:00</published><updated>2021-05-29T00:00:00-05:00</updated><id>https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model%20agnostic%20featimp</id><content type="html" xml:base="https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html">&lt;p&gt;The following script tries to reproduce one algorithm from the paper titled &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Explaining prediction models and individual predictions&lt;/code&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.1.1">Jekyll</generator><link href="https://mani2106.github.io/Blog-Posts/feed.xml" rel="self" type="application/atom+xml" /><link href="https://mani2106.github.io/Blog-Posts/" rel="alternate" type="text/html" /><updated>2021-05-29T10:44:18-05:00</updated><id>https://mani2106.github.io/Blog-Posts/feed.xml</id><title type="html">Manimaran Paneerselvam’s blog</title><subtitle>This is where I write about my work on data science. I will also post Notebooks and sample codes to solve some interesting problems that I face everyday.</subtitle><author><name>Manimaran Paneerselvam</name><email>manimaran_p@outlook.com</email></author><entry><title type="html">Explaining prediction models and individual predictions</title><link href="https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html" rel="alternate" type="text/html" title="Explaining prediction models and individual predictions" /><published>2021-05-29T00:00:00-05:00</published><updated>2021-05-29T00:00:00-05:00</updated><id>https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model%20agnostic%20featimp</id><content type="html" xml:base="https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html">&lt;p&gt;The following script tries to reproduce one algorithm from the paper titled &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Explaining prediction models and individual predictions&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;You can have a look at the resultant json &lt;a href=&quot;https://github.com/mani2106/Poshmark-assignment&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
 
@@ -29220,9 +29220,7 @@ array([[ 0.,  1.,  2.,  3.],
     
     
 &lt;div class=&quot;cell border-box-sizing code_cell rendered&quot;&gt;
-&lt;details class=&quot;description&quot;&gt;
-      &lt;summary class=&quot;btn btn-sm&quot; data-open=&quot;Hide Code&quot; data-close=&quot;Show Code&quot;&gt;&lt;/summary&gt;
-        &lt;p&gt;&lt;div class=&quot;input&quot;&gt;
+&lt;div class=&quot;input&quot;&gt;
 
 &lt;div class=&quot;inner_cell&quot;&gt;
     &lt;div class=&quot;input_area&quot;&gt;
@@ -29233,8 +29231,9 @@ array([[ 0.,  1.,  2.,  3.],
     &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/p&gt;
-    &lt;/details&gt;
+&lt;details class=&quot;description&quot;&gt;
+      &lt;summary class=&quot;btn btn-sm&quot; data-open=&quot;Hide Output&quot; data-close=&quot;Show Output&quot;&gt;&lt;/summary&gt;
+        &lt;p&gt;
 &lt;div class=&quot;output_wrapper&quot;&gt;
 &lt;div class=&quot;output&quot;&gt;
 
@@ -29244,7 +29243,7 @@ array([[ 0.,  1.,  2.,  3.],
 &lt;pre&gt;
 &lt;span class=&quot;ansi-red-intense-fg ansi-bold&quot;&gt;---------------------------------------------------------------------------&lt;/span&gt;
 &lt;span class=&quot;ansi-red-intense-fg ansi-bold&quot;&gt;InvalidArgumentError&lt;/span&gt;                      Traceback (most recent call last)
-&lt;span class=&quot;ansi-green-intense-fg ansi-bold&quot;&gt;&amp;lt;ipython-input-3-0f11f2009278&amp;gt;&lt;/span&gt; in &lt;span class=&quot;ansi-cyan-fg&quot;&gt;&amp;lt;module&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;ansi-green-intense-fg ansi-bold&quot;&gt;&amp;lt;ipython-input-4-0f11f2009278&amp;gt;&lt;/span&gt; in &lt;span class=&quot;ansi-cyan-fg&quot;&gt;&amp;lt;module&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;ansi-green-fg&quot;&gt;      1&lt;/span&gt; &lt;span class=&quot;ansi-red-intense-fg ansi-bold&quot;&gt;#collapse&lt;/span&gt;
 &lt;span class=&quot;ansi-green-intense-fg ansi-bold&quot;&gt;----&amp;gt; 2&lt;/span&gt;&lt;span class=&quot;ansi-yellow-intense-fg ansi-bold&quot;&gt; &lt;/span&gt;A &lt;span class=&quot;ansi-yellow-intense-fg ansi-bold&quot;&gt;/&lt;/span&gt; tf&lt;span class=&quot;ansi-yellow-intense-fg ansi-bold&quot;&gt;.&lt;/span&gt;reduce_sum&lt;span class=&quot;ansi-yellow-intense-fg ansi-bold&quot;&gt;(&lt;/span&gt;A&lt;span class=&quot;ansi-yellow-intense-fg ansi-bold&quot;&gt;,&lt;/span&gt; axis&lt;span class=&quot;ansi-yellow-intense-fg ansi-bold&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;ansi-cyan-intense-fg ansi-bold&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;ansi-yellow-intense-fg ansi-bold&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;ansi-green-fg&quot;&gt;      3&lt;/span&gt; &lt;span class=&quot;ansi-red-intense-fg ansi-bold&quot;&gt;# This produces an error&lt;/span&gt;
@@ -29299,7 +29298,8 @@ array([[ 0.,  1.,  2.,  3.],
 
 &lt;/div&gt;
 &lt;/div&gt;
-
+&lt;/p&gt;
+    &lt;/details&gt;
 &lt;/div&gt;
     
 
@@ -29483,11 +29483,33 @@ array([[0.        , 0.16666667, 0.33333334, 0.5       ],
 
 &lt;div class=&quot;cell border-box-sizing text_cell rendered&quot;&gt;&lt;div class=&quot;inner_cell&quot;&gt;
 &lt;div class=&quot;text_cell_render border-box-sizing rendered_html&quot;&gt;
-&lt;p&gt;Let's see the shapes of the numerator and denominator of the above&lt;/p&gt;
+&lt;p&gt;Let's see the shapes and values of the numerator and denominator of the above&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+    
+    
+&lt;div class=&quot;cell border-box-sizing code_cell rendered&quot;&gt;
+
+&lt;div class=&quot;output_wrapper&quot;&gt;
+&lt;div class=&quot;output&quot;&gt;
+
+&lt;div class=&quot;output_area&quot;&gt;
+
+&lt;div class=&quot;output_subarea output_stream output_stdout output_text&quot;&gt;
+&lt;pre&gt;Numerator:  (5, 4)
+Denominator: (5, 1)
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+    
+
     
     
 &lt;div class=&quot;cell border-box-sizing code_cell rendered&quot;&gt;
@@ -29547,14 +29569,14 @@ array([[0.        , 0.16666667, 0.33333334, 0.5       ],
 &lt;/div&gt;
 &lt;div class=&quot;cell border-box-sizing text_cell rendered&quot;&gt;&lt;div class=&quot;inner_cell&quot;&gt;
 &lt;div class=&quot;text_cell_render border-box-sizing rendered_html&quot;&gt;
-&lt;p&gt;I am not able to get the underlying concept needed to answer this question, I have asked some &lt;a href=&quot;https://discuss.d2l.ai/t/linear-algebra/30/7?u=manimaran_p&quot;&gt;help&lt;/a&gt;, or you can comment below to help me understand this one, thanks in advance.&lt;/p&gt;
+&lt;p&gt;A user &lt;a href=&quot;https://discuss.d2l.ai/t/linear-algebra/30/7&quot;&gt;suggested&lt;/a&gt; to look at the streets of manhattan in google maps, to understand the question better,! as suggested the maps picture looked like a big piece of land cut into several small rectangular boxes, very much like 2d coordinate space, where each intersection of street can be treated as an point in that space.&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;cell border-box-sizing text_cell rendered&quot;&gt;&lt;div class=&quot;inner_cell&quot;&gt;
 &lt;div class=&quot;text_cell_render border-box-sizing rendered_html&quot;&gt;
-&lt;p&gt;A user suggested to look at the streets of manhattan in google maps, to understand the question better,! as suggested the maps picture looked like a big piece of land cut into several small rectangular boxes, very much like 2d coordinate space, where each intersection of street can be treated as an point in that space.&lt;/p&gt;
+&lt;p&gt;Let's look at sample screenshot from google maps of manhattan streets.&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
@@ -29584,6 +29606,7 @@ and there is also a special geometry called taxicab geometry, with manhattan dis
 &lt;p&gt;Let's define them as coordinates,&lt;br /&gt;
 72nd street, 2nd Avenue -&amp;gt; $(72, 2)$&lt;br /&gt;
 76th street, 1st Avenue -&amp;gt; $(76, 1)$&lt;/p&gt;
+&lt;p&gt;so according to the formula the answer would be $(4, 1)$ ie 4 streets and 1 avenue, and we don't travel diagonally unless we are flying.&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
