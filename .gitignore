@@ -13,3 +13,5 @@ _notebooks/.ipynb_checkpoints
 __pycache__
 Thumbs.db
 _/images/Thumbs.db
+settings.ini
+.vscode/settings.json
