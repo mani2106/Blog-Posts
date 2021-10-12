@@ -4,7 +4,6 @@ layout: post
 summary: Data extraction from Wikimedia dump
 toc: true
 comments: true
-image: images/demo_grad.gif
 categories: [Implementation, Machine Learning, Linear Regression]
 ---
 
