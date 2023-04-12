@@ -46,6 +46,7 @@ minima:
   social_links:
     linkedin: manimaran-p
     github: mani2106
+    twitter: mani_maranp
     # - { platform: github,  user_url: "https://github.com/mani2106" }
     # - { platform: twitter, user_url: "https://twitter.com/mani_maranp" }
     # - { platform: linkedin, user_url: "https://www.linkedin.com/in/manimaran-p" }
@@ -100,7 +101,7 @@ plugins:
 paginate: 15
 paginate_path: /page:num/
 
-remote_theme: jekyll/minima@v2.5.1
+remote_theme: jekyll/minima@6513ea8b9c1c4909b6aa79926d52a1f7d865c5e7
 
 titles_from_headings:
   enabled:     true
