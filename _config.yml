@@ -41,14 +41,14 @@ url: "https://mani2106.github.io" # the base hostname & protocol for your site, 
 #
 baseurl: "/Blog-Posts" # the subpath of your site, e.g. "/blog".
 
-#     linkedin: manimaran-p
-#     github: mani2106social_links:
 # Github and twitter are optional:
 minima:
   social_links:
-    - { platform: github,  user_url: "https://github.com/mani2106" }
-    - { platform: twitter, user_url: "https://twitter.com/mani_maranp" }
-    - { platform: linkedin, user_url: "https://www.linkedin.com/in/manimaran-p" }
+    linkedin: manimaran-p
+    github: mani2106
+    # - { platform: github,  user_url: "https://github.com/mani2106" }
+    # - { platform: twitter, user_url: "https://twitter.com/mani_maranp" }
+    # - { platform: linkedin, user_url: "https://www.linkedin.com/in/manimaran-p" }
 
 # Set this to true to get LaTeX math equation support
 use_math: true
@@ -100,7 +100,7 @@ plugins:
 paginate: 15
 paginate_path: /page:num/
 
-remote_theme: jekyll/minima
+remote_theme: jekyll/minima@v2.5.1
 
 titles_from_headings:
   enabled:     true
