@@ -6,10 +6,10 @@
 # https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
 # https://learnxinyminutes.com/docs/yaml/
 
-title: Manimaran Paneerselvam's blog
+title: Manimaran Panneerselvam's blog
 
 author:
-  name: Manimaran Paneerselvam
+  name: Manimaran Panneerselvam
   email: manimaran_p@outlook.com
 
 description: This is where I write about my work on data science. I will also post Notebooks and sample codes to solve some interesting problems that I face everyday.
@@ -41,14 +41,14 @@ url: "https://mani2106.github.io" # the base hostname & protocol for your site, 
 #
 baseurl: "/Blog-Posts" # the subpath of your site, e.g. "/blog".
 
+#     linkedin: manimaran-p
+#     github: mani2106social_links:
 # Github and twitter are optional:
 minima:
   social_links:
-#     linkedin: manimaran-p
-#     github: mani2106social_links:
-    - { platform: github,  user_url: "https://github.com/mani2106/" }
+    - { platform: github,  user_url: "https://github.com/mani2106" }
     - { platform: twitter, user_url: "https://twitter.com/mani_maranp" }
-    - { platform: linkedin, user_url: "https://www.linkedin.com/in/manimaran-p/" }
+    - { platform: linkedin, user_url: "https://www.linkedin.com/in/manimaran-p" }
 
 # Set this to true to get LaTeX math equation support
 use_math: true
