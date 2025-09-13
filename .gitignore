@@ -15,3 +15,5 @@ Thumbs.db
 _/images/Thumbs.db
 settings.ini
 .vscode/settings.json
+new_blog/
+.kiro/

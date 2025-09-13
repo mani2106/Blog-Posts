@@ -61,3 +61,68 @@ window.onload = wrap_img;
     elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
     });
 </script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<style>
+.post-container {
+  display: flex;
+  position: relative;
+}
+
+.toc-sidebar {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  width: 250px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 16px;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(27, 31, 36, 0.1);
+  font-size: 14px;
+}
+
+.toc-sidebar h2 {
+  font-size: 16px;
+  margin-top: 0;
+  color: #24292f;
+}
+
+.toc-sidebar ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc-sidebar li {
+  margin: 4px 0;
+}
+
+.toc-sidebar a {
+  color: #0969da;
+  text-decoration: none;
+}
+
+.toc-sidebar a:hover {
+  text-decoration: underline;
+}
+
+.post-main {
+  margin-right: 280px;
+  flex: 1;
+  max-width: calc(100% - 280px);
+}
+
+@media (max-width: 768px) {
+  .toc-sidebar {
+    display: none;
+  }
+  .post-main {
+    margin-right: 0;
+    max-width: 100%;
+  }
+}
+</style>

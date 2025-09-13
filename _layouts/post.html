@@ -18,7 +18,7 @@ layout: default
         {{ page.date | date: date_format }}
       </time>
       {%- if page.modified_date -%}
-        ~ 
+        ~
         {%- assign mdate = page.modified_date | date_to_xmlschema -%}
         <time class="dt-modified" datetime="{{ mdate }}" itemprop="dateModified">
           {{ mdate | date: date_format }}
@@ -35,7 +35,7 @@ layout: default
     </p>
 
     {% if page.categories.size > 0 and site.show_tags %}
-      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i>
       {% for category in  page.categories  %}
         <a class="category-tags-link" href="{{site.baseurl}}/categories/#{{category|slugize}}">{{category}}</a>
         {% unless forloop.last %}&nbsp;{% endunless %}
@@ -54,14 +54,21 @@ layout: default
     {% endif -%}
   </header>
 
-  <div class="post-content e-content" itemprop="articleBody">
-    {{ content | toc  }}
+  <div class="post-container">
+    <aside class="toc-sidebar">
+      {% include toc.html %}
+    </aside>
+    <main class="post-main">
+      <div class="post-content e-content" itemprop="articleBody">
+        {{ content }}
+      </div>
+      {%- if page.comments -%}
+        {%- include utterances.html -%}
+      {%- endif -%}
+      {%- if site.disqus.shortname -%}
+        {%- include disqus_comments.html -%}
+      {%- endif -%}
+      <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+    </main>
   </div>
-  {%- if page.comments -%}
-    {%- include utterances.html -%}
-  {%- endif -%}
-  {%- if site.disqus.shortname -%}
-    {%- include disqus_comments.html -%}
-  {%- endif -%}
-  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
 </article>
