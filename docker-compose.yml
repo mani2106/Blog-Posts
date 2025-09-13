@@ -34,11 +34,11 @@ services:
 
   jekyll:
     working_dir: /data
-    image: fastai/fastpages-jekyll
+    image: jekyll/jekyll:4.3.0
     restart: unless-stopped
     ports:
       - "4000:4000"
     volumes:
       - .:/data/
     command: >
-      bash -c "chmod -R u+rw . && jekyll serve --host 0.0.0.0 --trace --strict_front_matter"
+      bash -c "bundle install && chmod -R u+rw . && jekyll serve --host 0.0.0.0 --trace --strict_front_matter"
