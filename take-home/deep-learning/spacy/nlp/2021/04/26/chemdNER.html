@@ -3,9 +3,9 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Text mining with chemical text from chemdNER | Manimaran Panneerselvam’s blog</title>
-<meta name="generator" content="Jekyll v4.1.1" />
+<meta name="generator" content="Jekyll v4.3.4" />
 <meta property="og:title" content="Text mining with chemical text from chemdNER" />
 <meta name="author" content="Manimaran Panneerselvam" />
 <meta property="og:locale" content="en_US" />
@@ -15,11 +15,13 @@
 <meta property="og:url" content="https://mani2106.github.io/Blog-Posts/take-home/deep-learning/spacy/nlp/2021/04/26/chemdNER.html" />
 <meta property="og:site_name" content="Manimaran Panneerselvam’s blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-04-26T00:00:00-05:00" />
+<meta property="article:published_time" content="2021-04-26T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Text mining with chemical text from chemdNER" />
 <script type="application/ld+json">
-{"url":"https://mani2106.github.io/Blog-Posts/take-home/deep-learning/spacy/nlp/2021/04/26/chemdNER.html","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/take-home/deep-learning/spacy/nlp/2021/04/26/chemdNER.html"},"headline":"Text mining with chemical text from chemdNER","dateModified":"2021-04-26T00:00:00-05:00","datePublished":"2021-04-26T00:00:00-05:00","author":{"@type":"Person","name":"Manimaran Panneerselvam"},"description":"This is a take home project that I did for a company as part of their interview process.","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Manimaran Panneerselvam"},"dateModified":"2021-04-26T00:00:00+00:00","datePublished":"2021-04-26T00:00:00+00:00","description":"This is a take home project that I did for a company as part of their interview process.","headline":"Text mining with chemical text from chemdNER","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/take-home/deep-learning/spacy/nlp/2021/04/26/chemdNER.html"},"url":"https://mani2106.github.io/Blog-Posts/take-home/deep-learning/spacy/nlp/2021/04/26/chemdNER.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Panneerselvam's blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
+<link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Panneerselvam&apos;s blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
 
 
@@ -82,6 +84,71 @@ window.onload = wrap_img;
     elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
     });
 </script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<style>
+.post-container {
+  display: flex;
+  position: relative;
+}
+
+.toc-sidebar {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  width: 250px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 16px;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(27, 31, 36, 0.1);
+  font-size: 14px;
+}
+
+.toc-sidebar h2 {
+  font-size: 16px;
+  margin-top: 0;
+  color: #24292f;
+}
+
+.toc-sidebar ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc-sidebar li {
+  margin: 4px 0;
+}
+
+.toc-sidebar a {
+  color: #0969da;
+  text-decoration: none;
+}
+
+.toc-sidebar a:hover {
+  text-decoration: underline;
+}
+
+.post-main {
+  margin-right: 280px;
+  flex: 1;
+  max-width: calc(100% - 280px);
+}
+
+@media (max-width: 768px) {
+  .toc-sidebar {
+    display: none;
+  }
+  .post-main {
+    margin-right: 0;
+    max-width: 100%;
+  }
+}
+</style>
 </head>
 <body><header class="site-header">
 
@@ -103,7 +170,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Text mining with chemical text from chemdNER</h1><p class="page-description">This is a take home project that I did for a company as part of their interview process.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-04-26T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Text mining with chemical text from chemdNER</h1><p class="page-description">This is a take home project that I did for a company as part of their interview process.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-04-26T00:00:00+00:00" itemprop="datePublished">
         Apr 26, 2021
       </time>
        • <span class="read-time" title="Estimated read time">
@@ -114,7 +181,7 @@ window.onload = wrap_img;
 </span></p>
 
     
-      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i>
       
         <a class="category-tags-link" href="/Blog-Posts/categories/#take-home">take-home</a>
         &nbsp;
@@ -155,20 +222,33 @@ window.onload = wrap_img;
         </div>
       </header>
 
-  <div class="post-content e-content" itemprop="articleBody">
-    <ul class="section-nav">
-<li class="toc-entry toc-h2"><a href="#Prepare-data">Prepare data </a></li>
-<li class="toc-entry toc-h2"><a href="#Install-required-libraries">Install required libraries </a></li>
-<li class="toc-entry toc-h2"><a href="#Import-annotations">Import annotations </a></li>
-<li class="toc-entry toc-h2"><a href="#Make-raw-text-files-for-pretraining">Make raw text files for pretraining </a></li>
-<li class="toc-entry toc-h2"><a href="#Make-json-file-for-training">Make json file for training </a></li>
-<li class="toc-entry toc-h2"><a href="#Make-json-file-for-evaluation-and-development">Make json file for evaluation and development </a></li>
-<li class="toc-entry toc-h2"><a href="#Pretrain-spacy-with-texts">Pretrain spacy with texts </a></li>
-<li class="toc-entry toc-h2"><a href="#Debug-the-training-data-for-spacy-NER-model">Debug the training data for spacy NER model </a></li>
-<li class="toc-entry toc-h2"><a href="#Train-model">Train model </a></li>
-<li class="toc-entry toc-h2"><a href="#Evaluate-model-with-test-data">Evaluate model with test data </a></li>
-<li class="toc-entry toc-h1"><a href="#Misc">Misc </a></li>
-</ul><!--
+  <div class="post-container">
+    <aside class="toc-sidebar">
+      <!-- this handles the automatic toc. use ## for subheads to auto-generate the on-page minitoc. if you use html tags, you must supply an ID for the heading element in order for it to appear in the minitoc. -->
+<script>
+    $( document ).ready(function() {
+      // Handler for .ready() called.
+    
+    $('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2,h3,h4' });
+    
+    /* this offset helps account for the space taken up by the floating toolbar. */
+    $('#toc').on('click', 'a', function() {
+      var target = $(this.getAttribute('href'))
+        , scroll_target = target.offset().top
+    
+      $(window).scrollTop(scroll_target - 10);
+      return false
+    })
+      
+    });
+</script>
+    
+<div id="toc"></div>
+
+    </aside>
+    <main class="post-main">
+      <div class="post-content e-content" itemprop="articleBody">
+        <!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
@@ -177,12 +257,10 @@ window.onload = wrap_img;
 
 <div class="container" id="notebook-container">
         
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This blog post has the code and details, of the take home project that I did for a company as part of their interview process, this primarily uses the <a href="https://jcheminf.biomedcentral.com/articles/10.1186/1758-2946-7-S1-S2">CHEMDNER</a> data to create a named recognition model using <a href="http://spacy.io/">spaCy</a></p>
-<blockquote>
-<p>The CHEMDNER corpus of chemicals and drugs and its annotation principles</p>
+<blockquote><p>The CHEMDNER corpus of chemicals and drugs and its annotation principles</p>
 <ul>
 <li>Krallinger, M. et al. The CHEMDNER corpus of chemicals and drugs and its annotation principles. J Cheminform, 2014</li>
 </ul>
@@ -191,8 +269,7 @@ window.onload = wrap_img;
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <div style="padding: 15px; border: 1px solid transparent; border-color: transparent; margin-bottom: 20px; border-radius: 4px; color: #31708f; background-color: #d9edf7; border-color: #bce8f1;">
 This code should be directly runnable in <b><a href="http://colab.research.google.com/">colab</a></b>, so just check and change the paths where I save and get data from my google drive, to run on your colab instance.
@@ -200,17 +277,13 @@ This code should be directly runnable in <b><a href="http://colab.research.googl
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Prepare-data">
-<a class="anchor" href="#Prepare-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prepare data<a class="anchor-link" href="#Prepare-data"> </a>
-</h2>
+<h2 id="Prepare-data">Prepare data<a class="anchor-link" href="#Prepare-data"> </a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Get data and make create directories to organise information.</p>
 
@@ -251,7 +324,6 @@ This code should be directly runnable in <b><a href="http://colab.research.googl
 <details class="description">
       <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
         <p>
-</p>
 <div class="output_wrapper">
 <div class="output">
 
@@ -286,22 +358,18 @@ chemdner_corpus/evaluation.predictions.bioc.xml
 
 </div>
 </div>
-
+</p>
     </details>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Install-required-libraries">
-<a class="anchor" href="#Install-required-libraries" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install required libraries<a class="anchor-link" href="#Install-required-libraries"> </a>
-</h2>
+<h2 id="Install-required-libraries">Install required libraries<a class="anchor-link" href="#Install-required-libraries"> </a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Look at the libraries currently installed.</p>
 
@@ -356,8 +424,7 @@ chemdner_corpus/evaluation.predictions.bioc.xml
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Since we are training data with medical text a model with similar vectors will be extremely useful, using the <a href="https://www.semanticscholar.org/paper/ScispaCy%3A-Fast-and-Robust-Models-for-Biomedical-Neumann-King/de28ec1d7bd38c8fc4e8ac59b6133800818b4e29">scispacy</a> model vectors.</p>
 
@@ -395,12 +462,9 @@ chemdner_corpus/evaluation.predictions.bioc.xml
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Import-annotations">
-<a class="anchor" href="#Import-annotations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Import annotations<a class="anchor-link" href="#Import-annotations"> </a>
-</h2>
+<h2 id="Import-annotations">Import annotations<a class="anchor-link" href="#Import-annotations"> </a></h2>
 </div>
 </div>
 </div>
@@ -414,8 +478,8 @@ chemdner_corpus/evaluation.predictions.bioc.xml
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
-<span class="n">annot_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">'/content/data/chemdner_corpus'</span><span class="p">)</span>
-<span class="n">export_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">'/content/data/spacy_annotation_data'</span><span class="p">)</span>
+<span class="n">annot_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;/content/data/chemdner_corpus&#39;</span><span class="p">)</span>
+<span class="n">export_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;/content/data/spacy_annotation_data&#39;</span><span class="p">)</span>
 <span class="n">export_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
@@ -433,7 +497,7 @@ chemdner_corpus/evaluation.predictions.bioc.xml
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_annot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">'training.annotations.txt'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">'PMID'</span><span class="p">,</span> <span class="s1">'Text Type'</span><span class="p">,</span> <span class="s1">'Start'</span><span class="p">,</span> <span class="s1">'End'</span><span class="p">,</span> <span class="s1">'Entity Text'</span><span class="p">,</span> <span class="s1">'Entity'</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_annot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">&#39;training.annotations.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="s1">&#39;Text Type&#39;</span><span class="p">,</span> <span class="s1">&#39;Start&#39;</span><span class="p">,</span> <span class="s1">&#39;End&#39;</span><span class="p">,</span> <span class="s1">&#39;Entity Text&#39;</span><span class="p">,</span> <span class="s1">&#39;Entity&#39;</span><span class="p">])</span>
 <span class="n">train_annot</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
@@ -533,16 +597,14 @@ chemdner_corpus/evaluation.predictions.bioc.xml
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Since the training text can be in the title or in the abstract, we should be careful on what text we are giving in an annotation.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's check in the annotation for one value</p>
 
@@ -556,7 +618,7 @@ chemdner_corpus/evaluation.predictions.bioc.xml
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">train_annot</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_annot</span><span class="p">[</span><span class="s1">'PMID'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">21826085</span><span class="p">,</span> <span class="p">[</span><span class="s1">'Start'</span><span class="p">,</span> <span class="s1">'End'</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">train_annot</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_annot</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">21826085</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Start&#39;</span><span class="p">,</span> <span class="s1">&#39;End&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -606,7 +668,7 @@ chemdner_corpus/evaluation.predictions.bioc.xml
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_text</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">'training.abstracts.txt'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">'PMID'</span><span class="p">,</span> <span class="s1">'Title'</span><span class="p">,</span> <span class="s1">'Abstract'</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_text</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">&#39;training.abstracts.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">,</span> <span class="s1">&#39;Abstract&#39;</span><span class="p">])</span>
 <span class="n">train_text</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
@@ -695,7 +757,7 @@ chemdner_corpus/evaluation.predictions.bioc.xml
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_annot</span><span class="p">[</span><span class="s1">'Text Type'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_annot</span><span class="p">[</span><span class="s1">&#39;Text Type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -730,7 +792,7 @@ Name: Text Type, dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_text</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_text</span><span class="p">[</span><span class="s1">'PMID'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">21826085</span><span class="p">,</span> <span class="s1">'Abstract'</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_text</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_text</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">21826085</span><span class="p">,</span> <span class="s1">&#39;Abstract&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
 </pre></div>
 
     </div>
@@ -745,7 +807,7 @@ Name: Text Type, dtype: int64</pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>'haloperidol'</pre>
+<pre>&#39;haloperidol&#39;</pre>
 </div>
 
 </div>
@@ -756,20 +818,16 @@ Name: Text Type, dtype: int64</pre>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that the annotation data will seperate for the Title and Abstract pieces of the text.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Make-raw-text-files-for-pretraining">
-<a class="anchor" href="#Make-raw-text-files-for-pretraining" aria-hidden="true"><span class="octicon octicon-link"></span></a>Make raw text files for pretraining<a class="anchor-link" href="#Make-raw-text-files-for-pretraining"> </a>
-</h2>
+<h2 id="Make-raw-text-files-for-pretraining">Make raw text files for pretraining<a class="anchor-link" href="#Make-raw-text-files-for-pretraining"> </a></h2>
 </div>
 </div>
 </div>
@@ -797,8 +855,8 @@ Name: Text Type, dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dev_text</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">'development.abstracts.txt'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">'PMID'</span><span class="p">,</span> <span class="s1">'Title'</span><span class="p">,</span> <span class="s1">'Abstract'</span><span class="p">])</span>
-<span class="n">eval_text</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">'evaluation.abstracts.txt'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">'PMID'</span><span class="p">,</span> <span class="s1">'Title'</span><span class="p">,</span> <span class="s1">'Abstract'</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dev_text</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">&#39;development.abstracts.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">,</span> <span class="s1">&#39;Abstract&#39;</span><span class="p">])</span>
+<span class="n">eval_text</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">&#39;evaluation.abstracts.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">,</span> <span class="s1">&#39;Abstract&#39;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -815,13 +873,13 @@ Name: Text Type, dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">texts_path</span> <span class="o">=</span> <span class="n">export_path</span><span class="o">/</span><span class="s1">'texts'</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">texts_path</span> <span class="o">=</span> <span class="n">export_path</span><span class="o">/</span><span class="s1">&#39;texts&#39;</span>
 <span class="n">texts_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">make_jsonl</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
     <span class="n">jsonl_txts</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">itertuples</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="n">jsonl_txts</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">'text'</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">Title</span><span class="o">+</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">+</span><span class="n">data</span><span class="o">.</span><span class="n">Abstract</span><span class="p">})</span>
+        <span class="n">jsonl_txts</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;text&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">Title</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span><span class="n">data</span><span class="o">.</span><span class="n">Abstract</span><span class="p">})</span>
     <span class="k">return</span> <span class="n">jsonl_txts</span>
 
 <span class="n">train_txts</span> <span class="o">=</span> <span class="n">make_jsonl</span><span class="p">(</span><span class="n">train_text</span><span class="p">)</span>
@@ -845,7 +903,7 @@ Name: Text Type, dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">srsly</span><span class="o">.</span><span class="n">write_jsonl</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">texts_path</span><span class="o">/</span><span class="s1">'pretrain_txts.jsonl'</span><span class="p">),</span> <span class="n">train_txts</span><span class="p">[:</span><span class="mi">1500</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">srsly</span><span class="o">.</span><span class="n">write_jsonl</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">texts_path</span><span class="o">/</span><span class="s1">&#39;pretrain_txts.jsonl&#39;</span><span class="p">),</span> <span class="n">train_txts</span><span class="p">[:</span><span class="mi">1500</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -855,12 +913,9 @@ Name: Text Type, dtype: int64</pre>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Make-json-file-for-training">
-<a class="anchor" href="#Make-json-file-for-training" aria-hidden="true"><span class="octicon octicon-link"></span></a>Make <code>json</code> file for training<a class="anchor-link" href="#Make-json-file-for-training"> </a>
-</h2>
+<h2 id="Make-json-file-for-training">Make <code>json</code> file for training<a class="anchor-link" href="#Make-json-file-for-training"> </a></h2>
 </div>
 </div>
 </div>
@@ -872,8 +927,8 @@ Name: Text Type, dtype: int64</pre>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># set pmid as the index</span>
-<span class="n">train_annot</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'PMID'</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">train_text</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'PMID'</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">train_annot</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">train_text</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1022,8 +1077,7 @@ Name: Text Type, dtype: int64</pre>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's check the number of annotations for each label.</p>
 
@@ -1037,7 +1091,7 @@ Name: Text Type, dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_data</span><span class="p">[</span><span class="s1">'Entity'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">'bar'</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">'Number of annotations per label'</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;Entity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Number of annotations per label&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1062,7 +1116,8 @@ Name: Text Type, dtype: int64</pre>
 
 
 <div class="output_png output_subarea ">
-<img src="data:image/png;base64,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%0A">
+<img src="data:image/png;base64,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
+" />
 </div>
 
 </div>
@@ -1073,16 +1128,14 @@ Name: Text Type, dtype: int64</pre>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We have eight entities and the entity named <code>TRIVIAL</code> has the most number of annotations</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we can start generating the annotation from the dataframe, to accomodate the training format that we want we can split the data frame to Title and Abstract annotations, so that we can run the same logic easily, (ie) grouping the texts and getting all the annotations corresponding to that text in one shot.</p>
 
@@ -1096,8 +1149,8 @@ Name: Text Type, dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">abstract_annots</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_data</span><span class="p">[</span><span class="s1">'Text Type'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'A'</span><span class="p">,</span> <span class="p">:]</span>
-<span class="n">title_annots</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_data</span><span class="p">[</span><span class="s1">'Text Type'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'T'</span><span class="p">,</span> <span class="p">:]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">abstract_annots</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;Text Type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">title_annots</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;Text Type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="p">:]</span>
 </pre></div>
 
     </div>
@@ -1124,7 +1177,7 @@ Name: Text Type, dtype: int64</pre>
 <span class="c1"># since we are going to fill this manually</span>
 <span class="c1"># for annotation, disabling some pipeline </span>
 <span class="c1"># modules may speedup the process</span>
-<span class="n">mod</span><span class="o">.</span><span class="n">disable_pipes</span><span class="p">([</span><span class="s1">'ner'</span><span class="p">])</span>
+<span class="n">mod</span><span class="o">.</span><span class="n">disable_pipes</span><span class="p">([</span><span class="s1">&#39;ner&#39;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -1139,7 +1192,7 @@ Name: Text Type, dtype: int64</pre>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[('ner', &lt;spacy.pipeline.pipes.EntityRecognizer at 0x7f8f0be55408&gt;)]</pre>
+<pre>[(&#39;ner&#39;, &lt;spacy.pipeline.pipes.EntityRecognizer at 0x7f8f0be55408&gt;)]</pre>
 </div>
 
 </div>
@@ -1207,8 +1260,8 @@ Name: Text Type, dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">abstract_annots</span> <span class="o">=</span> <span class="n">extract_spacy_docs</span><span class="p">(</span><span class="n">abstract_annots</span><span class="p">,</span> <span class="s1">'Abstract'</span><span class="p">)</span>
-<span class="n">title_annots</span> <span class="o">=</span> <span class="n">extract_spacy_docs</span><span class="p">(</span><span class="n">title_annots</span><span class="p">,</span> <span class="s1">'Title'</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">abstract_annots</span> <span class="o">=</span> <span class="n">extract_spacy_docs</span><span class="p">(</span><span class="n">abstract_annots</span><span class="p">,</span> <span class="s1">&#39;Abstract&#39;</span><span class="p">)</span>
+<span class="n">title_annots</span> <span class="o">=</span> <span class="n">extract_spacy_docs</span><span class="p">(</span><span class="n">title_annots</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">)</span>
 
 <span class="n">train_annot_docs</span> <span class="o">=</span> <span class="n">abstract_annots</span> <span class="o">+</span> <span class="n">title_annots</span>
 
@@ -1229,10 +1282,10 @@ Name: Text Type, dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">spacy_annot_path</span> <span class="o">=</span> <span class="n">export_path</span><span class="o">/</span><span class="s1">'annots'</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">spacy_annot_path</span> <span class="o">=</span> <span class="n">export_path</span><span class="o">/</span><span class="s1">&#39;annots&#39;</span>
 <span class="n">spacy_annot_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="n">srsly</span><span class="o">.</span><span class="n">write_json</span><span class="p">(</span><span class="n">spacy_annot_path</span><span class="o">/</span><span class="s1">'train_data.json'</span><span class="p">,</span> <span class="p">[</span><span class="n">train_json</span><span class="p">])</span>
+<span class="n">srsly</span><span class="o">.</span><span class="n">write_json</span><span class="p">(</span><span class="n">spacy_annot_path</span><span class="o">/</span><span class="s1">&#39;train_data.json&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">train_json</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -1242,25 +1295,20 @@ Name: Text Type, dtype: int64</pre>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We must do the same for the development and evaluation data</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Make-json-file-for-evaluation-and-development">
-<a class="anchor" href="#Make-json-file-for-evaluation-and-development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Make json file for evaluation and development<a class="anchor-link" href="#Make-json-file-for-evaluation-and-development"> </a>
-</h2>
+<h2 id="Make-json-file-for-evaluation-and-development">Make json file for evaluation and development<a class="anchor-link" href="#Make-json-file-for-evaluation-and-development"> </a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's make a function out of the process we did for the training data, for the evaluation and development data.</p>
 
@@ -1274,11 +1322,11 @@ Name: Text Type, dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dev_annots</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">'development.annotations.txt'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span>
-                         <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">'PMID'</span><span class="p">,</span> <span class="s1">'Text Type'</span><span class="p">,</span> <span class="s1">'Start'</span><span class="p">,</span> <span class="s1">'End'</span><span class="p">,</span> <span class="s1">'Entity Text'</span><span class="p">,</span> <span class="s1">'Entity'</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dev_annots</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">&#39;development.annotations.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span>
+                         <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="s1">&#39;Text Type&#39;</span><span class="p">,</span> <span class="s1">&#39;Start&#39;</span><span class="p">,</span> <span class="s1">&#39;End&#39;</span><span class="p">,</span> <span class="s1">&#39;Entity Text&#39;</span><span class="p">,</span> <span class="s1">&#39;Entity&#39;</span><span class="p">])</span>
 
-<span class="n">eval_annots</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">'evaluation.annotations.txt'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span>
-                         <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">'PMID'</span><span class="p">,</span> <span class="s1">'Text Type'</span><span class="p">,</span> <span class="s1">'Start'</span><span class="p">,</span> <span class="s1">'End'</span><span class="p">,</span> <span class="s1">'Entity Text'</span><span class="p">,</span> <span class="s1">'Entity'</span><span class="p">])</span>
+<span class="n">eval_annots</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">&#39;evaluation.annotations.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span>
+                         <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="s1">&#39;Text Type&#39;</span><span class="p">,</span> <span class="s1">&#39;Start&#39;</span><span class="p">,</span> <span class="s1">&#39;End&#39;</span><span class="p">,</span> <span class="s1">&#39;Entity Text&#39;</span><span class="p">,</span> <span class="s1">&#39;Entity&#39;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -1295,14 +1343,14 @@ Name: Text Type, dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">prepare_df_for_spacy_annots</span><span class="p">(</span><span class="n">df1</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">df2</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">'Abstract and Title dataframes'</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">prepare_df_for_spacy_annots</span><span class="p">(</span><span class="n">df1</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">df2</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Abstract and Title dataframes&#39;</span><span class="p">:</span>
     <span class="c1"># Emulates the processing we did for training data</span>
-    <span class="n">df1</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'PMID'</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">df2</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'PMID'</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df1</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df2</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">df</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span>
-    <span class="n">abstract_annots</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'Text Type'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'A'</span><span class="p">,</span> <span class="p">:]</span>
-    <span class="n">title_annots</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'Text Type'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'T'</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">abstract_annots</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Text Type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">title_annots</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Text Type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="p">:]</span>
 
     <span class="k">return</span> <span class="n">abstract_annots</span><span class="p">,</span> <span class="n">title_annots</span>
 
@@ -1311,8 +1359,8 @@ Name: Text Type, dtype: int64</pre>
     <span class="c1"># transform the docs to spacy json    </span>
     <span class="n">abstract_annots</span><span class="p">,</span> <span class="n">title_annots</span> <span class="o">=</span> <span class="n">prepare_df_for_spacy_annots</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">)</span>
     
-    <span class="n">abstract_docs</span> <span class="o">=</span> <span class="n">extract_spacy_docs</span><span class="p">(</span><span class="n">abstract_annots</span><span class="p">,</span> <span class="s1">'Abstract'</span><span class="p">)</span>
-    <span class="n">title_docs</span> <span class="o">=</span> <span class="n">extract_spacy_docs</span><span class="p">(</span><span class="n">title_annots</span><span class="p">,</span> <span class="s1">'Title'</span><span class="p">)</span>
+    <span class="n">abstract_docs</span> <span class="o">=</span> <span class="n">extract_spacy_docs</span><span class="p">(</span><span class="n">abstract_annots</span><span class="p">,</span> <span class="s1">&#39;Abstract&#39;</span><span class="p">)</span>
+    <span class="n">title_docs</span> <span class="o">=</span> <span class="n">extract_spacy_docs</span><span class="p">(</span><span class="n">title_annots</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">)</span>
 
     <span class="n">annot_docs</span> <span class="o">=</span> <span class="n">abstract_docs</span> <span class="o">+</span> <span class="n">title_docs</span>
 
@@ -1337,8 +1385,8 @@ Name: Text Type, dtype: int64</pre>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dev_json</span> <span class="o">=</span> <span class="n">prepare_spacy_json_from_df</span><span class="p">(</span><span class="n">dev_text</span><span class="p">,</span> <span class="n">dev_annots</span><span class="p">)</span>
 <span class="n">eval_json</span> <span class="o">=</span> <span class="n">prepare_spacy_json_from_df</span><span class="p">(</span><span class="n">eval_text</span><span class="p">,</span> <span class="n">eval_annots</span><span class="p">)</span>
 
-<span class="n">srsly</span><span class="o">.</span><span class="n">write_json</span><span class="p">(</span><span class="n">spacy_annot_path</span><span class="o">/</span><span class="s1">'eval_data.json'</span><span class="p">,</span> <span class="p">[</span><span class="n">eval_json</span><span class="p">])</span>
-<span class="n">srsly</span><span class="o">.</span><span class="n">write_json</span><span class="p">(</span><span class="n">spacy_annot_path</span><span class="o">/</span><span class="s1">'dev_data.json'</span><span class="p">,</span> <span class="p">[</span><span class="n">dev_json</span><span class="p">])</span>
+<span class="n">srsly</span><span class="o">.</span><span class="n">write_json</span><span class="p">(</span><span class="n">spacy_annot_path</span><span class="o">/</span><span class="s1">&#39;eval_data.json&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">eval_json</span><span class="p">])</span>
+<span class="n">srsly</span><span class="o">.</span><span class="n">write_json</span><span class="p">(</span><span class="n">spacy_annot_path</span><span class="o">/</span><span class="s1">&#39;dev_data.json&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">dev_json</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -1348,25 +1396,20 @@ Name: Text Type, dtype: int64</pre>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We now have all the files required to make the model, let's start by pretraining the model with spacy cli</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Pretrain-spacy-with-texts">
-<a class="anchor" href="#Pretrain-spacy-with-texts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pretrain spacy with texts<a class="anchor-link" href="#Pretrain-spacy-with-texts"> </a>
-</h2>
+<h2 id="Pretrain-spacy-with-texts">Pretrain spacy with texts<a class="anchor-link" href="#Pretrain-spacy-with-texts"> </a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We have imported <code>scispacy's</code> model vectors(<code>en_core_sci_lg</code>) to give us a headstart</p>
 
@@ -1390,17 +1433,13 @@ Name: Text Type, dtype: int64</pre>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Debug-the-training-data-for-spacy-NER-model">
-<a class="anchor" href="#Debug-the-training-data-for-spacy-NER-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Debug the training data for spacy NER model<a class="anchor-link" href="#Debug-the-training-data-for-spacy-NER-model"> </a>
-</h2>
+<h2 id="Debug-the-training-data-for-spacy-NER-model">Debug the training data for spacy NER model<a class="anchor-link" href="#Debug-the-training-data-for-spacy-NER-model"> </a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's see if the data is proper for training using spacy's <code>debug-data</code> command</p>
 
@@ -1418,7 +1457,7 @@ Name: Text Type, dtype: int64</pre>
 python -m spacy debug-data en<span class="se">\</span>
     /content/drive/MyDrive/chemdNER<span class="se">\ </span>data/annot_data/train_data.json <span class="se">\</span>
     /content/drive/MyDrive/chemdNER<span class="se">\ </span>data/annot_data/dev_data.json <span class="se">\</span>
-    -p <span class="s1">'ner'</span> <span class="se">\</span>
+    -p <span class="s1">&#39;ner&#39;</span> <span class="se">\</span>
     -b /usr/local/lib/python3.6/dist-packages/en_core_sci_lg/en_core_sci_lg-0.3.0
 </pre></div>
 
@@ -1439,7 +1478,7 @@ python -m spacy debug-data en<span class="se">\</span>
 =============================== Training stats ===============================</span>
 Training pipeline: ner
 Starting with base model
-'/usr/local/lib/python3.6/dist-packages/en_core_sci_lg/en_core_sci_lg-0.3.0'
+&#39;/usr/local/lib/python3.6/dist-packages/en_core_sci_lg/en_core_sci_lg-0.3.0&#39;
 4884 training docs
 4884 evaluation docs
 <span class="ansi-yellow-fg">⚠ 4884 training examples also in evaluation data</span>
@@ -1451,9 +1490,9 @@ Starting with base model
 <span class="ansi-bold">
 ========================== Named Entity Recognition ==========================</span>
 <span class="ansi-blue-fg">ℹ 8 new labels, 0 existing labels</span>
-0 missing values (tokens with '-' label)
+0 missing values (tokens with &#39;-&#39; label)
 <span class="ansi-yellow-fg">⚠ 3 entity span(s) with punctuation</span>
-<span class="ansi-yellow-fg">⚠ Low number of examples for new label 'NO CLASS' (40)</span>
+<span class="ansi-yellow-fg">⚠ Low number of examples for new label &#39;NO CLASS&#39; (40)</span>
 <span class="ansi-green-fg">✔ Examples without occurrences available for all labels</span>
 <span class="ansi-green-fg">✔ No entities consisting of or starting/ending with whitespace</span>
 Entity spans consisting of or starting/ending with punctuation can not be
@@ -1472,16 +1511,14 @@ trained with a noise level &gt; 0.
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We have low annotations for <code>NO CLASS</code> but since we do not have more data, we have to work with what we've got.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We only had <code>4884</code> pieces of text from the dataset, and it seems to be used in all the places (train, dev, eval), but the annotation in each will differ.</p>
 
@@ -1505,17 +1542,13 @@ trained with a noise level &gt; 0.
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Train-model">
-<a class="anchor" href="#Train-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Train model<a class="anchor-link" href="#Train-model"> </a>
-</h2>
+<h2 id="Train-model">Train model<a class="anchor-link" href="#Train-model"> </a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>I tried to train with the pretrained model which we made using raw text but it was not working and it seems most of the tutorials use it only text classification problems.</p>
 <p>But anyway I start with the vectors of <code>scispacy's</code> pretrained <code>en_core_sci_lg</code> model for a headstart.</p>
@@ -1538,7 +1571,7 @@ python -m spacy train <span class="se">\</span>
     /content/drive/MyDrive/chemdNER<span class="se">\ </span>data/annot_data/train_data.json <span class="se">\</span>
     /content/drive/MyDrive/chemdNER<span class="se">\ </span>data/annot_data/dev_data.json <span class="se">\</span>
     -v /usr/local/lib/python3.6/dist-packages/en_core_sci_lg/en_core_sci_lg-0.3.0 <span class="se">\</span>
-    -p <span class="s2">"ner"</span> <span class="se">\</span>
+    -p <span class="s2">&quot;ner&quot;</span> <span class="se">\</span>
     -n <span class="m">30</span> <span class="se">\</span>
     -g <span class="m">0</span> <span class="se">\</span>
     -V <span class="m">0</span>.1 <span class="se">\</span>
@@ -1555,11 +1588,11 @@ python -m spacy train <span class="se">\</span>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Training pipeline: ['ner']
+<pre>Training pipeline: [&#39;ner&#39;]
 Using GPU: 0
-Starting with blank model 'en'
+Starting with blank model &#39;en&#39;
 Loading vector from model
-'/usr/local/lib/python3.6/dist-packages/en_core_sci_lg/en_core_sci_lg-0.3.0'
+&#39;/usr/local/lib/python3.6/dist-packages/en_core_sci_lg/en_core_sci_lg-0.3.0&#39;
 Counting training words (limit=0)
 
 Itn  NER Loss   NER P   NER R   NER F   Token %  CPU WPS  GPU WPS
@@ -1616,25 +1649,20 @@ Itn  NER Loss   NER P   NER R   NER F   Token %  CPU WPS  GPU WPS
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>I did not try to tune the hyper parameters and relied on the defaults from the lib, but it has given decent results</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Evaluate-model-with-test-data">
-<a class="anchor" href="#Evaluate-model-with-test-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Evaluate model with test data<a class="anchor-link" href="#Evaluate-model-with-test-data"> </a>
-</h2>
+<h2 id="Evaluate-model-with-test-data">Evaluate model with test data<a class="anchor-link" href="#Evaluate-model-with-test-data"> </a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's evaluate with the evaluation data that we generated earlier</p>
 
@@ -1701,25 +1729,20 @@ Textcat   0.00
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The results of some text are persisted and can be viewed in the archive.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Misc">
-<a class="anchor" href="#Misc" aria-hidden="true"><span class="octicon octicon-link"></span></a>Misc<a class="anchor-link" href="#Misc"> </a>
-</h1>
+<h1 id="Misc">Misc<a class="anchor-link" href="#Misc"> </a></h1>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Here I tried to write code for simple annotation format, mostly for archival, can be skipped, if need be</p>
 
@@ -1750,7 +1773,7 @@ Textcat   0.00
                 <span class="n">text_ranges</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">1</span><span class="p">,)))</span>
                 <span class="n">entity_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">annot</span><span class="o">.</span><span class="n">Start</span><span class="p">,</span> <span class="n">annot</span><span class="o">.</span><span class="n">End</span><span class="p">,</span> <span class="n">annot</span><span class="o">.</span><span class="n">Entity</span><span class="p">))</span>
 
-        <span class="n">train_data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ttext</span><span class="p">,</span> <span class="p">{</span><span class="s1">'entities'</span><span class="p">:</span><span class="n">entity_list</span><span class="p">}))</span>
+        <span class="n">train_data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ttext</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;entities&#39;</span><span class="p">:</span><span class="n">entity_list</span><span class="p">}))</span>
 
     <span class="k">return</span> <span class="n">train_data</span>
 </pre></div>
@@ -1769,8 +1792,8 @@ Textcat   0.00
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">abst_annots</span> <span class="o">=</span> <span class="n">extract_annot_data</span><span class="p">(</span><span class="n">abstract_annots</span><span class="p">,</span> <span class="s1">'Abstract'</span><span class="p">)</span>
-<span class="n">title_annots</span> <span class="o">=</span> <span class="n">extract_annot_data</span><span class="p">(</span><span class="n">title_annots</span><span class="p">,</span> <span class="s1">'Title'</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">abst_annots</span> <span class="o">=</span> <span class="n">extract_annot_data</span><span class="p">(</span><span class="n">abstract_annots</span><span class="p">,</span> <span class="s1">&#39;Abstract&#39;</span><span class="p">)</span>
+<span class="n">title_annots</span> <span class="o">=</span> <span class="n">extract_annot_data</span><span class="p">(</span><span class="n">title_annots</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1802,31 +1825,31 @@ Textcat   0.00
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>('(-)-Carvone is a monoterpene ketone found in spearmint (Mentha spicata var. crispa) essential oil that is widely used as an odor and flavor additive. An intestinal antispasmodic effect was recently reported for (-)-carvone, and it has been shown to be more potent than its (+)-antipode. The mechanism of (-)-carvone action in the intestines has not been investigated. To gain a better understanding of the (-)-carvone antispasmodic effect, we investigated its pharmacological effects in the guinea pig ileum. Terminal portions of the ileum were mounted for isotonic contraction recordings. The effect of (-)-carvone was compared with that of the classical calcium channel blocker (CCB) verapamil. In isolated ileal smooth muscle, (-)-carvone did not produce direct contractile or relaxation responses and did not modify electrically elicited contractions or low K(+)-evoked contractions. The submaximal contractions induced by histamine (p&lt;0.001), BaCl2 (p&lt;0.05), and carbachol (p&lt;0.01) were significantly reduced by (-)-carvone. The contractile response elicited by high concentrations of carbachol was reduced but not abolished by (-)-carvone. No additive action was detected with co-incubation of (-)-carvone and verapamil on carbachol-induced contraction. (-)-Carvone reduced the contraction induced by high K(+) and was almost 100 times more potent than verapamil. Thus, (-)-carvone showed a typical and potent CCB-like action. Many effects described for both (-)-carvone and spearmint oil can be explained as a CCB-like mode of action.',
- {'entities': [(1090.0, 1099.0, 'TRIVIAL'),
-   (1133.0, 1144.0, 'TRIVIAL'),
-   (1200.0, 1211.0, 'TRIVIAL'),
-   (1216.0, 1225.0, 'TRIVIAL'),
-   (1229.0, 1238.0, 'TRIVIAL'),
-   (1359.0, 1368.0, 'TRIVIAL'),
-   (1312.0, 1316.0, 'FORMULA'),
-   (968.0, 977.0, 'TRIVIAL'),
-   (1376.0, 1387.0, 'TRIVIAL'),
-   (1465.0, 1476.0, 'TRIVIAL'),
-   (1260.0, 1271.0, 'TRIVIAL'),
-   (948.0, 953.0, 'FORMULA'),
-   (1017.0, 1028.0, 'TRIVIAL'),
-   (862.0, 866.0, 'FORMULA'),
-   (927.0, 936.0, 'TRIVIAL'),
-   (0.0, 11.0, 'TRIVIAL'),
-   (17.0, 35.0, 'FAMILY'),
-   (211.0, 222.0, 'TRIVIAL'),
-   (304.0, 315.0, 'TRIVIAL'),
-   (604.0, 615.0, 'TRIVIAL'),
-   (656.0, 663.0, 'SYSTEMATIC'),
-   (686.0, 695.0, 'TRIVIAL'),
-   (730.0, 741.0, 'TRIVIAL'),
-   (406.0, 417.0, 'TRIVIAL')]})</pre>
+<pre>(&#39;(-)-Carvone is a monoterpene ketone found in spearmint (Mentha spicata var. crispa) essential oil that is widely used as an odor and flavor additive. An intestinal antispasmodic effect was recently reported for (-)-carvone, and it has been shown to be more potent than its (+)-antipode. The mechanism of (-)-carvone action in the intestines has not been investigated. To gain a better understanding of the (-)-carvone antispasmodic effect, we investigated its pharmacological effects in the guinea pig ileum. Terminal portions of the ileum were mounted for isotonic contraction recordings. The effect of (-)-carvone was compared with that of the classical calcium channel blocker (CCB) verapamil. In isolated ileal smooth muscle, (-)-carvone did not produce direct contractile or relaxation responses and did not modify electrically elicited contractions or low K(+)-evoked contractions. The submaximal contractions induced by histamine (p&lt;0.001), BaCl2 (p&lt;0.05), and carbachol (p&lt;0.01) were significantly reduced by (-)-carvone. The contractile response elicited by high concentrations of carbachol was reduced but not abolished by (-)-carvone. No additive action was detected with co-incubation of (-)-carvone and verapamil on carbachol-induced contraction. (-)-Carvone reduced the contraction induced by high K(+) and was almost 100 times more potent than verapamil. Thus, (-)-carvone showed a typical and potent CCB-like action. Many effects described for both (-)-carvone and spearmint oil can be explained as a CCB-like mode of action.&#39;,
+ {&#39;entities&#39;: [(1090.0, 1099.0, &#39;TRIVIAL&#39;),
+   (1133.0, 1144.0, &#39;TRIVIAL&#39;),
+   (1200.0, 1211.0, &#39;TRIVIAL&#39;),
+   (1216.0, 1225.0, &#39;TRIVIAL&#39;),
+   (1229.0, 1238.0, &#39;TRIVIAL&#39;),
+   (1359.0, 1368.0, &#39;TRIVIAL&#39;),
+   (1312.0, 1316.0, &#39;FORMULA&#39;),
+   (968.0, 977.0, &#39;TRIVIAL&#39;),
+   (1376.0, 1387.0, &#39;TRIVIAL&#39;),
+   (1465.0, 1476.0, &#39;TRIVIAL&#39;),
+   (1260.0, 1271.0, &#39;TRIVIAL&#39;),
+   (948.0, 953.0, &#39;FORMULA&#39;),
+   (1017.0, 1028.0, &#39;TRIVIAL&#39;),
+   (862.0, 866.0, &#39;FORMULA&#39;),
+   (927.0, 936.0, &#39;TRIVIAL&#39;),
+   (0.0, 11.0, &#39;TRIVIAL&#39;),
+   (17.0, 35.0, &#39;FAMILY&#39;),
+   (211.0, 222.0, &#39;TRIVIAL&#39;),
+   (304.0, 315.0, &#39;TRIVIAL&#39;),
+   (604.0, 615.0, &#39;TRIVIAL&#39;),
+   (656.0, 663.0, &#39;SYSTEMATIC&#39;),
+   (686.0, 695.0, &#39;TRIVIAL&#39;),
+   (730.0, 741.0, &#39;TRIVIAL&#39;),
+   (406.0, 417.0, &#39;TRIVIAL&#39;)]})</pre>
 </div>
 
 </div>
@@ -1837,8 +1860,7 @@ Textcat   0.00
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A sample text from the corpus</p>
 
@@ -1867,7 +1889,7 @@ Textcat   0.00
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>'(-)-Carvone is a monoterpene ketone found in spearmint (Mentha spicata var. crispa) essential oil that is widely used as an odor and flavor additive. An intestinal antispasmodic effect was recently reported for (-)-carvone, and it has been shown to be more potent than its (+)-antipode. The mechanism of (-)-carvone action in the intestines has not been investigated. To gain a better understanding of the (-)-carvone antispasmodic effect, we investigated its pharmacological effects in the guinea pig ileum. Terminal portions of the ileum were mounted for isotonic contraction recordings. The effect of (-)-carvone was compared with that of the classical calcium channel blocker (CCB) verapamil. In isolated ileal smooth muscle, (-)-carvone did not produce direct contractile or relaxation responses and did not modify electrically elicited contractions or low K(+)-evoked contractions. The submaximal contractions induced by histamine (p&lt;0.001), BaCl2 (p&lt;0.05), and carbachol (p&lt;0.01) were significantly reduced by (-)-carvone. The contractile response elicited by high concentrations of carbachol was reduced but not abolished by (-)-carvone. No additive action was detected with co-incubation of (-)-carvone and verapamil on carbachol-induced contraction. (-)-Carvone reduced the contraction induced by high K(+) and was almost 100 times more potent than verapamil. Thus, (-)-carvone showed a typical and potent CCB-like action. Many effects described for both (-)-carvone and spearmint oil can be explained as a CCB-like mode of action.'</pre>
+<pre>&#39;(-)-Carvone is a monoterpene ketone found in spearmint (Mentha spicata var. crispa) essential oil that is widely used as an odor and flavor additive. An intestinal antispasmodic effect was recently reported for (-)-carvone, and it has been shown to be more potent than its (+)-antipode. The mechanism of (-)-carvone action in the intestines has not been investigated. To gain a better understanding of the (-)-carvone antispasmodic effect, we investigated its pharmacological effects in the guinea pig ileum. Terminal portions of the ileum were mounted for isotonic contraction recordings. The effect of (-)-carvone was compared with that of the classical calcium channel blocker (CCB) verapamil. In isolated ileal smooth muscle, (-)-carvone did not produce direct contractile or relaxation responses and did not modify electrically elicited contractions or low K(+)-evoked contractions. The submaximal contractions induced by histamine (p&lt;0.001), BaCl2 (p&lt;0.05), and carbachol (p&lt;0.01) were significantly reduced by (-)-carvone. The contractile response elicited by high concentrations of carbachol was reduced but not abolished by (-)-carvone. No additive action was detected with co-incubation of (-)-carvone and verapamil on carbachol-induced contraction. (-)-Carvone reduced the contraction induced by high K(+) and was almost 100 times more potent than verapamil. Thus, (-)-carvone showed a typical and potent CCB-like action. Many effects described for both (-)-carvone and spearmint oil can be explained as a CCB-like mode of action.&#39;</pre>
 </div>
 
 </div>
@@ -1895,8 +1917,7 @@ Textcat   0.00
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A sample of the spacy json format for training models</p>
 
@@ -1919,7 +1940,6 @@ Textcat   0.00
 <details class="description">
       <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
         <p>
-</p>
 <div class="output_wrapper">
 <div class="output">
 
@@ -1928,1531 +1948,1531 @@ Textcat   0.00
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{'id': 0,
- 'paragraphs': [{'cats': [],
-   'raw': '(-)-Carvone is a monoterpene ketone found in spearmint (Mentha spicata var. crispa) essential oil that is widely used as an odor and flavor additive. An intestinal antispasmodic effect was recently reported for (-)-carvone, and it has been shown to be more potent than its (+)-antipode. The mechanism of (-)-carvone action in the intestines has not been investigated. To gain a better understanding of the (-)-carvone antispasmodic effect, we investigated its pharmacological effects in the guinea pig ileum. Terminal portions of the ileum were mounted for isotonic contraction recordings. The effect of (-)-carvone was compared with that of the classical calcium channel blocker (CCB) verapamil. In isolated ileal smooth muscle, (-)-carvone did not produce direct contractile or relaxation responses and did not modify electrically elicited contractions or low K(+)-evoked contractions. The submaximal contractions induced by histamine (p&lt;0.001), BaCl2 (p&lt;0.05), and carbachol (p&lt;0.01) were significantly reduced by (-)-carvone. The contractile response elicited by high concentrations of carbachol was reduced but not abolished by (-)-carvone. No additive action was detected with co-incubation of (-)-carvone and verapamil on carbachol-induced contraction. (-)-Carvone reduced the contraction induced by high K(+) and was almost 100 times more potent than verapamil. Thus, (-)-carvone showed a typical and potent CCB-like action. Many effects described for both (-)-carvone and spearmint oil can be explained as a CCB-like mode of action.',
-   'sentences': [{'brackets': [],
-     'tokens': [{'dep': 'nsubj',
-       'head': 4,
-       'id': 0,
-       'ner': 'O',
-       'orth': '(-)-Carvone',
-       'tag': 'NN'},
-      {'dep': 'cop',
-       'head': 3,
-       'id': 1,
-       'ner': 'O',
-       'orth': 'is',
-       'tag': 'VBZ'},
-      {'dep': 'det', 'head': 2, 'id': 2, 'ner': 'O', 'orth': 'a', 'tag': 'DT'},
-      {'dep': 'compound',
-       'head': 1,
-       'id': 3,
-       'ner': 'O',
-       'orth': 'monoterpene',
-       'tag': 'NN'},
-      {'dep': 'ROOT',
-       'head': 0,
-       'id': 4,
-       'ner': 'O',
-       'orth': 'ketone',
-       'tag': 'NN'},
-      {'dep': 'acl',
-       'head': -1,
-       'id': 5,
-       'ner': 'O',
-       'orth': 'found',
-       'tag': 'VBN'},
-      {'dep': 'case',
-       'head': 1,
-       'id': 6,
-       'ner': 'O',
-       'orth': 'in',
-       'tag': 'IN'},
-      {'dep': 'nmod',
-       'head': -2,
-       'id': 7,
-       'ner': 'O',
-       'orth': 'spearmint',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': 3,
-       'id': 8,
-       'ner': 'O',
-       'orth': '(',
-       'tag': '-LRB-'},
-      {'dep': 'compound',
-       'head': 2,
-       'id': 9,
-       'ner': 'O',
-       'orth': 'Mentha',
-       'tag': 'FW'},
-      {'dep': 'compound',
-       'head': 1,
-       'id': 10,
-       'ner': 'O',
-       'orth': 'spicata',
-       'tag': 'FW'},
-      {'dep': 'dep',
-       'head': -4,
-       'id': 11,
-       'ner': 'O',
-       'orth': 'var',
-       'tag': 'FW'},
-      {'dep': 'punct',
-       'head': -8,
-       'id': 12,
-       'ner': 'O',
-       'orth': '.',
-       'tag': '.'}]},
-    {'brackets': [],
-     'tokens': [{'dep': 'ROOT',
-       'head': 0,
-       'id': 13,
-       'ner': 'O',
-       'orth': 'crispa',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': -1,
-       'id': 14,
-       'ner': 'O',
-       'orth': ')',
-       'tag': '-RRB-'},
-      {'dep': 'amod',
-       'head': 1,
-       'id': 15,
-       'ner': 'O',
-       'orth': 'essential',
-       'tag': 'JJ'},
-      {'dep': 'appos',
-       'head': -3,
-       'id': 16,
-       'ner': 'O',
-       'orth': 'oil',
-       'tag': 'NN'},
-      {'dep': 'nsubjpass',
-       'head': 3,
-       'id': 17,
-       'ner': 'O',
-       'orth': 'that',
-       'tag': 'WDT'},
-      {'dep': 'auxpass',
-       'head': 2,
-       'id': 18,
-       'ner': 'O',
-       'orth': 'is',
-       'tag': 'VBZ'},
-      {'dep': 'advmod',
-       'head': 1,
-       'id': 19,
-       'ner': 'O',
-       'orth': 'widely',
-       'tag': 'RB'},
-      {'dep': 'acl:relcl',
-       'head': -4,
-       'id': 20,
-       'ner': 'O',
-       'orth': 'used',
-       'tag': 'VBN'},
-      {'dep': 'case',
-       'head': 5,
-       'id': 21,
-       'ner': 'O',
-       'orth': 'as',
-       'tag': 'IN'},
-      {'dep': 'det',
-       'head': 4,
-       'id': 22,
-       'ner': 'O',
-       'orth': 'an',
-       'tag': 'DT'},
-      {'dep': 'compound',
-       'head': 3,
-       'id': 23,
-       'ner': 'O',
-       'orth': 'odor',
-       'tag': 'NN'},
-      {'dep': 'cc',
-       'head': -1,
-       'id': 24,
-       'ner': 'O',
-       'orth': 'and',
-       'tag': 'CC'},
-      {'dep': 'conj',
-       'head': -2,
-       'id': 25,
-       'ner': 'O',
-       'orth': 'flavor',
-       'tag': 'NN'},
-      {'dep': 'nmod',
-       'head': -6,
-       'id': 26,
-       'ner': 'O',
-       'orth': 'additive',
-       'tag': 'JJ'},
-      {'dep': 'punct',
-       'head': -14,
-       'id': 27,
-       'ner': 'O',
-       'orth': '.',
-       'tag': '.'}]},
-    {'brackets': [],
-     'tokens': [{'dep': 'det',
-       'head': 3,
-       'id': 28,
-       'ner': 'O',
-       'orth': 'An',
-       'tag': 'DT'},
-      {'dep': 'amod',
-       'head': 2,
-       'id': 29,
-       'ner': 'O',
-       'orth': 'intestinal',
-       'tag': 'JJ'},
-      {'dep': 'amod',
-       'head': 1,
-       'id': 30,
-       'ner': 'O',
-       'orth': 'antispasmodic',
-       'tag': 'JJ'},
-      {'dep': 'nsubjpass',
-       'head': 3,
-       'id': 31,
-       'ner': 'O',
-       'orth': 'effect',
-       'tag': 'NN'},
-      {'dep': 'auxpass',
-       'head': 2,
-       'id': 32,
-       'ner': 'O',
-       'orth': 'was',
-       'tag': 'VBD'},
-      {'dep': 'advmod',
-       'head': 1,
-       'id': 33,
-       'ner': 'O',
-       'orth': 'recently',
-       'tag': 'RB'},
-      {'dep': 'ROOT',
-       'head': 0,
-       'id': 34,
-       'ner': 'O',
-       'orth': 'reported',
-       'tag': 'VBN'},
-      {'dep': 'case',
-       'head': 1,
-       'id': 35,
-       'ner': 'O',
-       'orth': 'for',
-       'tag': 'IN'},
-      {'dep': 'nmod',
-       'head': -2,
-       'id': 36,
-       'ner': 'O',
-       'orth': '(-)-carvone',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': -3,
-       'id': 37,
-       'ner': 'O',
-       'orth': ',',
-       'tag': ','},
-      {'dep': 'cc',
-       'head': -4,
-       'id': 38,
-       'ner': 'O',
-       'orth': 'and',
-       'tag': 'CC'},
-      {'dep': 'nsubjpass',
-       'head': 3,
-       'id': 39,
-       'ner': 'O',
-       'orth': 'it',
-       'tag': 'PRP'},
-      {'dep': 'aux',
-       'head': 2,
-       'id': 40,
-       'ner': 'O',
-       'orth': 'has',
-       'tag': 'VBZ'},
-      {'dep': 'auxpass',
-       'head': 1,
-       'id': 41,
-       'ner': 'O',
-       'orth': 'been',
-       'tag': 'VBN'},
-      {'dep': 'conj',
-       'head': -8,
-       'id': 42,
-       'ner': 'O',
-       'orth': 'shown',
-       'tag': 'VBN'},
-      {'dep': 'mark',
-       'head': 3,
-       'id': 43,
-       'ner': 'O',
-       'orth': 'to',
-       'tag': 'TO'},
-      {'dep': 'cop',
-       'head': 2,
-       'id': 44,
-       'ner': 'O',
-       'orth': 'be',
-       'tag': 'VB'},
-      {'dep': 'advmod',
-       'head': 1,
-       'id': 45,
-       'ner': 'O',
-       'orth': 'more',
-       'tag': 'RBR'},
-      {'dep': 'xcomp',
-       'head': -4,
-       'id': 46,
-       'ner': 'O',
-       'orth': 'potent',
-       'tag': 'JJ'},
-      {'dep': 'case',
-       'head': 2,
-       'id': 47,
-       'ner': 'O',
-       'orth': 'than',
-       'tag': 'IN'},
-      {'dep': 'nmod:poss',
-       'head': 1,
-       'id': 48,
-       'ner': 'O',
-       'orth': 'its',
-       'tag': 'PRP$'},
-      {'dep': 'nmod',
-       'head': -3,
-       'id': 49,
-       'ner': 'O',
-       'orth': '(+)-antipode',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': -16,
-       'id': 50,
-       'ner': 'O',
-       'orth': '.',
-       'tag': '.'}]},
-    {'brackets': [],
-     'tokens': [{'dep': 'det',
-       'head': 1,
-       'id': 51,
-       'ner': 'O',
-       'orth': 'The',
-       'tag': 'DT'},
-      {'dep': 'nsubjpass',
-       'head': 10,
-       'id': 52,
-       'ner': 'O',
-       'orth': 'mechanism',
-       'tag': 'NN'},
-      {'dep': 'case',
-       'head': 2,
-       'id': 53,
-       'ner': 'O',
-       'orth': 'of',
-       'tag': 'IN'},
-      {'dep': 'compound',
-       'head': 1,
-       'id': 54,
-       'ner': 'O',
-       'orth': '(-)-carvone',
-       'tag': 'NN'},
-      {'dep': 'nmod',
-       'head': -3,
-       'id': 55,
-       'ner': 'O',
-       'orth': 'action',
-       'tag': 'NN'},
-      {'dep': 'case',
-       'head': 2,
-       'id': 56,
-       'ner': 'O',
-       'orth': 'in',
-       'tag': 'IN'},
-      {'dep': 'det',
-       'head': 1,
-       'id': 57,
-       'ner': 'O',
-       'orth': 'the',
-       'tag': 'DT'},
-      {'dep': 'nmod',
-       'head': -3,
-       'id': 58,
-       'ner': 'O',
-       'orth': 'intestines',
-       'tag': 'NNS'},
-      {'dep': 'aux',
-       'head': 3,
-       'id': 59,
-       'ner': 'O',
-       'orth': 'has',
-       'tag': 'VBZ'},
-      {'dep': 'neg',
-       'head': 2,
-       'id': 60,
-       'ner': 'O',
-       'orth': 'not',
-       'tag': 'RB'},
-      {'dep': 'auxpass',
-       'head': 1,
-       'id': 61,
-       'ner': 'O',
-       'orth': 'been',
-       'tag': 'VBN'},
-      {'dep': 'ROOT',
-       'head': 0,
-       'id': 62,
-       'ner': 'O',
-       'orth': 'investigated',
-       'tag': 'VBN'},
-      {'dep': 'punct',
-       'head': -1,
-       'id': 63,
-       'ner': 'O',
-       'orth': '.',
-       'tag': '.'}]},
-    {'brackets': [],
-     'tokens': [{'dep': 'mark',
-       'head': 1,
-       'id': 64,
-       'ner': 'O',
-       'orth': 'To',
-       'tag': 'TO'},
-      {'dep': 'advcl',
-       'head': 11,
-       'id': 65,
-       'ner': 'O',
-       'orth': 'gain',
-       'tag': 'VB'},
-      {'dep': 'det',
-       'head': 2,
-       'id': 66,
-       'ner': 'O',
-       'orth': 'a',
-       'tag': 'DT'},
-      {'dep': 'amod',
-       'head': 1,
-       'id': 67,
-       'ner': 'O',
-       'orth': 'better',
-       'tag': 'JJR'},
-      {'dep': 'dobj',
-       'head': -3,
-       'id': 68,
-       'ner': 'O',
-       'orth': 'understanding',
-       'tag': 'NN'},
-      {'dep': 'case',
-       'head': 4,
-       'id': 69,
-       'ner': 'O',
-       'orth': 'of',
-       'tag': 'IN'},
-      {'dep': 'det',
-       'head': 3,
-       'id': 70,
-       'ner': 'O',
-       'orth': 'the',
-       'tag': 'DT'},
-      {'dep': 'compound',
-       'head': 2,
-       'id': 71,
-       'ner': 'O',
-       'orth': '(-)-carvone',
-       'tag': 'NN'},
-      {'dep': 'compound',
-       'head': 1,
-       'id': 72,
-       'ner': 'O',
-       'orth': 'antispasmodic',
-       'tag': 'JJ'},
-      {'dep': 'nmod',
-       'head': -5,
-       'id': 73,
-       'ner': 'O',
-       'orth': 'effect',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': 2,
-       'id': 74,
-       'ner': 'O',
-       'orth': ',',
-       'tag': ','},
-      {'dep': 'nsubj',
-       'head': 1,
-       'id': 75,
-       'ner': 'O',
-       'orth': 'we',
-       'tag': 'PRP'},
-      {'dep': 'ROOT',
-       'head': 0,
-       'id': 76,
-       'ner': 'O',
-       'orth': 'investigated',
-       'tag': 'VBD'},
-      {'dep': 'nmod:poss',
-       'head': 2,
-       'id': 77,
-       'ner': 'O',
-       'orth': 'its',
-       'tag': 'PRP$'},
-      {'dep': 'amod',
-       'head': 1,
-       'id': 78,
-       'ner': 'O',
-       'orth': 'pharmacological',
-       'tag': 'JJ'},
-      {'dep': 'dobj',
-       'head': -3,
-       'id': 79,
-       'ner': 'O',
-       'orth': 'effects',
-       'tag': 'NNS'},
-      {'dep': 'case',
-       'head': 4,
-       'id': 80,
-       'ner': 'O',
-       'orth': 'in',
-       'tag': 'IN'},
-      {'dep': 'det',
-       'head': 3,
-       'id': 81,
-       'ner': 'O',
-       'orth': 'the',
-       'tag': 'DT'},
-      {'dep': 'compound',
-       'head': 2,
-       'id': 82,
-       'ner': 'O',
-       'orth': 'guinea',
-       'tag': 'NN'},
-      {'dep': 'compound',
-       'head': 1,
-       'id': 83,
-       'ner': 'O',
-       'orth': 'pig',
-       'tag': 'NN'},
-      {'dep': 'nmod',
-       'head': -5,
-       'id': 84,
-       'ner': 'O',
-       'orth': 'ileum',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': -9,
-       'id': 85,
-       'ner': 'O',
-       'orth': '.',
-       'tag': '.'}]},
-    {'brackets': [],
-     'tokens': [{'dep': 'amod',
-       'head': 1,
-       'id': 86,
-       'ner': 'O',
-       'orth': 'Terminal',
-       'tag': 'JJ'},
-      {'dep': 'nsubjpass',
-       'head': 5,
-       'id': 87,
-       'ner': 'O',
-       'orth': 'portions',
-       'tag': 'NNS'},
-      {'dep': 'case',
-       'head': 2,
-       'id': 88,
-       'ner': 'O',
-       'orth': 'of',
-       'tag': 'IN'},
-      {'dep': 'det',
-       'head': 1,
-       'id': 89,
-       'ner': 'O',
-       'orth': 'the',
-       'tag': 'DT'},
-      {'dep': 'nmod',
-       'head': -3,
-       'id': 90,
-       'ner': 'O',
-       'orth': 'ileum',
-       'tag': 'NN'},
-      {'dep': 'auxpass',
-       'head': 1,
-       'id': 91,
-       'ner': 'O',
-       'orth': 'were',
-       'tag': 'VBD'},
-      {'dep': 'ROOT',
-       'head': 0,
-       'id': 92,
-       'ner': 'O',
-       'orth': 'mounted',
-       'tag': 'VBN'},
-      {'dep': 'case',
-       'head': 3,
-       'id': 93,
-       'ner': 'O',
-       'orth': 'for',
-       'tag': 'IN'},
-      {'dep': 'amod',
-       'head': 2,
-       'id': 94,
-       'ner': 'O',
-       'orth': 'isotonic',
-       'tag': 'JJ'},
-      {'dep': 'compound',
-       'head': 1,
-       'id': 95,
-       'ner': 'O',
-       'orth': 'contraction',
-       'tag': 'NN'},
-      {'dep': 'nmod',
-       'head': -4,
-       'id': 96,
-       'ner': 'O',
-       'orth': 'recordings',
-       'tag': 'NNS'},
-      {'dep': 'punct',
-       'head': -5,
-       'id': 97,
-       'ner': 'O',
-       'orth': '.',
-       'tag': '.'}]},
-    {'brackets': [],
-     'tokens': [{'dep': 'det',
-       'head': 1,
-       'id': 98,
-       'ner': 'O',
-       'orth': 'The',
-       'tag': 'DT'},
-      {'dep': 'nsubjpass',
-       'head': 4,
-       'id': 99,
-       'ner': 'O',
-       'orth': 'effect',
-       'tag': 'NN'},
-      {'dep': 'case',
-       'head': 1,
-       'id': 100,
-       'ner': 'O',
-       'orth': 'of',
-       'tag': 'IN'},
-      {'dep': 'nmod',
-       'head': -2,
-       'id': 101,
-       'ner': 'O',
-       'orth': '(-)-carvone',
-       'tag': 'NN'},
-      {'dep': 'auxpass',
-       'head': 1,
-       'id': 102,
-       'ner': 'O',
-       'orth': 'was',
-       'tag': 'VBD'},
-      {'dep': 'ROOT',
-       'head': 0,
-       'id': 103,
-       'ner': 'O',
-       'orth': 'compared',
-       'tag': 'VBN'},
-      {'dep': 'case',
-       'head': 1,
-       'id': 104,
-       'ner': 'O',
-       'orth': 'with',
-       'tag': 'IN'},
-      {'dep': 'nmod',
-       'head': -2,
-       'id': 105,
-       'ner': 'O',
-       'orth': 'that',
-       'tag': 'DT'},
-      {'dep': 'case',
-       'head': 9,
-       'id': 106,
-       'ner': 'O',
-       'orth': 'of',
-       'tag': 'IN'},
-      {'dep': 'det',
-       'head': 8,
-       'id': 107,
-       'ner': 'O',
-       'orth': 'the',
-       'tag': 'DT'},
-      {'dep': 'amod',
-       'head': 7,
-       'id': 108,
-       'ner': 'O',
-       'orth': 'classical',
-       'tag': 'JJ'},
-      {'dep': 'compound',
-       'head': 2,
-       'id': 109,
-       'ner': 'O',
-       'orth': 'calcium',
-       'tag': 'NN'},
-      {'dep': 'compound',
-       'head': 1,
-       'id': 110,
-       'ner': 'O',
-       'orth': 'channel',
-       'tag': 'NN'},
-      {'dep': 'compound',
-       'head': 4,
-       'id': 111,
-       'ner': 'O',
-       'orth': 'blocker',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': 1,
-       'id': 112,
-       'ner': 'O',
-       'orth': '(',
-       'tag': '-LRB-'},
-      {'dep': 'appos',
-       'head': -2,
-       'id': 113,
-       'ner': 'O',
-       'orth': 'CCB',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': -1,
-       'id': 114,
-       'ner': 'O',
-       'orth': ')',
-       'tag': '-RRB-'},
-      {'dep': 'nmod',
-       'head': -10,
-       'id': 115,
-       'ner': 'O',
-       'orth': 'verapamil',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': -13,
-       'id': 116,
-       'ner': 'O',
-       'orth': '.',
-       'tag': '.'}]},
-    {'brackets': [],
-     'tokens': [{'dep': 'case',
-       'head': 4,
-       'id': 117,
-       'ner': 'O',
-       'orth': 'In',
-       'tag': 'IN'},
-      {'dep': 'amod',
-       'head': 3,
-       'id': 118,
-       'ner': 'O',
-       'orth': 'isolated',
-       'tag': 'VBN'},
-      {'dep': 'amod',
-       'head': 2,
-       'id': 119,
-       'ner': 'O',
-       'orth': 'ileal',
-       'tag': 'JJ'},
-      {'dep': 'amod',
-       'head': 1,
-       'id': 120,
-       'ner': 'O',
-       'orth': 'smooth',
-       'tag': 'JJ'},
-      {'dep': 'nmod',
-       'head': 5,
-       'id': 121,
-       'ner': 'O',
-       'orth': 'muscle',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': 4,
-       'id': 122,
-       'ner': 'O',
-       'orth': ',',
-       'tag': ','},
-      {'dep': 'nsubj',
-       'head': 3,
-       'id': 123,
-       'ner': 'O',
-       'orth': '(-)-carvone',
-       'tag': 'NN'},
-      {'dep': 'aux',
-       'head': 2,
-       'id': 124,
-       'ner': 'O',
-       'orth': 'did',
-       'tag': 'VBD'},
-      {'dep': 'neg',
-       'head': 1,
-       'id': 125,
-       'ner': 'O',
-       'orth': 'not',
-       'tag': 'RB'},
-      {'dep': 'ROOT',
-       'head': 0,
-       'id': 126,
-       'ner': 'O',
-       'orth': 'produce',
-       'tag': 'VB'},
-      {'dep': 'amod',
-       'head': 1,
-       'id': 127,
-       'ner': 'O',
-       'orth': 'direct',
-       'tag': 'JJ'},
-      {'dep': 'dobj',
-       'head': -2,
-       'id': 128,
-       'ner': 'O',
-       'orth': 'contractile',
-       'tag': 'NN'},
-      {'dep': 'cc',
-       'head': -1,
-       'id': 129,
-       'ner': 'O',
-       'orth': 'or',
-       'tag': 'CC'},
-      {'dep': 'conj',
-       'head': -2,
-       'id': 130,
-       'ner': 'O',
-       'orth': 'relaxation',
-       'tag': 'NN'},
-      {'dep': 'dep',
-       'head': -3,
-       'id': 131,
-       'ner': 'O',
-       'orth': 'responses',
-       'tag': 'NNS'},
-      {'dep': 'cc',
-       'head': -6,
-       'id': 132,
-       'ner': 'O',
-       'orth': 'and',
-       'tag': 'CC'},
-      {'dep': 'aux',
-       'head': 2,
-       'id': 133,
-       'ner': 'O',
-       'orth': 'did',
-       'tag': 'VBD'},
-      {'dep': 'neg',
-       'head': 1,
-       'id': 134,
-       'ner': 'O',
-       'orth': 'not',
-       'tag': 'RB'},
-      {'dep': 'conj',
-       'head': -9,
-       'id': 135,
-       'ner': 'O',
-       'orth': 'modify',
-       'tag': 'VB'},
-      {'dep': 'advmod',
-       'head': 1,
-       'id': 136,
-       'ner': 'O',
-       'orth': 'electrically',
-       'tag': 'RB'},
-      {'dep': 'amod',
-       'head': 1,
-       'id': 137,
-       'ner': 'O',
-       'orth': 'elicited',
-       'tag': 'VBN'},
-      {'dep': 'dobj',
-       'head': -3,
-       'id': 138,
-       'ner': 'O',
-       'orth': 'contractions',
-       'tag': 'NNS'},
-      {'dep': 'cc',
-       'head': -1,
-       'id': 139,
-       'ner': 'O',
-       'orth': 'or',
-       'tag': 'CC'},
-      {'dep': 'amod',
-       'head': 2,
-       'id': 140,
-       'ner': 'O',
-       'orth': 'low',
-       'tag': 'JJ'},
-      {'dep': 'compound',
-       'head': 1,
-       'id': 141,
-       'ner': 'O',
-       'orth': 'K(+)-evoked',
-       'tag': 'JJ'},
-      {'dep': 'conj',
-       'head': -4,
-       'id': 142,
-       'ner': 'O',
-       'orth': 'contractions',
-       'tag': 'NNS'},
-      {'dep': 'punct',
-       'head': -17,
-       'id': 143,
-       'ner': 'O',
-       'orth': '.',
-       'tag': '.'}]},
-    {'brackets': [],
-     'tokens': [{'dep': 'det',
-       'head': 2,
-       'id': 144,
-       'ner': 'O',
-       'orth': 'The',
-       'tag': 'DT'},
-      {'dep': 'amod',
-       'head': 1,
-       'id': 145,
-       'ner': 'O',
-       'orth': 'submaximal',
-       'tag': 'JJ'},
-      {'dep': 'nsubjpass',
-       'head': 20,
-       'id': 146,
-       'ner': 'O',
-       'orth': 'contractions',
-       'tag': 'NNS'},
-      {'dep': 'acl',
-       'head': -1,
-       'id': 147,
-       'ner': 'O',
-       'orth': 'induced',
-       'tag': 'VBN'},
-      {'dep': 'case',
-       'head': 1,
-       'id': 148,
-       'ner': 'O',
-       'orth': 'by',
-       'tag': 'IN'},
-      {'dep': 'nmod',
-       'head': -2,
-       'id': 149,
-       'ner': 'O',
-       'orth': 'histamine',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': 1,
-       'id': 150,
-       'ner': 'O',
-       'orth': '(',
-       'tag': '-LRB-'},
-      {'dep': 'appos',
-       'head': -2,
-       'id': 151,
-       'ner': 'O',
-       'orth': 'p&lt;0.001',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': -1,
-       'id': 152,
-       'ner': 'O',
-       'orth': ')',
-       'tag': '-RRB-'},
-      {'dep': 'punct',
-       'head': -4,
-       'id': 153,
-       'ner': 'O',
-       'orth': ',',
-       'tag': ','},
-      {'dep': 'conj',
-       'head': -5,
-       'id': 154,
-       'ner': 'O',
-       'orth': 'BaCl2',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': 1,
-       'id': 155,
-       'ner': 'O',
-       'orth': '(',
-       'tag': '-LRB-'},
-      {'dep': 'appos',
-       'head': -2,
-       'id': 156,
-       'ner': 'O',
-       'orth': 'p&lt;0.05',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': -1,
-       'id': 157,
-       'ner': 'O',
-       'orth': ')',
-       'tag': '-RRB-'},
-      {'dep': 'punct',
-       'head': -9,
-       'id': 158,
-       'ner': 'O',
-       'orth': ',',
-       'tag': ','},
-      {'dep': 'cc',
-       'head': -10,
-       'id': 159,
-       'ner': 'O',
-       'orth': 'and',
-       'tag': 'CC'},
-      {'dep': 'conj',
-       'head': -11,
-       'id': 160,
-       'ner': 'O',
-       'orth': 'carbachol',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': 1,
-       'id': 161,
-       'ner': 'O',
-       'orth': '(',
-       'tag': '-LRB-'},
-      {'dep': 'appos',
-       'head': -2,
-       'id': 162,
-       'ner': 'O',
-       'orth': 'p&lt;0.01',
-       'tag': 'JJ'},
-      {'dep': 'punct',
-       'head': -1,
-       'id': 163,
-       'ner': 'O',
-       'orth': ')',
-       'tag': '-RRB-'},
-      {'dep': 'auxpass',
-       'head': 2,
-       'id': 164,
-       'ner': 'O',
-       'orth': 'were',
-       'tag': 'VBD'},
-      {'dep': 'advmod',
-       'head': 1,
-       'id': 165,
-       'ner': 'O',
-       'orth': 'significantly',
-       'tag': 'RB'},
-      {'dep': 'ROOT',
-       'head': 0,
-       'id': 166,
-       'ner': 'O',
-       'orth': 'reduced',
-       'tag': 'VBN'},
-      {'dep': 'case',
-       'head': 1,
-       'id': 167,
-       'ner': 'O',
-       'orth': 'by',
-       'tag': 'IN'},
-      {'dep': 'nmod',
-       'head': -2,
-       'id': 168,
-       'ner': 'O',
-       'orth': '(-)-carvone',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': -3,
-       'id': 169,
-       'ner': 'O',
-       'orth': '.',
-       'tag': '.'}]},
-    {'brackets': [],
-     'tokens': [{'dep': 'det',
-       'head': 2,
-       'id': 170,
-       'ner': 'O',
-       'orth': 'The',
-       'tag': 'DT'},
-      {'dep': 'amod',
-       'head': 1,
-       'id': 171,
-       'ner': 'O',
-       'orth': 'contractile',
-       'tag': 'JJ'},
-      {'dep': 'nsubjpass',
-       'head': 8,
-       'id': 172,
-       'ner': 'O',
-       'orth': 'response',
-       'tag': 'NN'},
-      {'dep': 'acl',
-       'head': -1,
-       'id': 173,
-       'ner': 'O',
-       'orth': 'elicited',
-       'tag': 'VBN'},
-      {'dep': 'case',
-       'head': 2,
-       'id': 174,
-       'ner': 'O',
-       'orth': 'by',
-       'tag': 'IN'},
-      {'dep': 'amod',
-       'head': 1,
-       'id': 175,
-       'ner': 'O',
-       'orth': 'high',
-       'tag': 'JJ'},
-      {'dep': 'nmod',
-       'head': -3,
-       'id': 176,
-       'ner': 'O',
-       'orth': 'concentrations',
-       'tag': 'NNS'},
-      {'dep': 'case',
-       'head': 1,
-       'id': 177,
-       'ner': 'O',
-       'orth': 'of',
-       'tag': 'IN'},
-      {'dep': 'nmod',
-       'head': -2,
-       'id': 178,
-       'ner': 'O',
-       'orth': 'carbachol',
-       'tag': 'NN'},
-      {'dep': 'auxpass',
-       'head': 1,
-       'id': 179,
-       'ner': 'O',
-       'orth': 'was',
-       'tag': 'VBD'},
-      {'dep': 'ROOT',
-       'head': 0,
-       'id': 180,
-       'ner': 'O',
-       'orth': 'reduced',
-       'tag': 'VBN'},
-      {'dep': 'cc',
-       'head': -1,
-       'id': 181,
-       'ner': 'O',
-       'orth': 'but',
-       'tag': 'CC'},
-      {'dep': 'neg',
-       'head': 1,
-       'id': 182,
-       'ner': 'O',
-       'orth': 'not',
-       'tag': 'RB'},
-      {'dep': 'conj',
-       'head': -3,
-       'id': 183,
-       'ner': 'O',
-       'orth': 'abolished',
-       'tag': 'VBN'},
-      {'dep': 'case',
-       'head': 1,
-       'id': 184,
-       'ner': 'O',
-       'orth': 'by',
-       'tag': 'IN'},
-      {'dep': 'nmod',
-       'head': -2,
-       'id': 185,
-       'ner': 'O',
-       'orth': '(-)-carvone',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': -6,
-       'id': 186,
-       'ner': 'O',
-       'orth': '.',
-       'tag': '.'}]},
-    {'brackets': [],
-     'tokens': [{'dep': 'neg',
-       'head': 2,
-       'id': 187,
-       'ner': 'O',
-       'orth': 'No',
-       'tag': 'DT'},
-      {'dep': 'amod',
-       'head': 1,
-       'id': 188,
-       'ner': 'O',
-       'orth': 'additive',
-       'tag': 'JJ'},
-      {'dep': 'nsubjpass',
-       'head': 2,
-       'id': 189,
-       'ner': 'O',
-       'orth': 'action',
-       'tag': 'NN'},
-      {'dep': 'auxpass',
-       'head': 1,
-       'id': 190,
-       'ner': 'O',
-       'orth': 'was',
-       'tag': 'VBD'},
-      {'dep': 'ROOT',
-       'head': 0,
-       'id': 191,
-       'ner': 'O',
-       'orth': 'detected',
-       'tag': 'VBN'},
-      {'dep': 'case',
-       'head': 1,
-       'id': 192,
-       'ner': 'O',
-       'orth': 'with',
-       'tag': 'IN'},
-      {'dep': 'nmod',
-       'head': -2,
-       'id': 193,
-       'ner': 'O',
-       'orth': 'co-incubation',
-       'tag': 'NN'},
-      {'dep': 'case',
-       'head': 1,
-       'id': 194,
-       'ner': 'O',
-       'orth': 'of',
-       'tag': 'IN'},
-      {'dep': 'nmod',
-       'head': -2,
-       'id': 195,
-       'ner': 'O',
-       'orth': '(-)-carvone',
-       'tag': 'NN'},
-      {'dep': 'cc',
-       'head': -1,
-       'id': 196,
-       'ner': 'O',
-       'orth': 'and',
-       'tag': 'CC'},
-      {'dep': 'conj',
-       'head': -2,
-       'id': 197,
-       'ner': 'O',
-       'orth': 'verapamil',
-       'tag': 'NN'},
-      {'dep': 'case',
-       'head': 2,
-       'id': 198,
-       'ner': 'O',
-       'orth': 'on',
-       'tag': 'IN'},
-      {'dep': 'amod',
-       'head': 1,
-       'id': 199,
-       'ner': 'O',
-       'orth': 'carbachol-induced',
-       'tag': 'JJ'},
-      {'dep': 'nmod',
-       'head': -7,
-       'id': 200,
-       'ner': 'O',
-       'orth': 'contraction',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': -10,
-       'id': 201,
-       'ner': 'O',
-       'orth': '.',
-       'tag': '.'}]},
-    {'brackets': [],
-     'tokens': [{'dep': 'nsubj',
-       'head': 1,
-       'id': 202,
-       'ner': 'O',
-       'orth': '(-)-Carvone',
-       'tag': 'NN'},
-      {'dep': 'ROOT',
-       'head': 0,
-       'id': 203,
-       'ner': 'O',
-       'orth': 'reduced',
-       'tag': 'VBD'},
-      {'dep': 'det',
-       'head': 1,
-       'id': 204,
-       'ner': 'O',
-       'orth': 'the',
-       'tag': 'DT'},
-      {'dep': 'dobj',
-       'head': -2,
-       'id': 205,
-       'ner': 'O',
-       'orth': 'contraction',
-       'tag': 'NN'},
-      {'dep': 'acl',
-       'head': -1,
-       'id': 206,
-       'ner': 'O',
-       'orth': 'induced',
-       'tag': 'VBN'},
-      {'dep': 'case',
-       'head': 2,
-       'id': 207,
-       'ner': 'O',
-       'orth': 'by',
-       'tag': 'IN'},
-      {'dep': 'amod',
-       'head': 1,
-       'id': 208,
-       'ner': 'O',
-       'orth': 'high',
-       'tag': 'JJ'},
-      {'dep': 'nmod',
-       'head': -3,
-       'id': 209,
-       'ner': 'O',
-       'orth': 'K(+',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': -7,
-       'id': 210,
-       'ner': 'O',
-       'orth': ')',
-       'tag': '-RRB-'},
-      {'dep': 'cc',
-       'head': -8,
-       'id': 211,
-       'ner': 'O',
-       'orth': 'and',
-       'tag': 'CC'},
-      {'dep': 'cop',
-       'head': 5,
-       'id': 212,
-       'ner': 'O',
-       'orth': 'was',
-       'tag': 'VBD'},
-      {'dep': 'advmod',
-       'head': 1,
-       'id': 213,
-       'ner': 'O',
-       'orth': 'almost',
-       'tag': 'RB'},
-      {'dep': 'nummod',
-       'head': 1,
-       'id': 214,
-       'ner': 'O',
-       'orth': '100',
-       'tag': 'CD'},
-      {'dep': 'nmod:npmod',
-       'head': 1,
-       'id': 215,
-       'ner': 'O',
-       'orth': 'times',
-       'tag': 'NNS'},
-      {'dep': 'advmod',
-       'head': 1,
-       'id': 216,
-       'ner': 'O',
-       'orth': 'more',
-       'tag': 'RBR'},
-      {'dep': 'conj',
-       'head': -14,
-       'id': 217,
-       'ner': 'O',
-       'orth': 'potent',
-       'tag': 'JJ'},
-      {'dep': 'case',
-       'head': 1,
-       'id': 218,
-       'ner': 'O',
-       'orth': 'than',
-       'tag': 'IN'},
-      {'dep': 'nmod',
-       'head': -2,
-       'id': 219,
-       'ner': 'O',
-       'orth': 'verapamil',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': -17,
-       'id': 220,
-       'ner': 'O',
-       'orth': '.',
-       'tag': '.'}]},
-    {'brackets': [],
-     'tokens': [{'dep': 'advmod',
-       'head': 3,
-       'id': 221,
-       'ner': 'O',
-       'orth': 'Thus',
-       'tag': 'RB'},
-      {'dep': 'punct',
-       'head': 2,
-       'id': 222,
-       'ner': 'O',
-       'orth': ',',
-       'tag': ','},
-      {'dep': 'nsubj',
-       'head': 1,
-       'id': 223,
-       'ner': 'O',
-       'orth': '(-)-carvone',
-       'tag': 'NN'},
-      {'dep': 'ROOT',
-       'head': 0,
-       'id': 224,
-       'ner': 'O',
-       'orth': 'showed',
-       'tag': 'VBD'},
-      {'dep': 'det',
-       'head': 5,
-       'id': 225,
-       'ner': 'O',
-       'orth': 'a',
-       'tag': 'DT'},
-      {'dep': 'amod',
-       'head': 4,
-       'id': 226,
-       'ner': 'O',
-       'orth': 'typical',
-       'tag': 'JJ'},
-      {'dep': 'cc',
-       'head': -1,
-       'id': 227,
-       'ner': 'O',
-       'orth': 'and',
-       'tag': 'CC'},
-      {'dep': 'conj',
-       'head': -2,
-       'id': 228,
-       'ner': 'O',
-       'orth': 'potent',
-       'tag': 'JJ'},
-      {'dep': 'amod',
-       'head': 1,
-       'id': 229,
-       'ner': 'O',
-       'orth': 'CCB-like',
-       'tag': 'JJ'},
-      {'dep': 'dobj',
-       'head': -6,
-       'id': 230,
-       'ner': 'O',
-       'orth': 'action',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': -7,
-       'id': 231,
-       'ner': 'O',
-       'orth': '.',
-       'tag': '.'}]},
-    {'brackets': [],
-     'tokens': [{'dep': 'amod',
-       'head': 1,
-       'id': 232,
-       'ner': 'O',
-       'orth': 'Many',
-       'tag': 'JJ'},
-      {'dep': 'nsubjpass',
-       'head': 10,
-       'id': 233,
-       'ner': 'O',
-       'orth': 'effects',
-       'tag': 'NNS'},
-      {'dep': 'acl',
-       'head': -1,
-       'id': 234,
-       'ner': 'O',
-       'orth': 'described',
-       'tag': 'VBN'},
-      {'dep': 'case',
-       'head': 5,
-       'id': 235,
-       'ner': 'O',
-       'orth': 'for',
-       'tag': 'IN'},
-      {'dep': 'cc:preconj',
-       'head': 1,
-       'id': 236,
-       'ner': 'O',
-       'orth': 'both',
-       'tag': 'CC'},
-      {'dep': 'compound',
-       'head': 3,
-       'id': 237,
-       'ner': 'O',
-       'orth': '(-)-carvone',
-       'tag': 'NN'},
-      {'dep': 'cc',
-       'head': -1,
-       'id': 238,
-       'ner': 'O',
-       'orth': 'and',
-       'tag': 'CC'},
-      {'dep': 'conj',
-       'head': -2,
-       'id': 239,
-       'ner': 'O',
-       'orth': 'spearmint',
-       'tag': 'NN'},
-      {'dep': 'nmod',
-       'head': -6,
-       'id': 240,
-       'ner': 'O',
-       'orth': 'oil',
-       'tag': 'NN'},
-      {'dep': 'aux',
-       'head': 2,
-       'id': 241,
-       'ner': 'O',
-       'orth': 'can',
-       'tag': 'MD'},
-      {'dep': 'auxpass',
-       'head': 1,
-       'id': 242,
-       'ner': 'O',
-       'orth': 'be',
-       'tag': 'VB'},
-      {'dep': 'ROOT',
-       'head': 0,
-       'id': 243,
-       'ner': 'O',
-       'orth': 'explained',
-       'tag': 'VBN'},
-      {'dep': 'case',
-       'head': 3,
-       'id': 244,
-       'ner': 'O',
-       'orth': 'as',
-       'tag': 'IN'},
-      {'dep': 'det',
-       'head': 2,
-       'id': 245,
-       'ner': 'O',
-       'orth': 'a',
-       'tag': 'DT'},
-      {'dep': 'amod',
-       'head': 1,
-       'id': 246,
-       'ner': 'O',
-       'orth': 'CCB-like',
-       'tag': 'JJ'},
-      {'dep': 'nmod',
-       'head': -4,
-       'id': 247,
-       'ner': 'O',
-       'orth': 'mode',
-       'tag': 'NN'},
-      {'dep': 'case',
-       'head': 1,
-       'id': 248,
-       'ner': 'O',
-       'orth': 'of',
-       'tag': 'IN'},
-      {'dep': 'nmod',
-       'head': -2,
-       'id': 249,
-       'ner': 'O',
-       'orth': 'action',
-       'tag': 'NN'},
-      {'dep': 'punct',
-       'head': -7,
-       'id': 250,
-       'ner': 'O',
-       'orth': '.',
-       'tag': '.'}]}]}]}</pre>
+<pre>{&#39;id&#39;: 0,
+ &#39;paragraphs&#39;: [{&#39;cats&#39;: [],
+   &#39;raw&#39;: &#39;(-)-Carvone is a monoterpene ketone found in spearmint (Mentha spicata var. crispa) essential oil that is widely used as an odor and flavor additive. An intestinal antispasmodic effect was recently reported for (-)-carvone, and it has been shown to be more potent than its (+)-antipode. The mechanism of (-)-carvone action in the intestines has not been investigated. To gain a better understanding of the (-)-carvone antispasmodic effect, we investigated its pharmacological effects in the guinea pig ileum. Terminal portions of the ileum were mounted for isotonic contraction recordings. The effect of (-)-carvone was compared with that of the classical calcium channel blocker (CCB) verapamil. In isolated ileal smooth muscle, (-)-carvone did not produce direct contractile or relaxation responses and did not modify electrically elicited contractions or low K(+)-evoked contractions. The submaximal contractions induced by histamine (p&lt;0.001), BaCl2 (p&lt;0.05), and carbachol (p&lt;0.01) were significantly reduced by (-)-carvone. The contractile response elicited by high concentrations of carbachol was reduced but not abolished by (-)-carvone. No additive action was detected with co-incubation of (-)-carvone and verapamil on carbachol-induced contraction. (-)-Carvone reduced the contraction induced by high K(+) and was almost 100 times more potent than verapamil. Thus, (-)-carvone showed a typical and potent CCB-like action. Many effects described for both (-)-carvone and spearmint oil can be explained as a CCB-like mode of action.&#39;,
+   &#39;sentences&#39;: [{&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;nsubj&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 0,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-Carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;cop&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 1,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;is&#39;,
+       &#39;tag&#39;: &#39;VBZ&#39;},
+      {&#39;dep&#39;: &#39;det&#39;, &#39;head&#39;: 2, &#39;id&#39;: 2, &#39;ner&#39;: &#39;O&#39;, &#39;orth&#39;: &#39;a&#39;, &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 3,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;monoterpene&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 4,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;ketone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;acl&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 5,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;found&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 6,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;in&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 7,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;spearmint&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 8,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(&#39;,
+       &#39;tag&#39;: &#39;-LRB-&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 9,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;Mentha&#39;,
+       &#39;tag&#39;: &#39;FW&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 10,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;spicata&#39;,
+       &#39;tag&#39;: &#39;FW&#39;},
+      {&#39;dep&#39;: &#39;dep&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 11,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;var&#39;,
+       &#39;tag&#39;: &#39;FW&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -8,
+       &#39;id&#39;: 12,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 13,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;crispa&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 14,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;)&#39;,
+       &#39;tag&#39;: &#39;-RRB-&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 15,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;essential&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;appos&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 16,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;oil&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 17,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;that&#39;,
+       &#39;tag&#39;: &#39;WDT&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 18,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;is&#39;,
+       &#39;tag&#39;: &#39;VBZ&#39;},
+      {&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 19,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;widely&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;acl:relcl&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 20,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;used&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 5,
+       &#39;id&#39;: 21,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;as&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 22,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;an&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 23,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;odor&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 24,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 25,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;flavor&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -6,
+       &#39;id&#39;: 26,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;additive&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -14,
+       &#39;id&#39;: 27,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 28,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;An&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 29,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;intestinal&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 30,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;antispasmodic&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 31,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;effect&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 32,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;was&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 33,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;recently&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 34,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;reported&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 35,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;for&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 36,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 37,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;,&#39;,
+       &#39;tag&#39;: &#39;,&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 38,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 39,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;it&#39;,
+       &#39;tag&#39;: &#39;PRP&#39;},
+      {&#39;dep&#39;: &#39;aux&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 40,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;has&#39;,
+       &#39;tag&#39;: &#39;VBZ&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 41,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;been&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -8,
+       &#39;id&#39;: 42,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;shown&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;mark&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 43,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;to&#39;,
+       &#39;tag&#39;: &#39;TO&#39;},
+      {&#39;dep&#39;: &#39;cop&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 44,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;be&#39;,
+       &#39;tag&#39;: &#39;VB&#39;},
+      {&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 45,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;more&#39;,
+       &#39;tag&#39;: &#39;RBR&#39;},
+      {&#39;dep&#39;: &#39;xcomp&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 46,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;potent&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 47,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;than&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod:poss&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 48,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;its&#39;,
+       &#39;tag&#39;: &#39;PRP$&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 49,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(+)-antipode&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -16,
+       &#39;id&#39;: 50,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 51,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;The&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 10,
+       &#39;id&#39;: 52,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;mechanism&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 53,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 54,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 55,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;action&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 56,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;in&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 57,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;the&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 58,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;intestines&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;aux&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 59,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;has&#39;,
+       &#39;tag&#39;: &#39;VBZ&#39;},
+      {&#39;dep&#39;: &#39;neg&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 60,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;not&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 61,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;been&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 62,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;investigated&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 63,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;mark&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 64,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;To&#39;,
+       &#39;tag&#39;: &#39;TO&#39;},
+      {&#39;dep&#39;: &#39;advcl&#39;,
+       &#39;head&#39;: 11,
+       &#39;id&#39;: 65,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;gain&#39;,
+       &#39;tag&#39;: &#39;VB&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 66,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;a&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 67,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;better&#39;,
+       &#39;tag&#39;: &#39;JJR&#39;},
+      {&#39;dep&#39;: &#39;dobj&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 68,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;understanding&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 69,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 70,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;the&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 71,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 72,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;antispasmodic&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -5,
+       &#39;id&#39;: 73,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;effect&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 74,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;,&#39;,
+       &#39;tag&#39;: &#39;,&#39;},
+      {&#39;dep&#39;: &#39;nsubj&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 75,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;we&#39;,
+       &#39;tag&#39;: &#39;PRP&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 76,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;investigated&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;nmod:poss&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 77,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;its&#39;,
+       &#39;tag&#39;: &#39;PRP$&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 78,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;pharmacological&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;dobj&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 79,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;effects&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 80,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;in&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 81,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;the&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 82,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;guinea&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 83,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;pig&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -5,
+       &#39;id&#39;: 84,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;ileum&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -9,
+       &#39;id&#39;: 85,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 86,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;Terminal&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 5,
+       &#39;id&#39;: 87,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;portions&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 88,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 89,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;the&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 90,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;ileum&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 91,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;were&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 92,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;mounted&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 93,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;for&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 94,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;isotonic&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 95,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contraction&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 96,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;recordings&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -5,
+       &#39;id&#39;: 97,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 98,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;The&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 99,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;effect&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 100,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 101,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 102,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;was&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 103,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;compared&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 104,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;with&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 105,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;that&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 9,
+       &#39;id&#39;: 106,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 8,
+       &#39;id&#39;: 107,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;the&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 7,
+       &#39;id&#39;: 108,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;classical&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 109,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;calcium&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 110,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;channel&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 111,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;blocker&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 112,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(&#39;,
+       &#39;tag&#39;: &#39;-LRB-&#39;},
+      {&#39;dep&#39;: &#39;appos&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 113,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;CCB&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 114,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;)&#39;,
+       &#39;tag&#39;: &#39;-RRB-&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -10,
+       &#39;id&#39;: 115,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;verapamil&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -13,
+       &#39;id&#39;: 116,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 117,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;In&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 118,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;isolated&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 119,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;ileal&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 120,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;smooth&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: 5,
+       &#39;id&#39;: 121,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;muscle&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 122,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;,&#39;,
+       &#39;tag&#39;: &#39;,&#39;},
+      {&#39;dep&#39;: &#39;nsubj&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 123,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;aux&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 124,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;did&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;neg&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 125,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;not&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 126,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;produce&#39;,
+       &#39;tag&#39;: &#39;VB&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 127,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;direct&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;dobj&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 128,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contractile&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 129,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;or&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 130,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;relaxation&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;dep&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 131,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;responses&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -6,
+       &#39;id&#39;: 132,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;aux&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 133,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;did&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;neg&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 134,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;not&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -9,
+       &#39;id&#39;: 135,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;modify&#39;,
+       &#39;tag&#39;: &#39;VB&#39;},
+      {&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 136,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;electrically&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 137,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;elicited&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;dobj&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 138,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contractions&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 139,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;or&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 140,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;low&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 141,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;K(+)-evoked&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 142,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contractions&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -17,
+       &#39;id&#39;: 143,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 144,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;The&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 145,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;submaximal&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 20,
+       &#39;id&#39;: 146,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contractions&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;acl&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 147,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;induced&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 148,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;by&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 149,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;histamine&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 150,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(&#39;,
+       &#39;tag&#39;: &#39;-LRB-&#39;},
+      {&#39;dep&#39;: &#39;appos&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 151,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;p&lt;0.001&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 152,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;)&#39;,
+       &#39;tag&#39;: &#39;-RRB-&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 153,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;,&#39;,
+       &#39;tag&#39;: &#39;,&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -5,
+       &#39;id&#39;: 154,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;BaCl2&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 155,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(&#39;,
+       &#39;tag&#39;: &#39;-LRB-&#39;},
+      {&#39;dep&#39;: &#39;appos&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 156,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;p&lt;0.05&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 157,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;)&#39;,
+       &#39;tag&#39;: &#39;-RRB-&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -9,
+       &#39;id&#39;: 158,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;,&#39;,
+       &#39;tag&#39;: &#39;,&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -10,
+       &#39;id&#39;: 159,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -11,
+       &#39;id&#39;: 160,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;carbachol&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 161,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(&#39;,
+       &#39;tag&#39;: &#39;-LRB-&#39;},
+      {&#39;dep&#39;: &#39;appos&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 162,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;p&lt;0.01&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 163,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;)&#39;,
+       &#39;tag&#39;: &#39;-RRB-&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 164,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;were&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 165,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;significantly&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 166,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;reduced&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 167,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;by&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 168,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 169,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 170,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;The&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 171,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contractile&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 8,
+       &#39;id&#39;: 172,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;response&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;acl&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 173,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;elicited&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 174,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;by&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 175,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;high&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 176,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;concentrations&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 177,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 178,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;carbachol&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 179,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;was&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 180,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;reduced&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 181,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;but&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;neg&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 182,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;not&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 183,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;abolished&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 184,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;by&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 185,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -6,
+       &#39;id&#39;: 186,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;neg&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 187,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;No&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 188,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;additive&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 189,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;action&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 190,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;was&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 191,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;detected&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 192,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;with&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 193,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;co-incubation&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 194,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 195,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 196,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 197,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;verapamil&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 198,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;on&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 199,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;carbachol-induced&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -7,
+       &#39;id&#39;: 200,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contraction&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -10,
+       &#39;id&#39;: 201,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;nsubj&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 202,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-Carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 203,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;reduced&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 204,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;the&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;dobj&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 205,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contraction&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;acl&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 206,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;induced&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 207,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;by&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 208,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;high&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 209,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;K(+&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -7,
+       &#39;id&#39;: 210,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;)&#39;,
+       &#39;tag&#39;: &#39;-RRB-&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -8,
+       &#39;id&#39;: 211,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;cop&#39;,
+       &#39;head&#39;: 5,
+       &#39;id&#39;: 212,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;was&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 213,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;almost&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;nummod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 214,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;100&#39;,
+       &#39;tag&#39;: &#39;CD&#39;},
+      {&#39;dep&#39;: &#39;nmod:npmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 215,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;times&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 216,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;more&#39;,
+       &#39;tag&#39;: &#39;RBR&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -14,
+       &#39;id&#39;: 217,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;potent&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 218,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;than&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 219,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;verapamil&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -17,
+       &#39;id&#39;: 220,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 221,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;Thus&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 222,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;,&#39;,
+       &#39;tag&#39;: &#39;,&#39;},
+      {&#39;dep&#39;: &#39;nsubj&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 223,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 224,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;showed&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 5,
+       &#39;id&#39;: 225,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;a&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 226,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;typical&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 227,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 228,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;potent&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 229,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;CCB-like&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;dobj&#39;,
+       &#39;head&#39;: -6,
+       &#39;id&#39;: 230,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;action&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -7,
+       &#39;id&#39;: 231,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 232,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;Many&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 10,
+       &#39;id&#39;: 233,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;effects&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;acl&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 234,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;described&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 5,
+       &#39;id&#39;: 235,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;for&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;cc:preconj&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 236,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;both&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 237,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 238,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 239,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;spearmint&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -6,
+       &#39;id&#39;: 240,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;oil&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;aux&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 241,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;can&#39;,
+       &#39;tag&#39;: &#39;MD&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 242,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;be&#39;,
+       &#39;tag&#39;: &#39;VB&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 243,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;explained&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 244,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;as&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 245,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;a&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 246,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;CCB-like&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 247,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;mode&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 248,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 249,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;action&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -7,
+       &#39;id&#39;: 250,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]}]}]}</pre>
 </div>
 
 </div>
 
 </div>
 </div>
-
+</p>
     </details>
 </div>
     
@@ -3461,7 +3481,7 @@ Textcat   0.00
 
 
 
-  </div><!-- from https://github.com/utterance/utterances -->
+      </div><!-- from https://github.com/utterance/utterances -->
 <script src="https://utteranc.es/client.js"
         repo="mani2106/Blog-Posts"
         issue-term="title"
@@ -3470,6 +3490,8 @@ Textcat   0.00
         crossorigin="anonymous"
         async>
 </script><a class="u-url" href="/Blog-Posts/take-home/deep-learning/spacy/nlp/2021/04/26/chemdNER.html" hidden></a>
+    </main>
+  </div>
 </article>
       </div>
     </main><footer class="site-footer h-card">

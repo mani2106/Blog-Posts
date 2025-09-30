@@ -3,9 +3,9 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Linear Algebra - d2l.ai Exercises - Part 3 | Manimaran Panneerselvam’s blog</title>
-<meta name="generator" content="Jekyll v4.1.1" />
+<meta name="generator" content="Jekyll v4.3.4" />
 <meta property="og:title" content="Linear Algebra - d2l.ai Exercises - Part 3" />
 <meta name="author" content="Manimaran Panneerselvam" />
 <meta property="og:locale" content="en_US" />
@@ -15,11 +15,13 @@
 <meta property="og:url" content="https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/09/d2lai-exercises-pt3.html" />
 <meta property="og:site_name" content="Manimaran Panneerselvam’s blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-02-09T00:00:00-06:00" />
+<meta property="article:published_time" content="2021-02-09T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Linear Algebra - d2l.ai Exercises - Part 3" />
 <script type="application/ld+json">
-{"url":"https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/09/d2lai-exercises-pt3.html","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/09/d2lai-exercises-pt3.html"},"headline":"Linear Algebra - d2l.ai Exercises - Part 3","dateModified":"2021-02-09T00:00:00-06:00","datePublished":"2021-02-09T00:00:00-06:00","author":{"@type":"Person","name":"Manimaran Panneerselvam"},"description":"The third notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Manimaran Panneerselvam"},"dateModified":"2021-02-09T00:00:00+00:00","datePublished":"2021-02-09T00:00:00+00:00","description":"The third notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning","headline":"Linear Algebra - d2l.ai Exercises - Part 3","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/09/d2lai-exercises-pt3.html"},"url":"https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/09/d2lai-exercises-pt3.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Panneerselvam's blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
+<link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Panneerselvam&apos;s blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
 
 
@@ -82,6 +84,71 @@ window.onload = wrap_img;
     elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
     });
 </script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<style>
+.post-container {
+  display: flex;
+  position: relative;
+}
+
+.toc-sidebar {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  width: 250px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 16px;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(27, 31, 36, 0.1);
+  font-size: 14px;
+}
+
+.toc-sidebar h2 {
+  font-size: 16px;
+  margin-top: 0;
+  color: #24292f;
+}
+
+.toc-sidebar ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc-sidebar li {
+  margin: 4px 0;
+}
+
+.toc-sidebar a {
+  color: #0969da;
+  text-decoration: none;
+}
+
+.toc-sidebar a:hover {
+  text-decoration: underline;
+}
+
+.post-main {
+  margin-right: 280px;
+  flex: 1;
+  max-width: calc(100% - 280px);
+}
+
+@media (max-width: 768px) {
+  .toc-sidebar {
+    display: none;
+  }
+  .post-main {
+    margin-right: 0;
+    max-width: 100%;
+  }
+}
+</style>
 </head>
 <body><header class="site-header">
 
@@ -103,7 +170,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Linear Algebra - d2l.ai Exercises - Part 3</h1><p class="page-description">The third notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-02-09T00:00:00-06:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Linear Algebra - d2l.ai Exercises - Part 3</h1><p class="page-description">The third notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-02-09T00:00:00+00:00" itemprop="datePublished">
         Feb 9, 2021
       </time>
        • <span class="read-time" title="Estimated read time">
@@ -114,7 +181,7 @@ window.onload = wrap_img;
 </span></p>
 
     
-      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i>
       
         <a class="category-tags-link" href="/Blog-Posts/categories/#d2l.ai-exercises">d2l.ai-exercises</a>
         &nbsp;
@@ -152,23 +219,33 @@ window.onload = wrap_img;
         </div>
       </header>
 
-  <div class="post-content e-content" itemprop="articleBody">
-    <ul class="section-nav">
-<li class="toc-entry toc-h2"><a href="#Exercise-setup">Exercise setup </a></li>
-<li class="toc-entry toc-h2"><a href="#Problems-and-answers">Problems and answers </a>
-<ul>
-<li class="toc-entry toc-h3"><a href="#Prove-that-the-transpose-of-a-matrix--A-’s-transpose-is--A-:--$(A^{T})^T$=$A$.">Prove that the transpose of a matrix  A ’s transpose is  A :  $(A^{T})^T$=$A$. </a></li>
-<li class="toc-entry toc-h3"><a href="#Show-that-the-sum-of-transposes-is-equal-to-the-transpose-of-a-sum:--$A^T+B^T=(A+B)^T$.">Show that the sum of transposes is equal to the transpose of a sum:  $A^T+B^T=(A+B)^T$. </a></li>
-<li class="toc-entry toc-h3"><a href="#Given-any-square-matrix-$A$-,-is--$A+A^T$--always-symmetric?-Why?">Given any square matrix $A$ , is  $A+A^T$  always symmetric? Why? </a></li>
-<li class="toc-entry toc-h3"><a href="#Output-of-len(X)-for-tensor-$X$-shaped-(2,-3,-4)-and-does-len(X)-always-correspond-to-the-length-of-a-certain-axis-of-$X$?-What-is-that-axis?">Output of len(X) for tensor $X$ shaped (2, 3, 4) and does len(X) always correspond to the length of a certain axis of $X$? What is that axis? </a></li>
-<li class="toc-entry toc-h3"><a href="#What-happens-when-we-divide-$A$-by-the-sum-of-it's-second-axis?-A-/-A.sum(axis=1)">What happens when we divide $A$ by the sum of it&#39;s second axis? A / A.sum(axis=1) </a></li>
-<li class="toc-entry toc-h3"><a href="#When-traveling-between-two-points-in-Manhattan,-what-is-the-distance-that-you-need-to-cover-in-terms-of-the-coordinates,-i.e.,-in-terms-of-avenues-and-streets?-Can-you-travel-diagonally?">When traveling between two points in Manhattan, what is the distance that you need to cover in terms of the coordinates, i.e., in terms of avenues and streets? Can you travel diagonally? </a></li>
-<li class="toc-entry toc-h3"><a href="#The-summation-outputs-for-tensor-with-shape-(2,-3,-4)-along-axis-0,-1,-and-2.">The summation outputs for tensor with shape (2, 3, 4) along axis 0, 1, and 2. </a></li>
-<li class="toc-entry toc-h3"><a href="#Feed-a-tensor-with-3-or-more-axes-to-the-linalg.norm.">Feed a tensor with 3 or more axes to the linalg.norm. </a></li>
-<li class="toc-entry toc-h3"><a href="#What-does-this-function-compute-for-tensors-of-arbitrary-shape?">What does this function compute for tensors of arbitrary shape? </a></li>
-</ul>
-</li>
-</ul><!--
+  <div class="post-container">
+    <aside class="toc-sidebar">
+      <!-- this handles the automatic toc. use ## for subheads to auto-generate the on-page minitoc. if you use html tags, you must supply an ID for the heading element in order for it to appear in the minitoc. -->
+<script>
+    $( document ).ready(function() {
+      // Handler for .ready() called.
+    
+    $('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2,h3,h4' });
+    
+    /* this offset helps account for the space taken up by the floating toolbar. */
+    $('#toc').on('click', 'a', function() {
+      var target = $(this.getAttribute('href'))
+        , scroll_target = target.offset().top
+    
+      $(window).scrollTop(scroll_target - 10);
+      return false
+    })
+      
+    });
+</script>
+    
+<div id="toc"></div>
+
+    </aside>
+    <main class="post-main">
+      <div class="post-content e-content" itemprop="articleBody">
+        <!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
@@ -177,12 +254,9 @@ window.onload = wrap_img;
 
 <div class="container" id="notebook-container">
         
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Exercise-setup">
-<a class="anchor" href="#Exercise-setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Exercise setup<a class="anchor-link" href="#Exercise-setup"> </a>
-</h2>
+<h2 id="Exercise-setup">Exercise setup<a class="anchor-link" href="#Exercise-setup"> </a></h2>
 </div>
 </div>
 </div>
@@ -227,26 +301,19 @@ array([[ 0.,  1.,  2.,  3.],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Problems-and-answers">
-<a class="anchor" href="#Problems-and-answers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Problems and answers<a class="anchor-link" href="#Problems-and-answers"> </a>
-</h2>
+<h2 id="Problems-and-answers">Problems and answers<a class="anchor-link" href="#Problems-and-answers"> </a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Prove-that-the-transpose-of-a-matrix--A-’s-transpose-is--A-:--$(A^{T})^T$=$A$.">
-<a class="anchor" href="#Prove-that-the-transpose-of-a-matrix--A-%E2%80%99s-transpose-is--A-:--%24(A%5E%7BT%7D)%5ET%24=%24A%24." aria-hidden="true"><span class="octicon octicon-link"></span></a>Prove that the transpose of a matrix  A ’s transpose is  A :  $(A^{T})^T$=$A$.<a class="anchor-link" href="#Prove-that-the-transpose-of-a-matrix--A-%E2%80%99s-transpose-is--A-:--%24(A%5E%7BT%7D)%5ET%24=%24A%24."> </a>
-</h3>
+<h3 id="Prove-that-the-transpose-of-a-matrix--A-&#8217;s-transpose-is--A-:--$(A^{T})^T$=$A$.">Prove that the transpose of a matrix  A &#8217;s transpose is  A :  $(A^{T})^T$=$A$.<a class="anchor-link" href="#Prove-that-the-transpose-of-a-matrix--A-&#8217;s-transpose-is--A-:--$(A^{T})^T$=$A$."> </a></h3>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This is straightforward, transposing is basically converting rows to columns and vice-versa, so when done twice we would end up what we started with.</p>
 
@@ -368,17 +435,13 @@ array([[ True,  True,  True,  True],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Show-that-the-sum-of-transposes-is-equal-to-the-transpose-of-a-sum:--$A^T+B^T=(A+B)^T$.">
-<a class="anchor" href="#Show-that-the-sum-of-transposes-is-equal-to-the-transpose-of-a-sum:--%24A%5ET+B%5ET=(A+B)%5ET%24." aria-hidden="true"><span class="octicon octicon-link"></span></a>Show that the sum of transposes is equal to the transpose of a sum:  $A^T+B^T=(A+B)^T$.<a class="anchor-link" href="#Show-that-the-sum-of-transposes-is-equal-to-the-transpose-of-a-sum:--%24A%5ET+B%5ET=(A+B)%5ET%24."> </a>
-</h3>
+<h3 id="Show-that-the-sum-of-transposes-is-equal-to-the-transpose-of-a-sum:--$A^T+B^T=(A+B)^T$.">Show that the sum of transposes is equal to the transpose of a sum:  $A^T+B^T=(A+B)^T$.<a class="anchor-link" href="#Show-that-the-sum-of-transposes-is-equal-to-the-transpose-of-a-sum:--$A^T+B^T=(A+B)^T$."> </a></h3>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's consider a second matrix, $B$</p>
 
@@ -413,8 +476,7 @@ array([[ 7.975751 ,  7.70928  ,  8.388272 , 11.001523 ],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The transpose would be</p>
 
@@ -449,16 +511,14 @@ array([[ 7.975751 ,  7.6716766,  9.765643 ,  8.200825 ,  8.75681  ],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>$A^T+B^T$</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The sum of the transposed matrices would be</p>
 
@@ -493,16 +553,14 @@ array([[ 7.975751, 11.671677, 17.765644, 20.200825, 24.75681 ],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>$(A+B)^T$</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The transposed sum would be</p>
 
@@ -537,8 +595,7 @@ array([[ 7.975751, 11.671677, 17.765644, 20.200825, 24.75681 ],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>$A^T+B^T == (A+B)^T$ ?</p>
 
@@ -572,25 +629,20 @@ array([[ True,  True,  True,  True,  True],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>All the numbers are equal, we can see that by looking at the results</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Given-any-square-matrix-$A$-,-is--$A+A^T$--always-symmetric?-Why?">
-<a class="anchor" href="#Given-any-square-matrix-%24A%24-,-is--%24A+A%5ET%24--always-symmetric?-Why?" aria-hidden="true"><span class="octicon octicon-link"></span></a>Given any square matrix $A$ , is  $A+A^T$  always symmetric? Why?<a class="anchor-link" href="#Given-any-square-matrix-%24A%24-,-is--%24A+A%5ET%24--always-symmetric?-Why?"> </a>
-</h3>
+<h3 id="Given-any-square-matrix-$A$-,-is--$A+A^T$--always-symmetric?-Why?">Given any square matrix $A$ , is  $A+A^T$  always symmetric? Why?<a class="anchor-link" href="#Given-any-square-matrix-$A$-,-is--$A+A^T$--always-symmetric?-Why?"> </a></h3>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's define a square matrix</p>
 
@@ -624,8 +676,7 @@ array([[ 0.,  1.,  2.,  3.],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The tranpose of the same would be</p>
 
@@ -670,8 +721,7 @@ array([[ 0.,  4.,  8., 12.],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The sum of the tensors</p>
 
@@ -705,8 +755,7 @@ array([[ 0.,  5., 10., 15.],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's see if the condition stands</p>
 
@@ -740,25 +789,20 @@ array([[ True,  True,  True,  True],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>I guess since we add the rows and columns of the same matrix and its transpose and also since addition is commutative (ie) $A+B = B+A$, all the numbers we add endup becoming equal in terms of their respective positions, so even tranposing the resultant matrix ends up being equal to the former.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Output-of-len(X)-for-tensor-$X$-shaped-(2,-3,-4)-and-does-len(X)-always-correspond-to-the-length-of-a-certain-axis-of-$X$?-What-is-that-axis?">
-<a class="anchor" href="#Output-of-len(X)-for-tensor-%24X%24-shaped-(2,-3,-4)-and-does-len(X)-always-correspond-to-the-length-of-a-certain-axis-of-%24X%24?-What-is-that-axis?" aria-hidden="true"><span class="octicon octicon-link"></span></a>Output of <code>len(X)</code> for tensor $X$ shaped (2, 3, 4) and does <code>len(X)</code> always correspond to the length of a certain axis of $X$? What is that axis?<a class="anchor-link" href="#Output-of-len(X)-for-tensor-%24X%24-shaped-(2,-3,-4)-and-does-len(X)-always-correspond-to-the-length-of-a-certain-axis-of-%24X%24?-What-is-that-axis?"> </a>
-</h3>
+<h3 id="Output-of-len(X)-for-tensor-$X$-shaped-(2,-3,-4)-and-does-len(X)-always-correspond-to-the-length-of-a-certain-axis-of-$X$?-What-is-that-axis?">Output of <code>len(X)</code> for tensor $X$ shaped (2, 3, 4) and does <code>len(X)</code> always correspond to the length of a certain axis of $X$? What is that axis?<a class="anchor-link" href="#Output-of-len(X)-for-tensor-$X$-shaped-(2,-3,-4)-and-does-len(X)-always-correspond-to-the-length-of-a-certain-axis-of-$X$?-What-is-that-axis?"> </a></h3>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's consider the following as $X$</p>
 
@@ -828,8 +872,7 @@ array([[[ 0,  1,  2,  3],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see that the length returns the size of the first axis, let us see if it does the same for the other arbitrary tensors</p>
 
@@ -977,25 +1020,20 @@ array([[[[ 5.9411087,  6.242239 ,  4.4269447,  7.913884 ,  7.8960876,
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>No matter what the shape of the tensor <code>len</code> always picks the first/outermost axis.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="What-happens-when-we-divide-$A$-by-the-sum-of-it's-second-axis?-A-/-A.sum(axis=1)">
-<a class="anchor" href="#What-happens-when-we-divide-%24A%24-by-the-sum-of-it's-second-axis?-A-/-A.sum(axis=1)" aria-hidden="true"><span class="octicon octicon-link"></span></a>What happens when we divide $A$ by the sum of it's second axis? <code>A / A.sum(axis=1)</code><a class="anchor-link" href="#What-happens-when-we-divide-%24A%24-by-the-sum-of-it's-second-axis?-A-/-A.sum(axis=1)"> </a>
-</h3>
+<h3 id="What-happens-when-we-divide-$A$-by-the-sum-of-it's-second-axis?-A-/-A.sum(axis=1)">What happens when we divide $A$ by the sum of it's second axis? <code>A / A.sum(axis=1)</code><a class="anchor-link" href="#What-happens-when-we-divide-$A$-by-the-sum-of-it's-second-axis?-A-/-A.sum(axis=1)"> </a></h3>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's define $A$</p>
 
@@ -1047,7 +1085,6 @@ array([[ 0.,  1.,  2.,  3.],
 <details class="description">
       <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
         <p>
-</p>
 <div class="output_wrapper">
 <div class="output">
 
@@ -1070,7 +1107,7 @@ array([[ 0.,  1.,  2.,  3.],
 <span class="ansi-green-fg">   1127</span>         <span class="ansi-red-intense-fg ansi-bold"># Even if dispatching the op failed, the RHS may be a tensor aware</span>
 
 <span class="ansi-green-intense-fg ansi-bold">~\miniconda3\envs\tensor_env\lib\site-packages\tensorflow\python\util\dispatch.py</span> in <span class="ansi-cyan-fg">wrapper</span><span class="ansi-blue-intense-fg ansi-bold">(*args, **kwargs)</span>
-<span class="ansi-green-fg">    199</span>     <span class="ansi-blue-intense-fg ansi-bold">"""Call target, and fall back on dispatchers if there is a TypeError."""</span>
+<span class="ansi-green-fg">    199</span>     <span class="ansi-blue-intense-fg ansi-bold">&#34;&#34;&#34;Call target, and fall back on dispatchers if there is a TypeError.&#34;&#34;&#34;</span>
 <span class="ansi-green-fg">    200</span>     <span class="ansi-green-intense-fg ansi-bold">try</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
 <span class="ansi-green-intense-fg ansi-bold">--&gt; 201</span><span class="ansi-yellow-intense-fg ansi-bold">       </span><span class="ansi-green-intense-fg ansi-bold">return</span> target<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">*</span>args<span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-yellow-intense-fg ansi-bold">**</span>kwargs<span class="ansi-yellow-intense-fg ansi-bold">)</span>
 <span class="ansi-green-fg">    202</span>     <span class="ansi-green-intense-fg ansi-bold">except</span> <span class="ansi-yellow-intense-fg ansi-bold">(</span>TypeError<span class="ansi-yellow-intense-fg ansi-bold">,</span> ValueError<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
@@ -1078,7 +1115,7 @@ array([[ 0.,  1.,  2.,  3.],
 
 <span class="ansi-green-intense-fg ansi-bold">~\miniconda3\envs\tensor_env\lib\site-packages\tensorflow\python\ops\math_ops.py</span> in <span class="ansi-cyan-fg">truediv</span><span class="ansi-blue-intense-fg ansi-bold">(x, y, name)</span>
 <span class="ansi-green-fg">   1295</span>     TypeError<span class="ansi-yellow-intense-fg ansi-bold">:</span> If<span class="ansi-red-fg"> </span><span class="ansi-red-fg">`</span>x<span class="ansi-red-fg">`</span> <span class="ansi-green-intense-fg ansi-bold">and</span><span class="ansi-red-fg"> </span><span class="ansi-red-fg">`</span>y<span class="ansi-red-fg">`</span> have different dtypes<span class="ansi-yellow-intense-fg ansi-bold">.</span>
-<span class="ansi-green-fg">   1296</span>   """
+<span class="ansi-green-fg">   1296</span>   &#34;&#34;&#34;
 <span class="ansi-green-intense-fg ansi-bold">-&gt; 1297</span><span class="ansi-yellow-intense-fg ansi-bold">   </span><span class="ansi-green-intense-fg ansi-bold">return</span> _truediv_python3<span class="ansi-yellow-intense-fg ansi-bold">(</span>x<span class="ansi-yellow-intense-fg ansi-bold">,</span> y<span class="ansi-yellow-intense-fg ansi-bold">,</span> name<span class="ansi-yellow-intense-fg ansi-bold">)</span>
 <span class="ansi-green-fg">   1298</span> 
 <span class="ansi-green-fg">   1299</span> 
@@ -1098,7 +1135,7 @@ array([[ 0.,  1.,  2.,  3.],
 <span class="ansi-green-fg">   7444</span>       <span class="ansi-green-intense-fg ansi-bold">pass</span>
 
 <span class="ansi-green-intense-fg ansi-bold">~\miniconda3\envs\tensor_env\lib\site-packages\tensorflow\python\framework\ops.py</span> in <span class="ansi-cyan-fg">raise_from_not_ok_status</span><span class="ansi-blue-intense-fg ansi-bold">(e, name)</span>
-<span class="ansi-green-fg">   6841</span>   message <span class="ansi-yellow-intense-fg ansi-bold">=</span> e<span class="ansi-yellow-intense-fg ansi-bold">.</span>message <span class="ansi-yellow-intense-fg ansi-bold">+</span> <span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">" name: "</span> <span class="ansi-yellow-intense-fg ansi-bold">+</span> name <span class="ansi-green-intense-fg ansi-bold">if</span> name <span class="ansi-green-intense-fg ansi-bold">is</span> <span class="ansi-green-intense-fg ansi-bold">not</span> <span class="ansi-green-intense-fg ansi-bold">None</span> <span class="ansi-green-intense-fg ansi-bold">else</span> <span class="ansi-blue-intense-fg ansi-bold">""</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">   6841</span>   message <span class="ansi-yellow-intense-fg ansi-bold">=</span> e<span class="ansi-yellow-intense-fg ansi-bold">.</span>message <span class="ansi-yellow-intense-fg ansi-bold">+</span> <span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-blue-intense-fg ansi-bold">&#34; name: &#34;</span> <span class="ansi-yellow-intense-fg ansi-bold">+</span> name <span class="ansi-green-intense-fg ansi-bold">if</span> name <span class="ansi-green-intense-fg ansi-bold">is</span> <span class="ansi-green-intense-fg ansi-bold">not</span> <span class="ansi-green-intense-fg ansi-bold">None</span> <span class="ansi-green-intense-fg ansi-bold">else</span> <span class="ansi-blue-intense-fg ansi-bold">&#34;&#34;</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
 <span class="ansi-green-fg">   6842</span>   <span class="ansi-red-intense-fg ansi-bold"># pylint: disable=protected-access</span>
 <span class="ansi-green-intense-fg ansi-bold">-&gt; 6843</span><span class="ansi-yellow-intense-fg ansi-bold">   </span>six<span class="ansi-yellow-intense-fg ansi-bold">.</span>raise_from<span class="ansi-yellow-intense-fg ansi-bold">(</span>core<span class="ansi-yellow-intense-fg ansi-bold">.</span>_status_to_exception<span class="ansi-yellow-intense-fg ansi-bold">(</span>e<span class="ansi-yellow-intense-fg ansi-bold">.</span>code<span class="ansi-yellow-intense-fg ansi-bold">,</span> message<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-green-intense-fg ansi-bold">None</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
 <span class="ansi-green-fg">   6844</span>   <span class="ansi-red-intense-fg ansi-bold"># pylint: enable=protected-access</span>
@@ -1112,13 +1149,12 @@ array([[ 0.,  1.,  2.,  3.],
 
 </div>
 </div>
-
+</p>
     </details>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Ok, there seems to be shape inconsistencies to the resultant sum tensor. Let's see the sum output for the axes in tensor.</p>
 
@@ -1191,16 +1227,14 @@ array([[ 0.,  1.,  2.,  3.],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So I think, When we sum a tensor on a particular axis, the shape of the resultant tensor will end taking the shape with the other remaining axes, for example a tensor with shape <code>(5, 4 ,3)</code> when summed up along the third axis <code>(2)</code> the resultant tensor would be of shape <code>(5, 4)</code></p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The shapes for the tensors summed along the rest of the axes can be understood by the same.</p>
 <div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -1213,8 +1247,7 @@ array([[ 0.,  1.,  2.,  3.],
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>When we do the division with the other resultant tensor, we can easily divide with it since the shapes follow the broadcasting rules</p>
 <div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">-</span> <span class="mi">5</span> <span class="n">X</span> <span class="mi">4</span>
@@ -1254,8 +1287,7 @@ array([[0.        , 0.02222222, 0.04      , 0.05454545],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A fellow learner suggested to reframe the question <a href="https://discuss.d2l.ai/t/linear-algebra/196/7?u=manimaran_p">here</a>, and said that the following code is what would have been expected by the one who framed the question.</p>
 
@@ -1300,8 +1332,7 @@ array([[0.        , 0.16666667, 0.33333334, 0.5       ],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's see the shapes and values of the numerator and denominator of the above</p>
 
@@ -1374,45 +1405,38 @@ Denominator: (5, 1)
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So if we compare the values, each value in <code>A</code> has been divided by the summation of each of it's rows</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="When-traveling-between-two-points-in-Manhattan,-what-is-the-distance-that-you-need-to-cover-in-terms-of-the-coordinates,-i.e.,-in-terms-of-avenues-and-streets?-Can-you-travel-diagonally?">
-<a class="anchor" href="#When-traveling-between-two-points-in-Manhattan,-what-is-the-distance-that-you-need-to-cover-in-terms-of-the-coordinates,-i.e.,-in-terms-of-avenues-and-streets?-Can-you-travel-diagonally?" aria-hidden="true"><span class="octicon octicon-link"></span></a>When traveling between two points in Manhattan, what is the distance that you need to cover in terms of the coordinates, i.e., in terms of avenues and streets? Can you travel diagonally?<a class="anchor-link" href="#When-traveling-between-two-points-in-Manhattan,-what-is-the-distance-that-you-need-to-cover-in-terms-of-the-coordinates,-i.e.,-in-terms-of-avenues-and-streets?-Can-you-travel-diagonally?"> </a>
-</h3>
+<h3 id="When-traveling-between-two-points-in-Manhattan,-what-is-the-distance-that-you-need-to-cover-in-terms-of-the-coordinates,-i.e.,-in-terms-of-avenues-and-streets?-Can-you-travel-diagonally?">When traveling between two points in Manhattan, what is the distance that you need to cover in terms of the coordinates, i.e., in terms of avenues and streets? Can you travel diagonally?<a class="anchor-link" href="#When-traveling-between-two-points-in-Manhattan,-what-is-the-distance-that-you-need-to-cover-in-terms-of-the-coordinates,-i.e.,-in-terms-of-avenues-and-streets?-Can-you-travel-diagonally?"> </a></h3>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>A user <a href="https://discuss.d2l.ai/t/linear-algebra/30/7">suggested</a> to look at the streets of manhattan in google maps, to understand the question better,! as suggested the maps picture looked like a big piece of land cut into several small rectangular boxes, very much like 2d coordinate space, where each intersection of street can be treated as an point in that space.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's look at sample screenshot from google maps of manhattan streets.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><figure>
   
-    <img class="docimage" src="/Blog-Posts/images/copied_from_nb/../images/manhattan.png" alt="">
+    <img class="docimage" src="/Blog-Posts/images/copied_from_nb/../images/manhattan.png" alt="" />
     
     
 </figure>
@@ -1421,36 +1445,30 @@ Denominator: (5, 1)
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The question asks us to find the distance that we need to cover if we need to go from one point to another in terms of streets and avenues.<br>
+<p>The question asks us to find the distance that we need to cover if we need to go from one point to another in terms of streets and avenues.<br />
 Looks like there is a formula called <code>Manhattan distance</code> for a reason!</p>
-<blockquote>
-<p>The distance between two points measured along axes at right angles. In a plane with p1 at (x1, y1) and p2 at (x2, y2), it is |x1 - x2| + |y1 - y2|.
+<blockquote><p>The distance between two points measured along axes at right angles. In a plane with p1 at (x1, y1) and p2 at (x2, y2), it is |x1 - x2| + |y1 - y2|.
 <sub>referred from <a href="https://xlinux.nist.gov/dads/HTML/manhattanDistance.html">here</a></sub>
 and there is also a special geometry called taxicab geometry, with manhattan distance as its metric, there are some good images and content to understand better <a href="https://study.com/academy/lesson/taxicab-geometry-history-formula.html">here</a></p>
 </blockquote>
 <p>if we need to measure the distance in terms of streets and avenues, we need to consider them as dimensions (x(street),y(avenues)), let us consider that we are in the metro point in <strong>72nd</strong> street and we need to go to the Jones Wood Foundry in <strong>76th</strong> street.</p>
-<p>Let's define them as coordinates,<br>
-72nd street, 2nd Avenue -&gt; $(72, 2)$<br>
+<p>Let's define them as coordinates,<br />
+72nd street, 2nd Avenue -&gt; $(72, 2)$<br />
 76th street, 1st Avenue -&gt; $(76, 1)$</p>
 <p>so according to the formula the answer would be $(4, 1)$ ie 4 streets and 1 avenue, and we don't travel diagonally unless we are flying.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="The-summation-outputs-for-tensor-with-shape-(2,-3,-4)-along-axis-0,-1,-and-2.">
-<a class="anchor" href="#The-summation-outputs-for-tensor-with-shape-(2,-3,-4)-along-axis-0,-1,-and-2." aria-hidden="true"><span class="octicon octicon-link"></span></a>The summation outputs for tensor with shape (2, 3, 4) along axis 0, 1, and 2.<a class="anchor-link" href="#The-summation-outputs-for-tensor-with-shape-(2,-3,-4)-along-axis-0,-1,-and-2."> </a>
-</h3>
+<h3 id="The-summation-outputs-for-tensor-with-shape-(2,-3,-4)-along-axis-0,-1,-and-2.">The summation outputs for tensor with shape (2, 3, 4) along axis 0, 1, and 2.<a class="anchor-link" href="#The-summation-outputs-for-tensor-with-shape-(2,-3,-4)-along-axis-0,-1,-and-2."> </a></h3>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>I think I have answered this in the question about <code>A / A.sum(axis=1)</code>, that should apply to the any arbitrary shape, for this one it would turnout to be the following</p>
 <div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
@@ -1463,20 +1481,13 @@ and there is also a special geometry called taxicab geometry, with manhattan dis
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Feed-a-tensor-with-3-or-more-axes-to-the-linalg.norm.">
-<a class="anchor" href="#Feed-a-tensor-with-3-or-more-axes-to-the-linalg.norm." aria-hidden="true"><span class="octicon octicon-link"></span></a>Feed a tensor with 3 or more axes to the <code>linalg.norm</code>.<a class="anchor-link" href="#Feed-a-tensor-with-3-or-more-axes-to-the-linalg.norm."> </a>
-</h3>
-<h3 id="What-does-this-function-compute-for-tensors-of-arbitrary-shape?">
-<a class="anchor" href="#What-does-this-function-compute-for-tensors-of-arbitrary-shape?" aria-hidden="true"><span class="octicon octicon-link"></span></a>What does this function compute for tensors of arbitrary shape?<a class="anchor-link" href="#What-does-this-function-compute-for-tensors-of-arbitrary-shape?"> </a>
-</h3>
+<h3 id="Feed-a-tensor-with-3-or-more-axes-to-the-linalg.norm.">Feed a tensor with 3 or more axes to the <code>linalg.norm</code>.<a class="anchor-link" href="#Feed-a-tensor-with-3-or-more-axes-to-the-linalg.norm."> </a></h3><h3 id="What-does-this-function-compute-for-tensors-of-arbitrary-shape?">What does this function compute for tensors of arbitrary shape?<a class="anchor-link" href="#What-does-this-function-compute-for-tensors-of-arbitrary-shape?"> </a></h3>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's take a 3-d tensor</p>
 
@@ -1544,8 +1555,7 @@ array([[[ 0.,  1.,  2.,  3.,  4.],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's take an arbitrary shaped tensor</p>
 
@@ -1638,8 +1648,7 @@ array([[[[ 0.,  1.,  2.,  3.,  4.],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>tf.norm</code> still calculates the square root of squared sum of all numbers in the tensor, equivalent to the following</p>
 
@@ -1683,8 +1692,7 @@ array([[[[ 0.,  1.,  2.,  3.,  4.],
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>I am not sure if there was any change of behaviour expected in this, so I should try using <code>mxnet</code> to see if there is a difference in the above calculation of l2 norm.</p>
 
@@ -1695,7 +1703,7 @@ array([[[[ 0.,  1.,  2.,  3.,  4.],
 
 
 
-  </div><!-- from https://github.com/utterance/utterances -->
+      </div><!-- from https://github.com/utterance/utterances -->
 <script src="https://utteranc.es/client.js"
         repo="mani2106/Blog-Posts"
         issue-term="title"
@@ -1704,6 +1712,8 @@ array([[[[ 0.,  1.,  2.,  3.,  4.],
         crossorigin="anonymous"
         async>
 </script><a class="u-url" href="/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/09/d2lai-exercises-pt3.html" hidden></a>
+    </main>
+  </div>
 </article>
       </div>
     </main><footer class="site-footer h-card">

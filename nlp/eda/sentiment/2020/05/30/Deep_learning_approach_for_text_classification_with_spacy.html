@@ -3,9 +3,9 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Mother’s day Sentiment analysis - with spaCy | Manimaran Panneerselvam’s blog</title>
-<meta name="generator" content="Jekyll v4.1.1" />
+<meta name="generator" content="Jekyll v4.3.4" />
 <meta property="og:title" content="Mother’s day Sentiment analysis - with spaCy" />
 <meta name="author" content="Manimaran Panneerselvam" />
 <meta property="og:locale" content="en_US" />
@@ -15,11 +15,13 @@
 <meta property="og:url" content="https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/05/30/Deep_learning_approach_for_text_classification_with_spacy.html" />
 <meta property="og:site_name" content="Manimaran Panneerselvam’s blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-05-30T00:00:00-05:00" />
+<meta property="article:published_time" content="2020-05-30T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Mother’s day Sentiment analysis - with spaCy" />
 <script type="application/ld+json">
-{"url":"https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/05/30/Deep_learning_approach_for_text_classification_with_spacy.html","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/05/30/Deep_learning_approach_for_text_classification_with_spacy.html"},"headline":"Mother’s day Sentiment analysis - with spaCy","dateModified":"2020-05-30T00:00:00-05:00","datePublished":"2020-05-30T00:00:00-05:00","author":{"@type":"Person","name":"Manimaran Panneerselvam"},"description":"In this notebook I try to use a competition dataset of tweets reacting to Mother’s day and classify their sentiments with spaCy","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Manimaran Panneerselvam"},"dateModified":"2020-05-30T00:00:00+00:00","datePublished":"2020-05-30T00:00:00+00:00","description":"In this notebook I try to use a competition dataset of tweets reacting to Mother’s day and classify their sentiments with spaCy","headline":"Mother’s day Sentiment analysis - with spaCy","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/05/30/Deep_learning_approach_for_text_classification_with_spacy.html"},"url":"https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/05/30/Deep_learning_approach_for_text_classification_with_spacy.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Panneerselvam's blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
+<link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Panneerselvam&apos;s blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
 
 
@@ -82,6 +84,71 @@ window.onload = wrap_img;
     elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
     });
 </script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<style>
+.post-container {
+  display: flex;
+  position: relative;
+}
+
+.toc-sidebar {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  width: 250px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 16px;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(27, 31, 36, 0.1);
+  font-size: 14px;
+}
+
+.toc-sidebar h2 {
+  font-size: 16px;
+  margin-top: 0;
+  color: #24292f;
+}
+
+.toc-sidebar ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc-sidebar li {
+  margin: 4px 0;
+}
+
+.toc-sidebar a {
+  color: #0969da;
+  text-decoration: none;
+}
+
+.toc-sidebar a:hover {
+  text-decoration: underline;
+}
+
+.post-main {
+  margin-right: 280px;
+  flex: 1;
+  max-width: calc(100% - 280px);
+}
+
+@media (max-width: 768px) {
+  .toc-sidebar {
+    display: none;
+  }
+  .post-main {
+    margin-right: 0;
+    max-width: 100%;
+  }
+}
+</style>
 </head>
 <body><header class="site-header">
 
@@ -103,7 +170,7 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Mother&#39;s day Sentiment analysis - with spaCy</h1><p class="page-description">In this notebook I try to use a competition dataset of tweets reacting to Mother's day and classify their sentiments with spaCy</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-05-30T00:00:00-05:00" itemprop="datePublished">
+    <h1 class="post-title p-name" itemprop="name headline">Mother&#39;s day Sentiment analysis - with spaCy</h1><p class="page-description">In this notebook I try to use a competition dataset of tweets reacting to Mother's day and classify their sentiments with spaCy</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-05-30T00:00:00+00:00" itemprop="datePublished">
         May 30, 2020
       </time>
        • <span class="read-time" title="Estimated read time">
@@ -114,7 +181,7 @@ window.onload = wrap_img;
 </span></p>
 
     
-      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i>
       
         <a class="category-tags-link" href="/Blog-Posts/categories/#nlp">nlp</a>
         &nbsp;
@@ -152,39 +219,33 @@ window.onload = wrap_img;
         </div>
       </header>
 
-  <div class="post-content e-content" itemprop="articleBody">
-    <ul class="section-nav">
-<li class="toc-entry toc-h1"><a href="#Setup-paths">Setup paths </a>
-<ul>
-<li class="toc-entry toc-h2"><a href="#Clean-links-with-regex">Clean links with regex </a></li>
-</ul>
-</li>
-<li class="toc-entry toc-h1"><a href="#Class-distribution">Class distribution </a></li>
-<li class="toc-entry toc-h1"><a href="#Deep-Learning-approach-with-Spacy">Deep Learning approach with Spacy </a>
-<ul>
-<li class="toc-entry toc-h3"><a href="#Start-Pretraining">Start Pretraining </a>
-<ul>
-<li class="toc-entry toc-h4"><a href="#Training-results">Training results </a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-entry toc-h1"><a href="#Text-classifier-with-Spacy">Text classifier with Spacy </a>
-<ul>
-<li class="toc-entry toc-h2"><a href="#Data-Generation">Data Generation </a></li>
-<li class="toc-entry toc-h2"><a href="#Validate-data-input-for-spacy">Validate data input for spacy </a></li>
-<li class="toc-entry toc-h2"><a href="#Data-Generation-(again)">Data Generation (again) </a></li>
-<li class="toc-entry toc-h2"><a href="#Validate-(again)">Validate (again) </a></li>
-<li class="toc-entry toc-h2"><a href="#Classifier-Training">Classifier Training </a></li>
-</ul>
-</li>
-<li class="toc-entry toc-h1"><a href="#Prediction-on-test-data">Prediction on test data </a>
-<ul>
-<li class="toc-entry toc-h2"><a href="#Clean-test-data">Clean test data </a></li>
-<li class="toc-entry toc-h2"><a href="#Prediction-distribution">Prediction distribution </a></li>
-</ul>
-</li>
-</ul><!--
+  <div class="post-container">
+    <aside class="toc-sidebar">
+      <!-- this handles the automatic toc. use ## for subheads to auto-generate the on-page minitoc. if you use html tags, you must supply an ID for the heading element in order for it to appear in the minitoc. -->
+<script>
+    $( document ).ready(function() {
+      // Handler for .ready() called.
+    
+    $('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2,h3,h4' });
+    
+    /* this offset helps account for the space taken up by the floating toolbar. */
+    $('#toc').on('click', 'a', function() {
+      var target = $(this.getAttribute('href'))
+        , scroll_target = target.offset().top
+    
+      $(window).scrollTop(scroll_target - 10);
+      return false
+    })
+      
+    });
+</script>
+    
+<div id="toc"></div>
+
+    </aside>
+    <main class="post-main">
+      <div class="post-content e-content" itemprop="articleBody">
+        <!--
 #################################################
 ### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
 #################################################
@@ -193,17 +254,13 @@ window.onload = wrap_img;
 
 <div class="container" id="notebook-container">
         
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Setup-paths">
-<a class="anchor" href="#Setup-paths" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup paths<a class="anchor-link" href="#Setup-paths"> </a>
-</h1>
+<h1 id="Setup-paths">Setup paths<a class="anchor-link" href="#Setup-paths"> </a></h1>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We will use the method from my previous <a href="https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/05/23/_Hackerearth_mothers_day_sentiment.html">post</a> to clean the text.</p>
 
@@ -220,8 +277,8 @@ window.onload = wrap_img;
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">DATA_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">'dataset/'</span><span class="p">)</span>
-<span class="n">DRIVE_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">r</span><span class="s2">"/content/drive/My Drive/Spacy/Pretrained"</span><span class="p">)</span>
+<span class="n">DATA_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;dataset/&#39;</span><span class="p">)</span>
+<span class="n">DRIVE_PATH</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;/content/drive/My Drive/Spacy/Pretrained&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -238,7 +295,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="o">/</span><span class="s1">'train.csv'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="o">/</span><span class="s1">&#39;train.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">train_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
@@ -340,8 +397,7 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's check average length of text before cleaning.</p>
 
@@ -353,20 +409,19 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing code_cell rendered">
 <details class="description">
       <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
-        <p></p>
-<div class="input">
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span>
-    <span class="n">train_data</span><span class="p">[</span><span class="s1">'original_text'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;original_text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 <span class="p">)</span><span class="o">/</span><span class="n">train_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 
     </div>
 </div>
 </div>
-
+</p>
     </details>
 <div class="output_wrapper">
 <div class="output">
@@ -385,12 +440,9 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Clean-links-with-regex">
-<a class="anchor" href="#Clean-links-with-regex" aria-hidden="true"><span class="octicon octicon-link"></span></a>Clean links with regex<a class="anchor-link" href="#Clean-links-with-regex"> </a>
-</h2>
+<h2 id="Clean-links-with-regex">Clean links with regex<a class="anchor-link" href="#Clean-links-with-regex"> </a></h2>
 </div>
 </div>
 </div>
@@ -401,9 +453,9 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_data</span><span class="p">[</span><span class="s1">'original_text'</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;original_text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
     <span class="c1"># Regex is match : the text to replace with</span>
-    <span class="p">{</span><span class="s1">'(https?:\/\/.*|pic.*)[</span><span class="se">\r\n</span><span class="s1">]*'</span> <span class="p">:</span> <span class="s1">''</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;(https?:\/\/.*|pic.*)[</span><span class="se">\r\n</span><span class="s1">]*&#39;</span> <span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">},</span>
     <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
@@ -414,16 +466,14 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's check the average length again.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The regex did it's job I suppose.</p>
 
@@ -538,8 +588,7 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>In my previous exploratory <a href="https://mani2106.github.io/Blog-Posts/nlp/eda/sentiment/2020/05/23/_Hackerearth_mothers_day_sentiment.html">post</a>, I have seen the data and I think that the features other than the text may not be required, (ie)</p>
 <ul>
@@ -551,28 +600,18 @@ window.onload = wrap_img;
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Class-distribution">
-<a class="anchor" href="#Class-distribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Class distribution<a class="anchor-link" href="#Class-distribution"> </a>
-</h1>
+<h1 id="Class-distribution">Class distribution<a class="anchor-link" href="#Class-distribution"> </a></h1>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>
-<code>0</code> must mean <code>Neutral</code>
-</li>
-<li>
-<code>1</code> means <code>Positive</code>
-</li>
-<li>
-<code>-1</code> means <code>Negative</code>
-</li>
+<li><code>0</code> must mean <code>Neutral</code></li>
+<li><code>1</code> means <code>Positive</code></li>
+<li><code>-1</code> means <code>Negative</code></li>
 </ul>
 
 </div>
@@ -585,7 +624,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_data</span><span class="p">[</span><span class="s1">'sentiment_class'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">'bar'</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;sentiment_class&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -610,7 +649,8 @@ window.onload = wrap_img;
 
 
 <div class="output_png output_subarea ">
-<img src="data:image/png;base64,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%0A">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAX0AAAD4CAYAAAAAczaOAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADh0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uMy4yLjEsIGh0dHA6Ly9tYXRwbG90bGliLm9yZy+j8jraAAAQ1ElEQVR4nO3df4xlZX3H8fenbMGqqYA7rri7djd11aCpkUyRxrRRafmlcflDDaQtW0uzaQtWq6mCTUqipcHalGpqSVbZCo0BibWyUSrdopY0LciAiiyITFDc2YA7CtIfRHH12z/moV6HmZ2de2fvAM/7lUzmnO/z3Hu+N5N87slzz52TqkKS1IefWe0GJEnjY+hLUkcMfUnqiKEvSR0x9CWpI2tWu4GDWbt2bW3atGm125CkJ5Vbb731O1U1sdDYEzr0N23axNTU1Gq3IUlPKknuW2zM5R1J6oihL0kdMfQlqSOGviR1xNCXpI4Y+pLUEUNfkjpi6EtSRwx9SerIE/obueO26YLPrHYLh9U3L3ntarcgaZV5pi9JHTH0Jakjhr4kdcTQl6SOGPqS1BFDX5I6YuhLUkcMfUnqyJKhn2Rnkv1J7phXf0uSryXZk+QvB+oXJplOcneSUwfqp7XadJILVvZlSJIOxaF8I/ejwN8CVz5WSPJqYCvwsqr6QZLntPrxwFnAS4DnAf+a5IXtYR8CfgOYAW5Jsquq7lypFyJJWtqSoV9VNybZNK/8B8AlVfWDNmd/q28Frm71bySZBk5sY9NVdS9AkqvbXENfksZo2DX9FwK/muTmJP+W5JdbfT2wd2DeTKstVn+cJNuTTCWZmp2dHbI9SdJChg39NcCxwEnAnwDXJMlKNFRVO6pqsqomJyYmVuIpJUnNsP9lcwb4ZFUV8MUkPwbWAvuAjQPzNrQaB6lLksZk2DP9TwGvBmgf1B4JfAfYBZyV5Kgkm4EtwBeBW4AtSTYnOZK5D3t3jdq8JGl5ljzTT3IV8CpgbZIZ4CJgJ7CzXcb5KLCtnfXvSXINcx/QHgDOq6oftec5H7geOALYWVV7DsPrkSQdxKFcvXP2IkO/tcj8i4GLF6hfB1y3rO4kSSvKb+RKUkcMfUnqiKEvSR0x9CWpI4a+JHXE0Jekjhj6ktQRQ1+SOmLoS1JHDH1J6oihL0kdMfQlqSOGviR1xNCXpI4Y+pLUkSVDP8nOJPvbDVPmj70jSSVZ2/aT5INJppPcnuSEgbnbktzTfrat7MuQJB2KQznT/yhw2vxiko3AKcC3BsqnM3eLxC3AduCyNvdY5u649QrgROCiJMeM0rgkafmWDP2quhF4cIGhS4F3AjVQ2wpcWXNuAo5OchxwKrC7qh6sqoeA3SzwRiJJOryGWtNPshXYV1VfmTe0Htg7sD/TaovVF3ru7UmmkkzNzs4O054kaRHLDv0kTwfeDfzZyrcDVbWjqiaranJiYuJwHEKSujXMmf4vApuBryT5JrABuC3Jc4F9wMaBuRtabbG6JGmMlh36VfXVqnpOVW2qqk3MLdWcUFUPALuAc9pVPCcBD1fV/cD1wClJjmkf4J7SapKkMTqUSzavAv4TeFGSmSTnHmT6dcC9wDTwYeAPAarqQeC9wC3t5z2tJkkaozVLTaiqs5cY3zSwXcB5i8zbCexcZn+SpBXkN3IlqSOGviR1xNCXpI4Y+pLUEUNfkjpi6EtSRwx9SeqIoS9JHTH0Jakjhr4kdcTQl6SOGPqS1BFDX5I6YuhLUkcMfUnqiKEvSR05lDtn7UyyP8kdA7X3J/laktuT/FOSowfGLkwyneTuJKcO1E9rtekkF6z8S5EkLeVQzvQ/Cpw2r7YbeGlV/RLwdeBCgCTHA2cBL2mP+bskRyQ5AvgQcDpwPHB2mytJGqMlQ7+qbgQenFf7l6o60HZvAja07a3A1VX1g6r6BnP3yj2x/UxX1b1V9ShwdZsrSRqjlVjT/13gn9v2emDvwNhMqy1Wf5wk25NMJZmanZ1dgfYkSY8ZKfST/ClwAPjYyrQDVbWjqiaranJiYmKlnlaSBKwZ9oFJfgd4HXByVVUr7wM2Dkzb0GocpC5JGpOhzvSTnAa8E3h9VT0yMLQLOCvJUUk2A1uALwK3AFuSbE5yJHMf9u4arXVJ0nIteaaf5CrgVcDaJDPARcxdrXMUsDsJwE1V9ftVtSfJNcCdzC37nFdVP2rPcz5wPXAEsLOq9hyG1yNJOoglQ7+qzl6gfPlB5l8MXLxA/TrgumV1J0laUX4jV5I6YuhLUkcMfUnqiKEvSR0x9CWpI4a+JHXE0Jekjhj6ktQRQ1+SOmLoS1JHDH1J6oihL0kdMfQlqSOGviR1xNCXpI4sGfpJdibZn+SOgdqxSXYnuaf9PqbVk+SDSaaT3J7khIHHbGvz70my7fC8HEnSwRzKmf5HgdPm1S4AbqiqLcANbR/gdOZukbgF2A5cBnNvEszdcesVwInARY+9UUiSxmfJ0K+qG4EH55W3Ale07SuAMwfqV9acm4CjkxwHnArsrqoHq+ohYDePfyORJB1mw67pr6uq+9v2A8C6tr0e2Dswb6bVFqs/TpLtSaaSTM3Ozg7ZniRpISN/kFtVBdQK9PLY8+2oqsmqmpyYmFipp5UkMXzof7st29B+72/1fcDGgXkbWm2xuiRpjIYN/V3AY1fgbAOuHaif067iOQl4uC0DXQ+ckuSY9gHuKa0mSRqjNUtNSHIV8CpgbZIZ5q7CuQS4Jsm5wH3Am9r064AzgGngEeDNAFX1YJL3Are0ee+pqvkfDkuSDrMlQ7+qzl5k6OQF5hZw3iLPsxPYuazuJEkrym/kSlJHDH1J6oihL0kdMfQlqSOGviR1xNCXpI4Y+pLUEUNfkjpi6EtSRwx9SeqIoS9JHTH0Jakjhr4kdcTQl6SOGPqS1JGRQj/JHyfZk+SOJFcleVqSzUluTjKd5ONJjmxzj2r7021800q8AEnSoRs69JOsB/4ImKyqlwJHAGcB7wMuraoXAA8B57aHnAs81OqXtnmSpDEadXlnDfBzSdYATwfuB14DfKKNXwGc2ba3tn3a+MlJMuLxJUnLMHToV9U+4K+AbzEX9g8DtwLfq6oDbdoMsL5trwf2tsceaPOfPf95k2xPMpVkanZ2dtj2JEkLGGV55xjmzt43A88DngGcNmpDVbWjqiaranJiYmLUp5MkDRhleefXgW9U1WxV/RD4JPBK4Oi23AOwAdjXtvcBGwHa+LOA745wfEnSMo0S+t8CTkry9LY2fzJwJ/B54A1tzjbg2ra9q+3Txj9XVTXC8SVJy7Rm6SkLq6qbk3wCuA04AHwJ2AF8Brg6yZ+32uXtIZcD/5BkGniQuSt9pBWz6YLPrHYLh9U3L3ntaregp4ChQx+gqi4CLppXvhc4cYG53wfeOMrxJD11PZXftJ9Ib9h+I1eSOmLoS1JHDH1J6oihL0kdMfQlqSOGviR1xNCXpI4Y+pLUEUNfkjpi6EtSRwx9SeqIoS9JHTH0Jakjhr4kdcTQl6SOGPqS1JGRQj/J0Uk+keRrSe5K8itJjk2yO8k97fcxbW6SfDDJdJLbk5ywMi9BknSoRj3T/wDw2ap6MfAy4C7gAuCGqtoC3ND2AU4HtrSf7cBlIx5bkrRMQ4d+kmcBv0a7B25VPVpV3wO2Ale0aVcAZ7btrcCVNecm4Ogkxw3duSRp2UY5098MzAJ/n+RLST6S5BnAuqq6v815AFjXttcDewceP9NqPyXJ9iRTSaZmZ2dHaE+SNN8oob8GOAG4rKpeDvwvP1nKAaCqCqjlPGlV7aiqyaqanJiYGKE9SdJ8o4T+DDBTVTe3/U8w9ybw7ceWbdrv/W18H7Bx4PEbWk2SNCZDh35VPQDsTfKiVjoZuBPYBWxrtW3AtW17F3BOu4rnJODhgWUgSdIYrBnx8W8BPpbkSOBe4M3MvZFck+Rc4D7gTW3udcAZwDTwSJsrSRqjkUK/qr4MTC4wdPICcws4b5TjSZJG4zdyJakjhr4kdcTQl6SOGPqS1BFDX5I6YuhLUkcMfUnqiKEvSR0x9CWpI4a+JHXE0Jekjhj6ktQRQ1+SOmLoS1JHDH1J6sjIoZ/kiHZj9E+3/c1Jbk4yneTj7QYrJDmq7U+38U2jHluStDwrcab/VuCugf33AZdW1QuAh4BzW/1c4KFWv7TNkySN0Uihn2QD8FrgI20/wGuYu0k6wBXAmW17a9unjZ/c5kuSxmTUM/2/Ad4J/LjtPxv4XlUdaPszwPq2vR7YC9DGH27zf0qS7UmmkkzNzs6O2J4kadDQoZ/kdcD+qrp1BfuhqnZU1WRVTU5MTKzkU0tS90a5MforgdcnOQN4GvDzwAeAo5OsaWfzG4B9bf4+YCMwk2QN8CzguyMcX5K0TEOf6VfVhVW1oao2AWcBn6uq3wQ+D7yhTdsGXNu2d7V92vjnqqqGPb4kafkOx3X67wLenmSauTX7y1v9cuDZrf524ILDcGxJ0kGMsrzz/6rqC8AX2va9wIkLzPk+8MaVOJ4kaTh+I1eSOmLoS1JHDH1J6oihL0kdMfQlqSOGviR1xNCXpI4Y+pLUEUNfkjpi6EtSRwx9SeqIoS9JHTH0Jakjhr4kdcTQl6SOjHKP3I1JPp/kziR7kry11Y9NsjvJPe33Ma2eJB9MMp3k9iQnrNSLkCQdmlHO9A8A76iq44GTgPOSHM/cHbFuqKotwA385A5ZpwNb2s924LIRji1JGsIo98i9v6pua9v/DdwFrAe2Ale0aVcAZ7btrcCVNecm5m6gftzQnUuSlm1F1vSTbAJeDtwMrKuq+9vQA8C6tr0e2DvwsJlWm/9c25NMJZmanZ1difYkSc3IoZ/kmcA/Am+rqv8aHKuqAmo5z1dVO6pqsqomJyYmRm1PkjRgpNBP8rPMBf7HquqTrfztx5Zt2u/9rb4P2Djw8A2tJkkak1Gu3glwOXBXVf31wNAuYFvb3gZcO1A/p13FcxLw8MAykCRpDNaM8NhXAr8NfDXJl1vt3cAlwDVJzgXuA97Uxq4DzgCmgUeAN49wbEnSEIYO/ar6dyCLDJ+8wPwCzhv2eJKk0fmNXEnqiKEvSR0x9CWpI4a+JHXE0Jekjhj6ktQRQ1+SOmLoS1JHDH1J6oihL0kdMfQlqSOGviR1xNCXpI4Y+pLUEUNfkjpi6EtSR8Ye+klOS3J3kukkF4z7+JLUs7GGfpIjgA8BpwPHA2cnOX6cPUhSz8Z9pn8iMF1V91bVo8DVwNYx9yBJ3RrlxujDWA/sHdifAV4xOCHJdmB72/2fJHePqbfVsBb4zrgOlveN60jd8O/35PVU/9v9wmID4w79JVXVDmDHavcxDkmmqmpytfvQcPz7PXn1/Lcb9/LOPmDjwP6GVpMkjcG4Q/8WYEuSzUmOBM4Cdo25B0nq1liXd6rqQJLzgeuBI4CdVbVnnD08wXSxjPUU5t/vyavbv12qarV7kCSNid/IlaSOGPqS1BFDX5I68oS7Tv+pLMmLmfsG8vpW2gfsqqq7Vq8rST3xTH9MkryLuX87EeCL7SfAVf7juSevJM9c7R40miRvXu0exsmrd8YkydeBl1TVD+fVjwT2VNWW1elMo0jyrap6/mr3oeH19jd0eWd8fgw8D7hvXv24NqYnqCRvX2wI8Ez/SSDJ7YsNAevG2ctqM/TH523ADUnu4Sf/dO75wAuA81etKx2KvwDeDxxYYMwl0ieHdcCpwEPz6gH+Y/ztrB5Df0yq6rNJXsjcv5ce/CD3lqr60ep1pkNwG/Cpqrp1/kCS31uFfrR8nwaeWVVfnj+Q5Avjb2f1uKYvLSHJi4DvVtV3BmrPraoHkqyrqm+vYnvSshj60hCS3FZVJ6x2H9JyuR4pDSer3YA0DENfGs6HV7sBaRgu70hSRzzTl6SOGPqS1BFDX5I6YuhLUkf+Dx6Pa2YHeRbzAAAAAElFTkSuQmCC
+" />
 </div>
 
 </div>
@@ -621,8 +661,7 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's see some sentences with negative examples, I am interested why they should be negative on a happy day(Mother's day)</p>
 
@@ -636,7 +675,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">list_of_neg_sents</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_data</span><span class="p">[</span><span class="s1">'sentiment_class'</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'original_text'</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">list_of_neg_sents</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;sentiment_class&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;original_text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -651,8 +690,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing code_cell rendered">
 <details class="description">
       <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
-        <p></p>
-<div class="input">
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
@@ -662,7 +700,7 @@ window.onload = wrap_img;
     </div>
 </div>
 </div>
-
+</p>
     </details>
 <div class="output_wrapper">
 <div class="output">
@@ -670,24 +708,24 @@ window.onload = wrap_img;
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>['Happy mothers day To all This doing a mothers days work. Today been quiet '
- 'but Had time to reflect. Dog walk, finish a jigsaw do the garden, learn few '
- 'more guitar chords, drunk some strawberry gin and tonic and watch Lee evens '
- 'on DVD. My favourite place to visit. #isolate ',
- 'Remembering the 3 most amazing ladies who made me who I am! My late '
- 'grandmother iris, mum carol and great grandmother Ethel. Missed but never '
- 'forgotten! Happy mothers day to all those great mums out there! Love sent to '
- 'all xxxx ',
- 'Happy Mothers Day to everyone tuning in. This is the 4th Round game between '
- 'me and @CastigersJ Live coverage on @Twitter , maybe one day @SkySportsRL or '
- 'on the OurLeague app',
- "Happy Mothers Day ! We hope your mums aren't planning to do any work around "
- 'the house today! Surely it can wait until next week? #plumbers '
- '#heatingspecialists #mothersday #mothersday ',
- "Happy mothers day to all those mums whos children can't be with them today. "
- 'My son Dylan lives in heaven I wish I could see him for one more hug. I wish '
- 'I could tell him how much I love and miss him. Huge happy mothers day to '
- 'your mum too.']
+<pre>[&#39;Happy mothers day To all This doing a mothers days work. Today been quiet &#39;
+ &#39;but Had time to reflect. Dog walk, finish a jigsaw do the garden, learn few &#39;
+ &#39;more guitar chords, drunk some strawberry gin and tonic and watch Lee evens &#39;
+ &#39;on DVD. My favourite place to visit. #isolate &#39;,
+ &#39;Remembering the 3 most amazing ladies who made me who I am! My late &#39;
+ &#39;grandmother iris, mum carol and great grandmother Ethel. Missed but never &#39;
+ &#39;forgotten! Happy mothers day to all those great mums out there! Love sent to &#39;
+ &#39;all xxxx &#39;,
+ &#39;Happy Mothers Day to everyone tuning in. This is the 4th Round game between &#39;
+ &#39;me and @CastigersJ Live coverage on @Twitter , maybe one day @SkySportsRL or &#39;
+ &#39;on the OurLeague app&#39;,
+ &#34;Happy Mothers Day ! We hope your mums aren&#39;t planning to do any work around &#34;
+ &#39;the house today! Surely it can wait until next week? #plumbers &#39;
+ &#39;#heatingspecialists #mothersday #mothersday &#39;,
+ &#34;Happy mothers day to all those mums whos children can&#39;t be with them today. &#34;
+ &#39;My son Dylan lives in heaven I wish I could see him for one more hug. I wish &#39;
+ &#39;I could tell him how much I love and miss him. Huge happy mothers day to &#39;
+ &#39;your mum too.&#39;]
 </pre>
 </div>
 </div>
@@ -698,57 +736,48 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Well some tweets actually express their feelings for their deceased mothers. This is understandable.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can use traditional NLP methods or deep learning methods to model the text. We will try the deep learning in this notebook .</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Deep-Learning-approach-with-Spacy">
-<a class="anchor" href="#Deep-Learning-approach-with-Spacy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Deep Learning approach with Spacy<a class="anchor-link" href="#Deep-Learning-approach-with-Spacy"> </a>
-</h1>
+<h1 id="Deep-Learning-approach-with-Spacy">Deep Learning approach with Spacy<a class="anchor-link" href="#Deep-Learning-approach-with-Spacy"> </a></h1>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>It's recommended <a href="https://spacy.io/usage/training#transfer-learning">here</a> that to improve performance of the classifier, <strong>Language model pretraining</strong> is one way to do so.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Spacy requires a <code>.jsonl</code> format of input to train text</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Get texts from the dataframe and store in <code>jsonl</code> format more about that <a href="https://spacy.io/api/cli#pretrain-jsonl">here</a>.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can also load the test data to get some more sample for the <code>pretraining</code>, this will not cause <strong>Data Leakage</strong> because we are not giving any labels to the model.</p>
 
@@ -762,7 +791,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="o">/</span><span class="s1">'test.csv'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="o">/</span><span class="s1">&#39;test.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">test_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
@@ -857,8 +886,7 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's clean the test set for links as well</p>
 
@@ -872,9 +900,9 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_data</span><span class="p">[</span><span class="s1">'original_text'</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_data</span><span class="p">[</span><span class="s1">&#39;original_text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
     <span class="c1"># Regex pattern to match : the text to replace with</span>
-    <span class="p">{</span><span class="s1">'(https?:\/\/.*|pic.*)[</span><span class="se">\r\n</span><span class="s1">]*'</span> <span class="p">:</span> <span class="s1">''</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;(https?:\/\/.*|pic.*)[</span><span class="se">\r\n</span><span class="s1">]*&#39;</span> <span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">},</span>
     <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
@@ -925,7 +953,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">texts_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">train_data</span><span class="p">[</span><span class="s1">'original_text'</span><span class="p">],</span> <span class="n">test_data</span><span class="p">[</span><span class="s1">'original_text'</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="s1">'rows'</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">texts_series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;original_text&#39;</span><span class="p">],</span> <span class="n">test_data</span><span class="p">[</span><span class="s1">&#39;original_text&#39;</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="s1">&#39;rows&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -935,8 +963,7 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's check the length</p>
 
@@ -976,8 +1003,7 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So now we can use this <code>texts_series</code> to create the <code>jsonl</code> file.</p>
 
@@ -992,8 +1018,8 @@ window.onload = wrap_img;
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">list_of_texts</span> <span class="o">=</span> <span class="p">[</span>
-                 <span class="c1"># Form dictionary with 'text' key</span>
-                 <span class="p">{</span><span class="s1">'text'</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span>
+                 <span class="c1"># Form dictionary with &#39;text&#39; key</span>
+                 <span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span>
                  <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">texts_series</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
             <span class="p">]</span>
 </pre></div>
@@ -1005,8 +1031,7 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>I will use <code>srsly</code> to write this list of dictionaries to a <code>jsonl</code> file</p>
 
@@ -1022,7 +1047,7 @@ window.onload = wrap_img;
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">srsly</span>
 <span class="c1"># saving to my Google drive</span>
-<span class="n">srsly</span><span class="o">.</span><span class="n">write_jsonl</span><span class="p">(</span><span class="n">DRIVE_PATH</span><span class="o">/</span><span class="s1">'pretrain_texts.jsonl'</span><span class="p">,</span> <span class="n">list_of_texts</span><span class="p">)</span>
+<span class="n">srsly</span><span class="o">.</span><span class="n">write_jsonl</span><span class="p">(</span><span class="n">DRIVE_PATH</span><span class="o">/</span><span class="s1">&#39;pretrain_texts.jsonl&#39;</span><span class="p">,</span> <span class="n">list_of_texts</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1032,8 +1057,7 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see a few lines from the saved file.</p>
 
@@ -1045,14 +1069,13 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing code_cell rendered">
 <details class="description">
       <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
-        <p></p>
-<div class="input">
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 
-<span class="k">with</span> <span class="n">Path</span><span class="p">(</span><span class="n">DRIVE_PATH</span><span class="o">/</span><span class="s1">'pretrain_texts.jsonl'</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">Path</span><span class="p">(</span><span class="n">DRIVE_PATH</span><span class="o">/</span><span class="s1">&#39;pretrain_texts.jsonl&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="nb">next</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
 
 <span class="n">pprint</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
@@ -1061,7 +1084,7 @@ window.onload = wrap_img;
     </div>
 </div>
 </div>
-
+</p>
     </details>
 <div class="output_wrapper">
 <div class="output">
@@ -1069,24 +1092,24 @@ window.onload = wrap_img;
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>['{"text":"Happy #MothersDay to all you amazing mothers out there! I know '
- "it's hard not being able to see your mothers today but it's on all of us to "
- 'do what we can to protect the most vulnerable members of our society. '
- '#BeatCoronaVirus "}\n',
- '{"text":"Happy Mothers Day Mum - I\'m sorry I can\'t be there to bring you '
- "Mothers day flowers &amp; a cwtch - honestly at this point I'd walk on hot coals "
- "to be able to. But I'll be there with bells on as soon as I can be. Love you "
- 'lots xxx (p.s we need more photos!) "}\n',
- '{"text":"Happy mothers day To all This doing a mothers days work. Today been '
- 'quiet but Had time to reflect. Dog walk, finish a jigsaw do the garden, '
- 'learn few more guitar chords, drunk some strawberry gin and tonic and watch '
- 'Lee evens on DVD. My favourite place to visit. #isolate "}\n',
- '{"text":"Happy mothers day to this beautiful woman...royalty soothes you '
- 'mummy jeremy and emerald and more #PrayForRoksie #UltimateLoveNG "}\n',
- '{"text":"Remembering the 3 most amazing ladies who made me who I am! My late '
- 'grandmother iris, mum carol and great grandmother Ethel. Missed but never '
- 'forgotten! Happy mothers day to all those great mums out there! Love sent to '
- 'all xxxx "}\n']
+<pre>[&#39;{&#34;text&#34;:&#34;Happy #MothersDay to all you amazing mothers out there! I know &#39;
+ &#34;it&#39;s hard not being able to see your mothers today but it&#39;s on all of us to &#34;
+ &#39;do what we can to protect the most vulnerable members of our society. &#39;
+ &#39;#BeatCoronaVirus &#34;}\n&#39;,
+ &#39;{&#34;text&#34;:&#34;Happy Mothers Day Mum - I\&#39;m sorry I can\&#39;t be there to bring you &#39;
+ &#34;Mothers day flowers &amp; a cwtch - honestly at this point I&#39;d walk on hot coals &#34;
+ &#34;to be able to. But I&#39;ll be there with bells on as soon as I can be. Love you &#34;
+ &#39;lots xxx (p.s we need more photos!) &#34;}\n&#39;,
+ &#39;{&#34;text&#34;:&#34;Happy mothers day To all This doing a mothers days work. Today been &#39;
+ &#39;quiet but Had time to reflect. Dog walk, finish a jigsaw do the garden, &#39;
+ &#39;learn few more guitar chords, drunk some strawberry gin and tonic and watch &#39;
+ &#39;Lee evens on DVD. My favourite place to visit. #isolate &#34;}\n&#39;,
+ &#39;{&#34;text&#34;:&#34;Happy mothers day to this beautiful woman...royalty soothes you &#39;
+ &#39;mummy jeremy and emerald and more #PrayForRoksie #UltimateLoveNG &#34;}\n&#39;,
+ &#39;{&#34;text&#34;:&#34;Remembering the 3 most amazing ladies who made me who I am! My late &#39;
+ &#39;grandmother iris, mum carol and great grandmother Ethel. Missed but never &#39;
+ &#39;forgotten! Happy mothers day to all those great mums out there! Love sent to &#39;
+ &#39;all xxxx &#34;}\n&#39;]
 </pre>
 </div>
 </div>
@@ -1097,33 +1120,27 @@ window.onload = wrap_img;
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Start-Pretraining">
-<a class="anchor" href="#Start-Pretraining" aria-hidden="true"><span class="octicon octicon-link"></span></a>Start Pretraining<a class="anchor-link" href="#Start-Pretraining"> </a>
-</h3>
+<h3 id="Start-Pretraining">Start Pretraining<a class="anchor-link" href="#Start-Pretraining"> </a></h3>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We should download a pretrained to model to use, Here I am using _en_core_web<em>md</em> from <code>Spacy</code>.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This can be confusing (ie) Why should I train a pretrained model, if I can download one, The idea is that the downloaded pretrained model would have been trained with a <strong>very different</strong> type of dataset, but it already has some knowledge on interpreting words in English sentences.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>But here we have dataset of tweets which the downloaded pretrained model may or may not have seen during it's training, So we use our dataset to <strong>fine-tune</strong> the downloaded model, so that with minimum training it can start understanding the tweets right away.</p>
 
@@ -1135,8 +1152,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing code_cell rendered">
 <details class="description">
       <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
-        <p></p>
-<div class="input">
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
@@ -1146,17 +1162,14 @@ window.onload = wrap_img;
     </div>
 </div>
 </div>
-
+</p>
     </details>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h4 id="Training-results">
-<a class="anchor" href="#Training-results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Training results<a class="anchor-link" href="#Training-results"> </a>
-</h4>
+<h4 id="Training-results">Training results<a class="anchor-link" href="#Training-results"> </a></h4>
 </div>
 </div>
 </div>
@@ -1165,8 +1178,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing code_cell rendered">
 <details class="description">
       <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
-        <p></p>
-<div class="input">
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
@@ -1185,7 +1197,7 @@ python -m spacy pretrain /content/drive/My<span class="se">\ </span>Drive/Spacy/
     </div>
 </div>
 </div>
-
+</p>
     </details>
 <div class="output_wrapper">
 <div class="output">
@@ -1200,7 +1212,7 @@ new directory will be created for you.
 <span class="ansi-green-fg">✔ Saved settings to config.json</span>
 <span class="ansi-green-fg">✔ Loaded input texts</span>
 <span class="ansi-green-fg">✔ Loaded model
-'/usr/local/lib/python3.6/dist-packages/en_core_web_md/en_core_web_md-2.2.5'</span>
+&#39;/usr/local/lib/python3.6/dist-packages/en_core_web_md/en_core_web_md-2.2.5&#39;</span>
 <span class="ansi-bold">
 ============== Pre-training tok2vec layer - starting at epoch 0 ==============</span>
   #      # Words   Total Loss     Loss    w/s
@@ -1316,16 +1328,14 @@ new directory will be created for you.
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>I have chosen to use the default parameters however one might need to change them for their problem.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We can see from the logs that the loss value in the last iteration is <code>18639</code>, but since the batch_size was <code>3000</code> our data must have splitted to <code>2</code> batches, (number of texts are <code>4622</code>) we should also take the previous log entry to account which is loss of <code>33658</code>, So the average of them would be <code>26148.5</code>, This number might be intimidating but the only way to check if it actually helps is to try to train a model with it.</p>
 
@@ -1334,57 +1344,47 @@ new directory will be created for you.
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We keep only the last model from the pretraining.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's train a text classifier with <code>Spacy</code></p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Text-classifier-with-Spacy">
-<a class="anchor" href="#Text-classifier-with-Spacy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Text classifier with Spacy<a class="anchor-link" href="#Text-classifier-with-Spacy"> </a>
-</h1>
+<h1 id="Text-classifier-with-Spacy">Text classifier with Spacy<a class="anchor-link" href="#Text-classifier-with-Spacy"> </a></h1>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now that we have a pretrained model, We now need to prepare data for training the text classifier. Let's have a look at the <a href="https://spacy.io/usage/training#training-simple-style">data format</a> that Spacy expects the data to be in.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Data-Generation">
-<a class="anchor" href="#Data-Generation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Generation<a class="anchor-link" href="#Data-Generation"> </a>
-</h2>
+<h2 id="Data-Generation">Data Generation<a class="anchor-link" href="#Data-Generation"> </a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <div class="highlight"><pre><span></span><span class="p">{</span>
-   <span class="nt">"entities"</span><span class="p">:</span> <span class="p">[</span><span class="err">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"ORG"</span><span class="err">)</span><span class="p">],</span>
-   <span class="nt">"heads"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
-   <span class="nt">"deps"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"nsubj"</span><span class="p">,</span> <span class="s2">"ROOT"</span><span class="p">,</span> <span class="s2">"prt"</span><span class="p">,</span> <span class="s2">"quantmod"</span><span class="p">,</span> <span class="s2">"compound"</span><span class="p">,</span> <span class="s2">"pobj"</span><span class="p">,</span> <span class="s2">"det"</span><span class="p">,</span> <span class="s2">"npadvmod"</span><span class="p">],</span>
-   <span class="nt">"tags"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"PROPN"</span><span class="p">,</span> <span class="s2">"VERB"</span><span class="p">,</span> <span class="s2">"ADP"</span><span class="p">,</span> <span class="s2">"SYM"</span><span class="p">,</span> <span class="s2">"NUM"</span><span class="p">,</span> <span class="s2">"NUM"</span><span class="p">,</span> <span class="s2">"DET"</span><span class="p">,</span> <span class="s2">"NOUN"</span><span class="p">],</span>
-   <span class="nt">"cats"</span><span class="p">:</span> <span class="p">{</span><span class="nt">"BUSINESS"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">},</span>
+   <span class="nt">&quot;entities&quot;</span><span class="p">:</span> <span class="p">[</span><span class="err">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;ORG&quot;</span><span class="err">)</span><span class="p">],</span>
+   <span class="nt">&quot;heads&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+   <span class="nt">&quot;deps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;nsubj&quot;</span><span class="p">,</span> <span class="s2">&quot;ROOT&quot;</span><span class="p">,</span> <span class="s2">&quot;prt&quot;</span><span class="p">,</span> <span class="s2">&quot;quantmod&quot;</span><span class="p">,</span> <span class="s2">&quot;compound&quot;</span><span class="p">,</span> <span class="s2">&quot;pobj&quot;</span><span class="p">,</span> <span class="s2">&quot;det&quot;</span><span class="p">,</span> <span class="s2">&quot;npadvmod&quot;</span><span class="p">],</span>
+   <span class="nt">&quot;tags&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;PROPN&quot;</span><span class="p">,</span> <span class="s2">&quot;VERB&quot;</span><span class="p">,</span> <span class="s2">&quot;ADP&quot;</span><span class="p">,</span> <span class="s2">&quot;SYM&quot;</span><span class="p">,</span> <span class="s2">&quot;NUM&quot;</span><span class="p">,</span> <span class="s2">&quot;NUM&quot;</span><span class="p">,</span> <span class="s2">&quot;DET&quot;</span><span class="p">,</span> <span class="s2">&quot;NOUN&quot;</span><span class="p">],</span>
+   <span class="nt">&quot;cats&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&quot;BUSINESS&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">},</span>
 <span class="p">}</span>
 </pre></div>
 <p>This format works for training via code, as given in the examples above, There is also another format mentioned <a href="https://spacy.io/api/annotation#json-input">here</a></p>
@@ -1392,44 +1392,34 @@ new directory will be created for you.
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><code>cats</code> is the only part we need to worry about, this must be where they look for categories/classes.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We have three classes in our dataset</p>
 <ul>
-<li>
-<code>0</code> for <code>Neutral</code>
-</li>
-<li>
-<code>1</code> for <code>Positive</code>
-</li>
-<li>
-<code>-1</code> for <code>Negative</code>
-</li>
+<li><code>0</code> for <code>Neutral</code></li>
+<li><code>1</code> for <code>Positive</code></li>
+<li><code>-1</code> for <code>Negative</code></li>
 </ul>
 <p>and they are <strong>mutually-exclusive</strong> (There can be only one label for a sentence)</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We also need to split the training data we have to training and evaluation sets so that we can see how well our model has learnt the problem.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's try to programmatically generate the training data from pandas dataframe</p>
 
@@ -1443,7 +1433,7 @@ new directory will be created for you.
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">label_map</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="s1">'POSITIVE'</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="s1">'NEGATIVE'</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="s1">'NEUTRAL'</span><span class="p">}</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">label_map</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="s1">&#39;POSITIVE&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="s1">&#39;NEGATIVE&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="s1">&#39;NEUTRAL&#39;</span><span class="p">}</span>
 </pre></div>
 
     </div>
@@ -1453,8 +1443,7 @@ new directory will be created for you.
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We need list of tuples of text and the annotation details in a dictionary as mentioned above.</p>
 
@@ -1471,12 +1460,12 @@ new directory will be created for you.
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_json</span> <span class="o">=</span> <span class="p">[</span>
     <span class="c1"># Get the text from dataframe row</span>
     <span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">original_text</span><span class="p">,</span>
-     <span class="p">{</span><span class="s1">'cats'</span><span class="p">:{</span>
+     <span class="p">{</span><span class="s1">&#39;cats&#39;</span><span class="p">:{</span>
             
             <span class="n">label_map</span><span class="p">[</span><span class="n">tweet</span><span class="o">.</span><span class="n">sentiment_class</span><span class="p">]:</span><span class="mf">1.0</span>
             <span class="p">}</span>
         <span class="p">})</span>
-    <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">train_data</span><span class="p">[[</span><span class="s1">'original_text'</span><span class="p">,</span> <span class="s1">'sentiment_class'</span><span class="p">]]</span><span class="o">.</span><span class="n">itertuples</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'Tweet'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">train_data</span><span class="p">[[</span><span class="s1">&#39;original_text&#39;</span><span class="p">,</span> <span class="s1">&#39;sentiment_class&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">itertuples</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Tweet&#39;</span><span class="p">)</span>
 <span class="p">]</span>
 </pre></div>
 
@@ -1509,8 +1498,8 @@ new directory will be created for you.
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>("Happy #MothersDay to all you amazing mothers out there! I know it's hard not being able to see your mothers today but it's on all of us to do what we can to protect the most vulnerable members of our society. #BeatCoronaVirus ",
- {'cats': {'NEUTRAL': 1.0}})</pre>
+<pre>(&#34;Happy #MothersDay to all you amazing mothers out there! I know it&#39;s hard not being able to see your mothers today but it&#39;s on all of us to do what we can to protect the most vulnerable members of our society. #BeatCoronaVirus &#34;,
+ {&#39;cats&#39;: {&#39;NEUTRAL&#39;: 1.0}})</pre>
 </div>
 
 </div>
@@ -1521,8 +1510,7 @@ new directory will be created for you.
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now we will split the training data</p>
 
@@ -1540,7 +1528,7 @@ new directory will be created for you.
 
 <span class="c1"># Stratified split with labels</span>
 <span class="n">train_split</span><span class="p">,</span> <span class="n">eval_split</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train_json</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-                                           <span class="n">stratify</span><span class="o">=</span><span class="n">train_data</span><span class="p">[</span><span class="s1">'sentiment_class'</span><span class="p">])</span>
+                                           <span class="n">stratify</span><span class="o">=</span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;sentiment_class&#39;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -1583,8 +1571,7 @@ new directory will be created for you.
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We should save them as <code>json</code> files to give them as input to the command line <code>train</code> utility in spacy.</p>
 
@@ -1600,10 +1587,10 @@ new directory will be created for you.
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
 
-<span class="k">with</span> <span class="n">Path</span><span class="p">(</span><span class="n">DRIVE_PATH</span><span class="o">/</span><span class="s1">'train_clas.json'</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">Path</span><span class="p">(</span><span class="n">DRIVE_PATH</span><span class="o">/</span><span class="s1">&#39;train_clas.json&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">train_split</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="n">Path</span><span class="p">(</span><span class="n">DRIVE_PATH</span><span class="o">/</span><span class="s1">'eval_clas.json'</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">Path</span><span class="p">(</span><span class="n">DRIVE_PATH</span><span class="o">/</span><span class="s1">&#39;eval_clas.json&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">eval_split</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
 </pre></div>
 
@@ -1614,17 +1601,13 @@ new directory will be created for you.
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Validate-data-input-for-spacy">
-<a class="anchor" href="#Validate-data-input-for-spacy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Validate data input for spacy<a class="anchor-link" href="#Validate-data-input-for-spacy"> </a>
-</h2>
+<h2 id="Validate-data-input-for-spacy">Validate data input for spacy<a class="anchor-link" href="#Validate-data-input-for-spacy"> </a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now should if we have enough data to train the model with <code>train</code> spacy command in CLI, for that I will use Spacy's <code>debug-data</code> command in CLI.</p>
 
@@ -1676,7 +1659,7 @@ optional arguments:
   -IW, --ignore-warnings
                         Ignore warnings, only show stats and errors
   -V, --verbose         Print additional information and explanations
-  -NF, --no-format      Don't pretty-print the results
+  -NF, --no-format      Don&#39;t pretty-print the results
 </pre>
 </div>
 </div>
@@ -1698,7 +1681,7 @@ optional arguments:
 <span class="o">(</span>python -m spacy debug-data en <span class="se">\</span>
     /content/drive/My<span class="se">\ </span>Drive/Spacy/Pretrained/train_clas.json <span class="se">\</span>
     /content/drive/My<span class="se">\ </span>Drive/Spacy/Pretrained/eval_clas.json <span class="se">\</span>
-    -p <span class="s1">'textcat'</span> <span class="se">\</span>
+    -p <span class="s1">&#39;textcat&#39;</span> <span class="se">\</span>
 <span class="o">)</span>
 </pre></div>
 
@@ -1718,7 +1701,7 @@ optional arguments:
 <span class="ansi-bold">
 =============================== Training stats ===============================</span>
 Training pipeline: textcat
-Starting with blank model 'en'
+Starting with blank model &#39;en&#39;
 0 training docs
 0 evaluation docs
 <span class="ansi-red-fg">✘ No evaluation docs</span>
@@ -1747,17 +1730,13 @@ classes.</span>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Data-Generation-(again)">
-<a class="anchor" href="#Data-Generation-(again)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Data Generation (again)<a class="anchor-link" href="#Data-Generation-(again)"> </a>
-</h2>
+<h2 id="Data-Generation-(again)">Data Generation (again)<a class="anchor-link" href="#Data-Generation-(again)"> </a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>There must be something I missed now, I asked a question on <a href="https://stackoverflow.com/q/62003962/7752347">stackoverflow</a> regarding this, turns out we need to get <code>.jsonl</code> format(again) and use the script provided in the <a href="https://github.com/explosion/spaCy/tree/master/examples/training/textcat_example_data">repo</a> to convert to the required json format for training, now I need to change the data generation a little bit to do that.</p>
 
@@ -1773,13 +1752,13 @@ classes.</span>
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_jsonl</span> <span class="o">=</span> <span class="p">[</span>
     <span class="c1"># Get the text from dataframe row</span>
-    <span class="p">{</span><span class="s1">'text'</span><span class="p">:</span> <span class="n">tweet</span><span class="o">.</span><span class="n">original_text</span><span class="p">,</span>
-     <span class="s1">'cats'</span><span class="p">:</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">tweet</span><span class="o">.</span><span class="n">sentiment_class</span> <span class="o">==</span> <span class="n">k</span> <span class="k">else</span> <span class="mf">0.0</span>
+    <span class="p">{</span><span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="n">tweet</span><span class="o">.</span><span class="n">original_text</span><span class="p">,</span>
+     <span class="s1">&#39;cats&#39;</span><span class="p">:</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">tweet</span><span class="o">.</span><span class="n">sentiment_class</span> <span class="o">==</span> <span class="n">k</span> <span class="k">else</span> <span class="mf">0.0</span>
               <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">label_map</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
 
-     <span class="s1">'meta'</span><span class="p">:{</span><span class="s2">"id"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">Index</span><span class="p">)}</span>
+     <span class="s1">&#39;meta&#39;</span><span class="p">:{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">tweet</span><span class="o">.</span><span class="n">Index</span><span class="p">)}</span>
     <span class="p">}</span>
-    <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">train_data</span><span class="p">[[</span><span class="s1">'original_text'</span><span class="p">,</span> <span class="s1">'sentiment_class'</span><span class="p">]]</span><span class="o">.</span><span class="n">itertuples</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'Tweet'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">tweet</span> <span class="ow">in</span> <span class="n">train_data</span><span class="p">[[</span><span class="s1">&#39;original_text&#39;</span><span class="p">,</span> <span class="s1">&#39;sentiment_class&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">itertuples</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Tweet&#39;</span><span class="p">)</span>
 <span class="p">]</span>
 </pre></div>
 
@@ -1812,9 +1791,9 @@ classes.</span>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{'cats': {'NEGATIVE': 0.0, 'NEUTRAL': 1.0, 'POSITIVE': 0.0},
- 'meta': {'id': '1.24502457848689e+18'},
- 'text': "Happy #MothersDay to all you amazing mothers out there! I know it's hard not being able to see your mothers today but it's on all of us to do what we can to protect the most vulnerable members of our society. #BeatCoronaVirus "}</pre>
+<pre>{&#39;cats&#39;: {&#39;NEGATIVE&#39;: 0.0, &#39;NEUTRAL&#39;: 1.0, &#39;POSITIVE&#39;: 0.0},
+ &#39;meta&#39;: {&#39;id&#39;: &#39;1.24502457848689e+18&#39;},
+ &#39;text&#39;: &#34;Happy #MothersDay to all you amazing mothers out there! I know it&#39;s hard not being able to see your mothers today but it&#39;s on all of us to do what we can to protect the most vulnerable members of our society. #BeatCoronaVirus &#34;}</pre>
 </div>
 
 </div>
@@ -1825,8 +1804,7 @@ classes.</span>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>So instead of a list of <code>tuples</code> now I have a list of <code>dictionaries</code>. We need to split again to have an evaluation set</p>
 
@@ -1841,7 +1819,7 @@ classes.</span>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_split</span><span class="p">,</span> <span class="n">eval_split</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train_jsonl</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
-                                           <span class="n">stratify</span><span class="o">=</span><span class="n">train_data</span><span class="p">[</span><span class="s1">'sentiment_class'</span><span class="p">])</span>
+                                           <span class="n">stratify</span><span class="o">=</span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;sentiment_class&#39;</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -1884,8 +1862,7 @@ classes.</span>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We still need to convert the <code>jsonl</code> to the required <code>json</code> format, now for that I will use the script named <code>textcatjsonl_to_trainjson.py</code> in this <a href="https://github.com/explosion/spaCy/tree/master/examples/training/textcat_example_data">repo</a>. Let's download the script from the repo.</p>
 
@@ -1952,20 +1929,16 @@ python script.py -m en /content/drive/My<span class="se">\ </span>Drive/Spacy/ev
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's try to debug again</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Validate-(again)">
-<a class="anchor" href="#Validate-(again)" aria-hidden="true"><span class="octicon octicon-link"></span></a>Validate (again)<a class="anchor-link" href="#Validate-(again)"> </a>
-</h2>
+<h2 id="Validate-(again)">Validate (again)<a class="anchor-link" href="#Validate-(again)"> </a></h2>
 </div>
 </div>
 </div>
@@ -1985,7 +1958,7 @@ python script.py -m en /content/drive/My<span class="se">\ </span>Drive/Spacy/ev
 <span class="ansi-bold">
 =============================== Training stats ===============================</span>
 Training pipeline: textcat
-Starting with blank model 'en'
+Starting with blank model &#39;en&#39;
 2584 training docs
 647 evaluation docs
 <span class="ansi-yellow-fg">⚠ 5 training examples also in evaluation data</span>
@@ -2012,8 +1985,7 @@ classes.</span>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>It worked !, Thanks to the answerer of this <a href="https://stackoverflow.com/q/62003962/7752347">question</a>, now we know that our data format is correct. Turns out there is another command to <code>convert</code> our files to spacy's JSON format which is mentioned <a href="https://spacy.io/api/cli#convert">here</a>.</p>
 <p>The output is pointing out that the evaluation set has some <strong>data leakage</strong>. I will try to remove that now.</p>
@@ -2028,7 +2000,7 @@ classes.</span>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">new_eval</span> <span class="o">=</span> <span class="p">[</span><span class="n">annot</span> <span class="k">for</span> <span class="n">annot</span> <span class="ow">in</span> <span class="n">eval_split</span> <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">annot</span><span class="p">[</span><span class="s1">'text'</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t</span><span class="p">[</span><span class="s1">'text'</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">train_split</span><span class="p">])]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">new_eval</span> <span class="o">=</span> <span class="p">[</span><span class="n">annot</span> <span class="k">for</span> <span class="n">annot</span> <span class="ow">in</span> <span class="n">eval_split</span> <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">annot</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">t</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">train_split</span><span class="p">])]</span>
 </pre></div>
 
     </div>
@@ -2071,8 +2043,7 @@ classes.</span>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We thought there were 5 samples leaking into the training data, it is six here, anyway let's try to validate the data again.</p>
 
@@ -2090,7 +2061,7 @@ classes.</span>
 <span class="o">(</span>python -m spacy debug-data en <span class="se">\</span>
     /content/drive/My<span class="se">\ </span>Drive/Spacy/train_texts.json <span class="se">\</span>
     /content/drive/My<span class="se">\ </span>Drive/Spacy/eval_texts.json <span class="se">\</span>
-    -p <span class="s1">'textcat'</span> <span class="se">\</span>
+    -p <span class="s1">&#39;textcat&#39;</span> <span class="se">\</span>
 <span class="o">)</span>
 </pre></div>
 
@@ -2110,7 +2081,7 @@ classes.</span>
 <span class="ansi-bold">
 =============================== Training stats ===============================</span>
 Training pipeline: textcat
-Starting with blank model 'en'
+Starting with blank model &#39;en&#39;
 2584 training docs
 641 evaluation docs
 <span class="ansi-green-fg">✔ No overlap between training and evaluation data</span>
@@ -2136,25 +2107,20 @@ classes.</span>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We are all set to start training now!</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Classifier-Training">
-<a class="anchor" href="#Classifier-Training" aria-hidden="true"><span class="octicon octicon-link"></span></a>Classifier Training<a class="anchor-link" href="#Classifier-Training"> </a>
-</h2>
+<h2 id="Classifier-Training">Classifier Training<a class="anchor-link" href="#Classifier-Training"> </a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>I have made the command to train in CLI, Please refer the comments for details in the order of the arguments given here</p>
 
@@ -2187,7 +2153,7 @@ classes.</span>
     /content/drive/My<span class="se">\ </span>Drive/Spacy/Classifier <span class="se">\</span>
     /content/drive/My<span class="se">\ </span>Drive/Spacy/train_texts.json <span class="se">\</span>
     /content/drive/My<span class="se">\ </span>Drive/Spacy/train_texts.json <span class="se">\</span>
-    -p <span class="s2">"textcat"</span> <span class="se">\</span>
+    -p <span class="s2">&quot;textcat&quot;</span> <span class="se">\</span>
     -n <span class="m">100</span> <span class="se">\</span>
     -ne <span class="m">10</span> <span class="se">\</span>
     -t2v /content/drive/My<span class="se">\ </span>Drive/Spacy/Pretrained/fifty_iter/model49.bin <span class="se">\</span>
@@ -2206,13 +2172,13 @@ classes.</span>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Training pipeline: ['textcat']
-Starting with base model 'en_core_web_sm'
-Adding component to base model 'textcat'
+<pre>Training pipeline: [&#39;textcat&#39;]
+Starting with base model &#39;en_core_web_sm&#39;
+Adding component to base model &#39;textcat&#39;
 Counting training words (limit=0)
 Loaded pretrained tok2vec for: []
-Textcat evaluation score: F1-score macro-averaged across the labels 'POSITIVE,
-NEGATIVE, NEUTRAL'
+Textcat evaluation score: F1-score macro-averaged across the labels &#39;POSITIVE,
+NEGATIVE, NEUTRAL&#39;
 
 Itn  Textcat Loss  Textcat  Token %  CPU WPS
 ---  ------------  -------  -------  -------
@@ -2338,8 +2304,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>I also tried to train without the pretrained model (ie)<code>en_core_web_sm</code>, The logs for that are here below. (Uncollapse to view), the results are not very different, the evaluation metrics are off the roof. We need to predict the test data and try to submit to the competition for a better picture of the model.</p>
 
@@ -2351,8 +2316,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 <div class="cell border-box-sizing code_cell rendered">
 <details class="description">
       <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
-        <p></p>
-<div class="input">
+        <p><div class="input">
 
 <div class="inner_cell">
     <div class="input_area">
@@ -2374,7 +2338,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
     /content/drive/My<span class="se">\ </span>Drive/Spacy/Classifier_without_using_websm <span class="se">\</span>
     /content/drive/My<span class="se">\ </span>Drive/Spacy/train_texts.json <span class="se">\</span>
     /content/drive/My<span class="se">\ </span>Drive/Spacy/train_texts.json <span class="se">\</span>
-    -p <span class="s2">"textcat"</span> <span class="se">\</span>
+    -p <span class="s2">&quot;textcat&quot;</span> <span class="se">\</span>
     -n <span class="m">100</span> <span class="se">\</span>
     -ne <span class="m">10</span> <span class="se">\</span>
     -t2v /content/drive/My<span class="se">\ </span>Drive/Spacy/Pretrained/fifty_iter/model49.bin <span class="se">\</span>
@@ -2386,7 +2350,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
     </div>
 </div>
 </div>
-
+</p>
     </details>
 <div class="output_wrapper">
 <div class="output">
@@ -2396,12 +2360,12 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 <div class="output_subarea output_stream output_stdout output_text">
 <pre><span class="ansi-green-fg">✔ Created output directory: /content/drive/My
 Drive/Spacy/Classifier_without_using_websm</span>
-Training pipeline: ['textcat']
-Starting with blank model 'en'
+Training pipeline: [&#39;textcat&#39;]
+Starting with blank model &#39;en&#39;
 Counting training words (limit=0)
 Loaded pretrained tok2vec for: []
-Textcat evaluation score: F1-score macro-averaged across the labels 'POSITIVE,
-NEGATIVE, NEUTRAL'
+Textcat evaluation score: F1-score macro-averaged across the labels &#39;POSITIVE,
+NEGATIVE, NEUTRAL&#39;
 
 Itn  Textcat Loss  Textcat  Token %  CPU WPS
 ---  ------------  -------  -------  -------
@@ -2527,12 +2491,9 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Prediction-on-test-data">
-<a class="anchor" href="#Prediction-on-test-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prediction on test data<a class="anchor-link" href="#Prediction-on-test-data"> </a>
-</h1>
+<h1 id="Prediction-on-test-data">Prediction on test data<a class="anchor-link" href="#Prediction-on-test-data"> </a></h1>
 </div>
 </div>
 </div>
@@ -2543,7 +2504,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="o">/</span><span class="s1">'test.csv'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="o">/</span><span class="s1">&#39;test.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">test_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
@@ -2638,17 +2599,13 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Clean-test-data">
-<a class="anchor" href="#Clean-test-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Clean test data<a class="anchor-link" href="#Clean-test-data"> </a>
-</h2>
+<h2 id="Clean-test-data">Clean test data<a class="anchor-link" href="#Clean-test-data"> </a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>We will clean the test data of links with regex as well.</p>
 
@@ -2662,9 +2619,9 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_data</span><span class="p">[</span><span class="s1">'original_text'</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_data</span><span class="p">[</span><span class="s1">&#39;original_text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
     <span class="c1"># Regex pattern to match : the text to replace with</span>
-    <span class="p">{</span><span class="s1">'(https?:\/\/.*|pic.*)[</span><span class="se">\r\n</span><span class="s1">]*'</span> <span class="p">:</span> <span class="s1">''</span><span class="p">},</span>
+    <span class="p">{</span><span class="s1">&#39;(https?:\/\/.*|pic.*)[</span><span class="se">\r\n</span><span class="s1">]*&#39;</span> <span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">},</span>
     <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
@@ -2715,7 +2672,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">list_of_test_texts</span> <span class="o">=</span> <span class="n">test_data</span><span class="p">[</span><span class="s1">'original_text'</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">list_of_test_texts</span> <span class="o">=</span> <span class="n">test_data</span><span class="p">[</span><span class="s1">&#39;original_text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -2725,8 +2682,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's load the Spacy model from our training</p>
 
@@ -2741,7 +2697,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">spacy</span>
-<span class="n">textcat_mod</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">DRIVE_PATH</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span><span class="s1">'Classifier/model-best'</span><span class="p">)</span>
+<span class="n">textcat_mod</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">DRIVE_PATH</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span><span class="s1">&#39;Classifier/model-best&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -2751,8 +2707,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>I will try to fasten the prediction by using multithreading as mentioned <a href="https://explosion.ai/blog/multithreading-with-cython">here</a></p>
 
@@ -2782,9 +2737,9 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>{'NEGATIVE': 0.020245620980858803,
- 'NEUTRAL': 0.9727445840835571,
- 'POSITIVE': 0.007009787950664759}</pre>
+<pre>{&#39;NEGATIVE&#39;: 0.020245620980858803,
+ &#39;NEUTRAL&#39;: 0.9727445840835571,
+ &#39;POSITIVE&#39;: 0.007009787950664759}</pre>
 </div>
 
 </div>
@@ -2817,7 +2772,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>'NEUTRAL'</pre>
+<pre>&#39;NEUTRAL&#39;</pre>
 </div>
 
 </div>
@@ -2835,7 +2790,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">label_map</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'POSITIVE'</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'NEGATIVE'</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'NEUTRAL'</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">label_map</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;POSITIVE&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;NEGATIVE&#39;</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;NEUTRAL&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
 </pre></div>
 
     </div>
@@ -2899,8 +2854,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's form the submission</p>
 
@@ -2917,7 +2871,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">sub_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
      <span class="n">preds</span><span class="p">,</span>
      <span class="n">index</span><span class="o">=</span><span class="n">test_data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
-     <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'sentiment_class'</span><span class="p">]</span>
+     <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sentiment_class&#39;</span><span class="p">]</span>
 <span class="p">)</span>
 </pre></div>
 
@@ -3048,7 +3002,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sub_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">DRIVE_PATH</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span><span class="s1">'submission.csv'</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sub_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">DRIVE_PATH</span><span class="o">.</span><span class="n">parent</span><span class="o">/</span><span class="s1">&#39;submission.csv&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -3058,28 +3012,23 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>The submitted predictions scored a mere <code>39/100</code> in weighted f1-score, that's disappointing. -_-</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Let's analyze the predictions</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Prediction-distribution">
-<a class="anchor" href="#Prediction-distribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Prediction distribution<a class="anchor-link" href="#Prediction-distribution"> </a>
-</h2>
+<h2 id="Prediction-distribution">Prediction distribution<a class="anchor-link" href="#Prediction-distribution"> </a></h2>
 </div>
 </div>
 </div>
@@ -3090,7 +3039,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sub_df</span><span class="p">[</span><span class="s1">'sentiment_class'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">'bar'</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sub_df</span><span class="p">[</span><span class="s1">&#39;sentiment_class&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -3115,7 +3064,8 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 
 
 <div class="output_png output_subarea ">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXcAAAD4CAYAAAAXUaZHAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADh0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uMy4yLjEsIGh0dHA6Ly9tYXRwbG90bGliLm9yZy+j8jraAAAQI0lEQVR4nO3df6zd9V3H8edLOvZTKT+ulbXFklC3oMkY3mCXGaPUKTCz9o+NsBhpSM31D6abmLjqP4uJMRCNOBJDUtdpMcqGuNlmI9OmsBhjYLswZAM2ucN17Q3QOwadG5kb29s/7qfjcOntPbf33Hvh0+cjOTmf7/vz+d7zPrnJq998es79pqqQJPXlx1a7AUnS6BnuktQhw12SOmS4S1KHDHdJ6tCa1W4A4LzzzqtNmzatdhuS9Ipy//33f6Oqxk4097II902bNjE5ObnabUjSK0qSQ/PNuS0jSR0y3CWpQ4a7JHXIcJekDhnuktQhw12SOmS4S1KHDHdJ6pDhLkkdell8Q3Wlbdr16dVuYVl97cZ3rnYLklaZV+6S1CHDXZI6ZLhLUocMd0nqkOEuSR0y3CWpQ4a7JHVoqHBP8vtJHk7ypSS3J3lNkguT3JdkKsnHk5zZ1r66HU+1+U3L+QYkSS+1YLgnWQ/8HjBeVT8HnAFcA9wE3FxVFwHPADvbKTuBZ1r95rZOkrSCht2WWQO8Nska4HXAE8DlwJ1tfi+wvY23tWPa/NYkGU27kqRhLBjuVTUN/AXwdWZD/RhwP/BsVT3flh0B1rfxeuBwO/f5tv7cuT83yUSSySSTMzMzS30fkqQBw2zLnM3s1fiFwBuB1wNXLPWFq2p3VY1X1fjY2NhSf5wkacAw2zK/CvxPVc1U1feBTwBvB9a2bRqADcB0G08DGwHa/FnA0yPtWpJ0UsOE+9eBLUle1/bOtwKPAPcA725rdgD72nh/O6bN311VNbqWJUkLGWbP/T5m/2P0AeCL7ZzdwAeBG5JMMbunvqedsgc4t9VvAHYtQ9+SpJMY6u+5V9WHgA/NKT8OXHaCtd8F3rP01iRJp8pvqEpShwx3SeqQ4S5JHTLcJalDhrskdchwl6QOGe6S1CHDXZI6ZLhLUocMd0nqkOEuSR0y3CWpQ4a7JHXIcJekDhnuktShYe6h+qYkDw48vpXkA0nOSXIgyWPt+ey2PkluSTKV5KEkly7/25AkDRrmTkxfqapLquoS4OeB54BPMnuHpYNVtRk4yAt3XLoS2NweE8Cty9G4JGl+i92W2Qp8taoOAduAva2+F9jextuA22rWvczeSPv8kXQrSRrKYsP9GuD2Nl5XVU+08ZPAujZeDxweOOdIq0mSVsjQ4Z7kTOBdwD/NnauqAmoxL5xkIslkksmZmZnFnCpJWsBirtyvBB6oqqfa8VPHt1va89FWnwY2Dpy3odVepKp2V9V4VY2PjY0tvnNJ0rwWE+7v5YUtGYD9wI423gHsG6hf2z41swU4NrB9I0laAWuGWZTk9cA7gN8ZKN8I3JFkJ3AIuLrV7wKuAqaY/WTNdSPrVpI0lKHCvaq+A5w7p/Y0s5+embu2gOtH0p0k6ZT4DVVJ6pDhLkkdMtwlqUOGuyR1yHCXpA4Z7pLUIcNdkjpkuEtShwx3SeqQ4S5JHTLcJalDhrskdchwl6QOGe6S1CHDXZI6ZLhLUoeGCvcka5PcmeTLSR5N8rYk5yQ5kOSx9nx2W5sktySZSvJQkkuX9y1IkuYa9sr9w8BnqurNwFuAR4FdwMGq2gwcbMcweyPtze0xAdw60o4lSQtaMNyTnAX8ErAHoKq+V1XPAtuAvW3ZXmB7G28DbqtZ9wJrk5w/8s4lSfMa5sr9QmAG+NskX0jykXbD7HVV9URb8ySwro3XA4cHzj/Sai+SZCLJZJLJmZmZU38HkqSXGCbc1wCXArdW1VuB7/DCFgzwo5ti12JeuKp2V9V4VY2PjY0t5lRJ0gKGCfcjwJGquq8d38ls2D91fLulPR9t89PAxoHzN7SaJGmFLBjuVfUkcDjJm1ppK/AIsB/Y0Wo7gH1tvB+4tn1qZgtwbGD7RpK0AtYMue53gX9IcibwOHAds/8w3JFkJ3AIuLqtvQu4CpgCnmtrJUkraKhwr6oHgfETTG09wdoCrl9iX5KkJfAbqpLUIcNdkjpkuEtShwx3SeqQ4S5JHTLcJalDhrskdchwl6QOGe6S1CHDXZI6ZLhLUocMd0nqkOEuSR0y3CWpQ4a7JHVoqHBP8rUkX0zyYJLJVjsnyYEkj7Xns1s9SW5JMpXkoSSXLucbkCS91GKu3H+lqi6pquM37dgFHKyqzcBBXrhp9pXA5vaYAG4dVbOSpOEsZVtmG7C3jfcC2wfqt9Wse4G1x2+kLUlaGcOGewH/luT+JBOttm7gxtdPAuvaeD1weODcI60mSVohw94g+xerajrJTwIHknx5cLKqKkkt5oXbPxITABdccMFiTpUkLWCoK/eqmm7PR4FPApcBTx3fbmnPR9vyaWDjwOkbWm3uz9xdVeNVNT42Nnbq70CS9BILhnuS1yf58eNj4NeALwH7gR1t2Q5gXxvvB65tn5rZAhwb2L6RJK2AYbZl1gGfTHJ8/T9W1WeSfB64I8lO4BBwdVt/F3AVMAU8B1w38q4lSSe1YLhX1ePAW05QfxrYeoJ6AdePpDtJ0inxG6qS1CHDXZI6ZLhLUocMd0nqkOEuSR0y3CWpQ4a7JHXIcJekDhnuktQhw12SOmS4S1KHDHdJ6pDhLkkdMtwlqUOGuyR1yHCXpA4NHe5JzkjyhSSfascXJrkvyVSSjyc5s9Vf3Y6n2vym5WldkjSfxVy5vx94dOD4JuDmqroIeAbY2eo7gWda/ea2TpK0goYK9yQbgHcCH2nHAS4H7mxL9gLb23hbO6bNb23rJUkrZNgr978C/hD4YTs+F3i2qp5vx0eA9W28HjgM0OaPtfUvkmQiyWSSyZmZmVNsX5J0IguGe5LfAI5W1f2jfOGq2l1V41U1PjY2NsofLUmnvTVDrHk78K4kVwGvAX4C+DCwNsmadnW+AZhu66eBjcCRJGuAs4CnR965JGleC165V9UfVdWGqtoEXAPcXVW/CdwDvLst2wHsa+P97Zg2f3dV1Ui7liSd1FI+5/5B4IYkU8zuqe9p9T3Aua1+A7BraS1KkhZrmG2ZH6mqzwKfbePHgctOsOa7wHtG0Jsk6RT5DVVJ6pDhLkkdMtwlqUOGuyR1yHCXpA4Z7pLUIcNdkjpkuEtShwx3SeqQ4S5JHTLcJalDhrskdchwl6QOGe6S1CHDXZI6NMw9VF+T5HNJ/ivJw0n+pNUvTHJfkqkkH09yZqu/uh1PtflNy/sWJElzDXPl/n/A5VX1FuAS4IokW4CbgJur6iLgGWBnW78TeKbVb27rJEkraJh7qFZVfbsdvqo9CrgcuLPV9wLb23hbO6bNb02SkXUsSVrQUHvuSc5I8iBwFDgAfBV4tqqeb0uOAOvbeD1wGKDNH2P2Hqtzf+ZEkskkkzMzM0t7F5KkFxkq3KvqB1V1CbCB2fumvnmpL1xVu6tqvKrGx8bGlvrjJEkDFvVpmap6FrgHeBuwNsnxG2xvAKbbeBrYCNDmzwKeHkm3kqShDPNpmbEka9v4tcA7gEeZDfl3t2U7gH1tvL8d0+bvrqoaZdOSpJNbs/ASzgf2JjmD2X8M7qiqTyV5BPhYkj8FvgDsaev3AH+fZAr4JnDNMvQtSTqJBcO9qh4C3nqC+uPM7r/PrX8XeM9IupMknZJhrtyll5VNuz692i0sm6/d+M7VbkGd8M8PSFKHDHdJ6pDbMpJWTM9bavDy2lbzyl2SOmS4S1KHDHdJ6pDhLkkdMtwlqUOGuyR1yHCXpA4Z7pLUIcNdkjpkuEtShwx3SeqQ4S5JHRrmNnsbk9yT5JEkDyd5f6ufk+RAksfa89mtniS3JJlK8lCSS5f7TUiSXmyYK/fngT+oqouBLcD1SS4GdgEHq2ozcLAdA1wJbG6PCeDWkXctSTqpBcO9qp6oqgfa+H+ZvTn2emAbsLct2wtsb+NtwG01615gbZLzR965JGlei9pzT7KJ2fup3gesq6on2tSTwLo2Xg8cHjjtSKvN/VkTSSaTTM7MzCyybUnSyQwd7kneAPwz8IGq+tbgXFUVUIt54araXVXjVTU+Nja2mFMlSQsYKtyTvIrZYP+HqvpEKz91fLulPR9t9Wlg48DpG1pNkrRChvm0TIA9wKNV9ZcDU/uBHW28A9g3UL+2fWpmC3BsYPtGkrQChrmH6tuB3wK+mOTBVvtj4EbgjiQ7gUPA1W3uLuAqYAp4DrhupB1Lkha0YLhX1X8AmWd66wnWF3D9EvuSJC2B31CVpA4Z7pLUIcNdkjpkuEtShwx3SeqQ4S5JHTLcJalDhrskdchwl6QOGe6S1CHDXZI6ZLhLUocMd0nqkOEuSR0y3CWpQ8PciemjSY4m+dJA7ZwkB5I81p7PbvUkuSXJVJKHkly6nM1Lkk5smCv3vwOumFPbBRysqs3AwXYMcCWwuT0mgFtH06YkaTEWDPeq+nfgm3PK24C9bbwX2D5Qv61m3QusPX4TbUnSyjnVPfd1Aze9fhJY18brgcMD64602kskmUgymWRyZmbmFNuQJJ3Ikv9Dtd0ztU7hvN1VNV5V42NjY0ttQ5I04FTD/anj2y3t+WirTwMbB9ZtaDVJ0go61XDfD+xo4x3AvoH6te1TM1uAYwPbN5KkFbJmoQVJbgd+GTgvyRHgQ8CNwB1JdgKHgKvb8ruAq4Ap4DngumXoWZK0gAXDvareO8/U1hOsLeD6pTYlSVoav6EqSR0y3CWpQ4a7JHXIcJekDhnuktQhw12SOmS4S1KHDHdJ6pDhLkkdMtwlqUOGuyR1yHCXpA4Z7pLUIcNdkjpkuEtShwx3SerQsoR7kiuSfCXJVJJdy/EakqT5jTzck5wB/DVwJXAx8N4kF4/6dSRJ81uOK/fLgKmqeryqvgd8DNi2DK8jSZrHgvdQPQXrgcMDx0eAX5i7KMkEMNEOv53kK8vQy8vFecA3VurFctNKvdJpwd/dK1vvv7+fnm9iOcJ9KFW1G9i9Wq+/kpJMVtX4avehxfN398p2Ov/+lmNbZhrYOHC8odUkSStkOcL988DmJBcmORO4Bti/DK8jSZrHyLdlqur5JO8D/hU4A/hoVT086td5hTkttp865e/ule20/f2lqla7B0nSiPkNVUnqkOEuSR0y3CWpQ6v2OfdeJXkzs9/IXd9K08D+qnp09bqSdLrxyn2EknyQ2T+3EOBz7RHgdv+A2itfkutWuwedmiRvWO0eVpqflhmhJP8N/GxVfX9O/Uzg4aravDqdaRSSfL2qLljtPrR4p+Pvzm2Z0foh8Ebg0Jz6+W1OL3NJHppvCli3kr1ocZLcMN8UcNpduRvuo/UB4GCSx3jhj6ddAFwEvG/VutJirAN+HXhmTj3Af658O1qEPwP+HHj+BHOn3Ra04T5CVfWZJD/D7J89HvwP1c9X1Q9WrzMtwqeAN1TVg3Mnknx25dvRIjwA/EtV3T93Islvr0I/q8o9d0ldSPIm4Omq+sZA7aeq6skk66rqqVVsb8UZ7pK6leSBqrp0tftYDafdPpSk00pWu4HVYrhL6tnfrHYDq8VtGUnqkFfuktQhw12SOmS4S1KHDHdJ6tD/A+vkF/9aNg90AAAAAElFTkSuQmCC%0A">
+<img src="data:image/png;base64,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
+" />
 </div>
 
 </div>
@@ -3133,7 +3083,7 @@ Itn  Textcat Loss  Textcat  Token %  CPU WPS
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sub_df</span><span class="p">[</span><span class="s1">'sentiment_class'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sub_df</span><span class="p">[</span><span class="s1">&#39;sentiment_class&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -3162,8 +3112,7 @@ Name: sentiment_class, dtype: int64</pre>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>This looks very similar to the train data</p>
 
@@ -3177,7 +3126,7 @@ Name: sentiment_class, dtype: int64</pre>
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_data</span><span class="p">[</span><span class="s1">'sentiment_class'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;sentiment_class&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -3206,8 +3155,7 @@ Name: sentiment_class, dtype: int64</pre>
 </div>
     
 
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>What would have gone wrong?, I guess what I can do is try another method(traditional). Coming up in another post</p>
 
@@ -3218,7 +3166,7 @@ Name: sentiment_class, dtype: int64</pre>
 
 
 
-  </div><!-- from https://github.com/utterance/utterances -->
+      </div><!-- from https://github.com/utterance/utterances -->
 <script src="https://utteranc.es/client.js"
         repo="mani2106/Blog-Posts"
         issue-term="title"
@@ -3227,6 +3175,8 @@ Name: sentiment_class, dtype: int64</pre>
         crossorigin="anonymous"
         async>
 </script><a class="u-url" href="/Blog-Posts/nlp/eda/sentiment/2020/05/30/Deep_learning_approach_for_text_classification_with_spacy.html" hidden></a>
+    </main>
+  </div>
 </article>
       </div>
     </main><footer class="site-footer h-card">
