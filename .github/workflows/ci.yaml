@@ -62,5 +62,3 @@ jobs:
         deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
         publish_branch: gh-pages
         publish_dir: ./_site
-      permissions:
-        contents: write
