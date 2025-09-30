@@ -39,9 +39,9 @@ jobs:
         sudo chmod -R 777 .
 
     - name: Jekyll build
-      uses: docker://jekyll/jekyll:4
+      uses: docker://jekyll/jekyll:latest
       with:
-        args: bash -c "bundle install && jekyll build -V --strict_front_matter --trace"
+        args: bash -c "gem install bundler:2.7.2 && bundle install && jekyll build -V --strict_front_matter --trace"
       env:
         JEKYLL_ENV: 'production'
 
