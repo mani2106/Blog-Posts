@@ -23,6 +23,7 @@ jobs:
         fi
       env:
        deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
+       SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
 
 
     - name: Copy Repository Contents
@@ -59,4 +60,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@373f7f263a76c20808c831209c920827a82a2847
       with:
         deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
+        publish_branch: gh-pages
         publish_dir: ./_site
+      permissions:
+        contents: write
