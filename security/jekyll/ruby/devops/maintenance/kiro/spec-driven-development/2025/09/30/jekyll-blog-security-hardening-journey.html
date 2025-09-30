@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Back from Hiatus: Jekyll Blog Security Hardening with Spec-Driven Development | Manimaran Panneerselvam’s blog</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Back from Hiatus: Jekyll Blog Security Hardening with Spec-Driven Development" />
+<meta name="author" content="Manimaran Panneerselvam" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="How I returned to blogging by systematically resolving 12 security vulnerabilities using Kiro’s spec-driven approach, and what’s coming next" />
+<meta property="og:description" content="How I returned to blogging by systematically resolving 12 security vulnerabilities using Kiro’s spec-driven approach, and what’s coming next" />
+<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/security/jekyll/ruby/devops/maintenance/kiro/spec-driven-development/2025/09/30/jekyll-blog-security-hardening-journey.html" />
+<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/security/jekyll/ruby/devops/maintenance/kiro/spec-driven-development/2025/09/30/jekyll-blog-security-hardening-journey.html" />
+<meta property="og:site_name" content="Manimaran Panneerselvam’s blog" />
+<meta property="og:image" content="https://mani2106.github.io/Blog-Posts/images/images/small_ruby_secure.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-09-30T00:00:00+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://mani2106.github.io/Blog-Posts/images/images/small_ruby_secure.png" />
+<meta property="twitter:title" content="Back from Hiatus: Jekyll Blog Security Hardening with Spec-Driven Development" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Manimaran Panneerselvam"},"dateModified":"2025-09-30T00:00:00+00:00","datePublished":"2025-09-30T00:00:00+00:00","description":"How I returned to blogging by systematically resolving 12 security vulnerabilities using Kiro’s spec-driven approach, and what’s coming next","headline":"Back from Hiatus: Jekyll Blog Security Hardening with Spec-Driven Development","image":"https://mani2106.github.io/Blog-Posts/images/images/small_ruby_secure.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/security/jekyll/ruby/devops/maintenance/kiro/spec-driven-development/2025/09/30/jekyll-blog-security-hardening-journey.html"},"url":"https://mani2106.github.io/Blog-Posts/security/jekyll/ruby/devops/maintenance/kiro/spec-driven-development/2025/09/30/jekyll-blog-security-hardening-journey.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Panneerselvam&apos;s blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-168240544-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-168240544-1');
+</script>
+
+
+<link rel="shortcut icon" type="image/x-icon" href="/Blog-Posts/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<style>
+.post-container {
+  display: flex;
+  position: relative;
+}
+
+.toc-sidebar {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  width: 250px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 16px;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(27, 31, 36, 0.1);
+  font-size: 14px;
+}
+
+.toc-sidebar h2 {
+  font-size: 16px;
+  margin-top: 0;
+  color: #24292f;
+}
+
+.toc-sidebar ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc-sidebar li {
+  margin: 4px 0;
+}
+
+.toc-sidebar a {
+  color: #0969da;
+  text-decoration: none;
+}
+
+.toc-sidebar a:hover {
+  text-decoration: underline;
+}
+
+.post-main {
+  margin-right: 280px;
+  flex: 1;
+  max-width: calc(100% - 280px);
+}
+
+@media (max-width: 768px) {
+  .toc-sidebar {
+    display: none;
+  }
+  .post-main {
+    margin-right: 0;
+    max-width: 100%;
+  }
+}
+</style>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/Blog-Posts/">Manimaran Panneerselvam&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/Blog-Posts/about/">About Me</a><a class="page-link" href="/Blog-Posts/search/">Search</a><a class="page-link" href="/Blog-Posts/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Back from Hiatus: Jekyll Blog Security Hardening with Spec-Driven Development</h1><p class="page-description">How I returned to blogging by systematically resolving 12 security vulnerabilities using Kiro's spec-driven approach, and what's coming next</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2025-09-30T00:00:00+00:00" itemprop="datePublished">
+        Sep 30, 2025
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i>
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#security">security</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#jekyll">jekyll</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#ruby">ruby</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#devops">devops</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#maintenance">maintenance</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#kiro">kiro</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#spec-driven-development">spec-driven-development</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-container">
+    <aside class="toc-sidebar">
+      <!-- this handles the automatic toc. use ## for subheads to auto-generate the on-page minitoc. if you use html tags, you must supply an ID for the heading element in order for it to appear in the minitoc. -->
+<script>
+    $( document ).ready(function() {
+      // Handler for .ready() called.
+    
+    $('#toc').toc({ minimumHeaders: 0, listType: 'ul', showSpeed: 0, headers: 'h2,h3,h4' });
+    
+    /* this offset helps account for the space taken up by the floating toolbar. */
+    $('#toc').on('click', 'a', function() {
+      var target = $(this.getAttribute('href'))
+        , scroll_target = target.offset().top
+    
+      $(window).scrollTop(scroll_target - 10);
+      return false
+    })
+      
+    });
+</script>
+    
+<div id="toc"></div>
+
+    </aside>
+    <main class="post-main">
+      <div class="post-content e-content" itemprop="articleBody">
+        <h1 id="the-comeback-from-hiatus-to-security-hardening">The Comeback: From Hiatus to Security Hardening</h1>
+
+<p>After a long hiatus from blogging, I decided it was time to dust off my Jekyll blog and get back to writing. But when I opened my repository, I was greeted by a concerning sight: <strong>12 GitHub Dependabot security alerts</strong> ranging from critical to low severity. These weren’t just minor updates—some were critical vulnerabilities with CVSS scores of 9.1 that could lead to memory corruption and use-after-free attacks.</p>
+
+<p>This seemed like the perfect opportunity to not only get my blog back online securely, but also to try out a new approach I’d been exploring: <strong>spec-driven development using Kiro</strong>. Rather than diving straight into code changes, I decided to treat this security hardening as a proper software project with requirements, design, and implementation planning.</p>
+
+<h2 id="why-spec-driven-development">Why Spec-Driven Development?</h2>
+
+<p>Coming back to a project after months away, I realized I needed more than just quick fixes. I needed:</p>
+<ul>
+  <li><strong>Clear documentation</strong> of what needed to be done and why</li>
+  <li><strong>Systematic approach</strong> to prevent breaking changes</li>
+  <li><strong>Maintainable procedures</strong> for future updates</li>
+  <li><strong>Comprehensive testing strategy</strong> to ensure nothing broke</li>
+</ul>
+
+<p>This is where Kiro’s spec-driven approach became invaluable.</p>
+
+<h2 id="the-security-landscape">The Security Landscape</h2>
+
+<p>The vulnerabilities spanned across multiple critical components:</p>
+
+<ul>
+  <li><strong>Nokogiri</strong> (XML/HTML parser): 5 alerts including critical memory corruption issues</li>
+  <li><strong>REXML</strong> (XML parser): 6 alerts mostly related to Denial of Service attacks</li>
+  <li><strong>ActiveSupport</strong> (Rails component): 1 alert for potential file disclosure</li>
+</ul>
+
+<p>Here’s what I was facing:</p>
+
+<h3 id="critical-priority-">Critical Priority 🚨</h3>
+<ul>
+  <li><strong>CVE-2025-49794, CVE-2025-49796</strong>: Use-after-free and memory corruption in Nokogiri (CVSS 9.1)</li>
+</ul>
+
+<h3 id="high-priority-️">High Priority ⚠️</h3>
+<ul>
+  <li><strong>CVE-2025-24855, CVE-2024-55549</strong>: Use-after-free in libxslt</li>
+  <li><strong>CVE-2024-43398</strong>: REXML DoS vulnerability with deep XML elements</li>
+</ul>
+
+<h3 id="medium-priority-">Medium Priority 📋</h3>
+<ul>
+  <li>Multiple REXML DoS vulnerabilities</li>
+  <li>ActiveSupport file disclosure vulnerability</li>
+</ul>
+
+<h2 id="the-spec-driven-approach-with-kiro">The Spec-Driven Approach with Kiro</h2>
+
+<p>Instead of randomly updating gems, I used Kiro to develop a structured methodology through proper specification:</p>
+
+<h3 id="1-requirements-gathering">1. Requirements Gathering</h3>
+<p>Using Kiro, I started by creating a comprehensive requirements document that captured:</p>
+<ul>
+  <li><strong>User stories</strong> for each type of security concern</li>
+  <li><strong>Acceptance criteria</strong> in EARS format (Easy Approach to Requirements Syntax)</li>
+  <li><strong>Priority matrix</strong> based on vulnerability severity</li>
+  <li><strong>Success metrics</strong> for the security hardening</li>
+</ul>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gs">**User Story:**</span> As a blog maintainer, I want to analyze the current GitHub
+security alerts for my gem dependencies, so that I can prioritize which
+vulnerabilities need immediate attention.
+
+<span class="gu">#### Acceptance Criteria</span>
+<span class="p">1.</span> WHEN analyzing GitHub alerts THEN the system SHALL categorize
+   vulnerabilities by severity (critical, high, medium, low)
+<span class="p">2.</span> WHEN vulnerabilities are categorized THEN the system SHALL identify
+   which gems require updates
+</code></pre></div></div>
+
+<h3 id="2-design-document">2. Design Document</h3>
+<p>Kiro helped me create a detailed design that outlined:</p>
+<ul>
+  <li><strong>Vulnerability analysis framework</strong> with three-phase approach</li>
+  <li><strong>Gem upgrade mapping</strong> with version constraints</li>
+  <li><strong>Dependency resolution strategy</strong> to prevent conflicts</li>
+  <li><strong>Error handling scenarios</strong> and rollback procedures</li>
+</ul>
+
+<h3 id="3-implementation-planning">3. Implementation Planning</h3>
+<p>The spec process generated a detailed task breakdown:</p>
+<ul>
+  <li>8 major phases with 15 sub-tasks</li>
+  <li>Each task linked to specific requirements</li>
+  <li>Clear validation steps for each phase</li>
+  <li>Rollback procedures documented upfront</li>
+</ul>
+
+<h3 id="4-baseline-documentation">4. Baseline Documentation</h3>
+<p>Through the spec process, I systematically documented the current state:</p>
+<ul>
+  <li>Ruby 2.7.1 (approaching EOL)</li>
+  <li>Jekyll 4.1.1 (outdated)</li>
+  <li>Bundler 2.1.4 (incompatible with modern Ruby)</li>
+  <li>Multiple outdated gems with restrictive version constraints</li>
+</ul>
+
+<h3 id="5-priority-based-upgrade-strategy">5. Priority-Based Upgrade Strategy</h3>
+<p>The design phase helped me categorize updates by security impact and dependency relationships:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Phase 1: Ruby runtime upgrade</span>
+<span class="no">Ruby</span> <span class="mf">2.7</span><span class="o">.</span><span class="mi">1</span> <span class="err">→</span> <span class="no">Ruby</span> <span class="mf">3.3</span><span class="o">.</span><span class="mi">9</span>
+
+<span class="c1"># Phase 2: Critical security gems</span>
+<span class="ss">nokogiri: </span><span class="s2">"&lt; 1.18.9"</span> <span class="err">→</span> <span class="s2">"~&gt; 1.18.0"</span>
+<span class="ss">rexml: </span><span class="s2">"&lt; 3.3.9"</span> <span class="err">→</span> <span class="s2">"~&gt; 3.4.0"</span>
+
+<span class="c1"># Phase 3: Major framework updates</span>
+<span class="ss">activesupport: </span><span class="s2">"&lt; 6.1.7.5"</span> <span class="err">→</span> <span class="s2">"~&gt; 7.2.0"</span>
+
+<span class="c1"># Phase 4: Supporting infrastructure</span>
+<span class="ss">faraday: </span><span class="s2">"&lt; 1.0"</span> <span class="err">→</span> <span class="s2">"~&gt; 2.12.0"</span>
+</code></pre></div></div>
+
+<h3 id="3-constraint-optimization">3. Constraint Optimization</h3>
+<p>One major issue was overly restrictive version constraints that prevented security updates:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Before: Blocking security updates</span>
+<span class="n">gem</span> <span class="s2">"faraday"</span><span class="p">,</span> <span class="s2">"&lt; 1.0"</span>  <span class="c1"># Stuck on 0.17.5 from 2019!</span>
+
+<span class="c1"># After: Security-friendly constraints</span>
+<span class="n">gem</span> <span class="s2">"faraday"</span><span class="p">,</span> <span class="s2">"~&gt; 2.12"</span>  <span class="c1"># Allows patch updates</span>
+</code></pre></div></div>
+
+<h2 id="the-implementation-journey-spec-to-code">The Implementation Journey: Spec to Code</h2>
+
+<p>With Kiro’s comprehensive spec in hand, the implementation became straightforward. Each task was clearly defined with acceptance criteria, making it easy to know exactly what needed to be done and how to validate success.</p>
+
+<h3 id="task-by-task-execution">Task-by-Task Execution</h3>
+<p>The beauty of the spec-driven approach was that I could work through each task systematically:</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">-</span> [x] 1. Establish baseline and prepare for upgrades
+<span class="p">-</span> [x] 2. Upgrade Ruby version to latest stable
+<span class="p">-</span> [x] 3. Update critical security gems (Nokogiri and REXML)
+<span class="p">-</span> [x] 4. Update ActiveSupport to latest Rails 7.x series
+<span class="p">-</span> [x] 5. Update supporting gems to latest versions
+<span class="p">-</span> [x] 6. Optimize Gemfile version constraints for security
+<span class="p">-</span> [x] 7. Comprehensive testing and validation
+<span class="p">-</span> [x] 8. Document changes and create maintenance procedures
+</code></pre></div></div>
+
+<h3 id="ruby-version-upgrade">Ruby Version Upgrade</h3>
+<p>Following the spec’s Phase 1, the foundation needed to be solid. Ruby 2.7.1 was approaching end-of-life and causing bundler compatibility issues:</p>
+
+<div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Before</span>
+<span class="k">FROM</span><span class="s"> jekyll/jekyll:4.1.0  # Ruby 2.7.1</span>
+
+<span class="c"># After</span>
+<span class="k">FROM</span><span class="s"> ruby:3.3-alpine     # Ruby 3.3.9</span>
+</code></pre></div></div>
+
+<p>This single change resolved multiple compatibility issues and enabled modern gem versions.</p>
+
+<h3 id="critical-security-updates">Critical Security Updates</h3>
+
+<p><strong>Nokogiri: The Big One</strong>
+Nokogiri had the most severe vulnerabilities, including critical memory corruption issues:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Updated from 1.16.3 to 1.18.10</span>
+<span class="n">gem</span> <span class="s2">"nokogiri"</span><span class="p">,</span> <span class="s2">"~&gt; 1.18"</span>
+</code></pre></div></div>
+
+<p>This update resolved 5 security alerts, including the critical CVE-2025-49794 and CVE-2025-49796.</p>
+
+<p><strong>REXML: DoS Protection</strong>
+REXML had 6 different Denial of Service vulnerabilities:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Updated from 3.2.5 to 3.4.4</span>
+<span class="n">gem</span> <span class="s2">"rexml"</span><span class="p">,</span> <span class="s2">"~&gt; 3.4"</span>
+</code></pre></div></div>
+
+<p><strong>ActiveSupport: Major Version Jump</strong>
+The most challenging update was ActiveSupport, requiring a major version upgrade:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 6.0.6.1 → 7.2.2.2 (major version jump)</span>
+<span class="n">gem</span> <span class="s2">"activesupport"</span><span class="p">,</span> <span class="s2">"~&gt; 7.2"</span>
+</code></pre></div></div>
+
+<p>Surprisingly, this major version upgrade had zero breaking changes for Jekyll usage—a testament to Rails’ commitment to backward compatibility.</p>
+
+<h2 id="testing-and-validation">Testing and Validation</h2>
+
+<p>Each phase included comprehensive testing:</p>
+
+<h3 id="automated-checks">Automated Checks</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Build verification</span>
+bundle <span class="nb">install
+</span>jekyll build
+
+<span class="c"># Functionality testing</span>
+docker-compose up <span class="nt">-d</span>
+curl <span class="nt">-I</span> http://localhost:4000
+</code></pre></div></div>
+
+<h3 id="manual-verification">Manual Verification</h3>
+<ul>
+  <li>✅ All blog posts render correctly</li>
+  <li>✅ Math equations display properly (KaTeX)</li>
+  <li>✅ Code syntax highlighting works</li>
+  <li>✅ RSS feed generates correctly</li>
+  <li>✅ SEO tags are present</li>
+  <li>✅ Site navigation functions</li>
+</ul>
+
+<h2 id="the-results">The Results</h2>
+
+<h3 id="security-impact">Security Impact</h3>
+<ul>
+  <li><strong>12 vulnerabilities resolved</strong>: From critical to low severity</li>
+  <li><strong>Zero known vulnerabilities</strong>: Clean security audit</li>
+  <li><strong>Future-proof constraints</strong>: Automatic security patches enabled</li>
+</ul>
+
+<h3 id="performance-improvements">Performance Improvements</h3>
+<ul>
+  <li><strong>Ruby 3.3.x</strong>: Significant performance gains over 2.7.x</li>
+  <li><strong>Modern HTTP/2</strong>: Faraday 2.x includes modern features</li>
+  <li><strong>Updated plugins</strong>: Performance optimizations included</li>
+</ul>
+
+<h3 id="version-summary">Version Summary</h3>
+<p>| Component | Before | After | Security Impact |
+|———–|——–|——-|—————–|
+| Ruby | 2.7.1 | 3.3.9 | Latest security patches |
+| Nokogiri | 1.16.3 | 1.18.10 | 5 CVEs resolved |
+| REXML | 3.2.5 | 3.4.4 | 6 DoS vulnerabilities fixed |
+| ActiveSupport | 6.0.6.1 | 7.2.2.2 | File disclosure vulnerability fixed |
+| Faraday | 0.17.5 | 2.12.3 | 5+ years of security updates |</p>
+
+<h2 id="the-power-of-spec-driven-development">The Power of Spec-Driven Development</h2>
+
+<p>This project reinforced why I’m excited about spec-driven development with Kiro:</p>
+
+<h3 id="benefits-i-experienced">Benefits I Experienced</h3>
+<ol>
+  <li><strong>Clear roadmap</strong>: Never wondered “what should I do next?”</li>
+  <li><strong>Risk mitigation</strong>: Potential issues identified upfront in design phase</li>
+  <li><strong>Comprehensive testing</strong>: Validation criteria defined before implementation</li>
+  <li><strong>Documentation by design</strong>: Requirements and procedures created as part of the process</li>
+  <li><strong>Maintainable outcomes</strong>: Future changes have a clear framework to follow</li>
+</ol>
+
+<h3 id="the-kiro-advantage">The Kiro Advantage</h3>
+<ul>
+  <li><strong>Iterative refinement</strong>: Requirements → Design → Tasks → Implementation</li>
+  <li><strong>Built-in validation</strong>: Each phase reviewed before proceeding</li>
+  <li><strong>Comprehensive coverage</strong>: Nothing falls through the cracks</li>
+  <li><strong>Future-ready</strong>: Maintenance procedures established from day one</li>
+</ul>
+
+<h2 id="lessons-learned">Lessons Learned</h2>
+
+<h3 id="1-spec-driven-beats-ad-hoc">1. Spec-Driven Beats Ad-Hoc</h3>
+<p>Taking time to create proper requirements and design prevented dependency conflicts and reduced risk significantly.</p>
+
+<h3 id="2-version-constraints-matter">2. Version Constraints Matter</h3>
+<p>Overly restrictive constraints (<code class="language-plaintext highlighter-rouge">gem "name", "&lt; 1.0"</code>) can block critical security updates for years.</p>
+
+<h3 id="3-major-version-upgrades-arent-always-breaking">3. Major Version Upgrades Aren’t Always Breaking</h3>
+<p>ActiveSupport 6.x → 7.x had zero breaking changes for our Jekyll usage.</p>
+
+<h3 id="4-documentation-is-critical">4. Documentation Is Critical</h3>
+<p>The spec process automatically generated detailed records of changes, rationale, and rollback procedures.</p>
+
+<h3 id="5-kiro-makes-complex-projects-manageable">5. Kiro Makes Complex Projects Manageable</h3>
+<p>What could have been an overwhelming security crisis became a systematic, well-documented project.</p>
+
+<h2 id="whats-next-for-this-blog">What’s Next for This Blog</h2>
+
+<p>Now that the security foundation is solid, I’m excited about the future improvements planned:</p>
+
+<h3 id="upcoming-ux-enhancements">Upcoming UX Enhancements</h3>
+<ul>
+  <li><strong>GitHub Discussions integration</strong>: Moving away from Utterances to GitHub’s native discussion feature for better community engagement and moderation</li>
+  <li><strong>Redesigned reading experience</strong>: Complete UX overhaul focusing on readability, accessibility, and modern design principles</li>
+  <li><strong>Enhanced layout architecture</strong>:
+    <ul>
+      <li><strong>Left sidebar</strong>: Table of Contents for easy navigation within posts</li>
+      <li><strong>Right sidebar</strong>: Comments section for contextual discussions</li>
+      <li><strong>Responsive design</strong>: Seamless experience across desktop, tablet, and mobile</li>
+      <li><strong>Progressive enhancement</strong>: Modern features that degrade gracefully</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="technical-roadmap">Technical Roadmap</h3>
+<ul>
+  <li><strong>Performance optimization</strong>: Leveraging Ruby 3.3.x performance gains and modern Jekyll features</li>
+  <li><strong>Enhanced SEO</strong>: Building on Jekyll-seo-tag 2.8.0 improvements with structured data</li>
+  <li><strong>Better accessibility</strong>: WCAG 2.1 compliance and screen reader optimization</li>
+  <li><strong>Modern web standards</strong>: HTTP/3, WebP images, and progressive loading</li>
+</ul>
+
+<h3 id="content-strategy-evolution">Content Strategy Evolution</h3>
+<ul>
+  <li><strong>More technical deep-dives</strong>: Like this security hardening journey</li>
+  <li><strong>Spec-driven development series</strong>: Sharing the Kiro methodology and real-world applications</li>
+  <li><strong>Open source contributions</strong>: Documenting contributions and community learnings</li>
+  <li><strong>Interactive tutorials</strong>: Hands-on guides with embedded examples</li>
+</ul>
+
+<h2 id="ongoing-maintenance-strategy">Ongoing Maintenance Strategy</h2>
+
+<p>The spec process established comprehensive ongoing procedures:</p>
+
+<h3 id="monthly-security-reviews">Monthly Security Reviews</h3>
+<ul>
+  <li>Monitor GitHub Dependabot alerts</li>
+  <li>Apply critical security patches following established procedures</li>
+  <li>Update security documentation</li>
+</ul>
+
+<h3 id="quarterly-dependency-updates">Quarterly Dependency Updates</h3>
+<ul>
+  <li>Update all gems to latest stable versions</li>
+  <li>Execute comprehensive testing protocols</li>
+  <li>Review and optimize version constraints</li>
+</ul>
+
+<h3 id="annual-major-updates">Annual Major Updates</h3>
+<ul>
+  <li>Evaluate Ruby version upgrades</li>
+  <li>Consider Jekyll major version updates</li>
+  <li>Comprehensive security audit and spec review</li>
+</ul>
+
+<h2 id="the-maintenance-procedures">The Maintenance Procedures</h2>
+
+<p>Kiro helped create comprehensive <a href="https://github.com/mani2106/Blog-Posts/blob/master/MAINTENANCE_PROCEDURES.md">maintenance procedures</a> covering:</p>
+
+<ul>
+  <li><strong>Emergency Response</strong>: Critical vulnerability response within 24 hours</li>
+  <li><strong>Regular Updates</strong>: Monthly and quarterly update schedules</li>
+  <li><strong>Testing Protocols</strong>: Comprehensive validation checklists</li>
+  <li><strong>Rollback Procedures</strong>: Quick recovery from failed updates</li>
+  <li><strong>Documentation Standards</strong>: Keeping procedures current</li>
+</ul>
+
+<h2 id="key-takeaways">Key Takeaways</h2>
+
+<h3 id="for-jekyll-users">For Jekyll Users</h3>
+<ol>
+  <li><strong>Don’t ignore Dependabot alerts</strong>: They represent real security risks</li>
+  <li><strong>Use semantic versioning wisely</strong>: <code class="language-plaintext highlighter-rouge">~&gt; x.y</code> allows security patches</li>
+  <li><strong>Keep Ruby current</strong>: EOL versions create cascading problems</li>
+  <li><strong>Test systematically</strong>: Automated + manual validation prevents issues</li>
+  <li><strong>Document everything</strong>: Future you will thank present you</li>
+</ol>
+
+<h3 id="for-developers">For Developers</h3>
+<ol>
+  <li><strong>Spec-driven development works</strong>: Taking time to plan saves time in execution</li>
+  <li><strong>Requirements matter</strong>: Clear acceptance criteria prevent scope creep and missed edge cases</li>
+  <li><strong>Design upfront</strong>: Identifying issues before coding saves debugging time</li>
+  <li><strong>Maintenance is part of the spec</strong>: Don’t just build it, plan to maintain it</li>
+  <li><strong>Tools like Kiro are game-changers</strong>: Structured approaches scale better than ad-hoc methods</li>
+</ol>
+
+<h2 id="the-bottom-line">The Bottom Line</h2>
+
+<p>What started as a comeback blog post became a demonstration of modern development practices. The combination of returning from hiatus with 12 security alerts created the perfect opportunity to try spec-driven development with Kiro.</p>
+
+<p>The systematic approach took more time upfront but resulted in:</p>
+<ul>
+  <li><strong>Zero security vulnerabilities</strong></li>
+  <li><strong>Improved performance and modern dependencies</strong></li>
+  <li><strong>Comprehensive documentation and procedures</strong></li>
+  <li><strong>Clear roadmap for future improvements</strong></li>
+  <li><strong>Confidence in ongoing maintenance</strong></li>
+</ul>
+
+<p>The blog is now running on Ruby 3.3.9 with the latest secure versions of all dependencies. More importantly, I have a proven methodology for future updates—both security and feature enhancements.</p>
+
+<p>This is just the beginning of my return to regular blogging. With a solid, secure foundation and a clear development methodology, I’m excited to continue improving this blog and sharing more technical insights.</p>
+
+<p>The next posts will dive deeper into spec-driven development, the upcoming UX redesign process, and how GitHub Discussions will transform the commenting experience.</p>
+
+<p>I will try to do regular blogging after a multi-year dormancy! 🚀</p>
+
+<hr />
+<!--
+*The complete specification documentation for this security hardening project, including requirements, design documents, task breakdowns, and maintenance procedures, is available in the [blog repository](https://github.com/mani2106/Blog-Posts) under `.kiro/specs/gemfile-security-hardening/`.* -->
+
+      </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="mani2106/Blog-Posts"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/Blog-Posts/security/jekyll/ruby/devops/maintenance/kiro/spec-driven-development/2025/09/30/jekyll-blog-security-hardening-journey.html" hidden></a>
+    </main>
+  </div>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/Blog-Posts/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/Blog-Posts/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/Blog-Posts/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Manimaran Panneerselvam</li>
+          <li><a class="u-email" href="mailto:manimaran_p@outlook.com">manimaran_p@outlook.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>This is where I write about my work on data science. I will also post Notebooks and sample codes to solve some interesting problems that I face everyday.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/mani2106" target="_blank" title="mani2106"><svg class="svg-icon grey"><use xlink:href="/Blog-Posts/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/manimaran-p" target="_blank" title="manimaran-p"><svg class="svg-icon grey"><use xlink:href="/Blog-Posts/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/mani_maranp" target="_blank" title="mani_maranp"><svg class="svg-icon grey"><use xlink:href="/Blog-Posts/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
