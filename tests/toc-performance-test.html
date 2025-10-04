@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOC Performance Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-results { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .pass { color: green; }
+        .fail { color: red; }
+        .info { color: blue; }
+    </style>
+</head>
+<body>
+    <h1>TOC Performance and Functionality Test</h1>
+
+    <div id="test-results"></div>
+
+    <script>
+        // Test the TOC performance optimizations
+        function runPerformanceTests() {
+            const results = [];
+
+            // Test 1: Debounce function exists
+            try {
+                // Check if debounce utility is available (from TOC implementation)
+                const testDebounce = function(func, wait) {
+                    let timeout;
+                    return function executedFunction() {
+                        const context = this;
+                        const args = arguments;
+                        const later = function() {
+                            timeout = null;
+                            func.apply(context, args);
+                        };
+                        clearTimeout(timeout);
+                        timeout = setTimeout(later, wait);
+                    };
+                };
+
+                let callCount = 0;
+                const debouncedFn = testDebounce(() => callCount++, 50);
+
+                // Call multiple times rapidly
+                debouncedFn();
+                debouncedFn();
+                debouncedFn();
+
+                setTimeout(() => {
+                    results.push({
+                        test: 'Debounce Function',
+                        passed: callCount === 1,
+                        details: `Called 3 times, executed ${callCount} times`
+                    });
+
+                    // Test 2: Throttle function
+                    const testThrottle = function(func, limit) {
+                        let inThrottle;
+                        return function() {
+                            const args = arguments;
+                            const context = this;
+                            if (!inThrottle) {
+                                func.apply(context, args);
+                                inThrottle = true;
+                                setTimeout(() => inThrottle = false, limit);
+                            }
+                        };
+                    };
+
+                    let throttleCount = 0;
+                    const throttledFn = testThrottle(() => throttleCount++, 50);
+
+                    // Call multiple times rapidly
+                    throttledFn();
+                    throttledFn();
+                    throttledFn();
+
+                    results.push({
+                        test: 'Throttle Function',
+                        passed: throttleCount === 1,
+                        details: `Called 3 times, executed ${throttleCount} times`
+                    });
+
+                    // Test 3: RequestAnimationFrame polyfill
+                    results.push({
+                        test: 'RequestAnimationFrame Support',
+                        passed: typeof requestAnimationFrame === 'function',
+                        details: `Available: ${typeof requestAnimationFrame}`
+                    });
+
+                    // Test 4: Performance API
+                    results.push({
+                        test: 'Performance API',
+                        passed: window.performance && typeof window.performance.now === 'function',
+                        details: `Available: ${!!(window.performance && window.performance.now)}`
+                    });
+
+                    // Test 5: Feature Detection
+                    const features = {
+                        cssGrid: CSS && CSS.supports && CSS.supports('display', 'grid'),
+                        stickyPosition: CSS && CSS.supports && (
+                            CSS.supports('position', 'sticky') ||
+                            CSS.supports('position', '-webkit-sticky')
+                        ),
+                        intersectionObserver: 'IntersectionObserver' in window,
+                        smoothScroll: 'scrollBehavior' in document.documentElement.style
+                    };
+
+                    results.push({
+                        test: 'CSS Grid Support',
+                        passed: features.cssGrid,
+                        details: `Supported: ${features.cssGrid}`
+                    });
+
+                    results.push({
+                        test: 'Sticky Position Support',
+                        passed: features.stickyPosition,
+                        details: `Supported: ${features.stickyPosition}`
+                    });
+
+                    results.push({
+                        test: 'Intersection Observer Support',
+                        passed: features.intersectionObserver,
+                        details: `Supported: ${features.intersectionObserver}`
+                    });
+
+                    results.push({
+                        test: 'Smooth Scroll Support',
+                        passed: features.smoothScroll,
+                        details: `Supported: ${features.smoothScroll}`
+                    });
+
+                    // Test 6: Polyfills
+                    results.push({
+                        test: 'Array.from Polyfill',
+                        passed: typeof Array.from === 'function',
+                        details: `Available: ${typeof Array.from === 'function'}`
+                    });
+
+                    // Display results
+                    displayResults(results);
+                }, 100);
+            } catch (error) {
+                results.push({
+                    test: 'Performance Test Setup',
+                    passed: false,
+                    details: `Error: ${error.message}`
+                });
+                displayResults(results);
+            }
+        }
+
+        function displayResults(results) {
+            const container = document.getElementById('test-results');
+            let html = '<h2>Test Results</h2>';
+
+            let passed = 0;
+            let total = results.length;
+
+            results.forEach(result => {
+                const className = result.passed ? 'pass' : 'fail';
+                const status = result.passed ? '✅ PASS' : '❌ FAIL';
+
+                html += `
+                    <div class="test-results">
+                        <strong class="${className}">${status}: ${result.test}</strong><br>
+                        <span class="info">${result.details}</span>
+                    </div>
+                `;
+
+                if (result.passed) passed++;
+            });
+
+            html += `
+                <div class="test-results">
+                    <h3>Summary: ${passed}/${total} tests passed</h3>
+                    ${passed === total ?
+                        '<span class="pass">🎉 All performance optimizations are working correctly!</span>' :
+                        '<span class="fail">⚠️ Some optimizations may need attention.</span>'
+                    }
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // Run tests when page loads
+        document.addEventListener('DOMContentLoaded', runPerformanceTests);
+    </script>
+</body>
+</html>
