@@ -1,6 +1,6 @@
 /*-----------------------------------*/
 /*--- IMPORT STYLES FOR FASTPAGES ---*/
-@import "minima/fastpages-styles";   
+@import "minima/fastpages-styles";
 
 
 
@@ -8,4 +8,634 @@
 /*----- ADD YOUR STYLES BELOW -------*/
 
 // If you want to turn off dark background for syntax highlighting, comment or delete the below line.
-@import "minima/fastpages-dracula-highlight"; 
+@import "minima/fastpages-dracula-highlight";
+
+/*-----------------------------------*/
+/*----- STICKY TOC COMPONENT --------*/
+
+// Post container with CSS Grid layout and cross-browser compatibility
+.post-container {
+  display: grid;
+  grid-template-columns: 280px 1fr; // TOC width + Main content
+  grid-gap: 2rem;
+  gap: 2rem; // Fallback for older browsers
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: start;
+  padding: 0 1rem; // Add padding for smaller screens
+
+  // Cross-browser grid support
+  -ms-grid-columns: 280px 2rem 1fr;
+  -ms-grid-rows: auto;
+
+  // IE11 specific positioning
+  .toc-sidebar {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+  }
+
+  .post-main {
+    -ms-grid-column: 3;
+    -ms-grid-row: 1;
+  }
+
+  // Graceful degradation for browsers without CSS Grid support (Requirement 5.3)
+  &.no-css-grid {
+    display: block;
+
+    .toc-sidebar {
+      float: left;
+      width: 280px;
+      margin-right: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .post-main {
+      margin-left: 312px; // 280px + 2rem gap
+    }
+
+    // Clear floats
+    &::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    // On smaller screens, stack vertically
+    @media (max-width: 1024px) {
+      .toc-sidebar {
+        float: none;
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 2rem;
+      }
+
+      .post-main {
+        margin-left: 0;
+      }
+    }
+  }
+
+  // Large desktop screens - wider TOC
+  @media (min-width: 1400px) {
+    grid-template-columns: 320px 1fr;
+    grid-gap: 3rem;
+  }
+
+  // Tablet and smaller desktop - hide TOC
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr; // Single column layout
+    grid-gap: 1rem;
+    padding: 0 1.5rem;
+  }
+
+  // Mobile devices - minimal padding
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  // Very small mobile devices
+  @media (max-width: 480px) {
+    padding: 0 0.75rem;
+  }
+}
+
+// Sticky TOC sidebar with cross-browser compatibility
+.toc-sidebar {
+  position: -webkit-sticky; // Safari support
+  position: sticky;
+  top: 2rem; // Offset from top when sticky
+  height: -webkit-fit-content; // Safari support
+  height: -moz-fit-content; // Firefox support
+  height: fit-content;
+  max-height: calc(100vh - 4rem); // Prevent overflow beyond viewport
+  max-height: -webkit-calc(100vh - 4rem); // Safari support
+  overflow-y: auto;
+  min-width: 0; // Prevent overflow issues
+
+  // Performance optimization: Enable hardware acceleration
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+
+  // Graceful degradation for browsers without sticky positioning (Requirement 5.3)
+  &.no-sticky-position {
+    position: static;
+    max-height: none;
+
+    // Add visual indicator that TOC is not sticky
+    &::before {
+      content: "📌 Table of Contents";
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      background-color: var(--info-background, #e3f2fd);
+      border-left: 3px solid var(--info-border, #2196f3);
+      border-radius: 4px;
+      color: var(--info-text, #1565c0);
+    }
+  }
+
+  // Hide TOC on tablet and mobile devices
+  @media (max-width: 1024px) {
+    display: none;
+  }
+
+  // Ensure TOC doesn't cause horizontal scroll
+  @media (min-width: 1025px) {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  // Wider TOC on large screens
+  @media (min-width: 1400px) {
+    max-width: 320px;
+  }
+}
+
+// Main post content area
+.post-main {
+  min-width: 0; // Prevent grid overflow issues
+  width: 100%;
+  overflow-wrap: break-word; // Prevent long words from causing horizontal scroll
+  word-wrap: break-word; // Legacy support
+
+  // Ensure content doesn't overflow on mobile
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+}
+
+// TOC container styling to match blog design system
+.toc-container {
+  background: #ffffff;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  padding: 1.5rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  // Loading state styling for performance optimization
+  &.toc-loading {
+    .toc-loading-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 2rem 1rem;
+      color: #6a737d;
+      font-size: 0.85rem;
+
+      .toc-spinner {
+        width: 24px;
+        height: 24px;
+        border: 2px solid #e1e4e8;
+        border-top: 2px solid #0366d6;
+        border-radius: 50%;
+        animation: toc-spin 1s linear infinite;
+        margin-bottom: 0.75rem;
+      }
+
+      span {
+        text-align: center;
+        font-style: italic;
+      }
+    }
+  }
+
+  &.toc-loaded {
+    .toc-loading-indicator {
+      display: none;
+    }
+  }
+
+  // TOC header styling
+  .toc-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #e1e4e8;
+
+    .toc-title {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #24292e;
+      font-family: "Segoe UI", SegoeUI, Roboto, "Segoe WP", "Helvetica Neue", "Helvetica", "Tahoma", "Arial", sans-serif;
+    }
+  }
+
+  // TOC navigation area
+  .toc-nav {
+    #toc {
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+          margin: 0.25rem 0;
+          line-height: 1.4;
+
+          a {
+            display: block;
+            padding: 0.375rem 0.75rem;
+            color: #515151;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.15s ease-in-out;
+            font-size: 0.9rem;
+            border-left: 3px solid transparent;
+
+            // Hover states for accessibility (Requirement 4.2)
+            &:hover {
+              background-color: #f6f8fa;
+              color: #24292e;
+              border-left-color: #d1d5da;
+            }
+
+            // Focus indicators for accessibility (Requirement 4.2)
+            &:focus {
+              outline: 2px solid #0366d6;
+              outline-offset: 2px;
+              background-color: #f1f8ff;
+              color: #0366d6;
+            }
+
+            // Active section highlighting (Requirement 3.4)
+            &.toc-active {
+              background-color: #f1f8ff;
+              color: #0366d6;
+              font-weight: 600;
+              border-left-color: #0366d6;
+            }
+          }
+
+          // Header hierarchy indentation (Requirement 4.3)
+          // Second level (H3)
+          ul {
+            margin-left: 1rem;
+            margin-top: 0.25rem;
+
+            li a {
+              font-size: 0.85rem;
+              color: #586069;
+              padding: 0.25rem 0.5rem;
+
+              &:hover {
+                color: #24292e;
+              }
+
+              &.toc-active {
+                color: #0366d6;
+                font-weight: 500;
+              }
+            }
+
+            // Third level (H4)
+            ul {
+              margin-left: 1rem;
+
+              li a {
+                font-size: 0.8rem;
+                color: #6a737d;
+                padding: 0.2rem 0.4rem;
+
+                &:hover {
+                  color: #586069;
+                }
+
+                &.toc-active {
+                  color: #0366d6;
+                  font-weight: 500;
+                }
+              }
+
+              // Fourth level (H5) and beyond
+              ul {
+                margin-left: 0.75rem;
+
+                li a {
+                  font-size: 0.75rem;
+                  color: #959da5;
+                  padding: 0.15rem 0.3rem;
+
+                  &:hover {
+                    color: #6a737d;
+                  }
+
+                  &.toc-active {
+                    color: #0366d6;
+                    font-weight: 500;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Graceful degradation styling when Intersection Observer is not supported (Requirement 5.3)
+.toc-container.no-intersection-observer {
+  .toc-nav::after {
+    content: "ℹ️ Active section highlighting unavailable in this browser";
+    display: block;
+    font-size: 0.75rem;
+    color: #6a737d;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 4px;
+    text-align: center;
+  }
+
+  #toc ul li a {
+    // Slightly different styling to indicate reduced functionality
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+}
+
+// Dark theme support to match blog's color scheme
+@media (prefers-color-scheme: dark) {
+  .toc-container {
+    background: #0d1117;
+    border-color: #30363d;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+    .toc-header {
+      border-bottom-color: #30363d;
+
+      .toc-title {
+        color: #f0f6fc;
+      }
+    }
+
+    .toc-nav #toc ul li a {
+      color: #c9d1d9;
+
+      &:hover {
+        background-color: #21262d;
+        color: #f0f6fc;
+        border-left-color: #6e7681;
+      }
+
+      &:focus {
+        outline-color: #58a6ff;
+        background-color: #1c2128;
+        color: #58a6ff;
+      }
+
+      &.toc-active {
+        background-color: #1c2128;
+        color: #58a6ff;
+        border-left-color: #58a6ff;
+      }
+    }
+
+    // Nested levels in dark theme
+    .toc-nav #toc ul li ul li a {
+      color: #8b949e;
+
+      &:hover {
+        color: #c9d1d9;
+      }
+
+      &.toc-active {
+        color: #58a6ff;
+      }
+    }
+
+    .toc-nav #toc ul li ul li ul li a {
+      color: #6e7681;
+
+      &:hover {
+        color: #8b949e;
+      }
+
+      &.toc-active {
+        color: #58a6ff;
+      }
+    }
+
+    .toc-nav #toc ul li ul li ul li ul li a {
+      color: #484f58;
+
+      &:hover {
+        color: #6e7681;
+      }
+
+      &.toc-active {
+        color: #58a6ff;
+      }
+    }
+  }
+
+  // Dark theme for graceful degradation message
+  .toc-container.no-intersection-observer .toc-nav::after {
+    background-color: #332b00;
+    border-color: #7d6608;
+    color: #e3b341;
+  }
+}
+
+// Additional responsive utilities to prevent horizontal scrolling
+* {
+  box-sizing: border-box;
+}
+
+// Ensure images and other content don't overflow
+.post-content {
+  img, video, iframe, embed, object {
+    max-width: 100%;
+    height: auto;
+  }
+
+  // Prevent code blocks from causing horizontal scroll
+  pre, code {
+    overflow-x: auto;
+    word-wrap: break-word;
+  }
+
+  // Ensure tables are responsive
+  table {
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+    white-space: nowrap;
+
+    @media (max-width: 768px) {
+      font-size: 0.85rem;
+    }
+  }
+}
+
+// Mobile-specific optimizations
+@media (max-width: 768px) {
+  // Ensure body doesn't overflow
+  body {
+    overflow-x: hidden;
+  }
+
+  // Reduce font sizes slightly on mobile for better fit
+  .post-content {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  // Adjust heading sizes on mobile
+  .post-content h1 { font-size: 1.75rem; }
+  .post-content h2 { font-size: 1.5rem; }
+  .post-content h3 { font-size: 1.25rem; }
+  .post-content h4 { font-size: 1.1rem; }
+  .post-content h5 { font-size: 1rem; }
+  .post-content h6 { font-size: 0.9rem; }
+}
+
+// Very small mobile devices (phones in portrait)
+@media (max-width: 480px) {
+  .post-content {
+    font-size: 0.9rem;
+  }
+
+  .post-content h1 { font-size: 1.5rem; }
+  .post-content h2 { font-size: 1.3rem; }
+  .post-content h3 { font-size: 1.15rem; }
+}
+
+// Additional TOC styling to match blog design system (Requirement 4.4)
+.toc-container {
+  // Ensure TOC uses the same font family as the blog
+  font-family: "Segoe UI", SegoeUI, Roboto, "Segoe WP", "Helvetica Neue", "Helvetica", "Tahoma", "Arial", sans-serif;
+
+  // Add subtle animation for better UX
+  .toc-nav #toc ul li a {
+    position: relative;
+
+    // Smooth transitions for all interactive states
+    transition: all 0.15s ease-in-out;
+
+    // Add subtle left border animation
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      background-color: #0366d6;
+      transition: width 0.15s ease-in-out;
+    }
+
+    &:hover::before,
+    &:focus::before {
+      width: 2px;
+    }
+
+    &.toc-active::before {
+      width: 3px;
+    }
+  }
+
+  // Ensure proper text rendering
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+// Print styles - hide TOC when printing
+@media print {
+  .toc-sidebar,
+  .toc-container {
+    display: none !important;
+  }
+
+  .post-container {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+// High contrast mode support for accessibility
+@media (prefers-contrast: high) {
+  .toc-container {
+    border-width: 2px;
+
+    .toc-nav #toc ul li a {
+      border-width: 2px;
+
+      &:focus {
+        outline-width: 3px;
+      }
+
+      &.toc-active {
+        border-left-width: 4px;
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+// Spinner animation for loading state
+@keyframes toc-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Performance optimizations: Hardware acceleration for smooth animations
+.toc-container {
+  .toc-nav #toc ul li a {
+    // Enable hardware acceleration for smooth transitions
+    transform: translateZ(0);
+    backface-visibility: hidden;
+
+    &::before {
+      // Hardware acceleration for border animations
+      transform: translateZ(0);
+      will-change: width;
+    }
+
+    &.toc-active {
+      // Optimize active state transitions
+      will-change: background-color, color, border-left-color;
+    }
+  }
+
+  // Optimize loading spinner performance
+  &.toc-loading .toc-loading-indicator .toc-spinner {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+}
+
+// Performance optimization: Contain layout changes to TOC area
+.toc-sidebar {
+  contain: layout style paint;
+}
+
+// Reduced motion support for accessibility
+@media (prefers-reduced-motion: reduce) {
+  .toc-container .toc-nav #toc ul li a {
+    transition: none;
+
+    &::before {
+      transition: none;
+    }
+  }
+
+  // Disable spinner animation for users who prefer reduced motion
+  .toc-container.toc-loading .toc-loading-indicator .toc-spinner {
+    animation: none;
+    border-top-color: #6a737d;
+  }
+}
