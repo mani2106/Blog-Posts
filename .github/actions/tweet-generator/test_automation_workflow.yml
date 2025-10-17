@@ -1,0 +1,426 @@
+name: Tweet Generator Comprehensive Test Suite
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - '.github/actions/tweet-generator/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '.github/actions/tweet-generator/**'
+  schedule:
+    # Run tests daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Test suite to run'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - unit
+          - integration
+          - performance
+          - security
+      verbose:
+        description: 'Verbose output'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      test-matrix: ${{ steps.setup-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup test matrix
+        id: setup-matrix
+        run: |
+          if [ "${{ github.event.inputs.test_suite }}" = "unit" ]; then
+            echo 'matrix=["unit"]' >> $GITHUB_OUTPUT
+          elif [ "${{ github.event.inputs.test_suite }}" = "integration" ]; then
+            echo 'matrix=["integration"]' >> $GITHUB_OUTPUT
+          elif [ "${{ github.event.inputs.test_suite }}" = "performance" ]; then
+            echo 'matrix=["performance"]' >> $GITHUB_OUTPUT
+          elif [ "${{ github.event.inputs.test_suite }}" = "security" ]; then
+            echo 'matrix=["security"]' >> $GITHUB_OUTPUT
+          else
+            echo 'matrix=["unit", "integration", "performance", "security"]' >> $GITHUB_OUTPUT
+          fi
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    needs: setup
+    if: contains(fromJson(needs.setup.outputs.test-matrix), 'unit')
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('.github/actions/tweet-generator/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov pytest-mock pytest-asyncio
+
+      - name: Generate test data
+        run: |
+          cd .github/actions/tweet-generator
+          python test_data_sets.py
+
+      - name: Run content detection tests
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest test_content_detection.py -v --tb=short
+
+      - name: Run style analysis tests
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest test_style_analysis.py -v --tb=short
+
+      - name: Run AI integration tests
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest test_ai_integration.py -v --tb=short
+
+      - name: Run engagement optimization tests
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest test_engagement_optimization.py -v --tb=short
+
+      - name: Run validation safety tests
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest test_validation_safety.py -v --tb=short
+
+      - name: Generate unit test coverage report
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest test_content_detection.py test_style_analysis.py test_ai_integration.py test_engagement_optimization.py test_validation_safety.py --cov=src --cov-report=xml --cov-report=html
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: .github/actions/tweet-generator/coverage.xml
+          flags: unit-tests
+          name: unit-tests-${{ matrix.python-version }}
+
+      - name: Upload unit test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: unit-test-results-${{ matrix.python-version }}
+          path: |
+            .github/actions/tweet-generator/htmlcov/
+            .github/actions/tweet-generator/test_results.log
+
+  integration-tests:
+    runs-on: ubuntu-latest
+    needs: setup
+    if: contains(fromJson(needs.setup.outputs.test-matrix), 'integration')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-mock pytest-asyncio
+
+      - name: Generate test data
+        run: |
+          cd .github/actions/tweet-generator
+          python test_data_sets.py
+
+      - name: Run GitHub integration tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest test_github_integration.py -v --tb=short
+
+      - name: Run Twitter integration tests
+        env:
+          # Use dummy values for testing - tests should mock API calls
+          TWITTER_API_KEY: dummy_key
+          TWITTER_API_SECRET: dummy_secret
+          TWITTER_ACCESS_TOKEN: dummy_token
+          TWITTER_ACCESS_TOKEN_SECRET: dummy_token_secret
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest test_twitter_integration.py -v --tb=short
+
+      - name: Run end-to-end tests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENROUTER_API_KEY: dummy_key
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest test_end_to_end.py -v --tb=short
+
+      - name: Upload integration test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: integration-test-results
+          path: |
+            .github/actions/tweet-generator/test_results.log
+            .github/actions/tweet-generator/test_output/
+
+  performance-tests:
+    runs-on: ubuntu-latest
+    needs: setup
+    if: contains(fromJson(needs.setup.outputs.test-matrix), 'performance')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-benchmark memory-profiler psutil
+
+      - name: Generate test data
+        run: |
+          cd .github/actions/tweet-generator
+          python test_data_sets.py
+
+      - name: Run performance tests
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest test_performance.py -v --tb=short --benchmark-only
+
+      - name: Run memory profiling tests
+        run: |
+          cd .github/actions/tweet-generator
+          python test_performance.py
+
+      - name: Upload performance test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: performance-test-results
+          path: |
+            .github/actions/tweet-generator/performance_results.json
+            .github/actions/tweet-generator/memory_profile.log
+
+  security-tests:
+    runs-on: ubuntu-latest
+    needs: setup
+    if: contains(fromJson(needs.setup.outputs.test-matrix), 'security')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest bandit safety
+
+      - name: Run security tests
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest test_security_safety.py -v --tb=short
+
+      - name: Run Bandit security linter
+        run: |
+          cd .github/actions/tweet-generator
+          bandit -r src/ -f json -o bandit_results.json || true
+
+      - name: Check dependencies for known vulnerabilities
+        run: |
+          cd .github/actions/tweet-generator
+          safety check --json --output safety_results.json || true
+
+      - name: Upload security test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: security-test-results
+          path: |
+            .github/actions/tweet-generator/bandit_results.json
+            .github/actions/tweet-generator/safety_results.json
+            .github/actions/tweet-generator/test_results.log
+
+  comprehensive-test:
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests, performance-tests, security-tests]
+    if: always() && contains(fromJson(needs.setup.outputs.test-matrix), 'unit')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Generate test data
+        run: |
+          cd .github/actions/tweet-generator
+          python test_data_sets.py
+
+      - name: Run comprehensive test suite
+        run: |
+          cd .github/actions/tweet-generator
+          python test_comprehensive_suite.py
+
+      - name: Upload comprehensive test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: comprehensive-test-results
+          path: |
+            .github/actions/tweet-generator/comprehensive_test_results.json
+            .github/actions/tweet-generator/comprehensive_test_results.log
+            .github/actions/tweet-generator/detailed_test_report.md
+            .github/actions/tweet-generator/junit_results.xml
+
+  test-summary:
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests, performance-tests, security-tests, comprehensive-test]
+    if: always()
+
+    steps:
+      - name: Download all test artifacts
+        uses: actions/download-artifact@v3
+
+      - name: Generate test summary
+        run: |
+          echo "# Test Suite Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Check job statuses
+          echo "## Job Results" >> $GITHUB_STEP_SUMMARY
+          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Unit Tests | ${{ needs.unit-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Integration Tests | ${{ needs.integration-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Performance Tests | ${{ needs.performance-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Security Tests | ${{ needs.security-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Comprehensive Test | ${{ needs.comprehensive-test.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Overall status
+          if [ "${{ needs.unit-tests.result }}" = "success" ] && \
+             [ "${{ needs.integration-tests.result }}" = "success" ] && \
+             [ "${{ needs.performance-tests.result }}" = "success" ] && \
+             [ "${{ needs.security-tests.result }}" = "success" ]; then
+            echo "## ✅ Overall Status: PASSED" >> $GITHUB_STEP_SUMMARY
+            echo "All test suites completed successfully!" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## ❌ Overall Status: FAILED" >> $GITHUB_STEP_SUMMARY
+            echo "One or more test suites failed. Please review the results." >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "- Test results and coverage reports are available in the artifacts section" >> $GITHUB_STEP_SUMMARY
+          echo "- Detailed reports include performance benchmarks and security analysis" >> $GITHUB_STEP_SUMMARY
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { owner, repo, number } = context.issue;
+
+            let status = "✅ PASSED";
+            if ("${{ needs.unit-tests.result }}" !== "success" ||
+                "${{ needs.integration-tests.result }}" !== "success" ||
+                "${{ needs.performance-tests.result }}" !== "success" ||
+                "${{ needs.security-tests.result }}" !== "success") {
+              status = "❌ FAILED";
+            }
+
+            const body = `## Tweet Generator Test Results ${status}
+
+            | Test Suite | Status |
+            |------------|--------|
+            | Unit Tests | ${{ needs.unit-tests.result }} |
+            | Integration Tests | ${{ needs.integration-tests.result }} |
+            | Performance Tests | ${{ needs.performance-tests.result }} |
+            | Security Tests | ${{ needs.security-tests.result }} |
+            | Comprehensive Test | ${{ needs.comprehensive-test.result }} |
+
+            ${status === "✅ PASSED" ?
+              "All tests passed! The tweet generator is ready for deployment." :
+              "Some tests failed. Please review the test results and fix any issues before merging."
+            }
+
+            📊 Detailed results are available in the [Actions tab](${context.payload.repository.html_url}/actions/runs/${context.runId}).`;
+
+            github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: number,
+              body
+            });
+
+  notify-failure:
+    runs-on: ubuntu-latest
+    needs: [unit-tests, integration-tests, performance-tests, security-tests]
+    if: failure() && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Notify on failure
+        run: |
+          echo "🚨 Test suite failed on main branch!"
+          echo "This indicates a regression that needs immediate attention."
+          # In a real scenario, you might send notifications to Slack, email, etc.

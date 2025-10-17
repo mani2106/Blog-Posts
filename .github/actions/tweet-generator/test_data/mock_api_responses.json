@@ -1,0 +1,24 @@
+{
+  "openrouter_thread_generation": {
+    "choices": [
+      {
+        "message": {
+          "content": "{\"hook_variations\": [\"\\ud83e\\uddf5 THREAD: The Python decorator pattern that changed how I write code\", \"What if I told you there's a Python feature that can 10x your code quality?\", \"Most developers use decorators wrong. Here's the right way:\"], \"tweets\": [\"\\ud83e\\uddf5 THREAD: The Python decorator pattern that changed how I write code\\n\\nDecorators aren't just syntactic sugar - they're a powerful tool for writing cleaner, more maintainable code.\\n\\nHere's what I wish I knew when I started: \\ud83e\\uddf51/7\", \"At their core, decorators are functions that modify other functions.\\n\\nThey follow the principle of \\\"wrapping\\\" functionality around existing code without modifying the original function.\\n\\nThink of them as code enhancers. \\ud83e\\uddf52/7\", \"Here's a simple example:\\n\\n```python\\ndef my_decorator(func):\\n    def wrapper(*args, **kwargs):\\n        print(f\\\"Calling {func.__name__}\\\")\\n        result = func(*args, **kwargs)\\n        return result\\n    return wrapper\\n```\\n\\n\\ud83e\\uddf53/7\", \"But the real power comes with advanced patterns:\\n\\n\\u2705 Decorators with arguments\\n\\u2705 Class-based decorators  \\n\\u2705 Chaining multiple decorators\\n\\u2705 Preserving function metadata\\n\\nEach pattern solves different problems. \\ud83e\\uddf54/7\", \"I've used these patterns in production to:\\n\\n\\u2022 Implement automatic retry logic for API calls\\n\\u2022 Add caching to expensive database queries\\n\\u2022 Create rate limiting for endpoints\\n\\u2022 Build comprehensive logging\\n\\nThey separate concerns beautifully. \\ud83e\\uddf55/7\", \"The key insight: decorators allow you to keep business logic focused while handling cross-cutting concerns elegantly.\\n\\nYour functions do one thing well, decorators handle the rest.\\n\\nThis is the path to maintainable code. \\ud83e\\uddf56/7\", \"Best practices:\\n\\n1. Use functools.wraps to preserve metadata\\n2. Handle edge cases and exceptions\\n3. Make decorators configurable\\n4. Test thoroughly\\n\\nWhat decorator patterns have you found most useful?\\n\\nShare your experiences! \\ud83e\\uddf57/7\"], \"hashtags\": [\"#Python\", \"#Programming\"]}"
+        }
+      }
+    ]
+  },
+  "github_pr_creation": {
+    "number": 123,
+    "html_url": "https://github.com/user/repo/pull/123",
+    "title": "Generated tweet thread for: Advanced Python Decorators"
+  },
+  "twitter_thread_posting": {
+    "tweet_ids": [
+      "1234567890",
+      "1234567891",
+      "1234567892"
+    ],
+    "success": true
+  }
+}

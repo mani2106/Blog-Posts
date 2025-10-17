@@ -55,6 +55,20 @@ jobs:
         sudo chmod -R 777 _site/
         cp CNAME _site/ 2>/dev/null || :
 
+    # Generate tweet threads after successful build
+    - name: Generate tweet threads
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: ./.github/actions/tweet-generator
+      with:
+        openrouter_api_key: ${{ secrets.OPENROUTER_API_KEY }}
+        config_file: '.github/tweet-generator-config.yml'
+        posts_directory: '_posts'
+        notebooks_directory: '_notebooks'
+        base_branch: 'master'
+        dry_run: 'false'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Deploy
       if: github.event_name == 'push'
       uses: peaceiris/actions-gh-pages@v4

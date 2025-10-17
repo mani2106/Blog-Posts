@@ -1,0 +1,130 @@
+{
+  "technical_blogger": {
+    "vocabulary_patterns": {
+      "technical_terms": [
+        "implementation",
+        "architecture",
+        "optimization",
+        "scalability"
+      ],
+      "common_words": [
+        "system",
+        "code",
+        "function",
+        "data",
+        "performance"
+      ],
+      "complexity_level": "high"
+    },
+    "tone_indicators": {
+      "formality": "professional",
+      "enthusiasm": "moderate",
+      "confidence": "high",
+      "teaching_style": "explanatory"
+    },
+    "content_structures": {
+      "preferred_formats": [
+        "numbered_lists",
+        "code_examples",
+        "step_by_step"
+      ],
+      "average_section_length": 150,
+      "uses_subheadings": true
+    },
+    "emoji_usage": {
+      "frequency": "low",
+      "types": [
+        "\ud83d\ude80",
+        "\u26a1",
+        "\ud83d\udd27",
+        "\ud83d\udca1"
+      ]
+    }
+  },
+  "personal_blogger": {
+    "vocabulary_patterns": {
+      "personal_pronouns": [
+        "I",
+        "my",
+        "me",
+        "we"
+      ],
+      "emotional_words": [
+        "excited",
+        "frustrated",
+        "learned",
+        "discovered"
+      ],
+      "complexity_level": "medium"
+    },
+    "tone_indicators": {
+      "formality": "casual",
+      "enthusiasm": "high",
+      "confidence": "moderate",
+      "teaching_style": "storytelling"
+    },
+    "content_structures": {
+      "preferred_formats": [
+        "stories",
+        "lessons_learned",
+        "personal_anecdotes"
+      ],
+      "average_section_length": 120,
+      "uses_subheadings": true
+    },
+    "emoji_usage": {
+      "frequency": "medium",
+      "types": [
+        "\ud83d\ude0a",
+        "\ud83c\udf89",
+        "\ud83d\udcad",
+        "\ud83c\udf1f",
+        "\ud83d\ude80"
+      ]
+    }
+  },
+  "data_science_blogger": {
+    "vocabulary_patterns": {
+      "technical_terms": [
+        "model",
+        "algorithm",
+        "dataset",
+        "prediction",
+        "analysis"
+      ],
+      "statistical_terms": [
+        "correlation",
+        "regression",
+        "distribution",
+        "variance"
+      ],
+      "complexity_level": "high"
+    },
+    "tone_indicators": {
+      "formality": "professional",
+      "enthusiasm": "moderate",
+      "confidence": "high",
+      "teaching_style": "analytical"
+    },
+    "content_structures": {
+      "preferred_formats": [
+        "methodology",
+        "results",
+        "code_examples",
+        "visualizations"
+      ],
+      "average_section_length": 180,
+      "uses_subheadings": true
+    },
+    "emoji_usage": {
+      "frequency": "low",
+      "types": [
+        "\ud83d\udcca",
+        "\ud83d\udcc8",
+        "\ud83d\udd0d",
+        "\ud83d\udca1",
+        "\u26a1"
+      ]
+    }
+  }
+}

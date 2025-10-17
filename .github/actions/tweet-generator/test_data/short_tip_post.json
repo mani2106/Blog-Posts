@@ -1,0 +1,34 @@
+{
+  "file_path": "_posts/2024-04-01-git-aliases-productivity.md",
+  "frontmatter": {
+    "title": "5 Git Aliases That Will 10x Your Productivity",
+    "date": "2024-04-01",
+    "categories": [
+      "git",
+      "productivity",
+      "tips"
+    ],
+    "tags": [
+      "git",
+      "aliases",
+      "productivity",
+      "workflow"
+    ],
+    "summary": "Simple Git aliases that will dramatically speed up your development workflow.",
+    "publish": true,
+    "auto_post": true,
+    "canonical_url": "https://example.com/git-aliases-productivity"
+  },
+  "content": "# 5 Git Aliases That Will 10x Your Productivity\n\nStop typing the same long Git commands over and over. These 5 aliases will transform your workflow.\n\n## 1. Super Status\n```bash\ngit config --global alias.s \"status -sb\"\n```\nInstead of `git status`, just type `git s` for a clean, branch-aware status.\n\n## 2. Pretty Logs\n```bash\ngit config --global alias.lg \"log --oneline --graph --decorate --all\"\n```\n`git lg` gives you a beautiful, visual commit history.\n\n## 3. Quick Commit\n```bash\ngit config --global alias.ac \"!git add -A && git commit -m\"\n```\n`git ac \"message\"` stages everything and commits in one command.\n\n## 4. Undo Last Commit\n```bash\ngit config --global alias.undo \"reset HEAD~1 --mixed\"\n```\n`git undo` safely undoes your last commit while keeping changes.\n\n## 5. Branch Cleanup\n```bash\ngit config --global alias.cleanup \"!git branch --merged | grep -v '\\*\\|master\\|main' | xargs -n 1 git branch -d\"\n```\n`git cleanup` removes all merged branches automatically.\n\n## Bonus: My Complete .gitconfig\n\nHere's my full alias section:\n```bash\n[alias]\n    s = status -sb\n    lg = log --oneline --graph --decorate --all\n    ac = !git add -A && git commit -m\n    undo = reset HEAD~1 --mixed\n    cleanup = !git branch --merged | grep -v '\\*\\|master\\|main' | xargs -n 1 git branch -d\n    co = checkout\n    br = branch\n    ci = commit\n    st = status\n```\n\nThese aliases have saved me hours every week. Set them up once, benefit forever.\n\nWhat are your favorite Git aliases? Share them below!",
+  "expected_hooks": [
+    "productivity_hook",
+    "value_proposition_hook",
+    "numbered_list_hook"
+  ],
+  "expected_engagement_elements": [
+    "code_examples",
+    "numbered_tips",
+    "practical_value",
+    "call_to_action"
+  ]
+}

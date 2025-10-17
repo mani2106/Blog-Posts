@@ -1,0 +1,33 @@
+{
+  "file_path": "_posts/2024-01-15-advanced-python-decorators.md",
+  "frontmatter": {
+    "title": "Advanced Python Decorators: A Complete Guide",
+    "date": "2024-01-15",
+    "categories": [
+      "python",
+      "programming",
+      "tutorial"
+    ],
+    "tags": [
+      "decorators",
+      "advanced",
+      "python"
+    ],
+    "summary": "Learn how to create and use advanced Python decorators for cleaner, more maintainable code.",
+    "publish": true,
+    "auto_post": true,
+    "canonical_url": "https://example.com/advanced-python-decorators"
+  },
+  "content": "# Advanced Python Decorators: A Complete Guide\n\nPython decorators are one of the most powerful features of the language, yet many developers only scratch the surface of what's possible. In this comprehensive guide, we'll explore advanced decorator patterns that will transform how you write Python code.\n\n## What Are Decorators Really?\n\nAt their core, decorators are functions that modify other functions. They follow the principle of \"wrapping\" functionality around existing code without modifying the original function.\n\n```python\ndef my_decorator(func):\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__}\")\n        result = func(*args, **kwargs)\n        print(f\"Finished {func.__name__}\")\n        return result\n    return wrapper\n\n@my_decorator\ndef greet(name):\n    return f\"Hello, {name}!\"\n```\n\n## Advanced Patterns\n\n### 1. Decorators with Arguments\n\n```python\ndef retry(max_attempts=3, delay=1):\n    def decorator(func):\n        def wrapper(*args, **kwargs):\n            for attempt in range(max_attempts):\n                try:\n                    return func(*args, **kwargs)\n                except Exception as e:\n                    if attempt == max_attempts - 1:\n                        raise e\n                    time.sleep(delay)\n        return wrapper\n    return decorator\n```\n\n### 2. Class-Based Decorators\n\n```python\nclass RateLimiter:\n    def __init__(self, max_calls=10, time_window=60):\n        self.max_calls = max_calls\n        self.time_window = time_window\n        self.calls = []\n\n    def __call__(self, func):\n        def wrapper(*args, **kwargs):\n            now = time.time()\n            # Remove old calls\n            self.calls = [call_time for call_time in self.calls\n                         if now - call_time < self.time_window]\n\n            if len(self.calls) >= self.max_calls:\n                raise Exception(\"Rate limit exceeded\")\n\n            self.calls.append(now)\n            return func(*args, **kwargs)\n        return wrapper\n```\n\n## Real-World Applications\n\nI've used these patterns in production systems to:\n- Implement automatic retry logic for API calls\n- Add caching to expensive database queries\n- Create rate limiting for user-facing endpoints\n- Build comprehensive logging and monitoring\n\nThe key insight is that decorators allow you to separate concerns cleanly. Your business logic stays focused, while cross-cutting concerns like logging, caching, and error handling are handled elegantly by decorators.\n\n## Best Practices\n\n1. **Preserve function metadata** using `functools.wraps`\n2. **Handle edge cases** like exceptions and return values\n3. **Make decorators configurable** with parameters\n4. **Test thoroughly** - decorators can hide bugs\n\n## Conclusion\n\nMastering advanced decorator patterns will make you a more effective Python developer. They're not just syntactic sugar - they're a powerful tool for writing cleaner, more maintainable code.\n\nWhat decorator patterns have you found most useful? Share your experiences in the comments!",
+  "expected_hooks": [
+    "curiosity_gap",
+    "value_proposition",
+    "contrarian_take"
+  ],
+  "expected_engagement_elements": [
+    "numbered_list",
+    "code_examples",
+    "personal_anecdote",
+    "call_to_action"
+  ]
+}
