@@ -4,7 +4,7 @@ date: 2025-01-17
 categories: [test, automation]
 summary: "A simple test post to verify the tweet generator is working correctly"
 publish: true
-auto_post: false
+auto_post: true  # Enable auto-posting when ready
 canonical_url: "https://mani2106.github.io/Blog-Posts/test-tweet-generator"
 ---
 
