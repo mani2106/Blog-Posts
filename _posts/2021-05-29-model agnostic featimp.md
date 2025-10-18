@@ -6,6 +6,7 @@ toc: true
 comments: true
 publish: true
 auto_post: true  # Enable auto-posting when ready
+tweet_thread: true
 categories: [take-home, Implementation]
 canonical_url: "https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html"
 ---
