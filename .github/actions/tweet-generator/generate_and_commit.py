@@ -24,7 +24,7 @@ from models import ValidationStatus, GeneratorConfig
 from config import ConfigManager
 from utils import ensure_directory, is_github_actions_environment, get_repository_info
 from logger import setup_logging, get_logger, OperationType
-from metrics import setup_metrics_collection, get_metrics_collector
+from metrics import setup_metrics_collection, get_metrics_collector, ErrorCategory
 from monitoring import setup_monitoring, get_monitoring_dashboard, get_health_monitor
 
 
@@ -64,7 +64,7 @@ def main() -> int:
     logger.info("Starting GitHub Action Tweet Thread Generator")
 
     try:
-        with logger.operation_context(OperationType.CONTENT_DETECTION, operation="initialization") as init_metrics:
+        with logger.operation_context(OperationType.CONTENT_DETECTION) as init_metrics:
             # Load configuration from environment and YAML files
             config = ConfigManager.load_config()
             logger.info("Configuration loaded",
@@ -142,7 +142,7 @@ def main() -> int:
 
         try:
             # Step 1: Detect changed blog posts
-            with logger.operation_context(OperationType.CONTENT_DETECTION, operation="detect_posts") as detect_metrics:
+            with logger.operation_context(OperationType.CONTENT_DETECTION) as detect_metrics:
                 logger.info("Detecting changed blog posts...")
                 changed_posts = content_detector.detect_changed_posts()
                 posts_processed = len(changed_posts)
@@ -159,7 +159,7 @@ def main() -> int:
                            post_slugs=[post.slug for post in changed_posts])
 
             # Step 2: Build or update style profile
-            with logger.operation_context(OperationType.STYLE_ANALYSIS, operation="build_profile") as style_metrics:
+            with logger.operation_context(OperationType.STYLE_ANALYSIS) as style_metrics:
                 logger.info("Analyzing writing style...")
                 try:
                     style_profile = style_analyzer.build_style_profile(
@@ -182,7 +182,7 @@ def main() -> int:
                 except Exception as e:
                     style_metrics.finish(success=False, error=e)
                     metrics.record_error(
-                        error_category=metrics.ErrorCategory.CONTENT_ERROR,
+                        error_category=ErrorCategory.CONTENT_ERROR,
                         error=e,
                         operation_type=OperationType.STYLE_ANALYSIS
                     )
@@ -263,7 +263,7 @@ def main() -> int:
                             if not validation_result.is_valid:
                                 validation_metrics.finish(success=False)
                                 metrics.record_error(
-                                    error_category=metrics.ErrorCategory.VALIDATION_ERROR,
+                                    error_category=ErrorCategory.VALIDATION_ERROR,
                                     error=Exception(validation_result.message),
                                     operation_type=OperationType.CONTENT_VALIDATION,
                                     post_slug=post.slug
@@ -304,7 +304,7 @@ def main() -> int:
                                 else:
                                     posting_metrics.finish(success=False, error=Exception(post_result.error_message))
                                     metrics.record_error(
-                                        error_category=metrics.ErrorCategory.API_ERROR,
+                                        error_category=ErrorCategory.API_ERROR,
                                         error=Exception(post_result.error_message),
                                         operation_type=OperationType.AUTO_POSTING,
                                         post_slug=post.slug
@@ -348,7 +348,7 @@ def main() -> int:
                     except Exception as e:
                         post_metrics.finish(success=False, error=e)
                         metrics.record_error(
-                            error_category=metrics.ErrorCategory.UNKNOWN_ERROR,
+                            error_category=ErrorCategory.UNKNOWN_ERROR,
                             error=e,
                             operation_type=OperationType.AI_GENERATION,
                             post_slug=post.slug
@@ -451,7 +451,7 @@ def main() -> int:
 
         except Exception as e:
             metrics.record_error(
-                error_category=metrics.ErrorCategory.UNKNOWN_ERROR,
+                error_category=ErrorCategory.UNKNOWN_ERROR,
                 error=e,
                 operation_type=OperationType.CONTENT_DETECTION
             )
@@ -476,7 +476,7 @@ def main() -> int:
     except Exception as e:
         if 'metrics' in locals():
             metrics.record_error(
-                error_category=metrics.ErrorCategory.UNKNOWN_ERROR,
+                error_category=ErrorCategory.UNKNOWN_ERROR,
                 error=e
             )
         logger.error("Fatal error in tweet generator", error=e)
