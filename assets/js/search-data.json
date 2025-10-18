@@ -249,6 +249,41 @@
   
 
   
+      ,"page3": {
+          "title": "Privacy Policy",
+          "content": "Privacy Policy . Automated Tweet Generation . This blog uses automated systems to generate social media content. Here’s what you should know: . Data Collection . The automated tweet generator: . ✅ Analyzes published blog content | ✅ Generates tweet threads using AI | ❌ Does not collect personal data from visitors | ❌ Does not track user behavior | ❌ Does not store user information | . Third-Party Services . We use these services for automation: . OpenRouter AI: For content generation (see their privacy policy) | Twitter/X API: For posting tweets (see Twitter’s privacy policy) | GitHub Actions: For automation workflows (see GitHub’s privacy policy) | . Data Security . All API keys and credentials are securely stored | No personal data is transmitted or stored | All processing happens in secure, encrypted environments | . Contact . Questions about privacy: [your-email@example.com] . Last updated: January 2024 .",
+          "url": "https://mani2106.github.io/Blog-Posts/privacy/",
+          "relUrl": "/privacy/",
+          "date": ""
+      }
+      
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+      ,"page8": {
+          "title": "Terms of Service",
+          "content": "Terms of Service . Automated Tweet Generation . This blog uses an automated system to generate tweet threads from blog posts. The system: . Only posts content from published blog posts | Includes human review and approval workflows | Respects Twitter’s automation policies | Provides attribution and links back to original content | . Content Policy . All automated tweets: . Link back to the original blog post | Maintain the author’s voice and intent | Include appropriate attribution | Comply with Twitter’s terms of service | . Contact . For questions about automated posting, contact: [your-email@example.com] . Last updated: January 2024 .",
+          "url": "https://mani2106.github.io/Blog-Posts/terms/",
+          "relUrl": "/terms/",
+          "date": ""
+      }
+      
+  
+
+  
+  
+
+  
   
 
   
@@ -257,20 +292,7 @@
   
 
   
-
-  
-  
-
-  
-  
-
-  
-
-  
-  
-
-  
-      ,"page11": {
+      ,"page13": {
           "title": "",
           "content": "Sitemap: {{ “sitemap.xml” | absolute_url }} | .",
           "url": "https://mani2106.github.io/Blog-Posts/robots.txt",
