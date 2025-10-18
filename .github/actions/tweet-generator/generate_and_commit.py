@@ -300,10 +300,20 @@ def main() -> int:
                                        tweet_count=len(tweets))
                             optimized_tweets = []
                             for tweet in tweets:
-                                optimized_tweet = engagement_optimizer.optimize_tweet_content(tweet.content, post)
+                                optimized_content = engagement_optimizer.optimize_tweet_content(tweet.content, post)
+                                # Create new Tweet object with optimized content
+                                from models import Tweet
+                                optimized_tweet = Tweet(
+                                    content=optimized_content,
+                                    character_count=len(optimized_content),
+                                    engagement_elements=tweet.engagement_elements,
+                                    hashtags=tweet.hashtags,
+                                    position=tweet.position,
+                                    hook_type=tweet.hook_type
+                                )
                                 optimized_tweets.append(optimized_tweet)
 
-                            engagement_metrics.characters_processed = sum(len(tweet) for tweet in optimized_tweets)
+                            engagement_metrics.characters_processed = sum(len(tweet.content) for tweet in optimized_tweets)
 
                         # Create thread data
                         from models import ThreadData

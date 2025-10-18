@@ -1676,3 +1676,105 @@ class EngagementOptimizer:
             "after", "having", "from my", "in my", "i wish"
         ]
         return any(indicator in text.lower() for indicator in personal_indicators)
+
+    def optimize_tweet_content(self, tweet_content: str, blog_post: 'BlogPost') -> str:
+        """
+        Optimize individual tweet content for maximum engagement.
+
+        This is the main method called by the workflow to optimize tweet content.
+        It combines multiple optimization techniques to enhance engagement.
+
+        Args:
+            tweet_content: The original tweet content to optimize
+            blog_post: The blog post context for optimization
+
+        Returns:
+            Optimized tweet content
+        """
+        # Start with the original content
+        optimized_content = tweet_content
+
+        # Apply engagement elements (emojis, power words, psychological triggers)
+        optimized_content = self.add_engagement_elements(
+            optimized_content,
+            position=0,  # Default position
+            total_tweets=1,  # Single tweet optimization
+            content_type=self._determine_content_type(blog_post.categories),
+            categories=blog_post.categories
+        )
+
+        # Apply visual formatting for better readability
+        optimized_content = self.apply_visual_formatting(optimized_content)
+
+        # Add relatability factors
+        optimized_content = self._add_relatability_factors(
+            optimized_content,
+            self._determine_content_type(blog_post.categories),
+            blog_post.categories
+        )
+
+        # Ensure character count is within limits
+        if len(optimized_content) > 280:
+            # Truncate while preserving important elements
+            optimized_content = self._truncate_preserving_elements(optimized_content)
+
+        return optimized_content
+
+    def _determine_content_type(self, categories: List[str]) -> str:
+        """Determine content type from categories."""
+        category_mapping = {
+            "programming": "technical",
+            "data-science": "technical",
+            "machine-learning": "technical",
+            "web-development": "technical",
+            "tutorial": "educational",
+            "career": "professional",
+            "business": "business",
+            "personal": "personal",
+            "story": "personal"
+        }
+
+        for category in categories:
+            if category in category_mapping:
+                return category_mapping[category]
+
+        return "general"
+
+    def _truncate_preserving_elements(self, content: str) -> str:
+        """Truncate content while preserving important engagement elements."""
+        if len(content) <= 280:
+            return content
+
+        # Preserve emojis and hashtags at the end
+        import re
+
+        # Extract trailing emojis and hashtags
+        trailing_pattern = r'(\s*[#@]\w+|\s*[\U0001F600-\U0001F64F\U0001F300-\U0001F5FF\U0001F680-\U0001F6FF\U0001F1E0-\U0001F1FF\U00002600-\U000027BF\U0001F900-\U0001F9FF]+)*$'
+        trailing_match = re.search(trailing_pattern, content)
+        trailing_elements = trailing_match.group(0) if trailing_match else ""
+
+        # Calculate available space
+        available_space = 280 - len(trailing_elements)
+
+        # Truncate main content
+        main_content = content[:available_space - len(trailing_elements)].rstrip()
+
+        # Find last complete sentence or phrase
+        sentence_endings = ['. ', '! ', '? ', ': ', '\n']
+        last_ending = -1
+
+        for ending in sentence_endings:
+            pos = main_content.rfind(ending)
+            if pos > last_ending and pos > available_space * 0.7:  # At least 70% of content
+                last_ending = pos + len(ending)
+
+        if last_ending > 0:
+            main_content = main_content[:last_ending].rstrip()
+        else:
+            # Fallback: truncate at word boundary
+            words = main_content.split()
+            while len(' '.join(words)) + len(trailing_elements) > 280 and words:
+                words.pop()
+            main_content = ' '.join(words)
+
+        return main_content + trailing_elements
