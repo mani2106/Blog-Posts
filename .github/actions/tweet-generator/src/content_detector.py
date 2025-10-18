@@ -45,20 +45,61 @@ class ContentDetector:
             ContentDetectionError: If git operations fail
         """
         try:
+            # First, try to fetch the base branch to ensure it exists
+            fetch_cmd = ["git", "fetch", "origin", base_branch]
+            print(f"🔄 Fetching base branch '{base_branch}' from origin...")
+            subprocess.run(fetch_cmd, capture_output=True, text=True, check=False)  # Don't fail if this doesn't work
+
             # Get list of changed files using git diff
-            cmd = ["git", "diff", "--name-only", f"origin/{base_branch}...HEAD"]
-            result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-            changed_files = result.stdout.strip().split('\n') if result.stdout.strip() else []
+            # Try multiple approaches to find changes
+            cmd_options = [
+                ["git", "diff", "--name-only", f"origin/{base_branch}...HEAD"],
+                ["git", "diff", "--name-only", f"origin/{base_branch}"],
+                ["git", "diff", "--name-only", "HEAD~1"],  # Fallback to last commit
+                ["git", "ls-files", "--others", "--exclude-standard"]  # Fallback to untracked files
+            ]
+
+            changed_files = []
+            for cmd in cmd_options:
+                try:
+                    print(f"🔍 Trying: {' '.join(cmd)}")
+                    result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+                    if result.stdout.strip():
+                        changed_files = result.stdout.strip().split('\n')
+                        print(f"✅ Git command succeeded! Found {len(changed_files)} files")
+                        if len(changed_files) <= 10:  # Don't spam if too many files
+                            for file in changed_files:
+                                print(f"   • {file}")
+                        else:
+                            print(f"   • {changed_files[0]}")
+                            print(f"   • ... and {len(changed_files)-1} more files")
+                        break
+                except subprocess.CalledProcessError as e:
+                    print(f"❌ Git command failed: {e.stderr.strip() if e.stderr else 'Unknown error'}")
+                    continue
+
+            if not changed_files:
+                print("⚠️  No changed files found with any git command")
 
             # Filter for blog post files
             blog_post_files = []
             for file_path in changed_files:
+                if not file_path.strip():  # Skip empty lines
+                    continue
+
                 path = Path(file_path)
                 # Check if file is in posts or notebooks directory and has correct extension
-                if ((path.parent == self.posts_dir and path.suffix == '.md') or
-                    (path.parent == self.notebooks_dir and path.suffix == '.ipynb')):
-                    if path.exists():  # Only process files that still exist
-                        blog_post_files.append(path)
+                # Use string comparison for more reliable path matching
+                is_post_file = (
+                    (str(path.parent) == str(self.posts_dir) and path.suffix == '.md') or
+                    (str(path.parent) == str(self.notebooks_dir) and path.suffix == '.ipynb')
+                )
+
+                if is_post_file and path.exists():  # Only process files that still exist
+                    blog_post_files.append(path)
+                    print(f"📝 Found blog post file: {path}")
+
+            print(f"📋 Filtered to {len(blog_post_files)} blog post files for processing")
 
             # Parse each changed blog post
             changed_posts = []
@@ -74,12 +115,44 @@ class ContentDetector:
             return changed_posts
 
         except subprocess.CalledProcessError as e:
-            raise ContentDetectionError(
-                f"Git diff command failed: {e}",
-                {"command": cmd, "returncode": e.returncode, "stderr": e.stderr}
-            )
+            print(f"❌ Git operations failed: {e}")
+            print("🔄 Falling back to processing all posts with 'publish: true'")
+            return self._get_all_publishable_posts()
         except Exception as e:
+            print(f"💥 Content detection failed: {e}")
             raise ContentDetectionError(f"Failed to detect changed posts: {e}")
+
+    def _get_all_publishable_posts(self) -> List[BlogPost]:
+        """
+        Fallback method to get all posts with publish: true.
+        Used when git diff fails.
+        """
+        all_posts = []
+
+        # Check posts directory
+        if self.posts_dir.exists():
+            for file_path in self.posts_dir.glob("*.md"):
+                try:
+                    post = self.parse_blog_post(file_path)
+                    if post and self.should_process_post(post):
+                        all_posts.append(post)
+                except Exception as e:
+                    print(f"Warning: Failed to parse {file_path}: {e}")
+                    continue
+
+        # Check notebooks directory
+        if self.notebooks_dir.exists():
+            for file_path in self.notebooks_dir.glob("*.ipynb"):
+                try:
+                    post = self.parse_blog_post(file_path)
+                    if post and self.should_process_post(post):
+                        all_posts.append(post)
+                except Exception as e:
+                    print(f"Warning: Failed to parse {file_path}: {e}")
+                    continue
+
+        print(f"📋 Fallback method found {len(all_posts)} publishable posts")
+        return all_posts
 
     def extract_frontmatter(self, file_path: str) -> Dict[str, Any]:
         """
@@ -217,9 +290,9 @@ class ContentDetector:
             elif isinstance(auto_post, (int, float)):
                 auto_post = bool(auto_post)
 
-            # Generate canonical URL (this would typically be based on site config)
+            # Generate canonical URL
             slug = extract_slug_from_filename(file_path.name)
-            canonical_url = f"https://example.com/{slug}/"  # Placeholder - should be configurable
+            canonical_url = frontmatter_data.get('canonical_url', f"https://example.com/{slug}/")
 
             return BlogPost(
                 file_path=str(file_path),

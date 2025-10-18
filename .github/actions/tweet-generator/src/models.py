@@ -302,6 +302,7 @@ class GeneratorConfig:
     notebooks_directory: str = "_notebooks"
     generated_directory: str = ".generated"
     posted_directory: str = ".posted"
+    base_branch: str = "main"
 
     # Style analysis configuration
     min_posts_for_analysis: int = 3
@@ -331,6 +332,7 @@ class GeneratorConfig:
             notebooks_directory=os.getenv("NOTEBOOKS_DIRECTORY", "_notebooks"),
             generated_directory=os.getenv("GENERATED_DIRECTORY", ".generated"),
             posted_directory=os.getenv("POSTED_DIRECTORY", ".posted"),
+            base_branch=os.getenv("BASE_BRANCH", "main"),
             min_posts_for_analysis=int(os.getenv("MIN_POSTS_FOR_ANALYSIS", "3")),
             style_profile_version=os.getenv("STYLE_PROFILE_VERSION", "1.0.0")
         )
