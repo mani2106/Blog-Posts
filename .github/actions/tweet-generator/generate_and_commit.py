@@ -474,7 +474,10 @@ def main() -> int:
                                 "timestamp": datetime.now().isoformat(),
                                 "session_id": metrics.session_id
                             }
-                            error_path = Path(config.generated_directory) / f"{post.slug}-error.json"
+                            # Sanitize slug for filename
+                            from utils import sanitize_slug_for_filename
+                            sanitized_slug = sanitize_slug_for_filename(post.slug)
+                            error_path = Path(config.generated_directory) / f"{sanitized_slug}-error.json"
                             with open(error_path, 'w') as f:
                                 json.dump(error_report, f, indent=2)
                             logger.info("Error report saved",

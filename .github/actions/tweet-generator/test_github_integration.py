@@ -734,6 +734,62 @@ class TestGitHubIntegration:
 
     @patch('output_manager.Github')
     @patch('output_manager.get_repository_info')
+    def test_branch_name_sanitization(self, mock_repo_info, mock_github):
+        """Test that branch names are properly sanitized for Git refs."""
+        # Setup mocks
+        mock_repo_info.return_value = {"repository": "testuser/test-repo"}
+        mock_repo = Mock()
+        mock_repo.default_branch = "main"
+        mock_repo.get_pulls.return_value = []
+
+        mock_branch = Mock()
+        mock_branch.commit.sha = "abc123"
+        mock_repo.get_branch.return_value = mock_branch
+        mock_repo.create_git_ref = Mock()
+        mock_repo.create_file = Mock()
+
+        mock_pr = Mock()
+        mock_pr.html_url = "https://github.com/testuser/test-repo/pull/1"
+        mock_repo.create_pull.return_value = mock_pr
+
+        mock_github_instance = Mock()
+        mock_github_instance.get_repo.return_value = mock_repo
+        mock_github.return_value = mock_github_instance
+
+        # Create a post with spaces and special characters in slug
+        post_with_spaces = BlogPost(
+            file_path="_posts/2021-05-29-model agnostic featimp.md",
+            title="Model Agnostic Feature Importance",
+            content="Test content",
+            frontmatter={
+                "title": "Model Agnostic Feature Importance",
+                "publish": True
+            },
+            canonical_url="https://example.com/test",
+            categories=["test"],
+            summary="A test",
+            auto_post=False,
+            slug="2021-05-29-model agnostic featimp"  # Contains spaces
+        )
+
+        # Create output manager and submit PR
+        from models import GeneratorConfig
+        config = GeneratorConfig(
+            github_token="fake_token",
+            generated_directory=str(self.generated_dir),
+            posted_directory=str(self.posted_dir)
+        )
+        output_manager = OutputManager(config)
+
+        output_manager.create_or_update_pr(self.sample_thread, post_with_spaces)
+
+        # Verify branch name was sanitized (spaces replaced with dashes)
+        call_args = mock_repo.create_git_ref.call_args
+        branch_ref = call_args[1]['ref']
+        assert branch_ref == "refs/heads/tweet-thread/2021-05-29-model-agnostic-featimp"
+
+    @patch('output_manager.Github')
+    @patch('output_manager.get_repository_info')
     def test_pr_labels_and_assignment(self, mock_repo_info, mock_github):
         """Test that PRs are properly labeled and assigned."""
         # Setup mocks

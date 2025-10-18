@@ -28,6 +28,27 @@ def ensure_directory(path: Union[str, Path]) -> Path:
     return directory
 
 
+def sanitize_slug_for_filename(slug: str) -> str:
+    """
+    Sanitize a slug for use in filenames and Git branch names.
+
+    Replaces spaces and underscores with dashes, converts to lowercase,
+    and removes any characters that are invalid for Git refs or filenames.
+
+    Args:
+        slug: The original slug string
+
+    Returns:
+        Sanitized slug safe for use in filenames and Git branch names
+    """
+    import re
+    # Replace spaces and underscores with dashes, convert to lowercase
+    sanitized = slug.replace(' ', '-').replace('_', '-').lower()
+    # Remove any characters that aren't alphanumeric or dashes
+    sanitized = re.sub(r'[^a-zA-Z0-9\-]', '', sanitized)
+    return sanitized
+
+
 def safe_filename(filename: str) -> str:
     """
     Create a safe filename by removing/replacing problematic characters.

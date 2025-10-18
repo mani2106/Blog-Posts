@@ -14,7 +14,7 @@ from github import Github
 
 from models import ThreadData, BlogPost, PostResult, GeneratorConfig
 from exceptions import GitHubAPIError, TwitterAPIError, FileOperationError
-from utils import save_json_file, ensure_directory, get_repository_info
+from utils import save_json_file, ensure_directory, get_repository_info, sanitize_slug_for_filename
 from twitter_client import TwitterClient
 from auto_poster import AutoPoster
 from logger import get_logger, OperationType
@@ -63,7 +63,9 @@ class OutputManager:
 
             # Determine output path
             if output_path is None:
-                filename = f"{thread.post_slug}-thread.json"
+                # Sanitize slug for filename
+                sanitized_slug = sanitize_slug_for_filename(thread.post_slug)
+                filename = f"{sanitized_slug}-thread.json"
                 output_path = self.generated_dir / filename
             else:
                 output_path = Path(output_path)
@@ -222,8 +224,9 @@ class OutputManager:
 
             repo = self.github_client.get_repo(repo_name)
 
-            # Generate branch name for the PR
-            branch_name = f"tweet-thread/{post.slug}"
+            # Generate branch name for the PR (sanitize for Git ref naming)
+            sanitized_slug = sanitize_slug_for_filename(post.slug)
+            branch_name = f"tweet-thread/{sanitized_slug}"
             pr_title = f"Tweet thread for: {post.title}"
 
             # Check if PR already exists
@@ -241,7 +244,7 @@ class OutputManager:
                 return existing_pr.html_url
             else:
                 # Create new PR
-                return self._create_new_pr(repo, thread, post, branch_name, pr_title)
+                return self._create_new_pr(repo, thread, post, branch_name, pr_title, sanitized_slug)
 
         except Exception as e:
             raise GitHubAPIError(f"Failed to create or update PR: {str(e)}")
@@ -268,7 +271,7 @@ class OutputManager:
         except Exception:
             return None
 
-    def _create_new_pr(self, repo, thread: ThreadData, post: BlogPost, branch_name: str, pr_title: str) -> str:
+    def _create_new_pr(self, repo, thread: ThreadData, post: BlogPost, branch_name: str, pr_title: str, sanitized_slug: str) -> str:
         """
         Create a new pull request.
 
@@ -290,8 +293,8 @@ class OutputManager:
             source_branch = repo.get_branch(default_branch)
             repo.create_git_ref(ref=f"refs/heads/{branch_name}", sha=source_branch.commit.sha)
 
-            # Save thread draft file to the new branch
-            thread_file_path = f"{self.generated_dir}/{post.slug}-thread.json"
+            # Save thread draft file to the new branch (use sanitized slug for filename)
+            thread_file_path = f"{self.generated_dir}/{sanitized_slug}-thread.json"
             thread_content = json.dumps(thread.to_dict(), indent=2, default=str)
 
             # Create or update file in the branch
