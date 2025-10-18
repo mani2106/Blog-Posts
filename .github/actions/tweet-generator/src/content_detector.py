@@ -84,12 +84,13 @@ class ContentDetector:
         print(f"⚠️  Could not find repository root, using current directory: {current}")
         return current
 
-    def detect_changed_posts(self, base_branch: str = "main") -> List[BlogPost]:
+    def detect_changed_posts(self, base_branch: str = "main", post_slugs: Optional[str] = None) -> List[BlogPost]:
         """
-        Detect changed blog posts using git diff analysis.
+        Detect changed blog posts using git diff analysis or manual post selection.
 
         Args:
             base_branch: Base branch to compare against
+            post_slugs: Comma-separated post slugs to process, or "all" for all eligible posts
 
         Returns:
             List of BlogPost objects for changed posts
@@ -98,6 +99,11 @@ class ContentDetector:
             ContentDetectionError: If git operations fail
         """
         original_cwd = Path.cwd()  # Store original directory at the start
+
+        # Handle manual post selection
+        if post_slugs is not None:
+            print(f"🎯 Manual post selection mode: {post_slugs}")
+            return self._process_manual_posts(post_slugs)
 
         try:
             # Debug: Print environment information
@@ -203,7 +209,7 @@ class ContentDetector:
             for file_path in blog_post_files:
                 try:
                     post = self.parse_blog_post(file_path)
-                    if post and self.should_process_post(post):
+                    if post and self.should_process_post(post, manual_mode=False):
                         changed_posts.append(post)
                 except Exception as e:
                     print(f"Warning: Failed to parse {file_path}: {e}")
@@ -223,7 +229,7 @@ class ContentDetector:
             if test_post_path.exists():
                 try:
                     post = self.parse_blog_post(test_post_path)
-                    if post and self.should_process_post(post):
+                    if post and self.should_process_post(post, manual_mode=False):
                         print(f"✅ Found and will process test post: {post.title}")
                         return [post]
                 except Exception as parse_error:
@@ -251,7 +257,7 @@ class ContentDetector:
             for file_path in self.posts_dir.glob("*.md"):
                 try:
                     post = self.parse_blog_post(file_path)
-                    if post and self.should_process_post(post):
+                    if post and self.should_process_post(post, manual_mode=False):
                         all_posts.append(post)
                 except Exception as e:
                     print(f"Warning: Failed to parse {file_path}: {e}")
@@ -262,7 +268,7 @@ class ContentDetector:
             for file_path in self.notebooks_dir.glob("*.ipynb"):
                 try:
                     post = self.parse_blog_post(file_path)
-                    if post and self.should_process_post(post):
+                    if post and self.should_process_post(post, manual_mode=False):
                         all_posts.append(post)
                 except Exception as e:
                     print(f"Warning: Failed to parse {file_path}: {e}")
@@ -349,12 +355,13 @@ class ContentDetector:
                 {"file_path": str(file_path), "error_type": type(e).__name__}
             )
 
-    def should_process_post(self, post: BlogPost) -> bool:
+    def should_process_post(self, post: BlogPost, manual_mode: bool = False) -> bool:
         """
         Determine if a blog post should be processed for tweet generation.
 
         Args:
             post: BlogPost object to evaluate
+            manual_mode: If True, also check for tweet_thread flag
 
         Returns:
             True if post should be processed, False otherwise
@@ -368,7 +375,68 @@ class ContentDetector:
         elif isinstance(publish_flag, (int, float)):
             publish_flag = bool(publish_flag)
 
+        # In manual mode, also check for tweet_thread flag
+        if manual_mode:
+            tweet_thread_flag = post.frontmatter.get('tweet_thread', False)
+            if isinstance(tweet_thread_flag, str):
+                tweet_thread_flag = tweet_thread_flag.lower() in ('true', 'yes', '1')
+            elif isinstance(tweet_thread_flag, (int, float)):
+                tweet_thread_flag = bool(tweet_thread_flag)
+
+            return bool(publish_flag) and bool(tweet_thread_flag)
+
         return bool(publish_flag)
+
+    def _process_manual_posts(self, post_slugs: str) -> List[BlogPost]:
+        """
+        Process manually specified posts.
+
+        Args:
+            post_slugs: Comma-separated post slugs or "all" for all eligible posts
+
+        Returns:
+            List of BlogPost objects for specified posts
+        """
+        if post_slugs.strip().lower() == "all":
+            print("🔍 Processing all eligible posts with tweet_thread: true")
+            all_posts = self.get_all_posts()
+            eligible_posts = []
+
+            for post in all_posts:
+                if self.should_process_post(post, manual_mode=True):
+                    eligible_posts.append(post)
+                    print(f"✅ Found eligible post: {post.title} (slug: {post.slug})")
+                else:
+                    print(f"⏭️  Skipping post: {post.title} (missing publish: true or tweet_thread: true)")
+
+            print(f"📋 Found {len(eligible_posts)} eligible posts out of {len(all_posts)} total posts")
+            return eligible_posts
+
+        # Process specific post slugs
+        slug_list = [slug.strip() for slug in post_slugs.split(',') if slug.strip()]
+        print(f"🎯 Processing specific post slugs: {slug_list}")
+
+        selected_posts = []
+        all_posts = self.get_all_posts()
+
+        for target_slug in slug_list:
+            found = False
+            for post in all_posts:
+                if post.slug == target_slug:
+                    # For manually specified posts, only check publish flag (not tweet_thread)
+                    if self.should_process_post(post, manual_mode=False):
+                        selected_posts.append(post)
+                        print(f"✅ Found and selected post: {post.title} (slug: {target_slug})")
+                    else:
+                        print(f"⚠️  Post found but not published: {post.title} (slug: {target_slug})")
+                    found = True
+                    break
+
+            if not found:
+                print(f"❌ Post not found for slug: {target_slug}")
+
+        print(f"📋 Selected {len(selected_posts)} posts out of {len(slug_list)} requested slugs")
+        return selected_posts
 
     def parse_blog_post(self, file_path: Path) -> Optional[BlogPost]:
         """

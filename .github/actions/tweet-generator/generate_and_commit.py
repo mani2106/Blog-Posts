@@ -176,8 +176,22 @@ def main() -> int:
             print("🔍 STEP 1: Detecting changed blog posts...")
             print("-" * 50)
             with logger.operation_context(OperationType.CONTENT_DETECTION) as detect_metrics:
+                # Check for manual post selection from environment
+                post_slugs = os.environ.get('POST_SLUGS')
+                force_regenerate = os.environ.get('FORCE_REGENERATE', 'false').lower() == 'true'
+
+                if post_slugs:
+                    print(f"🎯 Manual post selection mode: {post_slugs}")
+                    print(f"🔄 Force regenerate: {'YES' if force_regenerate else 'NO'}")
+                    logger.info("Manual post selection mode",
+                               post_slugs=post_slugs,
+                               force_regenerate=force_regenerate)
+                else:
+                    print("🔍 Auto-detection mode: scanning for changed posts")
+                    logger.info("Auto-detection mode: scanning for changed posts")
+
                 logger.info("Detecting changed blog posts...")
-                changed_posts = content_detector.detect_changed_posts(config.base_branch)
+                changed_posts = content_detector.detect_changed_posts(config.base_branch, post_slugs)
                 posts_processed = len(changed_posts)
 
                 detect_metrics.files_created = posts_processed
@@ -261,11 +275,14 @@ def main() -> int:
                                post_title=post.title,
                                post_slug=post.slug)
 
-                    # Check if already posted
-                    if output_manager.check_already_posted(post.slug):
+                    # Check if already posted (unless force regenerate is enabled)
+                    if not force_regenerate and output_manager.check_already_posted(post.slug):
                         print(f"   ⏭️  Already posted - skipping")
                         logger.info("Post already posted - skipping", post_slug=post.slug)
                         continue
+                    elif force_regenerate and output_manager.check_already_posted(post.slug):
+                        print(f"   🔄 Already posted but force regenerate enabled - processing anyway")
+                        logger.info("Post already posted but force regenerate enabled", post_slug=post.slug)
 
                     try:
                         # Generate thread plan
