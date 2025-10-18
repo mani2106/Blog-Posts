@@ -46,7 +46,7 @@ validation:
 
 # Output Configuration
 output:
-  auto_post_enabled: false
+  auto_post_enabled: true
   dry_run_mode: false
   max_tweets_per_thread: 12
 

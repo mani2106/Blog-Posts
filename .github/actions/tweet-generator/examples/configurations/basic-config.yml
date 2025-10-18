@@ -46,7 +46,7 @@ content:
 # Output Configuration
 output:
   # Enable automatic posting to X/Twitter
-  auto_post_enabled: false
+  auto_post_enabled: true
 
   # Run in dry-run mode (no actual API calls)
   dry_run_mode: false

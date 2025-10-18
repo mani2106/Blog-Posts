@@ -76,7 +76,7 @@ content:
 
 # Enhanced Output for Technical Content
 output:
-  auto_post_enabled: false               # Manual review for technical accuracy
+  auto_post_enabled: true               # Manual review for technical accuracy
   dry_run_mode: false
   create_prs: true
   include_thread_preview: true
