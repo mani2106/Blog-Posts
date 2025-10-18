@@ -36,7 +36,7 @@ engagement:
 # Output Configuration
 output:
   # Enable automatic posting to Twitter (requires Twitter API keys)
-  auto_post_enabled: false
+  auto_post_enabled: true
 
   # Run in dry-run mode (generate content but don't create PRs or post)
   dry_run_mode: false

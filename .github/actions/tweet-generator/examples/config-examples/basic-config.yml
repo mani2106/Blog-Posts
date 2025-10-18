@@ -15,7 +15,7 @@ engagement:
 
 # Output Configuration
 output:
-  auto_post_enabled: false    # Enable automatic posting to Twitter
+  auto_post_enabled: true    # Enable automatic posting to Twitter
   dry_run_mode: false        # Run without making actual changes
   max_tweets_per_thread: 10  # Maximum tweets per thread
 
