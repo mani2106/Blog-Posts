@@ -1,0 +1,31 @@
+{
+  "post_slug": "test-tweet-generator",
+  "tweets": [
+    {
+      "content": "```json [ \"1/5 \u2502 Ever wonder if your blog posts could BE tweets. \ud83e\udd14 We're testing a new action to do just that. Let's see if it can whip up a thread from this post. \n\u2501\u2501\u2501\n. \u2502 https://mani2106. github. io/Blog-Posts/test-tweet-generator\", \"2/5 \u2502 So, what's",
+      "character_count": 253,
+      "engagement_elements": [],
+      "hashtags": [],
+      "position": 1,
+      "hook_type": "curiosity"
+    }
+  ],
+  "hook_variations": [
+    "\"Okay, so like, I just built this thing that *might* write tweets for me. \ud83e\udd2f Is it gonna work? Or is it gonna be a total disaster? Let's find out! #test #automation\",",
+    "\"Everyone's talking about AI writing tweets. But is it GOOD? I threw a blog post at my new generator. The results? Wild. \ud83e\udd2a You gotta see this. #tweetgenerator\",",
+    "My new tweet generator is live! \u2728 But... does it actually *work*? I'm testing it out with a super simple post. Fingers crossed it doesn't break the internet. \ud83d\ude02 #automation #AI"
+  ],
+  "hashtags": [],
+  "engagement_score": 0.0,
+  "model_used": "google/gemini-2.5-flash-lite",
+  "prompt_version": "1.0.0",
+  "generated_at": "2025-10-18T10:26:15.472216",
+  "style_profile_version": "1.0.0",
+  "thread_plan": {
+    "hook_type": "curiosity",
+    "main_points": [],
+    "call_to_action": "",
+    "estimated_tweets": 5,
+    "engagement_strategy": ""
+  }
+}
