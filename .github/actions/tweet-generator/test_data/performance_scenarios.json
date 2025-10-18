@@ -1,0 +1,44 @@
+[
+  {
+    "name": "style_analysis_small_blog",
+    "description": "Style analysis with 5 blog posts",
+    "post_count": 5,
+    "expected_max_time": 10.0,
+    "expected_max_memory": 100
+  },
+  {
+    "name": "style_analysis_medium_blog",
+    "description": "Style analysis with 25 blog posts",
+    "post_count": 25,
+    "expected_max_time": 30.0,
+    "expected_max_memory": 200
+  },
+  {
+    "name": "style_analysis_large_blog",
+    "description": "Style analysis with 100 blog posts",
+    "post_count": 100,
+    "expected_max_time": 120.0,
+    "expected_max_memory": 500
+  },
+  {
+    "name": "thread_generation_simple",
+    "description": "Thread generation for short post",
+    "content_length": 500,
+    "expected_max_time": 15.0,
+    "expected_max_memory": 50
+  },
+  {
+    "name": "thread_generation_complex",
+    "description": "Thread generation for long technical post",
+    "content_length": 5000,
+    "expected_max_time": 30.0,
+    "expected_max_memory": 100
+  },
+  {
+    "name": "end_to_end_workflow",
+    "description": "Complete workflow from detection to PR creation",
+    "post_count": 3,
+    "expected_max_time": 60.0,
+    "expected_max_memory": 200
+  }
+]

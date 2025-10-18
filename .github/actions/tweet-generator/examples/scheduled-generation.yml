@@ -1,0 +1,70 @@
+# Example workflow for scheduled tweet generation
+# Place this file at: .github/workflows/scheduled-tweets.yml
+
+name: Scheduled Tweet Thread Generation
+
+on:
+  schedule:
+    # Run every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  generate-weekly-threads:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate threads for recent posts
+        uses: ./.github/actions/tweet-generator
+        with:
+          openrouter_api_key: ${{ secrets.OPENROUTER_API_KEY }}
+          twitter_api_key: ${{ secrets.TWITTER_API_KEY }}
+          twitter_api_secret: ${{ secrets.TWITTER_API_SECRET }}
+          twitter_access_token: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          twitter_access_token_secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+          engagement_level: high
+          max_tweets_per_thread: 8
+        env:
+          # Process posts from the last 7 days
+          PROCESS_RECENT_POSTS: "7"
+          AUTO_POST_ENABLED: "true"
+          # Only process posts that haven't been posted yet
+          SKIP_POSTED: "true"
+
+      - name: Create summary issue
+        uses: actions/github-script@v6
+        if: always()
+        with:
+          script: |
+            const title = `Weekly Tweet Generation Summary - ${new Date().toISOString().split('T')[0]}`;
+            const body = `
+            ## Weekly Tweet Thread Generation Report
+
+            **Date**: ${new Date().toLocaleDateString()}
+            **Workflow**: Scheduled Generation
+
+            ### Results
+            - **Posts Processed**: ${{ steps.generate.outputs.posts_processed || 'N/A' }}
+            - **Threads Generated**: ${{ steps.generate.outputs.threads_generated || 'N/A' }}
+            - **Auto-Posted**: Check logs for details
+
+            ### Next Steps
+            - Review generated threads in PRs
+            - Check auto-posting results
+            - Monitor engagement metrics
+
+            ---
+            *This issue was automatically created by the scheduled tweet generation workflow.*
+            `;
+
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['automated', 'social-media']
+            });

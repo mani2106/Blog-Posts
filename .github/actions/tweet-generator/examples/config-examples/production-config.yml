@@ -1,0 +1,107 @@
+# Production configuration for tweet thread generator
+# Place this file at: .github/tweet-generator-config.yml
+
+# Production-optimized AI models
+models:
+  planning: anthropic/claude-3-haiku      # Cost-effective for planning
+  creative: anthropic/claude-3-sonnet     # High quality for content
+  verification: anthropic/claude-3-haiku  # Fast validation
+
+# Conservative engagement settings for production
+engagement:
+  optimization_level: medium  # Balanced approach for production
+  hook_variations: 3
+  max_hashtags: 2
+
+  # Production-safe engagement elements
+  use_emojis: true
+  use_power_words: false      # Disable aggressive power words
+  include_cta: true
+
+  # Conservative thread structure
+  thread_arc_style: "gradual_build"
+  cliffhanger_frequency: 0.2
+
+# Strict validation for production
+validation:
+  strict_character_limits: true
+  safety_filtering: true
+  profanity_checking: true
+  fact_checking_flags: true
+
+  # Production safety measures
+  require_manual_review: true  # Always create PRs, never auto-post without review
+  flag_controversial_topics: true
+
+# Production output settings
+output:
+  auto_post_enabled: true     # Enable but with strict controls
+  dry_run_mode: false
+  max_tweets_per_thread: 8    # Conservative thread length
+
+  # Strict PR requirements
+  pr_auto_assign: true
+  pr_require_approval: true
+  pr_labels:
+    - "social-media"
+    - "requires-review"
+    - "production"
+
+  # Conservative auto-posting
+  auto_post_conditions:
+    require_frontmatter_flag: true
+    require_category_whitelist: true  # Only auto-post certain categories
+    skip_if_errors: true
+    max_daily_posts: 2               # Conservative daily limit
+
+    # Allowed categories for auto-posting
+    allowed_categories:
+      - "tutorial"
+      - "announcement"
+      # Exclude: personal, opinion, controversial
+
+# Standard directories
+directories:
+  posts: "_posts"
+  notebooks: "_notebooks"
+  generated: ".generated"
+  posted: ".posted"
+
+# Production style analysis
+style_analysis:
+  min_posts_required: 10      # Require more posts for stable analysis
+  include_notebooks: true
+  analyze_comments: false
+
+  # Professional tone adjustments
+  category_styles:
+    technical:
+      formality_boost: 0.3
+      emoji_reduction: 0.7
+    announcement:
+      formality_boost: 0.2
+      structure_emphasis: true
+
+# Production performance settings
+performance:
+  api_timeout: 45             # Longer timeout for reliability
+  max_concurrent_requests: 2  # Conservative concurrency
+  retry_attempts: 5           # More retries for reliability
+  rate_limit_buffer: 0.2      # Larger buffer for production
+
+# Production logging
+logging:
+  level: INFO
+  include_api_responses: false
+  structured_logging: true
+
+  # Additional production logging
+  audit_trail: true           # Full audit trail of all operations
+  performance_metrics: true   # Track performance metrics
+  error_reporting: true       # Enhanced error reporting
+
+# Monitoring and alerting (if supported)
+monitoring:
+  track_success_rate: true
+  alert_on_failures: true
+  daily_summary_reports: true

@@ -1,4 +1,4 @@
-name: CI
+name: Build and Deploy
 on:
   push:
     branches:
@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-site:
-    if: ( github.event.commits[0].message != 'Initial commit' ) || github.run_number > 1
+    if: github.run_number > 1 || (github.event_name == 'push' && github.event.head_commit.message != 'Initial commit')
     runs-on: ubuntu-latest
     steps:
 
@@ -54,6 +54,33 @@ jobs:
       run: |
         sudo chmod -R 777 _site/
         cp CNAME _site/ 2>/dev/null || :
+
+    # Generate tweet threads after successful build
+    - name: Generate tweet threads
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      uses: ./.github/actions/tweet-generator
+      with:
+        openrouter_api_key: ${{ secrets.OPENROUTER_API_KEY }}
+        twitter_api_key: ${{ secrets.TWITTER_API_KEY }}
+        twitter_api_secret: ${{ secrets.TWITTER_API_SECRET }}
+        twitter_access_token: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+        twitter_access_token_secret: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+        config_file: '.github/tweet-generator-config.yml'
+        posts_directory: '_posts'
+        notebooks_directory: '_notebooks'
+        base_branch: 'master'
+        dry_run: 'false'
+      id: tweet_generator
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # Optional: Report usage stats
+    - name: Report X API Usage
+      if: steps.tweet_generator.outputs.tweets_posted > 0
+      run: |
+        echo "✅ Posted ${{ steps.tweet_generator.outputs.tweets_posted }} tweets"
+        echo "📊 Threads generated: ${{ steps.tweet_generator.outputs.threads_generated }}"
+        echo "📝 Posts processed: ${{ steps.tweet_generator.outputs.posts_processed }}"
 
     - name: Deploy
       if: github.event_name == 'push'

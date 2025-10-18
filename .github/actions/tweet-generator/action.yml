@@ -1,0 +1,168 @@
+name: 'GitHub Tweet Thread Generator'
+description: 'Automatically generate engaging tweet threads from your blog posts using AI, with style analysis and engagement optimization'
+author: 'GitHub Tweet Generator Team'
+
+branding:
+  icon: 'twitter'
+  color: 'blue'
+
+inputs:
+  openrouter_api_key:
+    description: 'OpenRouter API key for AI model access'
+    required: true
+
+  twitter_api_key:
+    description: 'Twitter API key for auto-posting (optional)'
+    required: false
+
+  twitter_api_secret:
+    description: 'Twitter API secret for auto-posting (optional)'
+    required: false
+
+  twitter_access_token:
+    description: 'Twitter access token for auto-posting (optional)'
+    required: false
+
+  twitter_access_token_secret:
+    description: 'Twitter access token secret for auto-posting (optional)'
+    required: false
+
+  config_file:
+    description: 'Path to configuration file (default: .github/tweet-generator-config.yml)'
+    required: false
+    default: '.github/tweet-generator-config.yml'
+
+  dry_run:
+    description: 'Run in dry-run mode without creating PRs or posting tweets'
+    required: false
+    default: 'false'
+
+  posts_directory:
+    description: 'Directory containing blog posts (default: _posts)'
+    required: false
+    default: '_posts'
+
+  notebooks_directory:
+    description: 'Directory containing Jupyter notebooks (default: _notebooks)'
+    required: false
+    default: '_notebooks'
+
+  base_branch:
+    description: 'Base branch for git diff analysis (default: main)'
+    required: false
+    default: 'main'
+
+outputs:
+  threads_generated:
+    description: 'Number of tweet threads generated'
+
+  posts_processed:
+    description: 'Number of blog posts processed'
+
+  pr_created:
+    description: 'Whether a pull request was created (true/false)'
+
+  pr_url:
+    description: 'URL of the created pull request (if any)'
+
+  tweets_posted:
+    description: 'Number of tweets posted to Twitter (if auto-posting enabled)'
+
+  style_profile_updated:
+    description: 'Whether the writing style profile was updated (true/false)'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Cache Python dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        cd ${{ github.action_path }}
+        pip install -r requirements.txt
+
+    - name: Validate configuration
+      shell: bash
+      run: |
+        cd ${{ github.action_path }}
+        python -c "
+        import yaml
+        import os
+        import sys
+
+        config_file = '${{ inputs.config_file }}'
+        if os.path.exists(config_file):
+            try:
+                with open(config_file, 'r') as f:
+                    config = yaml.safe_load(f)
+                print('✅ Configuration file is valid')
+            except Exception as e:
+                print(f'❌ Configuration file error: {e}')
+                sys.exit(1)
+        else:
+            print('⚠️ No configuration file found, using defaults')
+        "
+
+    - name: Generate tweet threads
+      shell: bash
+      run: |
+        cd ${{ github.action_path }}
+        python generate_and_commit.py
+      env:
+        OPENROUTER_API_KEY: ${{ inputs.openrouter_api_key }}
+        TWITTER_API_KEY: ${{ inputs.twitter_api_key }}
+        TWITTER_API_SECRET: ${{ inputs.twitter_api_secret }}
+        TWITTER_ACCESS_TOKEN: ${{ inputs.twitter_access_token }}
+        TWITTER_ACCESS_TOKEN_SECRET: ${{ inputs.twitter_access_token_secret }}
+        CONFIG_FILE: ${{ inputs.config_file }}
+        DRY_RUN: ${{ inputs.dry_run }}
+        POSTS_DIRECTORY: ${{ inputs.posts_directory }}
+        NOTEBOOKS_DIRECTORY: ${{ inputs.notebooks_directory }}
+        BASE_BRANCH: ${{ inputs.base_branch }}
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+        GITHUB_REF: ${{ github.ref }}
+        GITHUB_SHA: ${{ github.sha }}
+        GITHUB_ACTOR: ${{ github.actor }}
+        GITHUB_WORKSPACE: ${{ github.workspace }}
+
+    - name: Set outputs
+      shell: bash
+      run: |
+        cd ${{ github.action_path }}
+
+        # Read outputs from generated files
+        if [ -f "action_outputs.json" ]; then
+          THREADS_GENERATED=$(python -c "import json; print(json.load(open('action_outputs.json')).get('threads_generated', 0))")
+          POSTS_PROCESSED=$(python -c "import json; print(json.load(open('action_outputs.json')).get('posts_processed', 0))")
+          PR_CREATED=$(python -c "import json; print(json.load(open('action_outputs.json')).get('pr_created', 'false'))")
+          PR_URL=$(python -c "import json; print(json.load(open('action_outputs.json')).get('pr_url', ''))")
+          TWEETS_POSTED=$(python -c "import json; print(json.load(open('action_outputs.json')).get('tweets_posted', 0))")
+          STYLE_PROFILE_UPDATED=$(python -c "import json; print(json.load(open('action_outputs.json')).get('style_profile_updated', 'false'))")
+        else
+          THREADS_GENERATED=0
+          POSTS_PROCESSED=0
+          PR_CREATED=false
+          PR_URL=""
+          TWEETS_POSTED=0
+          STYLE_PROFILE_UPDATED=false
+        fi
+
+        echo "threads_generated=$THREADS_GENERATED" >> $GITHUB_OUTPUT
+        echo "posts_processed=$POSTS_PROCESSED" >> $GITHUB_OUTPUT
+        echo "pr_created=$PR_CREATED" >> $GITHUB_OUTPUT
+        echo "pr_url=$PR_URL" >> $GITHUB_OUTPUT
+        echo "tweets_posted=$TWEETS_POSTED" >> $GITHUB_OUTPUT
+        echo "style_profile_updated=$STYLE_PROFILE_UPDATED" >> $GITHUB_OUTPUT

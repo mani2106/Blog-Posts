@@ -1,0 +1,38 @@
+# Tweet Generator Configuration
+models:
+  planning: anthropic/claude-3-haiku
+  creative: anthropic/claude-3-sonnet
+  verification: anthropic/claude-3-haiku
+
+engagement:
+  optimization_level: high
+  hook_variations: 3
+  max_hashtags: 2
+
+output:
+  auto_post_enabled: false  # Set to true when ready for auto-posting
+  dry_run_mode: false
+  max_tweets_per_thread: 8
+
+# X (formerly Twitter) posting settings - FREE TIER OPTIMIZED
+x_platform:
+  auto_post_enabled: true   # Enable for free tier usage
+  rate_limit_delay: 2       # Slightly slower to be safe
+  max_retries: 3
+  retry_delay: 5
+  api_version: "v2"         # Use X API v2
+
+  # Free tier optimization
+  max_threads_per_day: 10   # Conservative daily limit
+  max_tweets_per_thread: 8  # Keep threads reasonable
+  usage_tracking: true      # Monitor your usage
+
+content:
+  posts_directory: "_posts"
+  notebooks_directory: "_notebooks"
+  base_branch: "master"  # Your main branch is master
+
+safety:
+  content_filtering: true
+  profanity_detection: true
+  review_required: true

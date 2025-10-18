@@ -1,0 +1,34 @@
+{
+  "file_path": "_notebooks/2024-06-01-data-visualization-matplotlib.ipynb",
+  "frontmatter": {
+    "title": "Beautiful Data Visualizations with Matplotlib: A Step-by-Step Guide",
+    "date": "2024-06-01",
+    "categories": [
+      "data-science",
+      "visualization",
+      "python"
+    ],
+    "tags": [
+      "matplotlib",
+      "data-viz",
+      "python",
+      "tutorial"
+    ],
+    "summary": "Learn to create stunning data visualizations using Matplotlib with practical examples.",
+    "publish": true,
+    "auto_post": true,
+    "canonical_url": "https://example.com/matplotlib-visualization-guide"
+  },
+  "content": "This notebook demonstrates advanced Matplotlib techniques for creating publication-quality visualizations.\n\nWe'll cover:\n1. Setting up the perfect plotting environment\n2. Creating multi-panel figures\n3. Customizing colors and styles\n4. Adding annotations and callouts\n5. Exporting high-resolution figures\n\nThe key to great data visualization is telling a story with your data. Every chart should have a clear message and guide the viewer's attention to the most important insights.\n\nBy the end of this tutorial, you'll be able to create visualizations that not only look professional but effectively communicate your findings.",
+  "expected_hooks": [
+    "tutorial_hook",
+    "step_by_step_hook",
+    "value_proposition_hook"
+  ],
+  "expected_engagement_elements": [
+    "numbered_steps",
+    "practical_examples",
+    "visual_content",
+    "learning_outcome"
+  ]
+}

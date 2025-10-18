@@ -1,0 +1,203 @@
+# Tweet Generator Configuration for Demo Repository
+# This configuration demonstrates various options and best practices
+
+# AI Model Configuration
+models:
+  # Fast model for thread planning and structure
+  planning: anthropic/claude-3-haiku
+
+  # Creative model for hook generation and engaging content
+  creative: anthropic/claude-3-sonnet
+
+  # Verification model for content validation and safety
+  verification: anthropic/claude-3-haiku
+
+# Engagement Optimization Settings
+engagement:
+  # Optimization level: low, medium, high
+  # High = maximum engagement techniques, may be less conservative
+  # Medium = balanced approach, good for most use cases
+  # Low = conservative, focuses on authenticity over virality
+  optimization_level: high
+
+  # Number of hook variations to generate and select from
+  hook_variations: 3
+
+  # Maximum hashtags per thread (1-3 recommended)
+  max_hashtags: 2
+
+  # Tone adjustments for different content types
+  tone_adjustments:
+    tutorial: "helpful_instructor"
+    opinion: "confident_expert"
+    personal: "authentic_storyteller"
+    technical: "knowledgeable_guide"
+
+# Output Configuration
+output:
+  # Enable automatic posting to Twitter (requires Twitter API keys)
+  auto_post_enabled: false
+
+  # Run in dry-run mode (generate content but don't create PRs or post)
+  dry_run_mode: false
+
+  # Maximum tweets per thread (6-10 recommended for engagement)
+  max_tweets_per_thread: 8
+
+  # Minimum tweets per thread (prevents very short threads)
+  min_tweets_per_thread: 4
+
+# Content Processing Rules
+content:
+  # Minimum word count for blog posts to generate threads
+  min_word_count: 500
+
+  # Categories to prioritize for thread generation
+  priority_categories:
+    - tutorial
+    - tips
+    - case-study
+    - opinion
+
+  # Categories to skip (won't generate threads)
+  skip_categories:
+    - personal
+    - draft
+    - private
+
+# Style Analysis Configuration
+style_analysis:
+  # Minimum number of posts needed for style analysis
+  min_posts_for_analysis: 3
+
+  # Weight different content types in style analysis
+  content_weights:
+    recent_posts: 1.5      # Recent posts have more influence
+    popular_posts: 1.2     # Posts with high engagement
+    tutorial_posts: 1.0    # Standard weight
+    personal_posts: 0.8    # Less influence on professional style
+
+# Safety and Filtering
+safety:
+  # Enable content safety filtering
+  enable_safety_filter: true
+
+  # Strictness level: low, medium, high
+  filter_strictness: medium
+
+  # Flag posts with numeric claims for manual review
+  flag_numeric_claims: true
+
+  # Custom words/phrases to avoid
+  blocked_phrases:
+    - "guaranteed results"
+    - "get rich quick"
+    - "secret formula"
+
+# Platform-Specific Settings
+platforms:
+  twitter:
+    # Character limit per tweet (leave room for URLs and mentions)
+    max_characters: 270
+
+    # Preferred hashtag strategy
+    hashtag_strategy: "trending_relevant"  # trending_relevant, niche_specific, branded
+
+    # Include thread numbering (1/8, 2/8, etc.)
+    include_thread_numbering: true
+
+    # Add "thread continues" indicators
+    add_continuation_indicators: true
+
+# Advanced Features
+advanced:
+  # Enable A/B testing for hooks (generates multiple versions)
+  enable_ab_testing: false
+
+  # Custom prompt templates for different content types
+  custom_prompts:
+    tutorial: |
+      Create an educational thread that breaks down complex concepts into digestible steps.
+      Focus on practical value and actionable insights.
+
+    case_study: |
+      Create a narrative thread that tells a compelling story with clear lessons learned.
+      Include specific results and takeaways.
+
+  # Performance optimization
+  performance:
+    # Cache style profiles to speed up generation
+    cache_style_profiles: true
+
+    # Parallel processing for multiple posts
+    enable_parallel_processing: true
+
+    # Maximum API calls per minute (respect rate limits)
+    max_api_calls_per_minute: 10
+
+# Monitoring and Analytics
+monitoring:
+  # Enable detailed logging
+  enable_detailed_logging: true
+
+  # Track generation metrics
+  track_metrics: true
+
+  # Include generation metadata in output files
+  include_metadata: true
+
+  # Performance thresholds for alerts
+  performance_thresholds:
+    max_generation_time: 300  # 5 minutes
+    max_memory_usage: 512     # 512 MB
+    min_success_rate: 0.9     # 90%
+
+# Integration Settings
+integrations:
+  # GitHub settings
+  github:
+    # Auto-assign PRs to repository owner
+    auto_assign_prs: true
+
+    # Labels to add to generated PRs
+    pr_labels:
+      - "automated"
+      - "social-media"
+      - "tweet-thread"
+
+    # PR template customization
+    pr_template: |
+      ## Generated Tweet Thread
+
+      This PR contains an automatically generated tweet thread for the blog post: **{post_title}**
+
+      ### Thread Preview
+      {thread_preview}
+
+      ### Generation Details
+      - Model used: {model_name}
+      - Engagement level: {engagement_level}
+      - Generated at: {timestamp}
+
+      ### Review Checklist
+      - [ ] Thread accurately represents the blog post content
+      - [ ] Tone and voice match the author's style
+      - [ ] All tweets are under character limit
+      - [ ] Hashtags are relevant and appropriate
+      - [ ] Call-to-action is clear and engaging
+
+      **Auto-post enabled**: {auto_post_status}
+
+# Development and Testing
+development:
+  # Enable debug mode for troubleshooting
+  debug_mode: false
+
+  # Save intermediate processing files for analysis
+  save_debug_files: false
+
+  # Test configuration validation
+  validate_config: true
+
+  # Mock API calls for testing (don't use real APIs)
+  mock_api_calls: false

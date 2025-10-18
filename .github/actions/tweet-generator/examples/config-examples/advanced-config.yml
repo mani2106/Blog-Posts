@@ -1,0 +1,106 @@
+# Advanced configuration for tweet thread generator
+# Place this file at: .github/tweet-generator-config.yml
+
+# AI Model Configuration with fallbacks
+models:
+  planning: anthropic/claude-3-haiku
+  creative: anthropic/claude-3-sonnet
+  verification: anthropic/claude-3-haiku
+  # Fallback models for rate limiting or errors
+  fallback_planning: openai/gpt-3.5-turbo
+  fallback_creative: openai/gpt-4-turbo-preview
+
+# Advanced Engagement Settings
+engagement:
+  optimization_level: high
+  hook_variations: 5
+  max_hashtags: 3
+
+  # Hook type preferences (optional)
+  preferred_hooks:
+    - curiosity
+    - statistic
+    - contrarian
+
+  # Engagement elements
+  use_emojis: true
+  use_power_words: true
+  include_cta: true
+
+  # Thread structure preferences
+  thread_arc_style: "strong_opening"  # Options: strong_opening, gradual_build, story_arc
+  cliffhanger_frequency: 0.3          # Probability of cliffhangers between tweets
+
+# Content Validation Settings
+validation:
+  strict_character_limits: true
+  safety_filtering: true
+  profanity_checking: true
+  fact_checking_flags: true
+
+  # Custom safety keywords (optional)
+  additional_safety_keywords:
+    - "investment advice"
+    - "medical advice"
+    - "legal advice"
+
+# Output Configuration
+output:
+  auto_post_enabled: false
+  dry_run_mode: false
+  max_tweets_per_thread: 12
+
+  # PR Configuration
+  pr_auto_assign: true
+  pr_labels:
+    - "social-media"
+    - "auto-generated"
+
+  # Auto-posting controls
+  auto_post_conditions:
+    require_frontmatter_flag: true    # Require auto_post: true in frontmatter
+    skip_if_errors: true             # Skip auto-posting if validation errors
+    max_daily_posts: 3               # Maximum auto-posts per day
+
+# Directory Configuration
+directories:
+  posts: "_posts"
+  notebooks: "_notebooks"
+  generated: ".generated"
+  posted: ".posted"
+
+  # Additional content sources (optional)
+  additional_sources:
+    - "content/blog"
+    - "articles"
+
+# Style Analysis Configuration
+style_analysis:
+  min_posts_required: 5
+  include_notebooks: true
+  analyze_comments: false
+
+  # Content categories for style variation
+  category_styles:
+    technical:
+      formality_boost: 0.2
+      emoji_reduction: 0.5
+    personal:
+      formality_reduction: 0.3
+      emoji_boost: 0.4
+    tutorial:
+      structure_emphasis: true
+      numbered_lists: true
+
+# Performance Settings
+performance:
+  api_timeout: 30              # Seconds
+  max_concurrent_requests: 3   # Concurrent API calls
+  retry_attempts: 3            # Number of retries for failed requests
+  rate_limit_buffer: 0.1       # Buffer for rate limiting (10%)
+
+# Logging Configuration
+logging:
+  level: INFO                  # DEBUG, INFO, WARNING, ERROR
+  include_api_responses: false # Include full API responses in logs
+  structured_logging: true     # Use structured JSON logging

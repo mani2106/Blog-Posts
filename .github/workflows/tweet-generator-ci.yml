@@ -1,0 +1,366 @@
+name: Tweet Generator CI
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - '.github/actions/tweet-generator/**'
+      - '.github/workflows/tweet-generator-ci.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - '.github/actions/tweet-generator/**'
+      - '.github/workflows/tweet-generator-ci.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install linting dependencies
+        run: |
+          pip install black flake8 isort mypy
+          cd .github/actions/tweet-generator
+          pip install -r requirements.txt
+
+      - name: Check code formatting with Black
+        run: |
+          cd .github/actions/tweet-generator
+          black --check --diff src/ tests/
+
+      - name: Check import sorting with isort
+        run: |
+          cd .github/actions/tweet-generator
+          isort --check-only --diff src/ tests/
+
+      - name: Lint with flake8
+        run: |
+          cd .github/actions/tweet-generator
+          flake8 src/ tests/ --max-line-length=88 --extend-ignore=E203,W503
+
+      - name: Type checking with mypy
+        run: |
+          cd .github/actions/tweet-generator
+          mypy src/ --ignore-missing-imports
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          cd .github/actions/tweet-generator
+          pip install -r requirements.txt
+          pip install pytest pytest-cov pytest-mock pytest-asyncio
+
+      - name: Run unit tests
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest tests/unit/ -v \
+            --cov=src \
+            --cov-report=xml \
+            --cov-report=html \
+            --cov-fail-under=80
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        if: matrix.python-version == '3.11'
+        with:
+          file: .github/actions/tweet-generator/coverage.xml
+          flags: unittests
+          name: codecov-${{ matrix.python-version }}
+
+  integration-tests:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'run-integration-tests'))
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          cd .github/actions/tweet-generator
+          pip install -r requirements.txt
+          pip install pytest pytest-mock
+
+      - name: Run integration tests
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest tests/integration/ -v --tb=short
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          cd .github/actions/tweet-generator
+          pip install -r requirements.txt
+          pip install safety bandit
+
+      - name: Security scan with Safety
+        run: |
+          cd .github/actions/tweet-generator
+          safety check --json --output safety-report.json || true
+
+      - name: Security scan with Bandit
+        run: |
+          cd .github/actions/tweet-generator
+          bandit -r src/ -f json -o bandit-report.json || true
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.github/actions/tweet-generator'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  action-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate action.yml syntax
+        run: |
+          cd .github/actions/tweet-generator
+          python -c "
+          import yaml
+          import sys
+
+          try:
+              with open('action.yml', 'r') as f:
+                  action = yaml.safe_load(f)
+
+              # Validate required fields
+              required_fields = ['name', 'description', 'runs']
+              for field in required_fields:
+                  if field not in action:
+                      print(f'Missing required field: {field}')
+                      sys.exit(1)
+
+              # Validate runs configuration
+              if 'using' not in action['runs']:
+                  print('Missing runs.using field')
+                  sys.exit(1)
+
+              print('✅ action.yml is valid')
+          except Exception as e:
+              print(f'❌ action.yml validation failed: {e}')
+              sys.exit(1)
+          "
+
+      - name: Test action execution (dry run)
+        uses: ./.github/actions/tweet-generator
+        with:
+          openrouter_api_key: 'test-key'
+          dry_run: 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  performance-tests:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          cd .github/actions/tweet-generator
+          pip install -r requirements.txt
+          pip install pytest pytest-benchmark memory-profiler
+
+      - name: Run performance tests
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest tests/performance/ -v \
+            --benchmark-only \
+            --benchmark-json=benchmark-results.json
+
+      - name: Upload performance results
+        uses: actions/upload-artifact@v3
+        with:
+          name: performance-results
+          path: .github/actions/tweet-generator/benchmark-results.json
+
+  compatibility-tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.9', '3.11']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          cd .github/actions/tweet-generator
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run compatibility tests
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest tests/compatibility/ -v
+
+  documentation-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install documentation dependencies
+        run: |
+          pip install markdown-link-check
+          npm install -g markdown-link-check
+
+      - name: Check documentation links
+        run: |
+          cd .github/actions/tweet-generator
+          find . -name "*.md" -exec markdown-link-check {} \;
+
+      - name: Validate code examples in documentation
+        run: |
+          cd .github/actions/tweet-generator
+          python -c "
+          import re
+          import subprocess
+          import sys
+
+          # Extract Python code blocks from README
+          with open('README.md', 'r') as f:
+              content = f.read()
+
+          code_blocks = re.findall(r'```python\n(.*?)\n```', content, re.DOTALL)
+
+          for i, code in enumerate(code_blocks):
+              try:
+                  # Basic syntax check
+                  compile(code, f'<code_block_{i}>', 'exec')
+                  print(f'✅ Code block {i+1} is valid')
+              except SyntaxError as e:
+                  print(f'❌ Code block {i+1} has syntax error: {e}')
+                  sys.exit(1)
+          "
+
+  test-summary:
+    runs-on: ubuntu-latest
+    needs: [lint-and-format, unit-tests, security-scan, action-validation, compatibility-tests, documentation-tests]
+    if: always()
+    steps:
+      - name: Test Summary
+        run: |
+          echo "## Test Results Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Check job results
+          if [ "${{ needs.lint-and-format.result }}" = "success" ]; then
+            echo "✅ Linting and Formatting: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Linting and Formatting: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.unit-tests.result }}" = "success" ]; then
+            echo "✅ Unit Tests: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Unit Tests: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.security-scan.result }}" = "success" ]; then
+            echo "✅ Security Scan: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Security Scan: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.action-validation.result }}" = "success" ]; then
+            echo "✅ Action Validation: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Action Validation: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.compatibility-tests.result }}" = "success" ]; then
+            echo "✅ Compatibility Tests: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Compatibility Tests: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.documentation-tests.result }}" = "success" ]; then
+            echo "✅ Documentation Tests: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Documentation Tests: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # Overall status
+          if [ "${{ needs.lint-and-format.result }}" = "success" ] && \
+             [ "${{ needs.unit-tests.result }}" = "success" ] && \
+             [ "${{ needs.security-scan.result }}" = "success" ] && \
+             [ "${{ needs.action-validation.result }}" = "success" ] && \
+             [ "${{ needs.compatibility-tests.result }}" = "success" ] && \
+             [ "${{ needs.documentation-tests.result }}" = "success" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "🎉 **All tests passed!** Ready for merge." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ **Some tests failed.** Please review and fix issues." >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi

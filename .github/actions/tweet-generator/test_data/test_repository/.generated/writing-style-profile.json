@@ -1,0 +1,42 @@
+{
+  "vocabulary_patterns": {
+    "technical_terms": [
+      "implementation",
+      "architecture",
+      "optimization",
+      "scalability"
+    ],
+    "common_words": [
+      "system",
+      "code",
+      "function",
+      "data",
+      "performance"
+    ],
+    "complexity_level": "high"
+  },
+  "tone_indicators": {
+    "formality": "professional",
+    "enthusiasm": "moderate",
+    "confidence": "high",
+    "teaching_style": "explanatory"
+  },
+  "content_structures": {
+    "preferred_formats": [
+      "numbered_lists",
+      "code_examples",
+      "step_by_step"
+    ],
+    "average_section_length": 150,
+    "uses_subheadings": true
+  },
+  "emoji_usage": {
+    "frequency": "low",
+    "types": [
+      "\ud83d\ude80",
+      "\u26a1",
+      "\ud83d\udd27",
+      "\ud83d\udca1"
+    ]
+  }
+}

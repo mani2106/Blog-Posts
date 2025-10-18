@@ -1,0 +1,128 @@
+# Basic Tweet Generator Configuration
+# Simple configuration for getting started with tweet generation
+
+# AI Model Configuration
+models:
+  # Primary model for thread planning and structure
+  planning: anthropic/claude-3-haiku
+
+  # Creative model for hook generation and engaging content
+  creative: anthropic/claude-3-sonnet
+
+  # Verification model for content validation and safety
+  verification: anthropic/claude-3-haiku
+
+# Engagement Optimization Settings
+engagement:
+  # Optimization level: low, medium, high
+  optimization_level: medium
+
+  # Number of hook variations to generate
+  hook_variations: 2
+
+  # Maximum hashtags per thread
+  max_hashtags: 2
+
+  # Include emojis in generated content
+  include_emojis: true
+
+  # Use power words for engagement
+  use_power_words: true
+
+# Content Generation Settings
+content:
+  # Maximum tweets per thread
+  max_tweets_per_thread: 8
+
+  # Minimum content length to process (words)
+  min_content_length: 200
+
+  # Include code snippets in technical content
+  include_code_snippets: false
+
+  # Boost technical terminology recognition
+  technical_terminology_boost: false
+
+# Output Configuration
+output:
+  # Enable automatic posting to X/Twitter
+  auto_post_enabled: false
+
+  # Run in dry-run mode (no actual API calls)
+  dry_run_mode: false
+
+  # Create pull requests for review
+  create_prs: true
+
+  # Include thread preview in PR descriptions
+  include_thread_preview: true
+
+# Safety and Validation
+safety:
+  # Enable content filtering
+  content_filtering: true
+
+  # Check for profanity
+  profanity_check: true
+
+  # Flag numeric claims for review
+  claim_flagging: true
+
+  # Maximum character count per tweet (including URLs)
+  max_tweet_length: 280
+
+# API Configuration
+api:
+  # Request timeout in seconds
+  timeout: 60
+
+  # Maximum retry attempts
+  max_retries: 3
+
+  # Delay between retries in seconds
+  retry_delay: 5
+
+  # Rate limiting (requests per minute)
+  rate_limit: 30
+
+# Logging Configuration
+logging:
+  # Logging level: DEBUG, INFO, WARNING, ERROR
+  level: INFO
+
+  # Include performance metrics in logs
+  include_metrics: true
+
+  # Use structured logging format
+  structured_output: true
+
+  # Include API response details (for debugging)
+  include_api_responses: false
+
+# File Management
+files:
+  # Directory for generated thread files
+  generated_dir: .generated
+
+  # Directory for posted tweet metadata
+  posted_dir: .posted
+
+  # Backup generated files before overwriting
+  backup_existing: true
+
+  # Clean up old files (days)
+  cleanup_after_days: 30
+
+# Performance Settings
+performance:
+  # Enable caching for style profiles
+  enable_caching: true
+
+  # Cache duration in hours
+  cache_duration: 24
+
+  # Maximum concurrent API requests
+  max_concurrent_requests: 3
+
+  # Process posts in parallel
+  parallel_processing: false

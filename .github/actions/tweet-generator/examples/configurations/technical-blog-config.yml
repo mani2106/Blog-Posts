@@ -1,0 +1,223 @@
+# Technical Blog Configuration
+# Optimized for technical content, tutorials, and developer-focused posts
+
+# AI Model Configuration - Using more powerful models for technical content
+models:
+  planning: anthropic/claude-3-sonnet      # Better for complex technical planning
+  creative: anthropic/claude-3-sonnet      # High-quality technical hooks
+  verification: anthropic/claude-3-haiku   # Fast validation
+
+# Advanced Engagement for Technical Audience
+engagement:
+  optimization_level: high
+  hook_variations: 3
+  max_hashtags: 2
+  include_emojis: true
+  use_power_words: true
+
+  # Custom hooks for technical content
+  custom_hooks:
+    - "Here's what most developers get wrong about {topic}..."
+    - "I spent {timeframe} debugging {topic} so you don't have to..."
+    - "The {topic} technique that changed my development workflow..."
+    - "Why {topic} is harder than it looks (and how to master it)..."
+    - "The hidden complexity of {topic} that nobody talks about..."
+    - "From zero to {topic} expert: lessons learned the hard way..."
+
+  # Technical power words
+  power_words:
+    - "breakthrough"
+    - "secret"
+    - "proven"
+    - "advanced"
+    - "expert"
+    - "hidden"
+    - "insider"
+    - "game-changing"
+    - "cutting-edge"
+    - "battle-tested"
+
+  # Psychological triggers for developers
+  psychological_triggers:
+    - "curiosity"
+    - "problem_solving"
+    - "efficiency"
+    - "mastery"
+    - "insider_knowledge"
+
+# Technical Content Optimization
+content:
+  max_tweets_per_thread: 12               # Longer threads for complex topics
+  min_content_length: 500                 # Substantial technical content
+  include_code_snippets: true             # Include code examples
+  technical_terminology_boost: true       # Enhance technical term recognition
+
+  # Content structure preferences
+  tutorial_structure_preference: true     # Optimize for step-by-step content
+  code_explanation_enhancement: true      # Better code explanations
+  problem_solution_format: true          # Problem → Solution structure
+
+  # Technical content categories
+  technical_categories:
+    - programming
+    - tutorial
+    - development
+    - coding
+    - software
+    - technology
+    - engineering
+    - devops
+    - architecture
+    - algorithms
+    - data-structures
+    - frameworks
+    - libraries
+    - tools
+
+# Enhanced Output for Technical Content
+output:
+  auto_post_enabled: false               # Manual review for technical accuracy
+  dry_run_mode: false
+  create_prs: true
+  include_thread_preview: true
+  include_code_previews: true            # Show code snippets in PR
+
+  # Technical review checklist in PRs
+  technical_review_checklist: true
+  include_accuracy_warnings: true
+
+# Strict Safety for Technical Claims
+safety:
+  content_filtering: true
+  profanity_check: true
+  claim_flagging: true                   # Important for technical claims
+  technical_accuracy_check: true        # Flag potentially inaccurate technical info
+  max_tweet_length: 280
+
+  # Technical-specific safety checks
+  code_safety_check: true               # Check code snippets for security issues
+  version_specificity_check: true       # Flag outdated version references
+  deprecated_api_check: true            # Warn about deprecated APIs
+
+# Optimized API Usage for Technical Content
+api:
+  timeout: 120                          # Longer timeout for complex content
+  max_retries: 5                        # More retries for technical generation
+  retry_delay: 10
+  rate_limit: 20                        # Conservative rate limiting
+
+  # Model-specific settings
+  model_settings:
+    planning:
+      max_tokens: 4000
+      temperature: 0.3                  # Lower temperature for accuracy
+    creative:
+      max_tokens: 4000
+      temperature: 0.7                  # Balanced creativity
+    verification:
+      max_tokens: 2000
+      temperature: 0.1                  # Very low for accuracy checking
+
+# Enhanced Logging for Technical Content
+logging:
+  level: INFO
+  include_metrics: true
+  structured_output: true
+  include_api_responses: false
+
+  # Technical-specific logging
+  log_technical_terms: true            # Log extracted technical terms
+  log_code_snippets: true             # Log code snippet processing
+  log_accuracy_checks: true           # Log technical accuracy validations
+
+# Technical Performance Optimization
+performance:
+  enable_caching: true
+  cache_duration: 12                   # Shorter cache for rapidly changing tech
+  max_concurrent_requests: 2           # Conservative for complex content
+  parallel_processing: false           # Sequential for better accuracy
+
+  # Technical content processing
+  enable_syntax_highlighting: true     # Process code syntax
+  enable_api_documentation_lookup: true # Enhance with API docs
+  enable_framework_detection: true     # Detect and optimize for frameworks
+
+# Style Analysis for Technical Writing
+style_analysis:
+  # Enhanced technical vocabulary analysis
+  technical_vocabulary_weight: 2.0     # Boost technical terms
+  code_pattern_recognition: true       # Recognize code patterns
+  api_usage_patterns: true            # Track API usage patterns
+
+  # Technical writing patterns
+  explanation_patterns: true           # How you explain concepts
+  example_patterns: true              # How you use examples
+  troubleshooting_patterns: true      # How you approach problems
+
+  # Framework and language preferences
+  detect_programming_languages: true
+  detect_frameworks: true
+  detect_tools_and_platforms: true
+
+# Hashtag Strategy for Technical Content
+hashtags:
+  # Technical hashtag categories
+  programming_languages: true         # #Python, #JavaScript, etc.
+  frameworks: true                    # #React, #Django, etc.
+  concepts: true                      # #API, #Database, etc.
+
+  # Hashtag selection strategy
+  prefer_specific_over_general: true  # #FastAPI over #API
+  include_trending_tech: true         # Include trending technologies
+  max_hashtag_length: 20             # Reasonable length limit
+
+  # Common technical hashtags
+  common_hashtags:
+    - "#coding"
+    - "#programming"
+    - "#development"
+    - "#tech"
+    - "#software"
+    - "#tutorial"
+    - "#howto"
+    - "#tips"
+    - "#bestpractices"
+    - "#productivity"
+
+# Thread Structure for Technical Content
+thread_structure:
+  # Opening patterns
+  hook_types:
+    - "problem_statement"              # "Here's a problem every developer faces..."
+    - "contrarian_take"               # "Everyone does X, but here's why Y is better..."
+    - "learning_story"                # "I learned this the hard way..."
+    - "efficiency_gain"               # "This technique will save you hours..."
+    - "common_mistake"                # "Stop making this common mistake..."
+
+  # Content organization
+  use_numbered_steps: true            # 1/n format for tutorials
+  include_code_examples: true         # Embed code snippets
+  add_explanation_threads: true       # Follow-up explanation tweets
+  include_gotchas: true              # Common pitfalls and solutions
+
+  # Closing patterns
+  call_to_action_types:
+    - "share_experience"              # "What's your experience with X?"
+    - "ask_questions"                 # "Questions about X? Ask away!"
+    - "request_feedback"              # "How do you handle X in your projects?"
+    - "suggest_improvements"          # "Know a better way? Share it!"
+    - "continue_discussion"           # "Let's discuss X in the comments"
+
+# Integration with Development Tools
+integrations:
+  # GitHub integration
+  github_code_links: true            # Link to relevant GitHub repos
+  github_gist_embedding: true        # Embed code via Gists
+
+  # Documentation links
+  official_docs_linking: true        # Link to official documentation
+  mdn_integration: true              # MDN links for web technologies
+
+  # Community platforms
+  stackoverflow_references: true     # Reference Stack Overflow solutions
+  dev_community_integration: true    # Integrate with dev.to, etc.
