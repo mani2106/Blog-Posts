@@ -279,7 +279,7 @@ def main() -> int:
                         logger.info("Generating hook variations",
                                    post_slug=post.slug,
                                    hook_count=config.hook_variations_count)
-                        hook_variations = ai_orchestrator.generate_hook_variations(post, config.hook_variations_count)
+                        hook_variations = ai_orchestrator.generate_hook_variations(post, style_profile, config.hook_variations_count)
                         post_metrics.api_calls_made += 1
 
                         # Generate thread content
@@ -288,7 +288,7 @@ def main() -> int:
                         logger.info("Generating thread content",
                                    post_slug=post.slug,
                                    estimated_tweets=estimated_tweets)
-                        tweets = ai_orchestrator.generate_thread_content(thread_plan)
+                        tweets = ai_orchestrator.generate_thread_content(thread_plan, post, style_profile)
                         post_metrics.api_calls_made += 1
 
                         # Apply engagement optimization
@@ -571,7 +571,7 @@ def main() -> int:
         print("=" * 60)
         logger.info("Tweet thread generator completed successfully",
                    session_id=metrics.session_id,
-                   total_operations=len(metrics.operation_metrics))
+                   total_operations=len(logger.operation_metrics))
         return 0
 
     except KeyboardInterrupt:
