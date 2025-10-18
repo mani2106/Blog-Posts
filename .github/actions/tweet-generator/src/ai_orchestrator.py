@@ -1122,3 +1122,52 @@ Provide specific, actionable feedback for improvement.
 
         # Default to informational
         return "informational"
+
+    def generate_thread(self, post: BlogPost, style_profile: StyleProfile) -> Optional[ThreadData]:
+        """
+        Generate a complete thread by orchestrating all generation steps.
+
+        Args:
+            post: Blog post to generate thread for
+            style_profile: Author's writing style profile
+
+        Returns:
+            Complete ThreadData object or None if generation fails
+        """
+        try:
+            # Step 1: Generate thread plan
+            thread_plan = self.generate_thread_plan(post, style_profile)
+            if not thread_plan:
+                self.logger.error("Failed to generate thread plan")
+                return None
+
+            # Step 2: Generate hook variations
+            hook_variations = self.generate_hook_variations(post, style_profile, count=3)
+            if not hook_variations:
+                self.logger.warning("Failed to generate hook variations, using default")
+                hook_variations = ["Here's something interesting about this topic..."]
+
+            # Step 3: Generate thread content
+            tweets = self.generate_thread_content(thread_plan, post, style_profile)
+            if not tweets:
+                self.logger.error("Failed to generate thread content")
+                return None
+
+            # Step 4: Create ThreadData object
+            thread_data = ThreadData(
+                post_slug=post.slug,
+                tweets=tweets,
+                hook_variations=hook_variations,
+                hashtags=[],  # Will be populated by engagement optimizer
+                engagement_score=0.0,  # Will be calculated by engagement optimizer
+                model_used=self.creative_model,
+                style_profile_version=style_profile.version,
+                thread_plan=thread_plan
+            )
+
+            self.logger.info(f"Successfully generated thread for post: {post.slug}")
+            return thread_data
+
+        except Exception as e:
+            self.logger.error(f"Failed to generate thread for post {post.slug}: {e}")
+            return None

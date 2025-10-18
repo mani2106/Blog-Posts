@@ -1351,3 +1351,106 @@ class ContentValidator:
             )
 
         return report
+
+    def validate_thread(self, thread: 'ThreadData') -> ValidationResult:
+        """
+        Validate a complete thread data object.
+
+        Args:
+            thread: ThreadData object to validate
+
+        Returns:
+            ValidationResult with thread validation status
+        """
+        try:
+            # Extract tweet content from ThreadData
+            tweet_contents = [tweet.content for tweet in thread.tweets]
+
+            if not tweet_contents:
+                return ValidationResult(
+                    status=ValidationStatus.ERROR,
+                    message="Thread contains no tweets",
+                    is_valid=False
+                )
+
+            # Perform comprehensive validation on tweet contents
+            content_validation = self.validate_content_comprehensive(tweet_contents)
+
+            # Validate thread structure using Tweet objects
+            structure_validation = self.validate_thread_structure(thread.tweets)
+
+            # Combine results
+            all_issues = []
+            all_warnings = []
+
+            # Add content validation issues
+            if content_validation.details:
+                all_issues.extend(content_validation.details.get("issues", []))
+                all_warnings.extend(content_validation.details.get("warnings", []))
+
+            # Add structure validation issues
+            if structure_validation.details:
+                structure_issues = structure_validation.details.get("issues", [])
+                structure_warnings = structure_validation.details.get("warnings", [])
+
+                # Mark structure issues with type
+                for issue in structure_issues:
+                    if isinstance(issue, dict):
+                        issue["type"] = "structure"
+                    else:
+                        # Convert string to dict
+                        structure_issues[structure_issues.index(issue)] = {
+                            "type": "structure",
+                            "message": str(issue)
+                        }
+                for warning in structure_warnings:
+                    if isinstance(warning, dict):
+                        warning["type"] = "structure"
+                    else:
+                        # Convert string to dict
+                        structure_warnings[structure_warnings.index(warning)] = {
+                            "type": "structure",
+                            "message": str(warning)
+                        }
+
+                all_issues.extend(structure_issues)
+                all_warnings.extend(structure_warnings)
+
+            # Determine overall status
+            if all_issues or not content_validation.is_valid or not structure_validation.is_valid:
+                status = ValidationStatus.ERROR
+                message = f"Thread validation failed: {len(all_issues)} issue(s)"
+            elif all_warnings:
+                status = ValidationStatus.WARNING
+                message = f"Thread validation passed with {len(all_warnings)} warning(s)"
+            else:
+                status = ValidationStatus.VALID
+                message = "Thread validation passed"
+
+            return ValidationResult(
+                status=status,
+                message=message,
+                details={
+                    "issues": all_issues,
+                    "warnings": all_warnings,
+                    "thread_metadata": {
+                        "post_slug": thread.post_slug,
+                        "tweet_count": len(thread.tweets),
+                        "engagement_score": thread.engagement_score,
+                        "model_used": thread.model_used,
+                        "style_profile_version": thread.style_profile_version
+                    },
+                    "content_validation": content_validation.details,
+                    "structure_validation": structure_validation.details
+                },
+                is_valid=(status != ValidationStatus.ERROR)
+            )
+
+        except Exception as e:
+            self.logger.error(f"Thread validation error: {e}")
+            return ValidationResult(
+                status=ValidationStatus.ERROR,
+                message=f"Thread validation failed with error: {str(e)}",
+                details={"error": str(e)},
+                is_valid=False
+            )

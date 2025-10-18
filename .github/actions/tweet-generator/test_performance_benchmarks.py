@@ -299,7 +299,12 @@ class PerformanceBenchmark:
             # Simulate the complete workflow
             detector = ContentDetector()
             analyzer = StyleAnalyzer()
-            orchestrator = AIOrchestrator(api_client=self.mock_factory.openrouter)
+            orchestrator = AIOrchestrator(
+                api_key="test_key",
+                planning_model="test/planning-model",
+                creative_model="test/creative-model",
+                verification_model="test/verification-model"
+            )
             optimizer = EngagementOptimizer()
             validator = ContentValidator()
             output_manager = OutputManager(
