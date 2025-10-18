@@ -1,8 +1,8 @@
 # Tweet Generator Configuration
 models:
-  planning: anthropic/claude-3-haiku
-  creative: anthropic/claude-3-sonnet
-  verification: anthropic/claude-3-haiku
+  planning: anthropic/claude-haiku-4.5
+  creative: google/gemini-2.5-flash
+  verification: anthropic/claude-haiku-4.5
 
 engagement:
   optimization_level: high
