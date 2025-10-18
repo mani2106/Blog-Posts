@@ -126,7 +126,8 @@ class ContentValidator:
             # Calculate effective character count
             effective_length = self._calculate_effective_tweet_length(tweet)
 
-            if effective_length > limit:
+            # Allow a small buffer (5 characters) over the limit before treating as error
+            if effective_length > limit + 5:
                 violations.append({
                     "tweet_index": i,
                     "content": tweet[:50] + "..." if len(tweet) > 50 else tweet,

@@ -247,7 +247,7 @@ class AIOrchestrator:
             tweets = []
             for i, tweet_content in enumerate(tweet_contents):
                 # Validate character count (reserve space for thread indicators)
-                max_length = 250 if i == 0 else 270  # First tweet needs space for URL
+                max_length = 260 if i == 0 else 275  # First tweet needs space for URL, increased limits
                 if len(tweet_content) > max_length:
                     tweet_content = truncate_text(tweet_content, max_length)
 

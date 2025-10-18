@@ -438,7 +438,7 @@ def main() -> int:
                             post.slug,
                             config.openrouter_model,
                             input_characters=len(post.content),
-                            output_characters=sum(len(tweet) for tweet in optimized_tweets),
+                            output_characters=sum(len(tweet.content) for tweet in optimized_tweets),
                             processing_time_ms=post_metrics.duration_ms or 0,
                             tweets_generated=len(optimized_tweets),
                             hooks_generated=len(hook_variations),
