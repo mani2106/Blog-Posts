@@ -1,0 +1,34 @@
+{
+  "post_slug": "model agnostic featimp",
+  "tweets": [
+    {
+      "content": "```json [ \"1/5 Ever wonder *why* a prediction model makes a certain guess. \ud83e\udd14 It's not magic. But understanding *how* is tricky. \n\u2501\u2501\u2501\n. I dug into a cool paper that breaks it down. You won't believe the \\\"aha. \\\" moments. \u2728 Check this out: https://mani2106",
+      "character_count": 255,
+      "engagement_elements": [],
+      "hashtags": [],
+      "position": 1,
+      "hook_type": "curiosity"
+    }
+  ],
+  "hook_variations": [
+    "Alright, buckle up, internet friends! \ud83d\ude80  This is gonna be SO cool!  I've been diving deep into this paper, \"Explaining prediction models and individual predictions,\" and let me tell ya, it's a whole new world! \u2728",
+    "We're talking about how to actually *see* what makes a model tick, not just guess. And guess what? I figured out how to implement it! \ud83e\udd2f It's like getting a peek behind the curtain of those fancy algorithms.",
+    "So, I've put together a little something for you. A Twitter thread! \ud83c\udf89 It's gonna break down how to take this awesome idea and actually *use* it. We'll go through the code, the data, the whole shebang. Get ready to have your mind blown! \ud83d\udca5"
+  ],
+  "hashtags": [
+    "#python",
+    "#git"
+  ],
+  "engagement_score": 0.0,
+  "model_used": "google/gemini-2.5-flash-lite",
+  "prompt_version": "1.0.0",
+  "generated_at": "2025-10-18T11:53:33.679102",
+  "style_profile_version": "1.0.0",
+  "thread_plan": {
+    "hook_type": "curiosity",
+    "main_points": [],
+    "call_to_action": "",
+    "estimated_tweets": 5,
+    "engagement_strategy": ""
+  }
+}
