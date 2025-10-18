@@ -4,7 +4,10 @@ layout: post
 summary: Implementation of algo from Explaining prediction models and individual predictions.
 toc: true
 comments: true
+publish: true
+auto_post: true  # Enable auto-posting when ready
 categories: [take-home, Implementation]
+canonical_url: "https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html"
 ---
 
 The following script tries to reproduce one algorithm from the paper titled `Explaining prediction models and individual predictions`
@@ -21,7 +24,7 @@ import numpy as np
 from typing import List
 import json, joblib
 
-# The feature importances for each data instance 
+# The feature importances for each data instance
 # are calculated with four random samples drawn from the data
 # I also tried to use numba to compile to machine code but could
 # not achieve it

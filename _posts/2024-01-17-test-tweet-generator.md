@@ -5,7 +5,7 @@ categories: [test, automation]
 summary: "A simple test post to verify the tweet generator is working correctly"
 publish: true
 auto_post: true  # Enable auto-posting when ready
-canonical_url: "https://mani2106.github.io/Blog-Posts/test-tweet-generator"
+canonical_url: "https://mani2106.github.io/Blog-Posts/test/automation/2025/01/17/test-tweet-generator.html"
 ---
 
 # Testing the Tweet Generator
