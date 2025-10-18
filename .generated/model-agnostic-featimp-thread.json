@@ -2,8 +2,8 @@
   "post_slug": "model agnostic featimp",
   "tweets": [
     {
-      "content": "```json [ \"1/5 Ever wonder how a prediction model *really* works for each individual thing. \ud83e\udd14 It's like peeking behind the curtain. I tried to reproduce an algorithm from a cool paper on this. \n\u25aa\u25aa\u25aa\n. You gotta see this. \\n\\n\ud83d\udd17 https://mani2106. github. io/Blog-Posts",
-      "character_count": 265,
+      "content": "\ud83d\udd27 ```json [ \"1/5 Ever wonder how a prediction model *really* works for *each* individual prediction. \ud83e\udd14 It's not just a black box. I tried to reproduce an algorithm that explains this. \n---\n. Check out the details here: https://mani2106. github. io/Blog-Posts/take-hom",
+      "character_count": 267,
       "engagement_elements": [],
       "hashtags": [],
       "position": 1,
@@ -11,9 +11,9 @@
     }
   ],
   "hook_variations": [
-    "\"So, I was working on prediction models, right? And I found this paper about explaining them.  It got me THINKING!  Next, I tried to implement one of the algorithms.  It was wild!  See what I found this first! \ud83d\udc47\",",
-    "\"Okay, so you know how prediction models work?  What if I told you there's a way to see *exactly* why a model made a specific prediction for *your* data?  This took me a bit to figure out, but wow!  Check this out! \ud83d\udc40\",",
-    "I just dug into this amazing paper: 'Explaining prediction models and individual predictions'.  Seriously cool stuff!  I tried to reproduce one of the algorithms and got some really interesting data.  You HAVE to see this! \ud83d\ude80"
+    "\"OMG, I just tried to copy an algorithm from a super cool paper and WOW! \ud83e\udd2f It's all about how prediction models work and why they predict stuff for *you*. See how it all shakes out in this thread! \ud83d\udc47\",",
+    "\"First, everyone talks about models, right? But what about *your* specific prediction? \ud83e\udd14 I tried to implement one from a paper and it was wild! Let's dive into the data and see the impact. \u2705\",",
+    "Ever wonder how a model *really* makes a prediction for YOU specifically? I just tried to reproduce an algorithm for it! \ud83e\udd29 So much data, so many cool insights. Come see! \u2502"
   ],
   "hashtags": [
     "#python",
@@ -22,7 +22,7 @@
   "engagement_score": 0.0,
   "model_used": "google/gemini-2.5-flash-lite",
   "prompt_version": "1.0.0",
-  "generated_at": "2025-10-18T12:21:53.436995",
+  "generated_at": "2025-10-18T13:24:45.688471",
   "style_profile_version": "1.0.0",
   "thread_plan": {
     "hook_type": "curiosity",
