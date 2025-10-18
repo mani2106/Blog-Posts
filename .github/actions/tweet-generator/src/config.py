@@ -117,9 +117,9 @@ class ConfigManager:
         """Create a sample configuration file."""
         sample_config = {
             'models': {
-                'planning': 'z-ai/glm-4.5-air',
-                'creative': 'z-ai/glm-4.5-air',
-                'verification': 'z-ai/glm-4.5-air'
+                'planning': 'google/gemini-2.5-flash-lite',
+                'creative': 'google/gemini-2.5-flash-lite',
+                'verification': 'google/gemini-2.5-flash-lite'
             },
             'engagement': {
                 'optimization_level': 'high',

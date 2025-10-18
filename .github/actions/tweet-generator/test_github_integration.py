@@ -97,7 +97,7 @@ class TestGitHubIntegration:
             hook_variations=["Hook 1", "Hook 2", "Hook 3"],
             hashtags=["testing", "blog"],
             engagement_score=8.5,
-            model_used="z-ai/glm-4.5-air",
+            model_used="google/gemini-2.5-flash-lite",
             prompt_version="1.0",
             generated_at=datetime.now(),
             style_profile_version="1.0",
@@ -275,7 +275,7 @@ class TestGitHubIntegration:
         assert "# Tweet Thread Preview: Test Blog Post" in preview
         assert "**Source Post:** https://example.com/test-post" in preview
         assert "**Categories:** test, blog" in preview
-        assert "**Model Used:** z-ai/glm-4.5-air" in preview
+        assert "**Model Used:** google/gemini-2.5-flash-lite" in preview
         assert "**Engagement Score:** 8.50" in preview
 
         # Verify hook variations section
@@ -650,7 +650,7 @@ class TestGitHubIntegration:
 
         assert saved_data["post_slug"] == "test-post"
         assert len(saved_data["tweets"]) == 3
-        assert saved_data["model_used"] == "z-ai/glm-4.5-air"
+        assert saved_data["model_used"] == "google/gemini-2.5-flash-lite"
         assert "metadata" in saved_data
         assert saved_data["metadata"]["generator_version"] == "1.0.0"
 
@@ -684,7 +684,7 @@ class TestGitHubIntegration:
         pr_body = output_manager._create_pr_body(self.sample_thread, self.sample_post)
 
         # Verify PR body contains generation details that would be in commit
-        assert "z-ai/glm-4.5-air" in pr_body
+        assert "google/gemini-2.5-flash-lite" in pr_body
         assert "1.0" in pr_body  # prompt version
         assert "8.50" in pr_body  # engagement score
 

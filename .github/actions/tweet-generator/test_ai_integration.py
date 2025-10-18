@@ -33,9 +33,9 @@ class TestAIOrchestrator:
     def setup_method(self):
         """Set up test fixtures before each test method."""
         self.api_key = "test-api-key"
-        self.planning_model = "z-ai/glm-4.5-air"
-        self.creative_model = "z-ai/glm-4.5-air"
-        self.verification_model = "z-ai/glm-4.5-air"
+        self.planning_model = "google/gemini-2.5-flash-lite"
+        self.creative_model = "google/gemini-2.5-flash-lite"
+        self.verification_model = "google/gemini-2.5-flash-lite"
 
         # Mock the logger and metrics to avoid import issues in tests
         with patch('ai_orchestrator.get_logger'), \
@@ -129,7 +129,7 @@ class TestOpenRouterAPIIntegration(TestAIOrchestrator):
             )
 
             result = await self.orchestrator._call_openrouter_api(
-                model="z-ai/glm-4.5-air",
+                model="google/gemini-2.5-flash-lite",
                 prompt="Test prompt",
                 max_tokens=1000,
                 temperature=0.7
@@ -160,7 +160,7 @@ class TestOpenRouterAPIIntegration(TestAIOrchestrator):
 
             with patch('asyncio.sleep', new_callable=AsyncMock) as mock_sleep:
                 result = await self.orchestrator._call_openrouter_api(
-                    model="z-ai/glm-4.5-air",
+                    model="google/gemini-2.5-flash-lite",
                     prompt="Test prompt"
                 )
 
@@ -190,7 +190,7 @@ class TestOpenRouterAPIIntegration(TestAIOrchestrator):
 
             with patch('asyncio.sleep', new_callable=AsyncMock) as mock_sleep:
                 result = await self.orchestrator._call_openrouter_api(
-                    model="z-ai/glm-4.5-air",
+                    model="google/gemini-2.5-flash-lite",
                     prompt="Test prompt"
                 )
 
@@ -212,7 +212,7 @@ class TestOpenRouterAPIIntegration(TestAIOrchestrator):
 
             with pytest.raises(OpenRouterAPIError) as exc_info:
                 await self.orchestrator._call_openrouter_api(
-                    model="z-ai/glm-4.5-air",
+                    model="google/gemini-2.5-flash-lite",
                     prompt="Test prompt"
                 )
 
@@ -237,7 +237,7 @@ class TestOpenRouterAPIIntegration(TestAIOrchestrator):
 
             with patch('asyncio.sleep', new_callable=AsyncMock) as mock_sleep:
                 result = await self.orchestrator._call_openrouter_api(
-                    model="z-ai/glm-4.5-air",
+                    model="google/gemini-2.5-flash-lite",
                     prompt="Test prompt"
                 )
 
@@ -260,7 +260,7 @@ class TestOpenRouterAPIIntegration(TestAIOrchestrator):
             with patch('asyncio.sleep', new_callable=AsyncMock):
                 with pytest.raises(OpenRouterAPIError) as exc_info:
                     await self.orchestrator._call_openrouter_api(
-                        model="z-ai/glm-4.5-air",
+                        model="google/gemini-2.5-flash-lite",
                         prompt="Test prompt"
                     )
 
@@ -288,7 +288,7 @@ class TestOpenRouterAPIIntegration(TestAIOrchestrator):
             )
 
             result = await self.orchestrator._call_openrouter_api(
-                model="z-ai/glm-4.5-air",
+                model="google/gemini-2.5-flash-lite",
                 prompt="Test prompt"
             )
 
@@ -305,7 +305,7 @@ class TestOpenRouterAPIIntegration(TestAIOrchestrator):
             mock_async.return_value = mock_response_data
 
             result = self.orchestrator._call_openrouter_sync(
-                model="z-ai/glm-4.5-air",
+                model="google/gemini-2.5-flash-lite",
                 prompt="Test prompt",
                 max_tokens=500,
                 temperature=0.5
@@ -313,7 +313,7 @@ class TestOpenRouterAPIIntegration(TestAIOrchestrator):
 
             assert result == mock_response_data
             mock_async.assert_called_once_with(
-                "z-ai/glm-4.5-air",
+                "google/gemini-2.5-flash-lite",
                 "Test prompt",
                 500,
                 0.5

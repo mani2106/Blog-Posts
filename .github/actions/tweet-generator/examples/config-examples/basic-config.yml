@@ -3,9 +3,9 @@
 
 # AI Model Configuration
 models:
-  planning: z-ai/glm-4.5-air      # Fast model for thread planning
-  creative: z-ai/glm-4.5-air     # High-quality model for content generation
-  verification: z-ai/glm-4.5-air  # Model for content validation
+  planning: google/gemini-2.5-flash-lite      # Fast model for thread planning
+  creative: google/gemini-2.5-flash-lite     # High-quality model for content generation
+  verification: google/gemini-2.5-flash-lite  # Model for content validation
 
 # Engagement Optimization Settings
 engagement:

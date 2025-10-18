@@ -58,7 +58,7 @@ class TestTwitterClient:
                 )
             ],
             hashtags=["API", "development"],
-            model_used="z-ai/glm-4.5-air",
+            model_used="google/gemini-2.5-flash-lite",
             generated_at=datetime.now()
         )
 

@@ -3,9 +3,9 @@
 
 # AI Model Configuration with fallbacks
 models:
-  planning: z-ai/glm-4.5-air
-  creative: z-ai/glm-4.5-air
-  verification: z-ai/glm-4.5-air
+  planning: google/gemini-2.5-flash-lite
+  creative: google/gemini-2.5-flash-lite
+  verification: google/gemini-2.5-flash-lite
   # Fallback models for rate limiting or errors
   fallback_planning: openai/gpt-3.5-turbo
   fallback_creative: openai/gpt-4-turbo-preview
