@@ -100,8 +100,9 @@ class ContentDetector:
                 # Check if file is in posts or notebooks directory and has correct extension
                 # Use string comparison for more reliable path matching
                 is_post_file = (
-                    (str(path.parent) == str(self.posts_dir) and path.suffix == '.md') or
-                    (str(path.parent) == str(self.notebooks_dir) and path.suffix == '.ipynb')
+                    # (str(path.parent) == str(self.posts_dir) and path.suffix == '.md') or
+                    ((str(self.posts_dir) in str(path.parent)) and path.suffix == '.md') or
+                    ((str(self.notebooks_dir) in str(path.parent)) and path.suffix == '.ipynb')
                 )
 
                 print(f"   Is post file: {is_post_file}, Exists: {path.exists()}")
