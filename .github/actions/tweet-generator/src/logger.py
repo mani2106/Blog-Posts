@@ -276,10 +276,27 @@ class StructuredLogger:
     @contextmanager
     def operation_context(self, operation_type: OperationType, **context_kwargs):
         """Context manager for operation-specific logging."""
+        # Separate known LogContext fields from additional context
+        known_fields = {
+            'post_slug', 'model_used', 'thread_id', 'api_endpoint',
+            'file_path', 'user_id', 'session_id'
+        }
+
+        # Extract known fields
+        context_fields = {}
+        additional_context = {}
+
+        for key, value in context_kwargs.items():
+            if key in known_fields:
+                context_fields[key] = value
+            else:
+                additional_context[key] = value
+
         # Create context
         context = LogContext(
             operation_type=operation_type,
-            **context_kwargs
+            additional_context=additional_context,
+            **context_fields
         )
 
         # Create metrics tracker
