@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-site:
-    if: ( github.event.commits[0].message != 'Initial commit' ) || github.run_number > 1
+    if: github.run_number > 1 || (github.event_name == 'push' && github.event.head_commit.message != 'Initial commit')
     runs-on: ubuntu-latest
     steps:
 
