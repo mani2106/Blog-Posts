@@ -36,7 +36,7 @@ The solution combines GitHub Actions with AI models to:
 
 ### 1. Install the Action
 
-Add to your `.github/workflows/pages.yml`:
+Add to your `.github/workflows/deploy.yml`:
 
 ```yaml
 - name: Generate tweet threads

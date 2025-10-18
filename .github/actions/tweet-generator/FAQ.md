@@ -204,7 +204,7 @@ The AI models are trained on vast datasets but can make mistakes. Always review 
 
 ### How do I add this to my existing workflow?
 
-Add this step to your `.github/workflows/pages.yml`:
+Add this step to your `.github/workflows/deploy.yml`:
 
 ```yaml
 - name: Generate tweet threads

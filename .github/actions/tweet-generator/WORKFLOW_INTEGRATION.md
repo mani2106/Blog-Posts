@@ -6,7 +6,7 @@ This guide shows how to integrate the Tweet Thread Generator with existing GitHu
 
 ### 1. Basic Jekyll Integration
 
-Add this step to your existing `.github/workflows/pages.yml`:
+Add this step to your existing `.github/workflows/deploy.yml`:
 
 ```yaml
 name: Build and Deploy

@@ -1,0 +1,412 @@
+name: Quality Gates
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '.github/actions/tweet-generator/**'
+  schedule:
+    # Run quality checks daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install quality tools
+        run: |
+          pip install sonar-scanner radon complexity-report
+          cd .github/actions/tweet-generator
+          pip install -r requirements.txt
+
+      - name: Calculate code complexity
+        run: |
+          cd .github/actions/tweet-generator
+          radon cc src/ --json > complexity-report.json
+          radon mi src/ --json > maintainability-report.json
+
+      - name: Check complexity thresholds
+        run: |
+          cd .github/actions/tweet-generator
+          python -c "
+          import json
+          import sys
+
+          # Load complexity report
+          with open('complexity-report.json', 'r') as f:
+              complexity = json.load(f)
+
+          # Check for high complexity functions
+          high_complexity = []
+          for file_path, functions in complexity.items():
+              for func in functions:
+                  if func['complexity'] > 10:  # Threshold for high complexity
+                      high_complexity.append(f'{file_path}:{func[\"name\"]} (complexity: {func[\"complexity\"]})')
+
+          if high_complexity:
+              print('❌ High complexity functions found:')
+              for item in high_complexity:
+                  print(f'  - {item}')
+              sys.exit(1)
+          else:
+              print('✅ All functions have acceptable complexity')
+          "
+
+      - name: Check maintainability index
+        run: |
+          cd .github/actions/tweet-generator
+          python -c "
+          import json
+          import sys
+
+          # Load maintainability report
+          with open('maintainability-report.json', 'r') as f:
+              maintainability = json.load(f)
+
+          # Check maintainability threshold
+          low_maintainability = []
+          for file_path, mi_score in maintainability.items():
+              if mi_score < 20:  # Threshold for maintainability
+                  low_maintainability.append(f'{file_path} (MI: {mi_score:.2f})')
+
+          if low_maintainability:
+              print('❌ Low maintainability files found:')
+              for item in low_maintainability:
+                  print(f'  - {item}')
+              sys.exit(1)
+          else:
+              print('✅ All files have good maintainability')
+          "
+
+  dependency-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install audit tools
+        run: |
+          pip install pip-audit safety
+
+      - name: Audit dependencies with pip-audit
+        run: |
+          cd .github/actions/tweet-generator
+          pip-audit --requirement requirements.txt --format=json --output=pip-audit-report.json
+
+      - name: Check for known vulnerabilities
+        run: |
+          cd .github/actions/tweet-generator
+          safety check --requirement requirements.txt --json --output safety-report.json
+
+      - name: Check dependency licenses
+        run: |
+          cd .github/actions/tweet-generator
+          pip install pip-licenses
+          pip-licenses --from=mixed --format=json --output-file=license-report.json
+
+          # Check for problematic licenses
+          python -c "
+          import json
+          import sys
+
+          # Load license report
+          with open('license-report.json', 'r') as f:
+              licenses = json.load(f)
+
+          # Define problematic licenses
+          problematic_licenses = ['GPL-3.0', 'AGPL-3.0', 'LGPL-3.0']
+
+          issues = []
+          for pkg in licenses:
+              if pkg['License'] in problematic_licenses:
+                  issues.append(f'{pkg[\"Name\"]} ({pkg[\"License\"]})')
+
+          if issues:
+              print('❌ Problematic licenses found:')
+              for issue in issues:
+                  print(f'  - {issue}')
+              sys.exit(1)
+          else:
+              print('✅ All dependencies have compatible licenses')
+          "
+
+  performance-benchmarks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          cd .github/actions/tweet-generator
+          pip install -r requirements.txt
+          pip install pytest pytest-benchmark memory-profiler
+
+      - name: Run performance benchmarks
+        run: |
+          cd .github/actions/tweet-generator
+          python -c "
+          import time
+          import psutil
+          import os
+          from src.style_analyzer import StyleAnalyzer
+          from src.content_detector import ContentDetector
+
+          # Performance test for style analysis
+          start_time = time.time()
+          start_memory = psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024
+
+          # Simulate style analysis with sample data
+          analyzer = StyleAnalyzer()
+          sample_posts = ['Sample blog post content'] * 50
+
+          # This would normally analyze real posts
+          # profile = analyzer.build_style_profile('_posts', '_notebooks')
+
+          end_time = time.time()
+          end_memory = psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024
+
+          execution_time = end_time - start_time
+          memory_usage = end_memory - start_memory
+
+          print(f'Style Analysis Performance:')
+          print(f'  Execution time: {execution_time:.2f} seconds')
+          print(f'  Memory usage: {memory_usage:.2f} MB')
+
+          # Performance thresholds
+          if execution_time > 30:  # 30 seconds max
+              print('❌ Style analysis too slow')
+              exit(1)
+
+          if memory_usage > 500:  # 500 MB max
+              print('❌ Style analysis uses too much memory')
+              exit(1)
+
+          print('✅ Performance benchmarks passed')
+          "
+
+  api-compatibility:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          cd .github/actions/tweet-generator
+          pip install -r requirements.txt
+          pip install httpx
+
+      - name: Test OpenRouter API compatibility
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          cd .github/actions/tweet-generator
+          python -c "
+          import httpx
+          import os
+          import sys
+
+          api_key = os.getenv('OPENROUTER_API_KEY')
+          if not api_key:
+              print('⚠️ Skipping API compatibility test (no API key)')
+              sys.exit(0)
+
+          # Test API connectivity
+          try:
+              client = httpx.Client()
+              response = client.get(
+                  'https://openrouter.ai/api/v1/models',
+                  headers={'Authorization': f'Bearer {api_key}'}
+              )
+
+              if response.status_code == 200:
+                  models = response.json()
+                  print(f'✅ OpenRouter API accessible ({len(models.get(\"data\", []))} models available)')
+              else:
+                  print(f'❌ OpenRouter API error: {response.status_code}')
+                  sys.exit(1)
+
+          except Exception as e:
+              print(f'❌ OpenRouter API connection failed: {e}')
+              sys.exit(1)
+          "
+
+      - name: Test GitHub API compatibility
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd .github/actions/tweet-generator
+          python -c "
+          import httpx
+          import os
+          import sys
+
+          token = os.getenv('GITHUB_TOKEN')
+
+          # Test GitHub API connectivity
+          try:
+              client = httpx.Client()
+              response = client.get(
+                  'https://api.github.com/user',
+                  headers={'Authorization': f'token {token}'}
+              )
+
+              if response.status_code == 200:
+                  user = response.json()
+                  print(f'✅ GitHub API accessible (user: {user.get(\"login\", \"unknown\")})')
+              else:
+                  print(f'❌ GitHub API error: {response.status_code}')
+                  sys.exit(1)
+
+          except Exception as e:
+              print(f'❌ GitHub API connection failed: {e}')
+              sys.exit(1)
+          "
+
+  documentation-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check documentation completeness
+        run: |
+          cd .github/actions/tweet-generator
+
+          # Required documentation files
+          required_docs=(
+            "README.md"
+            "API.md"
+            "TROUBLESHOOTING.md"
+            "FAQ.md"
+            "examples/README.md"
+          )
+
+          missing_docs=()
+          for doc in "${required_docs[@]}"; do
+            if [ ! -f "$doc" ]; then
+              missing_docs+=("$doc")
+            fi
+          done
+
+          if [ ${#missing_docs[@]} -gt 0 ]; then
+            echo "❌ Missing documentation files:"
+            printf '  - %s\n' "${missing_docs[@]}"
+            exit 1
+          else
+            echo "✅ All required documentation files present"
+          fi
+
+      - name: Check documentation quality
+        run: |
+          cd .github/actions/tweet-generator
+
+          # Check README completeness
+          python -c "
+          import re
+          import sys
+
+          with open('README.md', 'r') as f:
+              content = f.read()
+
+          # Required sections in README
+          required_sections = [
+              'Installation',
+              'Usage',
+              'Configuration',
+              'Examples',
+              'Troubleshooting'
+          ]
+
+          missing_sections = []
+          for section in required_sections:
+              if not re.search(rf'#{1,3}\s*{section}', content, re.IGNORECASE):
+                  missing_sections.append(section)
+
+          if missing_sections:
+              print('❌ Missing README sections:')
+              for section in missing_sections:
+                  print(f'  - {section}')
+              sys.exit(1)
+          else:
+              print('✅ README has all required sections')
+          "
+
+  quality-gate-summary:
+    runs-on: ubuntu-latest
+    needs: [code-quality, dependency-audit, performance-benchmarks, api-compatibility, documentation-quality]
+    if: always()
+    steps:
+      - name: Quality Gate Summary
+        run: |
+          echo "## Quality Gate Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Check all quality gates
+          if [ "${{ needs.code-quality.result }}" = "success" ]; then
+            echo "✅ Code Quality: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Code Quality: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.dependency-audit.result }}" = "success" ]; then
+            echo "✅ Dependency Audit: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Dependency Audit: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.performance-benchmarks.result }}" = "success" ]; then
+            echo "✅ Performance Benchmarks: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Performance Benchmarks: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.api-compatibility.result }}" = "success" ]; then
+            echo "✅ API Compatibility: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ API Compatibility: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ "${{ needs.documentation-quality.result }}" = "success" ]; then
+            echo "✅ Documentation Quality: PASSED" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Documentation Quality: FAILED" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          # Overall quality gate status
+          if [ "${{ needs.code-quality.result }}" = "success" ] && \
+             [ "${{ needs.dependency-audit.result }}" = "success" ] && \
+             [ "${{ needs.performance-benchmarks.result }}" = "success" ] && \
+             [ "${{ needs.api-compatibility.result }}" = "success" ] && \
+             [ "${{ needs.documentation-quality.result }}" = "success" ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "🎉 **All quality gates passed!**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "⚠️ **Quality gate failures detected.** Please address issues before merging." >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi

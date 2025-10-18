@@ -33,7 +33,7 @@ examples/
 The simplest way to add tweet generation to your existing GitHub Pages workflow:
 
 ```yaml
-# Add this step to your existing .github/workflows/pages.yml
+# Add this step to your existing .github/workflows/deploy.yml
 - name: Generate tweet threads
   uses: ./.github/actions/tweet-generator
   with:

@@ -1,0 +1,248 @@
+name: Release Tweet Generator Action
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., v1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  validate-release:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      is_prerelease: ${{ steps.version.outputs.is_prerelease }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION=${GITHUB_REF#refs/tags/}
+          fi
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          # Check if this is a prerelease (contains alpha, beta, rc)
+          if [[ $VERSION =~ (alpha|beta|rc) ]]; then
+            echo "is_prerelease=true" >> $GITHUB_OUTPUT
+          else
+            echo "is_prerelease=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Validate version format
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          if [[ ! $VERSION =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)?$ ]]; then
+            echo "Invalid version format: $VERSION"
+            echo "Expected format: v1.0.0 or v1.0.0-alpha1"
+            exit 1
+          fi
+
+  run-tests:
+    runs-on: ubuntu-latest
+    needs: validate-release
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          cd .github/actions/tweet-generator
+          pip install -r requirements.txt
+          pip install pytest pytest-cov pytest-mock
+
+      - name: Run unit tests
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest tests/ -v --cov=src --cov-report=xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: .github/actions/tweet-generator/coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+
+  integration-tests:
+    runs-on: ubuntu-latest
+    needs: validate-release
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          cd .github/actions/tweet-generator
+          pip install -r requirements.txt
+
+      - name: Run integration tests
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd .github/actions/tweet-generator
+          python -m pytest tests/integration/ -v --tb=short
+
+  security-scan:
+    runs-on: ubuntu-latest
+    needs: validate-release
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.github/actions/tweet-generator'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  build-and-package:
+    runs-on: ubuntu-latest
+    needs: [validate-release, run-tests, integration-tests, security-scan]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create release package
+        run: |
+          VERSION="${{ needs.validate-release.outputs.version }}"
+
+          # Create release directory
+          mkdir -p release/tweet-generator-$VERSION
+
+          # Copy action files
+          cp -r .github/actions/tweet-generator/* release/tweet-generator-$VERSION/
+
+          # Create version file
+          echo "$VERSION" > release/tweet-generator-$VERSION/VERSION
+
+          # Create tarball
+          cd release
+          tar -czf tweet-generator-$VERSION.tar.gz tweet-generator-$VERSION/
+
+          # Create checksums
+          sha256sum tweet-generator-$VERSION.tar.gz > tweet-generator-$VERSION.tar.gz.sha256
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-package
+          path: release/
+
+  create-release:
+    runs-on: ubuntu-latest
+    needs: [validate-release, build-and-package]
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: release-package
+          path: release/
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          VERSION="${{ needs.validate-release.outputs.version }}"
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+
+          if [ -n "$PREV_TAG" ]; then
+            echo "## Changes since $PREV_TAG" > CHANGELOG.md
+            git log --pretty=format:"- %s (%h)" $PREV_TAG..HEAD >> CHANGELOG.md
+          else
+            echo "## Initial Release" > CHANGELOG.md
+            echo "First release of the GitHub Tweet Thread Generator Action" >> CHANGELOG.md
+          fi
+
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          cat CHANGELOG.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ needs.validate-release.outputs.version }}
+          name: Tweet Generator Action ${{ needs.validate-release.outputs.version }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          prerelease: ${{ needs.validate-release.outputs.is_prerelease }}
+          files: |
+            release/tweet-generator-*.tar.gz
+            release/tweet-generator-*.tar.gz.sha256
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  update-marketplace:
+    runs-on: ubuntu-latest
+    needs: [validate-release, create-release]
+    if: needs.validate-release.outputs.is_prerelease == 'false'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Update marketplace tags
+        run: |
+          VERSION="${{ needs.validate-release.outputs.version }}"
+          MAJOR_VERSION=$(echo $VERSION | cut -d. -f1)
+          MINOR_VERSION=$(echo $VERSION | cut -d. -f1-2)
+
+          # Update major version tag (v1)
+          git tag -f $MAJOR_VERSION
+          git push origin $MAJOR_VERSION --force
+
+          # Update minor version tag (v1.0)
+          git tag -f $MINOR_VERSION
+          git push origin $MINOR_VERSION --force
+
+  notify-release:
+    runs-on: ubuntu-latest
+    needs: [validate-release, create-release]
+    if: always()
+    steps:
+      - name: Notify release status
+        run: |
+          VERSION="${{ needs.validate-release.outputs.version }}"
+          if [ "${{ needs.create-release.result }}" = "success" ]; then
+            echo "✅ Successfully released $VERSION"
+            echo "Release URL: ${{ github.server_url }}/${{ github.repository }}/releases/tag/$VERSION"
+          else
+            echo "❌ Failed to release $VERSION"
+            exit 1
+          fi

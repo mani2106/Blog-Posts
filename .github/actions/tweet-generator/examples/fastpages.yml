@@ -1,5 +1,5 @@
 # Example workflow for fastpages repositories
-# Place this file at: .github/workflows/ci.yml
+# Place this file at: .github/workflows/deploy.yml
 
 name: CI
 on:
