@@ -10,7 +10,7 @@ engagement:
   max_hashtags: 2
 
 output:
-  auto_post_enabled: false  # Set to true when ready for auto-posting
+  auto_post_enabled: true  # Set to true when ready for auto-posting
   dry_run_mode: false
   max_tweets_per_thread: 8
 
