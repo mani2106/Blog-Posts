@@ -603,14 +603,14 @@ What's your most-used pandas operation? Share in the comments!
         # Test 1: Environment variables only
         with patch.dict(os.environ, {
             'OPENROUTER_API_KEY': 'test_key',
-            'OPENROUTER_MODEL': 'anthropic/claude-3-sonnet',
+            'OPENROUTER_MODEL': 'z-ai/glm-4.5-air',
             'ENGAGEMENT_LEVEL': 'high',
             'MAX_TWEETS_PER_THREAD': '8',
             'DRY_RUN': 'true'
         }):
             config = ConfigManager.load_config()
             assert config.openrouter_api_key == 'test_key'
-            assert config.openrouter_model == 'anthropic/claude-3-sonnet'
+            assert config.openrouter_model == 'z-ai/glm-4.5-air'
             assert config.engagement_optimization_level.value == 'high'
             assert config.max_tweets_per_thread == 8
             assert config.dry_run_mode is True
@@ -623,9 +623,9 @@ What's your most-used pandas operation? Share in the comments!
         # Test 2: YAML configuration file
         yaml_config = {
             'models': {
-                'planning': 'anthropic/claude-3-haiku',
-                'creative': 'anthropic/claude-3-sonnet',
-                'verification': 'anthropic/claude-3-haiku'
+                'planning': 'z-ai/glm-4.5-air',
+                'creative': 'z-ai/glm-4.5-air',
+                'verification': 'z-ai/glm-4.5-air'
             },
             'engagement': {
                 'optimization_level': 'medium',
@@ -652,8 +652,8 @@ What's your most-used pandas operation? Share in the comments!
 
         with patch.dict(os.environ, {'OPENROUTER_API_KEY': 'test_key'}):
             config = ConfigManager.load_config(str(config_path))
-            assert config.openrouter_model == 'anthropic/claude-3-haiku'
-            assert config.creative_model == 'anthropic/claude-3-sonnet'
+            assert config.openrouter_model == 'z-ai/glm-4.5-air'
+            assert config.creative_model == 'z-ai/glm-4.5-air'
             assert config.engagement_optimization_level.value == 'medium'
             assert config.hook_variations_count == 5
             assert config.max_tweets_per_thread == 12
@@ -667,7 +667,7 @@ What's your most-used pandas operation? Share in the comments!
             config = ConfigManager.load_config(str(config_path))
             assert config.openrouter_model == 'anthropic/claude-3-opus'  # From env
             assert config.engagement_optimization_level.value == 'low'  # From env
-            assert config.creative_model == 'anthropic/claude-3-sonnet'  # From YAML
+            assert config.creative_model == 'z-ai/glm-4.5-air'  # From YAML
 
         # Test 4: Invalid configuration handling
         invalid_yaml = "invalid: yaml: content: [unclosed"
@@ -736,7 +736,7 @@ What's your most-used pandas operation? Share in the comments!
 
                     orchestrator = AIOrchestrator(
                         api_key='test_key',
-                        planning_model='anthropic/claude-3-haiku'
+                        planning_model='z-ai/glm-4.5-air'
                     )
 
                     config = GeneratorConfig.from_env()
@@ -983,9 +983,9 @@ What's your most-used pandas operation? Share in the comments!
         # Test with custom configuration
         config_content = """
 models:
-  planning: anthropic/claude-3-haiku
-  creative: anthropic/claude-3-sonnet
-  verification: anthropic/claude-3-haiku
+  planning: z-ai/glm-4.5-air
+  creative: z-ai/glm-4.5-air
+  verification: z-ai/glm-4.5-air
 
 engagement:
   optimization_level: high

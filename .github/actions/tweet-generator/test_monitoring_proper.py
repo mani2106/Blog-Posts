@@ -57,7 +57,7 @@ def test_monitoring_system():
         metrics.record_content_generation(
             operation_type=OperationType.AI_GENERATION,
             post_slug="test-post",
-            model_used="anthropic/claude-3-haiku",
+            model_used="z-ai/glm-4.5-air",
             input_characters=500,
             output_characters=280,
             processing_time_ms=1000.0,

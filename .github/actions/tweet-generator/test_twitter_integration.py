@@ -58,7 +58,7 @@ class TestTwitterClient:
                 )
             ],
             hashtags=["API", "development"],
-            model_used="anthropic/claude-3-sonnet",
+            model_used="z-ai/glm-4.5-air",
             generated_at=datetime.now()
         )
 

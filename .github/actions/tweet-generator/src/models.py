@@ -276,9 +276,9 @@ class PostResult:
 class GeneratorConfig:
     """Configuration for the tweet thread generator."""
     # Model configuration
-    openrouter_model: str = "anthropic/claude-3-haiku"
-    creative_model: str = "anthropic/claude-3-sonnet"
-    verification_model: str = "anthropic/claude-3-haiku"
+    openrouter_model: str = "z-ai/glm-4.5-air"
+    creative_model: str = "z-ai/glm-4.5-air"
+    verification_model: str = "z-ai/glm-4.5-air"
 
     # Thread configuration
     max_tweets_per_thread: int = 10
@@ -314,9 +314,9 @@ class GeneratorConfig:
         import os
 
         return cls(
-            openrouter_model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-3-haiku"),
-            creative_model=os.getenv("CREATIVE_MODEL", "anthropic/claude-3-sonnet"),
-            verification_model=os.getenv("VERIFICATION_MODEL", "anthropic/claude-3-haiku"),
+            openrouter_model=os.getenv("OPENROUTER_MODEL", "z-ai/glm-4.5-air"),
+            creative_model=os.getenv("CREATIVE_MODEL", "z-ai/glm-4.5-air"),
+            verification_model=os.getenv("VERIFICATION_MODEL", "z-ai/glm-4.5-air"),
             max_tweets_per_thread=int(os.getenv("MAX_TWEETS_PER_THREAD", "10")),
             hook_variations_count=int(os.getenv("HOOK_VARIATIONS_COUNT", "3")),
             engagement_optimization_level=EngagementLevel(os.getenv("ENGAGEMENT_LEVEL", "high")),

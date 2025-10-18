@@ -3,9 +3,9 @@
 
 # AI Model Configuration - Using more powerful models for technical content
 models:
-  planning: anthropic/claude-3-sonnet      # Better for complex technical planning
-  creative: anthropic/claude-3-sonnet      # High-quality technical hooks
-  verification: anthropic/claude-3-haiku   # Fast validation
+  planning: z-ai/glm-4.5-air      # Better for complex technical planning
+  creative: z-ai/glm-4.5-air      # High-quality technical hooks
+  verification: z-ai/glm-4.5-air   # Fast validation
 
 # Advanced Engagement for Technical Audience
 engagement:

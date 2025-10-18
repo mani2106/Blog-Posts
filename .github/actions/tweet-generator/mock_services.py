@@ -29,7 +29,7 @@ class MockOpenRouterAPI:
         """Set the response delay in seconds."""
         self.response_delay = delay
 
-    def generate_thread_response(self, prompt: str, model: str = "anthropic/claude-3-haiku") -> Dict[str, Any]:
+    def generate_thread_response(self, prompt: str, model: str = "z-ai/glm-4.5-air") -> Dict[str, Any]:
         """Generate a mock thread response."""
         time.sleep(self.response_delay)
         self.call_count += 1

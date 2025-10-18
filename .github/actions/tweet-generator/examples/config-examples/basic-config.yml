@@ -3,9 +3,9 @@
 
 # AI Model Configuration
 models:
-  planning: anthropic/claude-3-haiku      # Fast model for thread planning
-  creative: anthropic/claude-3-sonnet     # High-quality model for content generation
-  verification: anthropic/claude-3-haiku  # Model for content validation
+  planning: z-ai/glm-4.5-air      # Fast model for thread planning
+  creative: z-ai/glm-4.5-air     # High-quality model for content generation
+  verification: z-ai/glm-4.5-air  # Model for content validation
 
 # Engagement Optimization Settings
 engagement:

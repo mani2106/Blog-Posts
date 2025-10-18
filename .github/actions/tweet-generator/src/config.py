@@ -117,9 +117,9 @@ class ConfigManager:
         """Create a sample configuration file."""
         sample_config = {
             'models': {
-                'planning': 'anthropic/claude-3-haiku',
-                'creative': 'anthropic/claude-3-sonnet',
-                'verification': 'anthropic/claude-3-haiku'
+                'planning': 'z-ai/glm-4.5-air',
+                'creative': 'z-ai/glm-4.5-air',
+                'verification': 'z-ai/glm-4.5-air'
             },
             'engagement': {
                 'optimization_level': 'high',

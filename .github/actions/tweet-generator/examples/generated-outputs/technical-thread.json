@@ -24,7 +24,7 @@
   ],
   "engagement_score": 9.2,
   "metadata": {
-    "model_used": "anthropic/claude-3-sonnet",
+    "model_used": "z-ai/glm-4.5-air",
     "prompt_version": "1.0",
     "generated_at": "2024-01-15T14:30:00Z",
     "style_profile_version": "1.2.0",

@@ -4,13 +4,13 @@
 # AI Model Configuration
 models:
   # Primary model for thread planning and structure
-  planning: anthropic/claude-3-haiku
+  planning: z-ai/glm-4.5-air
 
   # Creative model for hook generation and engaging content
-  creative: anthropic/claude-3-sonnet
+  creative: z-ai/glm-4.5-air
 
   # Verification model for content validation and safety
-  verification: anthropic/claude-3-haiku
+  verification: z-ai/glm-4.5-air
 
 # Engagement Optimization Settings
 engagement:
