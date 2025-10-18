@@ -20,16 +20,69 @@ from utils import extract_slug_from_filename
 class ContentDetector:
     """Detects and processes blog post content for tweet generation."""
 
-    def __init__(self, posts_dir: str = "_posts", notebooks_dir: str = "_notebooks"):
+    def __init__(self, posts_dir: str = "_posts", notebooks_dir: str = "_notebooks", repo_root: Optional[str] = None):
         """
         Initialize content detector.
 
         Args:
             posts_dir: Directory containing markdown blog posts
             notebooks_dir: Directory containing Jupyter notebook posts
+            repo_root: Root directory of the repository (auto-detected if None)
         """
-        self.posts_dir = Path(posts_dir)
-        self.notebooks_dir = Path(notebooks_dir)
+        # Find repository root if not provided
+        if repo_root is None:
+            self.repo_root = self._find_repo_root()
+        else:
+            self.repo_root = Path(repo_root).resolve()
+
+        # Construct absolute paths relative to repo root
+        self.posts_dir = self.repo_root / posts_dir
+        self.notebooks_dir = self.repo_root / notebooks_dir
+
+        print(f"🏠 Repository root: {self.repo_root}")
+        print(f"📁 Posts directory: {self.posts_dir}")
+        print(f"📓 Notebooks directory: {self.notebooks_dir}")
+        print(f"📍 Current working directory: {Path.cwd()}")
+
+        # Verify directories exist
+        if not self.posts_dir.exists():
+            print(f"⚠️  Posts directory does not exist: {self.posts_dir}")
+        if not self.notebooks_dir.exists():
+            print(f"⚠️  Notebooks directory does not exist: {self.notebooks_dir}")
+
+    def _find_repo_root(self) -> Path:
+        """
+        Find the repository root by looking for .git directory.
+
+        Returns:
+            Path to repository root
+        """
+        current = Path.cwd()
+
+        # First, try current directory and parents
+        for path in [current] + list(current.parents):
+            if (path / '.git').exists():
+                print(f"🔍 Found repository root via .git: {path}")
+                return path
+
+        # If not found, check if we're in a GitHub Actions environment
+        github_workspace = os.environ.get('GITHUB_WORKSPACE')
+        if github_workspace:
+            workspace_path = Path(github_workspace)
+            if workspace_path.exists() and (workspace_path / '.git').exists():
+                print(f"🔍 Found repository root via GITHUB_WORKSPACE: {workspace_path}")
+                return workspace_path
+
+        # Fallback: look for common repository files
+        for path in [current] + list(current.parents):
+            repo_indicators = ['.git', '_config.yml', 'package.json', 'README.md', '_posts', '_notebooks']
+            if any((path / indicator).exists() for indicator in repo_indicators):
+                print(f"🔍 Found repository root via indicators: {path}")
+                return path
+
+        # Final fallback: use current directory
+        print(f"⚠️  Could not find repository root, using current directory: {current}")
+        return current
 
     def detect_changed_posts(self, base_branch: str = "main") -> List[BlogPost]:
         """
@@ -44,7 +97,21 @@ class ContentDetector:
         Raises:
             ContentDetectionError: If git operations fail
         """
+        original_cwd = Path.cwd()  # Store original directory at the start
+
         try:
+            # Debug: Print environment information
+            print(f"🔧 Environment Debug:")
+            print(f"   Current working directory: {Path.cwd()}")
+            print(f"   Repository root: {self.repo_root}")
+            print(f"   GITHUB_WORKSPACE: {os.environ.get('GITHUB_WORKSPACE', 'Not set')}")
+            print(f"   Posts dir exists: {self.posts_dir.exists()}")
+            print(f"   Notebooks dir exists: {self.notebooks_dir.exists()}")
+
+            # Change to repository root for git operations
+            os.chdir(self.repo_root)
+            print(f"🔄 Changed working directory to: {Path.cwd()}")
+
             # First, try to fetch the base branch to ensure it exists
             fetch_cmd = ["git", "fetch", "origin", base_branch]
             print(f"🔄 Fetching base branch '{base_branch}' from origin...")
@@ -94,34 +161,42 @@ class ContentDetector:
                 if not file_path.strip():  # Skip empty lines
                     continue
 
-                path = Path(file_path)
-                print(f"   Checking file: {file_path} (parent: {path.parent}, suffix: {path.suffix})")
+                # Convert to absolute path relative to repo root
+                abs_path = self.repo_root / file_path
+                print(f"   Checking file: {file_path} -> {abs_path}")
+                print(f"   Parent: {abs_path.parent}, Suffix: {abs_path.suffix}")
 
                 # Check if file is in posts or notebooks directory and has correct extension
-                # Use string comparison for more reliable path matching
                 is_post_file = (
-                    # (str(path.parent) == str(self.posts_dir) and path.suffix == '.md') or
-                    ((str(self.posts_dir) in str(path.parent)) and path.suffix == '.md') or
-                    ((str(self.notebooks_dir) in str(path.parent)) and path.suffix == '.ipynb')
+                    (abs_path.parent == self.posts_dir and abs_path.suffix == '.md') or
+                    (abs_path.parent == self.notebooks_dir and abs_path.suffix == '.ipynb')
                 )
 
-                print(f"   Is post file: {is_post_file}, Exists: {path.exists()}")
+                print(f"   Is post file: {is_post_file}, Exists: {abs_path.exists()}")
 
-                if is_post_file and path.exists():  # Only process files that still exist
-                    blog_post_files.append(path)
-                    print(f"📝 Found blog post file: {path}")
+                if is_post_file and abs_path.exists():  # Only process files that still exist
+                    blog_post_files.append(abs_path)
+                    print(f"📝 Found blog post file: {abs_path}")
 
             print(f"📋 Filtered to {len(blog_post_files)} blog post files for processing")
 
             # If no blog post files found, check if the test post exists and should be processed
             if not blog_post_files:
                 print("🔍 No files found via git diff filtering, checking for specific test post...")
-                test_post_path = Path("_posts/2024-01-17-test-tweet-generator.md")
+                test_post_path = self.repo_root / "_posts" / "2024-01-17-test-tweet-generator.md"
                 if test_post_path.exists():
                     print(f"📝 Found test post: {test_post_path}")
                     blog_post_files.append(test_post_path)
                 else:
                     print(f"❌ Test post not found at {test_post_path}")
+                    # List what files are actually in the posts directory
+                    if self.posts_dir.exists():
+                        print(f"📂 Files in {self.posts_dir}:")
+                        for f in self.posts_dir.iterdir():
+                            if f.is_file():
+                                print(f"   • {f.name}")
+                    else:
+                        print(f"📂 Posts directory does not exist: {self.posts_dir}")
 
             # Parse each changed blog post
             changed_posts = []
@@ -144,7 +219,7 @@ class ContentDetector:
             print(f"💥 Content detection failed: {e}")
             # Final fallback: try to process the test post specifically
             print("🔄 Final fallback: checking for test post specifically")
-            test_post_path = Path("_posts/2024-01-17-test-tweet-generator.md")
+            test_post_path = self.repo_root / "_posts" / "2024-01-17-test-tweet-generator.md"
             if test_post_path.exists():
                 try:
                     post = self.parse_blog_post(test_post_path)
@@ -155,6 +230,14 @@ class ContentDetector:
                     print(f"❌ Failed to parse test post: {parse_error}")
 
             raise ContentDetectionError(f"Failed to detect changed posts: {e}")
+
+        finally:
+            # Ensure we restore working directory
+            try:
+                os.chdir(original_cwd)
+                print(f"🔄 Restored working directory to: {Path.cwd()}")
+            except:
+                pass
 
     def _get_all_publishable_posts(self) -> List[BlogPost]:
         """
@@ -203,6 +286,10 @@ class ContentDetector:
         """
         try:
             file_path = Path(file_path)
+
+            # If path is not absolute, make it relative to repo root
+            if not file_path.is_absolute():
+                file_path = self.repo_root / file_path
 
             if not file_path.exists():
                 raise ContentDetectionError(f"File not found: {file_path}")
