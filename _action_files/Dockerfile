@@ -1,4 +1,25 @@
-FROM fastai/jekyll:2020-12-30
+FROM ruby:3.3-alpine
+
+# Install system dependencies
+RUN apk add --no-cache \
+    build-base \
+    openssl-dev \
+    nodejs \
+    npm \
+    git \
+    bash \
+    dos2unix \
+    python3 \
+    py3-pip
+
+# Install Jekyll and bundler
+RUN gem install bundler -v 2.7.2
+RUN gem install jekyll
+
+# Install Python dependencies for notebook conversion
+RUN pip3 install --break-system-packages \
+    watchdog[watchmedo] \
+    nbdev==0.2.18
 
 WORKDIR /fastpages
 COPY . .
