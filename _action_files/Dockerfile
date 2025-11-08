@@ -21,7 +21,7 @@ RUN gem install jekyll
 RUN pip3 install --break-system-packages \
     watchdog[watchmedo] \
     fastscript \
-    nbdev==0.2.18
+    nbdev
 
 WORKDIR /fastpages
 COPY . .
