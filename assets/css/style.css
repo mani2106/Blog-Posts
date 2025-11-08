@@ -1222,6 +1222,57 @@ p code {
 }
 
 /*-----------------------------------*/
+/*----- THEME TOGGLE BUTTON ---------*/
+.theme-toggle-btn {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  background: #ffffff;
+  border: 1px solid #e1e4e8;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.theme-toggle-btn:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
+}
+.theme-toggle-btn:focus {
+  outline: 2px solid #0366d6;
+  outline-offset: 2px;
+}
+.theme-toggle-btn .theme-icon {
+  font-size: 1.5rem;
+  display: none;
+  line-height: 1;
+}
+.theme-toggle-btn .theme-icon-light {
+  display: block;
+}
+
+[data-theme=dark] .theme-toggle-btn {
+  background: #21262d;
+  border-color: #30363d;
+}
+[data-theme=dark] .theme-toggle-btn:focus {
+  outline-color: #58a6ff;
+}
+[data-theme=dark] .theme-toggle-btn .theme-icon-light {
+  display: none;
+}
+[data-theme=dark] .theme-toggle-btn .theme-icon-dark {
+  display: block;
+}
+
+/*-----------------------------------*/
 /*----- STICKY TOC COMPONENT --------*/
 .post-container {
   display: grid;
@@ -1505,78 +1556,144 @@ p code {
   background-color: #f0f0f0;
 }
 
-@media (prefers-color-scheme: dark) {
-  .toc-container {
-    background: #0d1117;
-    border-color: #30363d;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  }
-  .toc-container .toc-header {
-    border-bottom-color: #30363d;
-  }
-  .toc-container .toc-header .toc-title {
-    color: #f0f6fc;
-  }
-  .toc-container .toc-nav #toc ul li a {
-    color: #c9d1d9;
-  }
-  .toc-container .toc-nav #toc ul li a:hover {
-    background-color: #21262d;
-    color: #f0f6fc;
-    border-left-color: #6e7681;
-  }
-  .toc-container .toc-nav #toc ul li a:focus {
-    outline-color: #58a6ff;
-    background-color: #1c2128;
-    color: #58a6ff;
-  }
-  .toc-container .toc-nav #toc ul li a.toc-active {
-    background-color: #1c2128;
-    color: #58a6ff;
-    border-left-color: #58a6ff;
-  }
-  .toc-container .toc-nav #toc ul li ul li a {
-    color: #8b949e;
-  }
-  .toc-container .toc-nav #toc ul li ul li a:hover {
-    color: #c9d1d9;
-  }
-  .toc-container .toc-nav #toc ul li ul li a.toc-active {
-    color: #58a6ff;
-  }
-  .toc-container .toc-nav #toc ul li ul li ul li a {
-    color: #6e7681;
-  }
-  .toc-container .toc-nav #toc ul li ul li ul li a:hover {
-    color: #8b949e;
-  }
-  .toc-container .toc-nav #toc ul li ul li ul li a.toc-active {
-    color: #58a6ff;
-  }
-  .toc-container .toc-nav #toc ul li ul li ul li ul li a {
-    color: #484f58;
-  }
-  .toc-container .toc-nav #toc ul li ul li ul li ul li a:hover {
-    color: #6e7681;
-  }
-  .toc-container .toc-nav #toc ul li ul li ul li ul li a.toc-active {
-    color: #58a6ff;
-  }
-  .toc-container.no-intersection-observer .toc-nav::after {
-    background-color: #332b00;
-    border-color: #7d6608;
-    color: #e3b341;
-  }
+[data-theme=dark] body {
+  background: #0d1117;
+  color: #c9d1d9;
 }
+[data-theme=dark] .post-content {
+  color: #c9d1d9;
+}
+[data-theme=dark] .post-content a {
+  color: #58a6ff;
+}
+[data-theme=dark] .post-content a:hover {
+  color: #79c0ff;
+}
+[data-theme=dark] .post-content a:visited {
+  color: #a371f7;
+}
+[data-theme=dark] .post-content code {
+  background: #161b22;
+  color: #f0f6fc;
+  border: 1px solid #30363d;
+}
+[data-theme=dark] .post-content pre {
+  background: #161b22;
+  border: 1px solid #30363d;
+}
+[data-theme=dark] .post-content pre code {
+  background: transparent;
+  border: none;
+}
+[data-theme=dark] .post-content h1,
+[data-theme=dark] .post-content h2,
+[data-theme=dark] .post-content h3,
+[data-theme=dark] .post-content h4,
+[data-theme=dark] .post-content h5,
+[data-theme=dark] .post-content h6 {
+  color: #f0f6fc;
+}
+[data-theme=dark] .post-content blockquote {
+  color: #8b949e;
+  border-left-color: #30363d;
+}
+[data-theme=dark] .post-content table {
+  border-color: #30363d;
+}
+[data-theme=dark] .post-content table th {
+  background: #161b22;
+  color: #f0f6fc;
+  border-color: #30363d;
+}
+[data-theme=dark] .post-content table td {
+  border-color: #30363d;
+}
+[data-theme=dark] .post-content table tr:nth-child(even) {
+  background: #0d1117;
+}
+[data-theme=dark] .post-content table tr:hover {
+  background: #161b22;
+}
+[data-theme=dark] .post-content hr {
+  border-color: #30363d;
+}
+[data-theme=dark] .toc-container {
+  background: #161b22;
+  border: 1px solid #21262d;
+  box-shadow: none;
+  border-radius: 8px;
+}
+[data-theme=dark] .toc-container .toc-header {
+  border-bottom-color: #30363d;
+}
+[data-theme=dark] .toc-container .toc-header .toc-title {
+  color: #f0f6fc;
+}
+[data-theme=dark] .toc-container .toc-nav #toc ul li a {
+  color: #c9d1d9;
+}
+[data-theme=dark] .toc-container .toc-nav #toc ul li a:hover {
+  background-color: #21262d;
+  color: #f0f6fc;
+  border-left-color: #6e7681;
+}
+[data-theme=dark] .toc-container .toc-nav #toc ul li a:focus {
+  outline-color: #58a6ff;
+  background-color: #1c2128;
+  color: #58a6ff;
+}
+[data-theme=dark] .toc-container .toc-nav #toc ul li a.toc-active {
+  background-color: #1c2128;
+  color: #58a6ff;
+  border-left-color: #58a6ff;
+}
+[data-theme=dark] .toc-container .toc-nav #toc ul li ul li a {
+  color: #8b949e;
+}
+[data-theme=dark] .toc-container .toc-nav #toc ul li ul li a:hover {
+  color: #c9d1d9;
+}
+[data-theme=dark] .toc-container .toc-nav #toc ul li ul li a.toc-active {
+  color: #58a6ff;
+}
+[data-theme=dark] .toc-container .toc-nav #toc ul li ul li ul li a {
+  color: #6e7681;
+}
+[data-theme=dark] .toc-container .toc-nav #toc ul li ul li ul li a:hover {
+  color: #8b949e;
+}
+[data-theme=dark] .toc-container .toc-nav #toc ul li ul li ul li a.toc-active {
+  color: #58a6ff;
+}
+[data-theme=dark] .toc-container .toc-nav #toc ul li ul li ul li ul li a {
+  color: #484f58;
+}
+[data-theme=dark] .toc-container .toc-nav #toc ul li ul li ul li ul li a:hover {
+  color: #6e7681;
+}
+[data-theme=dark] .toc-container .toc-nav #toc ul li ul li ul li ul li a.toc-active {
+  color: #58a6ff;
+}
+[data-theme=dark] .toc-container.no-intersection-observer .toc-nav::after {
+  background-color: #332b00;
+  border-color: #7d6608;
+  color: #e3b341;
+}
+
 * {
   box-sizing: border-box;
 }
 
-.post-content img, .post-content video, .post-content iframe, .post-content embed, .post-content object {
+.post-content img,
+.post-content video,
+.post-content iframe,
+.post-content embed,
+.post-content object {
   max-width: 100%;
   height: auto;
 }
-.post-content pre, .post-content code {
+.post-content pre,
+.post-content code {
   overflow-x: auto;
   word-wrap: break-word;
 }

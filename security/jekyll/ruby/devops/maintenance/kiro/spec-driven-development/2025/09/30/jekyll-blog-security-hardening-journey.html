@@ -169,9 +169,30 @@ window.onload = wrap_img;
 </header>
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+        <script>
+  // Initialize theme immediately to prevent flash
+  (function() {
+    function initTheme() {
+      try {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } catch (e) {
+        // localStorage not available, use default
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    }
+
+    initTheme();
+  })();
+</script>
+
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
+    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark mode">
+      <span class="theme-icon theme-icon-light">☀️</span>
+      <span class="theme-icon theme-icon-dark">🌙</span>
+    </button>
     <h1 class="post-title p-name" itemprop="name headline">Back from Hiatus: Jekyll Blog Security Hardening with Spec-Driven Development</h1><p class="page-description">How I returned to blogging by systematically resolving 12 security vulnerabilities using Kiro's spec-driven approach, and what's coming next</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2025-09-30T00:00:00+00:00" itemprop="datePublished">
         Sep 30, 2025
       </time>
@@ -1540,6 +1561,33 @@ curl <span class="nt">-I</span> http://localhost:4000
     </main>
   </div>
 </article>
+
+<script>
+  // Theme toggle functionality
+  (function() {
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+      document.documentElement.setAttribute('data-theme', newTheme);
+
+      try {
+        localStorage.setItem('theme', newTheme);
+      } catch (e) {
+        // localStorage not available, theme still toggles but won't persist
+        console.warn('Unable to save theme preference:', e);
+      }
+    }
+
+    // Add event listener when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggleBtn = document.getElementById('theme-toggle');
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', toggleTheme);
+      }
+    });
+  })();
+</script>
       </div>
     </main><footer class="site-footer h-card">
   <data class="u-url" href="/Blog-Posts/"></data>
