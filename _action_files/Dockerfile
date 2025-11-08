@@ -10,7 +10,8 @@ RUN apk add --no-cache \
     bash \
     dos2unix \
     python3 \
-    py3-pip
+    py3-pip \
+    openssh-client
 
 # Install Jekyll and bundler
 RUN gem install bundler -v 2.7.2
@@ -19,6 +20,7 @@ RUN gem install jekyll
 # Install Python dependencies for notebook conversion
 RUN pip3 install --break-system-packages \
     watchdog[watchmedo] \
+    fastscript==1.0.0 \
     nbdev==0.2.18
 
 WORKDIR /fastpages
