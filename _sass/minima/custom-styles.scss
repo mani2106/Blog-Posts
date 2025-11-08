@@ -11,6 +11,66 @@
 @import "minima/fastpages-dracula-highlight";
 
 /*-----------------------------------*/
+/*----- THEME TOGGLE BUTTON ---------*/
+
+.theme-toggle-btn {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  background: #ffffff;
+  border: 1px solid #e1e4e8;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+  }
+
+  &:focus {
+    outline: 2px solid #0366d6;
+    outline-offset: 2px;
+  }
+
+  .theme-icon {
+    font-size: 1.5rem;
+    display: none;
+    line-height: 1;
+  }
+
+  .theme-icon-light {
+    display: block;
+  }
+}
+
+// Dark theme button styling
+[data-theme="dark"] .theme-toggle-btn {
+  background: #21262d;
+  border-color: #30363d;
+
+  &:focus {
+    outline-color: #58a6ff;
+  }
+
+  .theme-icon-light {
+    display: none;
+  }
+
+  .theme-icon-dark {
+    display: block;
+  }
+}
+
+/*-----------------------------------*/
 /*----- STICKY TOC COMPONENT --------*/
 
 // Post container with CSS Grid layout and cross-browser compatibility
@@ -369,7 +429,87 @@
 }
 
 // Dark theme support to match blog's color scheme
-@media (prefers-color-scheme: dark) {
+[data-theme="dark"] {
+  // Body background and text color for dark theme (Requirement 4.1, 4.2)
+  body {
+    background: #0d1117;
+    color: #c9d1d9;
+  }
+
+  // Post content styling for dark theme (Requirement 4.2, 4.3, 4.4)
+  .post-content {
+    color: #c9d1d9;
+
+    // Link colors for dark theme (Requirement 4.3)
+    a {
+      color: #58a6ff;
+
+      &:hover {
+        color: #79c0ff;
+      }
+
+      &:visited {
+        color: #a371f7;
+      }
+    }
+
+    // Code block styling for dark theme (Requirement 4.4)
+    code {
+      background: #161b22;
+      color: #f0f6fc;
+      border: 1px solid #30363d;
+    }
+
+    pre {
+      background: #161b22;
+      border: 1px solid #30363d;
+
+      code {
+        background: transparent;
+        border: none;
+      }
+    }
+
+    // Headings in dark theme
+    h1, h2, h3, h4, h5, h6 {
+      color: #f0f6fc;
+    }
+
+    // Blockquotes in dark theme
+    blockquote {
+      color: #8b949e;
+      border-left-color: #30363d;
+    }
+
+    // Tables in dark theme
+    table {
+      border-color: #30363d;
+
+      th {
+        background: #161b22;
+        color: #f0f6fc;
+        border-color: #30363d;
+      }
+
+      td {
+        border-color: #30363d;
+      }
+
+      tr:nth-child(even) {
+        background: #0d1117;
+      }
+
+      tr:hover {
+        background: #161b22;
+      }
+    }
+
+    // Horizontal rules in dark theme
+    hr {
+      border-color: #30363d;
+    }
+  }
+
   .toc-container {
     background: #0d1117;
     border-color: #30363d;
