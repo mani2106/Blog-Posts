@@ -23,7 +23,7 @@ RUN pip3 install --break-system-packages \
     nbconvert \
     nbformat \
     fastcore \
-    nbdev
+    nbdev==0.2.18
 
 WORKDIR /fastpages
 COPY . .
