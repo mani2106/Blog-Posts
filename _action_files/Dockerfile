@@ -10,7 +10,9 @@ RUN apk add --no-cache \
     bash \
     dos2unix \
     python3 \
+    python3-dev \
     py3-pip \
+    linux-headers \
     openssh-client
 
 # Install Jekyll and bundler
@@ -23,7 +25,7 @@ RUN pip3 install --break-system-packages \
     nbconvert \
     nbformat \
     fastcore \
-    nbdev
+    git+https://github.com/fastai/nbdev1
 
 WORKDIR /fastpages
 COPY . .
