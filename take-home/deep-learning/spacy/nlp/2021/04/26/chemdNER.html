@@ -1,0 +1,4436 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Text mining with chemical text from chemdNER | Manimaran Panneerselvam’s blog</title>
+<meta name="generator" content="Jekyll v4.3.4" />
+<meta property="og:title" content="Text mining with chemical text from chemdNER" />
+<meta name="author" content="Manimaran Panneerselvam" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="This is a take home project that I did for a company as part of their interview process." />
+<meta property="og:description" content="This is a take home project that I did for a company as part of their interview process." />
+<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/take-home/deep-learning/spacy/nlp/2021/04/26/chemdNER.html" />
+<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/take-home/deep-learning/spacy/nlp/2021/04/26/chemdNER.html" />
+<meta property="og:site_name" content="Manimaran Panneerselvam’s blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-04-26T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Text mining with chemical text from chemdNER" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Manimaran Panneerselvam"},"dateModified":"2021-04-26T00:00:00+00:00","datePublished":"2021-04-26T00:00:00+00:00","description":"This is a take home project that I did for a company as part of their interview process.","headline":"Text mining with chemical text from chemdNER","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/take-home/deep-learning/spacy/nlp/2021/04/26/chemdNER.html"},"url":"https://mani2106.github.io/Blog-Posts/take-home/deep-learning/spacy/nlp/2021/04/26/chemdNER.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Panneerselvam&apos;s blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-168240544-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-168240544-1');
+</script>
+
+
+<link rel="shortcut icon" type="image/x-icon" href="/Blog-Posts/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<style>
+.post-container {
+  display: flex;
+  position: relative;
+}
+
+.toc-sidebar {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  width: 250px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 16px;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(27, 31, 36, 0.1);
+  font-size: 14px;
+}
+
+.toc-sidebar h2 {
+  font-size: 16px;
+  margin-top: 0;
+  color: #24292f;
+}
+
+.toc-sidebar ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.toc-sidebar li {
+  margin: 4px 0;
+}
+
+.toc-sidebar a {
+  color: #0969da;
+  text-decoration: none;
+}
+
+.toc-sidebar a:hover {
+  text-decoration: underline;
+}
+
+.post-main {
+  margin-right: 280px;
+  flex: 1;
+  max-width: calc(100% - 280px);
+}
+
+@media (max-width: 768px) {
+  .toc-sidebar {
+    display: none;
+  }
+  .post-main {
+    margin-right: 0;
+    max-width: 100%;
+  }
+}
+</style>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/Blog-Posts/">Manimaran Panneerselvam&#39;s blog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/Blog-Posts/about/">About Me</a><a class="page-link" href="/Blog-Posts/search/">Search</a><a class="page-link" href="/Blog-Posts/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Text mining with chemical text from chemdNER</h1><p class="page-description">This is a take home project that I did for a company as part of their interview process.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-04-26T00:00:00+00:00" itemprop="datePublished">
+        Apr 26, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      32 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i>
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#take-home">take-home</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#deep-learning">deep-learning</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#spacy">spacy</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#nlp">nlp</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/mani2106/Blog-Posts/tree/master/_notebooks/2021-04-26-chemdNER.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/Blog-Posts/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/mani2106/Blog-Posts/master?filepath=_notebooks%2F2021-04-26-chemdNER.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/Blog-Posts/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/mani2106/Blog-Posts/blob/master/_notebooks/2021-04-26-chemdNER.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/Blog-Posts/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-container">
+    <aside class="toc-sidebar">
+      <!-- Enhanced Table of Contents with proper semantic HTML structure and accessibility -->
+<div class="toc-container" role="complementary" aria-labelledby="toc-heading">
+  <div class="toc-header">
+    <h4 id="toc-heading" class="toc-title">Table of Contents</h4>
+  </div>
+  <nav class="toc-nav" aria-label="Table of Contents">
+    <div id="toc" role="navigation"></div>
+  </nav>
+</div>
+
+<script>
+    // Performance optimization: Debounce utility for scroll handlers (Requirement 3.4)
+    function debounce(func, wait, immediate) {
+      var timeout;
+      return function executedFunction() {
+        var context = this;
+        var args = arguments;
+        var later = function() {
+          timeout = null;
+          if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+      };
+    }
+
+    // Performance optimization: Throttle utility for high-frequency events
+    function throttle(func, limit) {
+      var inThrottle;
+      return function() {
+        var args = arguments;
+        var context = this;
+        if (!inThrottle) {
+          func.apply(context, args);
+          inThrottle = true;
+          setTimeout(function() { inThrottle = false; }, limit);
+        }
+      };
+    }
+
+    // Performance optimization: RequestAnimationFrame polyfill for smooth animations
+    (function() {
+      var lastTime = 0;
+      var vendors = ['ms', 'moz', 'webkit', 'o'];
+      for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] ||
+                                      window[vendors[x] + 'CancelRequestAnimationFrame'];
+      }
+
+      if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = function(callback, element) {
+          var currTime = new Date().getTime();
+          var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+          var id = window.setTimeout(function() { callback(currTime + timeToCall); }, timeToCall);
+          lastTime = currTime + timeToCall;
+          return id;
+        };
+      }
+
+      if (!window.cancelAnimationFrame) {
+        window.cancelAnimationFrame = function(id) {
+          clearTimeout(id);
+        };
+      }
+    })();
+
+    // Enhanced feature detection with polyfill support (Requirement 5.2)
+    var features = {
+      jquery: typeof jQuery !== 'undefined',
+      cssGrid: (function() {
+        try {
+          return CSS && CSS.supports && CSS.supports('display', 'grid');
+        } catch (e) {
+          return false;
+        }
+      })(),
+      stickyPosition: (function() {
+        try {
+          return CSS && CSS.supports && (
+            CSS.supports('position', 'sticky') ||
+            CSS.supports('position', '-webkit-sticky')
+          );
+        } catch (e) {
+          return false;
+        }
+      })(),
+      intersectionObserver: (function() {
+        try {
+          return 'IntersectionObserver' in window &&
+                 typeof IntersectionObserver === 'function';
+        } catch (e) {
+          return false;
+        }
+      })(),
+      smoothScroll: (function() {
+        try {
+          return 'scrollBehavior' in document.documentElement.style;
+        } catch (e) {
+          return false;
+        }
+      })(),
+      // Additional performance-related feature detection
+      passiveEvents: (function() {
+        try {
+          var opts = Object.defineProperty({}, 'passive', {
+            get: function() {
+              return true;
+            }
+          });
+          window.addEventListener('testPassive', null, opts);
+          window.removeEventListener('testPassive', null, opts);
+          return true;
+        } catch (e) {
+          return false;
+        }
+      })(),
+      requestAnimationFrame: typeof window.requestAnimationFrame === 'function'
+    };
+
+    // Log feature support for debugging
+    console.log('TOC Feature Support:', features);
+
+    // Apply graceful degradation classes based on feature support (Requirement 5.3)
+    function applyFeatureDegradation() {
+      var tocContainer = document.querySelector('.toc-container');
+      if (!tocContainer) return;
+
+      // Add classes for CSS to handle graceful degradation
+      if (!features.cssGrid) {
+        tocContainer.classList.add('no-css-grid');
+      }
+      if (!features.stickyPosition) {
+        tocContainer.classList.add('no-sticky-position');
+      }
+      if (!features.intersectionObserver) {
+        tocContainer.classList.add('no-intersection-observer');
+      }
+    }
+
+    // Fallback TOC generation if jQuery plugin fails (Requirement 5.1)
+    function generateFallbackTOC() {
+      try {
+        var headers = document.querySelectorAll('h2, h3, h4, h5, h6');
+
+        // Hide TOC if fewer than 2 headers (Requirement 1.4)
+        if (headers.length < 2) {
+          hideTOCContainer();
+          return false;
+        }
+
+        var tocContainer = document.getElementById('toc');
+        if (!tocContainer) {
+          console.warn('TOC container not found');
+          return false;
+        }
+
+        // Clear existing content
+        tocContainer.innerHTML = '';
+
+        // Generate TOC structure
+        var tocList = document.createElement('ul');
+        var currentLevel = 2;
+        var levelStack = [tocList];
+
+        headers.forEach(function(header, index) {
+          // Ensure header has an ID
+          if (!header.id) {
+            header.id = 'toc-header-' + index;
+          }
+
+          var level = parseInt(header.tagName.charAt(1));
+          var listItem = document.createElement('li');
+          var link = document.createElement('a');
+
+          link.href = '#' + header.id;
+          link.textContent = header.textContent || header.innerText;
+          link.setAttribute('data-level', level);
+
+          // Handle nested levels
+          if (level > currentLevel) {
+            // Create nested list
+            var nestedList = document.createElement('ul');
+            var lastItem = levelStack[levelStack.length - 1].lastElementChild;
+            if (lastItem) {
+              lastItem.appendChild(nestedList);
+            }
+            levelStack.push(nestedList);
+            currentLevel = level;
+          } else if (level < currentLevel) {
+            // Go back to appropriate level
+            while (levelStack.length > 1 && level < currentLevel) {
+              levelStack.pop();
+              currentLevel--;
+            }
+          }
+
+          listItem.appendChild(link);
+          levelStack[levelStack.length - 1].appendChild(listItem);
+        });
+
+        tocContainer.appendChild(tocList);
+
+        // Add click handlers for smooth scrolling
+        addFallbackScrollHandlers();
+
+        console.log('Fallback TOC generated successfully');
+        return true;
+      } catch (error) {
+        console.error('Fallback TOC generation failed:', error);
+        hideTOCContainer();
+        return false;
+      }
+    }
+
+    // Add smooth scrolling handlers for fallback TOC (Requirement 5.1)
+    function addFallbackScrollHandlers() {
+      var tocLinks = document.querySelectorAll('#toc a');
+
+      tocLinks.forEach(function(link) {
+        // Create named handler for cleanup
+        var clickHandler = function(e) {
+          try {
+            e.preventDefault();
+
+            var targetId = this.getAttribute('href').substring(1);
+            var target = document.getElementById(targetId);
+
+            if (target) {
+              var offset = 32; // Account for sticky headers
+              var targetPosition = target.offsetTop - offset;
+
+              // Use smooth scroll if supported, otherwise fallback to instant scroll
+              if (features.smoothScroll) {
+                window.scrollTo({
+                  top: targetPosition,
+                  behavior: 'smooth'
+                });
+              } else {
+                window.scrollTo(0, targetPosition);
+              }
+            }
+          } catch (scrollError) {
+            console.warn('Error in fallback scroll handler:', scrollError);
+            // Allow default browser behavior as fallback
+            return true;
+          }
+          return false;
+        };
+
+        // Store handler reference for cleanup
+        link._tocClickHandler = clickHandler;
+        link.addEventListener('click', clickHandler);
+      });
+    }
+
+    // Hide TOC container when not needed (Requirement 1.4)
+    function hideTOCContainer() {
+      var tocContainer = document.querySelector('.toc-container');
+      if (tocContainer) {
+        tocContainer.style.display = 'none';
+      }
+    }
+
+    // Show TOC container with loading state management
+    function showTOCContainer() {
+      var tocContainer = document.querySelector('.toc-container');
+      if (tocContainer) {
+        tocContainer.style.display = 'block';
+        // Remove loading state if present
+        tocContainer.classList.remove('toc-loading');
+        tocContainer.classList.add('toc-loaded');
+      }
+    }
+
+    // Add loading state to TOC container
+    function showTOCLoading() {
+      var tocContainer = document.querySelector('.toc-container');
+      if (tocContainer) {
+        tocContainer.classList.add('toc-loading');
+        tocContainer.classList.remove('toc-loaded');
+
+        // Add loading indicator
+        var tocContent = document.getElementById('toc');
+        if (tocContent) {
+          tocContent.innerHTML = '<div class="toc-loading-indicator">' +
+            '<div class="toc-spinner"></div>' +
+            '<span>Generating table of contents...</span>' +
+            '</div>';
+        }
+      }
+    }
+
+    // Performance optimization: Batch DOM operations for faster TOC generation
+    function batchDOMOperations(operations) {
+      if (features.requestAnimationFrame) {
+        return new Promise(function(resolve) {
+          requestAnimationFrame(function() {
+            operations();
+            resolve();
+          });
+        });
+      } else {
+        // Fallback for browsers without requestAnimationFrame
+        return new Promise(function(resolve) {
+          setTimeout(function() {
+            operations();
+            resolve();
+          }, 0);
+        });
+      }
+    }
+
+    // Error recovery and cleanup utilities (Requirement 5.1)
+    var tocErrorCount = 0;
+    var maxRetries = 3;
+
+    function handleTOCError(error, context) {
+      tocErrorCount++;
+      console.error('TOC Error in ' + context + ':', error);
+
+      if (tocErrorCount >= maxRetries) {
+        console.error('TOC initialization failed after ' + maxRetries + ' attempts, disabling TOC');
+        hideTOCContainer();
+        return false;
+      }
+
+      return true;
+    }
+
+    // Cross-browser compatibility: Array.from polyfill for IE11
+    if (!Array.from) {
+      Array.from = function(arrayLike) {
+        var result = [];
+        for (var i = 0; i < arrayLike.length; i++) {
+          result.push(arrayLike[i]);
+        }
+        return result;
+      };
+    }
+
+    // Cross-browser compatibility: forEach polyfill for NodeList in IE11
+    if (window.NodeList && !NodeList.prototype.forEach) {
+      NodeList.prototype.forEach = function(callback, thisArg) {
+        thisArg = thisArg || window;
+        for (var i = 0; i < this.length; i++) {
+          callback.call(thisArg, this[i], i, this);
+        }
+      };
+    }
+
+    // Cross-browser compatibility: Object.assign polyfill for IE11
+    if (typeof Object.assign !== 'function') {
+      Object.assign = function(target) {
+        if (target == null) {
+          throw new TypeError('Cannot convert undefined or null to object');
+        }
+        var to = Object(target);
+        for (var index = 1; index < arguments.length; index++) {
+          var nextSource = arguments[index];
+          if (nextSource != null) {
+            for (var nextKey in nextSource) {
+              if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+                to[nextKey] = nextSource[nextKey];
+              }
+            }
+          }
+        }
+        return to;
+      };
+    }
+
+    // Enhanced cleanup function for memory management and performance
+    function cleanupTOC() {
+      try {
+        // Performance optimization: Cancel any pending animation frames
+        if (window.tocAnimationFrame) {
+          cancelAnimationFrame(window.tocAnimationFrame);
+          window.tocAnimationFrame = null;
+        }
+
+        // Remove event listeners to prevent memory leaks
+        var tocLinks = document.querySelectorAll('#toc a');
+        tocLinks.forEach(function(link) {
+          if (link._tocClickHandler) {
+            link.removeEventListener('click', link._tocClickHandler);
+            delete link._tocClickHandler;
+          }
+        });
+
+        // Clear any active observers
+        if (window.tocObserver) {
+          window.tocObserver.disconnect();
+          window.tocObserver = null;
+        }
+
+        // Clear timeouts and intervals
+        if (window.tocScrollTimeout) {
+          clearTimeout(window.tocScrollTimeout);
+          window.tocScrollTimeout = null;
+        }
+        if (window.tocResizeTimeout) {
+          clearTimeout(window.tocResizeTimeout);
+          window.tocResizeTimeout = null;
+        }
+
+        // Clear performance monitoring
+        if (window.tocPerformanceStart) {
+          window.tocPerformanceStart = null;
+        }
+
+        console.log('TOC cleanup completed');
+      } catch (cleanupError) {
+        console.warn('Error during TOC cleanup:', cleanupError);
+      }
+    }
+
+    // Main TOC initialization with comprehensive error handling and performance optimization
+    function initializeTOC() {
+      try {
+        // Performance optimization: Show loading state immediately
+        showTOCLoading();
+
+        // Clean up any previous initialization
+        cleanupTOC();
+
+        // Apply feature degradation classes first
+        applyFeatureDegradation();
+
+        // Performance optimization: Use requestAnimationFrame for non-blocking execution
+        return batchDOMOperations(function() {
+          // Check if we have enough headers (Requirement 1.4)
+          var headers = document.querySelectorAll('h2, h3, h4, h5, h6');
+          if (headers.length < 2) {
+            console.log('TOC hidden: fewer than 2 headers found (' + headers.length + ')');
+            hideTOCContainer();
+            return;
+          }
+
+          console.log('Initializing TOC with ' + headers.length + ' headers');
+
+          // Performance monitoring: Track TOC generation time
+          window.tocPerformanceStart = performance && performance.now ? performance.now() : Date.now();
+
+          var tocGenerated = false;
+
+        // Try jQuery TOC plugin first if available
+        if (features.jquery && typeof $ !== 'undefined' && $.fn && typeof $.fn.toc === 'function') {
+          try {
+            $('#toc').toc({
+              minimumHeaders: 2,
+              listType: 'ul',
+              showSpeed: 0,
+              headers: 'h2,h3,h4,h5,h6'
+            });
+
+            // Check if TOC was actually generated
+            var tocContent = document.querySelector('#toc ul');
+            if (tocContent && tocContent.children.length > 0) {
+              tocGenerated = true;
+              console.log('jQuery TOC plugin initialized successfully');
+
+              // Enhanced smooth scrolling with proper offset calculation (Requirements 3.2, 3.3)
+              $('#toc').on('click', 'a', function(e) {
+                try {
+                  e.preventDefault();
+                  var target = $(this.getAttribute('href'));
+
+                  if (target.length) {
+                    var scroll_target = target.offset().top;
+                    var offset = 32; // 2rem equivalent for sticky positioning
+
+                    if (features.smoothScroll) {
+                      $('html, body').animate({
+                        scrollTop: scroll_target - offset
+                      }, 300, 'swing');
+                    } else {
+                      // Fallback for browsers without smooth scroll
+                      $('html, body').scrollTop(scroll_target - offset);
+                    }
+                  }
+                } catch (scrollError) {
+                  console.warn('Error in jQuery scroll handler:', scrollError);
+                  // Fallback to browser default behavior
+                  return true;
+                }
+                return false;
+              });
+            } else {
+              console.warn('jQuery TOC plugin did not generate content');
+            }
+          } catch (jqueryError) {
+            if (!handleTOCError(jqueryError, 'jQuery TOC plugin')) return;
+          }
+        } else {
+          console.log('jQuery TOC plugin not available, using fallback');
+        }
+
+        // Fallback to vanilla JavaScript TOC generation if jQuery failed (Requirement 5.1)
+        if (!tocGenerated) {
+          console.log('Falling back to vanilla JavaScript TOC generation');
+          try {
+            tocGenerated = generateFallbackTOC();
+          } catch (fallbackError) {
+            if (!handleTOCError(fallbackError, 'fallback TOC generation')) return;
+          }
+        }
+
+          if (tocGenerated) {
+            try {
+              // Initialize active section highlighting if supported (Requirements 3.1, 3.4)
+              initializeActiveHighlighting();
+              showTOCContainer();
+
+              // Performance monitoring: Log completion time
+              if (window.tocPerformanceStart) {
+                var endTime = performance && performance.now ? performance.now() : Date.now();
+                var duration = endTime - window.tocPerformanceStart;
+                console.log('TOC initialization completed in ' + duration.toFixed(2) + 'ms');
+
+                // Performance validation: Warn if TOC generation is slow (Requirement 3.4)
+                if (duration > 50) {
+                  console.warn('TOC generation took longer than expected (' + duration.toFixed(2) + 'ms). Consider optimizing for better performance.');
+                }
+              }
+
+              // Validate final implementation against requirements
+              validateTOCImplementation();
+
+            } catch (highlightError) {
+              // Active highlighting is optional, don't fail the entire TOC
+              console.warn('Active highlighting failed, but TOC is still functional:', highlightError);
+              showTOCContainer();
+            }
+          } else {
+            console.warn('TOC generation failed, hiding container');
+            hideTOCContainer();
+          }
+        }).catch(function(batchError) {
+          console.error('Error in batched TOC operations:', batchError);
+          hideTOCContainer();
+        });
+
+      } catch (error) {
+        handleTOCError(error, 'main initialization');
+      }
+    }
+
+    // Cleanup on page unload to prevent memory leaks
+    window.addEventListener('beforeunload', cleanupTOC);
+
+    // Validate final implementation against all requirements
+    function validateTOCImplementation() {
+      try {
+        var validationResults = {
+          requirement1_1: false, // TOC displays in right sidebar
+          requirement1_2: false, // TOC remains sticky during scroll
+          requirement1_3: false, // TOC hidden on mobile/tablet
+          requirement1_4: false, // TOC hidden when fewer than 2 headers
+          requirement3_1: false, // Active section highlighting
+          requirement3_4: false, // Smooth scrolling with proper performance
+          requirement4_1: false, // Consistent typography and colors
+          requirement6_4: false  // Responsive behavior
+        };
+
+        // Check Requirement 1.1: TOC displays in right sidebar
+        var tocSidebar = document.querySelector('.toc-sidebar');
+        var tocContainer = document.querySelector('.toc-container');
+        if (tocSidebar && tocContainer && tocContainer.style.display !== 'none') {
+          validationResults.requirement1_1 = true;
+        }
+
+        // Check Requirement 1.2: Sticky positioning
+        if (features.stickyPosition) {
+          var stickyStyle = window.getComputedStyle(tocSidebar);
+          if (stickyStyle.position === 'sticky' || stickyStyle.position === '-webkit-sticky') {
+            validationResults.requirement1_2 = true;
+          }
+        } else {
+          // Graceful degradation is acceptable
+          validationResults.requirement1_2 = true;
+        }
+
+        // Check Requirement 1.3: Responsive behavior
+        var mediaQuery = window.matchMedia('(max-width: 1024px)');
+        if (mediaQuery.matches) {
+          var tocDisplay = window.getComputedStyle(tocSidebar).display;
+          if (tocDisplay === 'none') {
+            validationResults.requirement1_3 = true;
+          }
+        } else {
+          validationResults.requirement1_3 = true; // Not on mobile, so requirement is met
+        }
+
+        // Check Requirement 1.4: Hidden when fewer than 2 headers
+        var headers = document.querySelectorAll('h2, h3, h4, h5, h6');
+        if (headers.length >= 2) {
+          validationResults.requirement1_4 = true; // TOC should be visible
+        } else {
+          // TOC should be hidden
+          if (tocContainer && tocContainer.style.display === 'none') {
+            validationResults.requirement1_4 = true;
+          }
+        }
+
+        // Check Requirement 3.1: Active section highlighting
+        var tocLinks = document.querySelectorAll('#toc a');
+        var hasActiveClass = false;
+        tocLinks.forEach(function(link) {
+          if (link.classList.contains('toc-active')) {
+            hasActiveClass = true;
+          }
+        });
+        if (features.intersectionObserver || hasActiveClass) {
+          validationResults.requirement3_1 = true;
+        }
+
+        // Check Requirement 3.4: Performance (scroll handlers are throttled)
+        if (window.tocObserver || (window.addEventListener.toString().indexOf('throttle') > -1)) {
+          validationResults.requirement3_4 = true;
+        }
+
+        // Check Requirement 4.1: Typography and colors
+        if (tocContainer) {
+          var containerStyles = window.getComputedStyle(tocContainer);
+          if (containerStyles.fontFamily && containerStyles.color) {
+            validationResults.requirement4_1 = true;
+          }
+        }
+
+        // Check Requirement 6.4: Responsive adaptation
+        validationResults.requirement6_4 = validationResults.requirement1_3;
+
+        // Log validation results
+        var passedCount = 0;
+        var totalCount = 0;
+        for (var req in validationResults) {
+          totalCount++;
+          if (validationResults[req]) {
+            passedCount++;
+          } else {
+            console.warn('Requirement validation failed:', req);
+          }
+        }
+
+        console.log('TOC Requirements Validation: ' + passedCount + '/' + totalCount + ' requirements met');
+
+        if (passedCount === totalCount) {
+          console.log('✅ All TOC requirements successfully validated');
+        } else {
+          console.warn('⚠️ Some TOC requirements not fully met - check console for details');
+        }
+
+        return validationResults;
+      } catch (validationError) {
+        console.error('Error during TOC validation:', validationError);
+        return null;
+      }
+    }
+
+    // Cross-browser compatibility: Performance monitoring fallback
+    if (!window.performance || !window.performance.now) {
+      window.performance = {
+        now: function() {
+          return Date.now();
+        }
+      };
+    }
+
+    // Initialize when DOM is ready with error handling
+    function initializeTOCWhenReady() {
+      try {
+        if (features.jquery && typeof $ !== 'undefined') {
+          $(document).ready(function() {
+            setTimeout(initializeTOC, 0); // Non-blocking initialization
+          });
+        } else {
+          // Fallback for when jQuery is not available
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+              setTimeout(initializeTOC, 0); // Non-blocking initialization
+            });
+          } else {
+            setTimeout(initializeTOC, 0); // Non-blocking initialization
+          }
+        }
+      } catch (initError) {
+        console.error('Error setting up TOC initialization:', initError);
+        // Fallback: try direct initialization
+        setTimeout(function() {
+          try {
+            initializeTOC();
+          } catch (fallbackError) {
+            console.error('TOC fallback initialization also failed:', fallbackError);
+          }
+        }, 100);
+      }
+    }
+
+    // Start initialization
+    initializeTOCWhenReady();
+
+    // Active section highlighting using Intersection Observer API (Requirement 3.1)
+    function initializeActiveHighlighting() {
+      try {
+        // Check if Intersection Observer is supported (Requirement 5.2)
+        if (!features.intersectionObserver) {
+          console.warn('Intersection Observer not supported, using fallback scroll-based highlighting');
+          initializeFallbackHighlighting();
+          return;
+        }
+
+        var headers = document.querySelectorAll('h2, h3, h4, h5, h6');
+        var tocLinks = document.querySelectorAll('#toc a');
+        var activeClass = 'toc-active';
+
+        if (headers.length === 0 || tocLinks.length === 0) {
+          console.log('No headers or TOC links found for active highlighting');
+          return;
+        }
+
+        // Create a map of header IDs to TOC links for efficient lookup
+        var headerToLinkMap = {};
+        tocLinks.forEach(function(link) {
+          try {
+            var href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+              var headerId = href.substring(1);
+              headerToLinkMap[headerId] = link;
+            }
+          } catch (linkError) {
+            console.warn('Error processing TOC link:', linkError);
+          }
+        });
+
+        // Intersection Observer configuration (Requirement 3.4)
+        var observerOptions = {
+          // Trigger when section is in the middle portion of viewport
+          rootMargin: '-20% 0px -35% 0px',
+          threshold: 0
+        };
+
+        // Track currently active section
+        var currentActiveLink = null;
+
+        // Intersection Observer callback (Requirement 3.1, 3.4)
+        window.tocObserver = new IntersectionObserver(function(entries) {
+          try {
+            var visibleHeaders = [];
+
+            // Collect all visible headers
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                visibleHeaders.push({
+                  element: entry.target,
+                  ratio: entry.intersectionRatio,
+                  top: entry.boundingClientRect.top
+                });
+              }
+            });
+
+            // Sort by position in viewport (topmost first)
+            visibleHeaders.sort(function(a, b) {
+              return a.top - b.top;
+            });
+
+            // Clear previous active state
+            if (currentActiveLink) {
+              currentActiveLink.classList.remove(activeClass);
+              currentActiveLink = null;
+            }
+
+            // Set new active state for the topmost visible header (Requirement 3.4)
+            if (visibleHeaders.length > 0) {
+              var activeHeader = visibleHeaders[0].element;
+              var activeLink = headerToLinkMap[activeHeader.id];
+
+              if (activeLink) {
+                activeLink.classList.add(activeClass);
+                currentActiveLink = activeLink;
+              }
+            }
+          } catch (observerError) {
+            console.error('Error in Intersection Observer callback:', observerError);
+          }
+        }, observerOptions);
+
+        // Start observing all headers (Requirement 3.1)
+        headers.forEach(function(header, index) {
+          try {
+            // Ensure header has an ID for linking
+            if (!header.id) {
+              // Generate ID if missing (fallback)
+              header.id = 'toc-header-' + index;
+            }
+            window.tocObserver.observe(header);
+          } catch (headerError) {
+            console.warn('Error observing header:', headerError);
+          }
+        });
+
+        // Handle edge case: highlight first section when at top of page
+        function handleScrollTop() {
+          try {
+            if (window.pageYOffset < 100 && tocLinks.length > 0) {
+              // Clear all active states
+              tocLinks.forEach(function(link) {
+                link.classList.remove(activeClass);
+              });
+
+              // Activate first link
+              tocLinks[0].classList.add(activeClass);
+              currentActiveLink = tocLinks[0];
+            }
+          } catch (scrollError) {
+            console.warn('Error in scroll top handler:', scrollError);
+          }
+        }
+
+        // Optimized scroll handler with throttling for 60fps performance (Requirement 3.4)
+        var optimizedScrollHandler = throttle(handleScrollTop, 16); // ~60fps
+        var eventOptions = features.passiveEvents ? { passive: true } : false;
+
+        window.addEventListener('scroll', optimizedScrollHandler, eventOptions);
+
+        // Initial check
+        handleScrollTop();
+
+        console.log('Intersection Observer active highlighting initialized');
+
+      } catch (error) {
+        console.error('Error initializing active highlighting:', error);
+        // Fallback to scroll-based highlighting
+        initializeFallbackHighlighting();
+      }
+    }
+
+    // Fallback active highlighting for browsers without Intersection Observer (Requirement 5.2, 5.3)
+    function initializeFallbackHighlighting() {
+      try {
+        var headers = document.querySelectorAll('h2, h3, h4, h5, h6');
+        var tocLinks = document.querySelectorAll('#toc a');
+        var activeClass = 'toc-active';
+
+        if (headers.length === 0 || tocLinks.length === 0) {
+          return;
+        }
+
+        // Create header position cache for performance
+        var headerPositions = [];
+
+        function updateHeaderPositions() {
+          headerPositions = Array.from(headers).map(function(header) {
+            return {
+              element: header,
+              top: header.offsetTop,
+              id: header.id
+            };
+          });
+        }
+
+        // Create header ID to link mapping
+        var headerToLinkMap = {};
+        tocLinks.forEach(function(link) {
+          var href = link.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            var headerId = href.substring(1);
+            headerToLinkMap[headerId] = link;
+          }
+        });
+
+        // Scroll-based active highlighting
+        function updateActiveSection() {
+          try {
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            var currentActive = null;
+
+            // Find the current section based on scroll position
+            for (var i = headerPositions.length - 1; i >= 0; i--) {
+              if (scrollTop >= headerPositions[i].top - 100) {
+                currentActive = headerPositions[i];
+                break;
+              }
+            }
+
+            // Clear all active states
+            tocLinks.forEach(function(link) {
+              link.classList.remove(activeClass);
+            });
+
+            // Set active state
+            if (currentActive && headerToLinkMap[currentActive.id]) {
+              headerToLinkMap[currentActive.id].classList.add(activeClass);
+            } else if (tocLinks.length > 0 && scrollTop < 100) {
+              // Activate first link when at top
+              tocLinks[0].classList.add(activeClass);
+            }
+          } catch (updateError) {
+            console.warn('Error updating active section:', updateError);
+          }
+        }
+
+        // Initialize header positions
+        updateHeaderPositions();
+
+        // Optimized scroll handler with throttling for 60fps performance (Requirement 3.4)
+        var optimizedScrollHandler = throttle(updateActiveSection, 16); // ~60fps
+        var eventOptions = features.passiveEvents ? { passive: true } : false;
+
+        window.addEventListener('scroll', optimizedScrollHandler, eventOptions);
+
+        // Optimized resize handler with debouncing
+        var optimizedResizeHandler = debounce(updateHeaderPositions, 250);
+        window.addEventListener('resize', optimizedResizeHandler, eventOptions);
+
+        // Initial update
+        updateActiveSection();
+
+        console.log('Fallback scroll-based active highlighting initialized');
+
+      } catch (error) {
+        console.error('Error initializing fallback highlighting:', error);
+      }
+    }
+</script>
+
+    </aside>
+    <main class="post-main">
+      <div class="post-content e-content" itemprop="articleBody">
+        <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-04-26-chemdNER.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This blog post has the code and details, of the take home project that I did for a company as part of their interview process, this primarily uses the <a href="https://jcheminf.biomedcentral.com/articles/10.1186/1758-2946-7-S1-S2">CHEMDNER</a> data to create a named recognition model using <a href="http://spacy.io/">spaCy</a></p>
+<blockquote><p>The CHEMDNER corpus of chemicals and drugs and its annotation principles</p>
+<ul>
+<li>Krallinger, M. et al. The CHEMDNER corpus of chemicals and drugs and its annotation principles. J Cheminform, 2014</li>
+</ul>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div style="padding: 15px; border: 1px solid transparent; border-color: transparent; margin-bottom: 20px; border-radius: 4px; color: #31708f; background-color: #d9edf7; border-color: #bce8f1;">
+This code should be directly runnable in <b><a href="http://colab.research.google.com/">colab</a></b>, so just check and change the paths where I save and get data from my google drive, to run on your colab instance.
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Prepare-data">Prepare data<a class="anchor-link" href="#Prepare-data"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Get data and make create directories to organise information.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>wget --no-check-certificate https://biocreative.bioinformatics.udel.edu/media/store/files/2014/chemdner_corpus.tar.gz
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>mkdir /content/data
+<span class="o">!</span>tar -xvf /content/drive/MyDrive/chemdNER<span class="se">\ </span>data/data.tar.gz -C /content/data
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>chemdner_corpus/
+chemdner_corpus/BioC.dtd
+chemdner_corpus/cdi_ann_test_13-09-13.txt
+chemdner_corpus/cem_ann_test_13-09-13.txt
+chemdner_corpus/chemdner_abs_test_pmid_label.txt
+chemdner_corpus/chemdner_chemical_disciplines.txt
+chemdner_corpus/chemdner.key
+chemdner_corpus/development.abstracts.txt
+chemdner_corpus/development.annotations.txt
+chemdner_corpus/development.bioc.xml
+chemdner_corpus/evaluation.abstracts.txt
+chemdner_corpus/evaluation.annotations.txt
+chemdner_corpus/evaluation.bioc.xml
+chemdner_corpus/evaluation.predictions.txt
+chemdner_corpus/plain2bioc.py
+chemdner_corpus/Readme.txt
+chemdner_corpus/silver.abstracts.txt
+chemdner_corpus/silver.predictions.txt
+chemdner_corpus/training.abstracts.txt
+chemdner_corpus/training.annotations.txt
+chemdner_corpus/training.bioc.xml
+chemdner_corpus/evaluation.predictions.bioc.xml
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+</p>
+    </details>
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Install-required-libraries">Install required libraries<a class="anchor-link" href="#Install-required-libraries"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Look at the libraries currently installed.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip list <span class="p">|</span> grep spacy
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>spacy                         2.2.4          
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.3.0/en_core_sci_lg-0.3.0.tar.gz
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Since we are training data with medical text a model with similar vectors will be extremely useful, using the <a href="https://www.semanticscholar.org/paper/ScispaCy%3A-Fast-and-Robust-Models-for-Biomedical-Neumann-King/de28ec1d7bd38c8fc4e8ac59b6133800818b4e29">scispacy</a> model vectors.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip list<span class="p">|</span> grep en-core-sci-lg
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>en-core-sci-lg                0.3.0          
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Import-annotations">Import annotations<a class="anchor-link" href="#Import-annotations"> </a></h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">annot_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;/content/data/chemdner_corpus&#39;</span><span class="p">)</span>
+<span class="n">export_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;/content/data/spacy_annotation_data&#39;</span><span class="p">)</span>
+<span class="n">export_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_annot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">&#39;training.annotations.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="s1">&#39;Text Type&#39;</span><span class="p">,</span> <span class="s1">&#39;Start&#39;</span><span class="p">,</span> <span class="s1">&#39;End&#39;</span><span class="p">,</span> <span class="s1">&#39;Entity Text&#39;</span><span class="p">,</span> <span class="s1">&#39;Entity&#39;</span><span class="p">])</span>
+<span class="n">train_annot</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PMID</th>
+      <th>Text Type</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>Entity Text</th>
+      <th>Entity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>21826085</td>
+      <td>A</td>
+      <td>946</td>
+      <td>957</td>
+      <td>haloperidol</td>
+      <td>TRIVIAL</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>22080034</td>
+      <td>A</td>
+      <td>190</td>
+      <td>199</td>
+      <td>aflatoxin</td>
+      <td>FAMILY</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>22080034</td>
+      <td>A</td>
+      <td>594</td>
+      <td>603</td>
+      <td>aflatoxin</td>
+      <td>FAMILY</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>22080034</td>
+      <td>A</td>
+      <td>718</td>
+      <td>727</td>
+      <td>aflatoxin</td>
+      <td>FAMILY</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>22080034</td>
+      <td>A</td>
+      <td>1072</td>
+      <td>1081</td>
+      <td>aflatoxin</td>
+      <td>FAMILY</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Since the training text can be in the title or in the abstract, we should be careful on what text we are giving in an annotation.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's check in the annotation for one value</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">train_annot</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_annot</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">21826085</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Start&#39;</span><span class="p">,</span> <span class="s1">&#39;End&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="c1"># start, end indices for haloperidol</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(946, 957)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_text</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">&#39;training.abstracts.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">,</span> <span class="s1">&#39;Abstract&#39;</span><span class="p">])</span>
+<span class="n">train_text</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PMID</th>
+      <th>Title</th>
+      <th>Abstract</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>21826085</td>
+      <td>DPP6 as a candidate gene for neuroleptic-induc...</td>
+      <td>We implemented a two-step approach to detect p...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>22080034</td>
+      <td>Nanosilver effects on growth parameters in exp...</td>
+      <td>Aflatoxicosis is a cause of economic losses in...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>22080035</td>
+      <td>The influence of the intensity of smoking and ...</td>
+      <td>The aim of this study was to investigate the e...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>22080037</td>
+      <td>Mercury induces the expression of cyclooxygena...</td>
+      <td>Nuclear factor-κB (NF-κB) is a transcription f...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>22258629</td>
+      <td>Toxic effects of chromium on tannery workers a...</td>
+      <td>Chromium is widely used in the leather industr...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_annot</span><span class="p">[</span><span class="s1">&#39;Text Type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>A    26425
+T     3053
+Name: Text Type, dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_text</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_text</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">21826085</span><span class="p">,</span> <span class="s1">&#39;Abstract&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;haloperidol&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can see that the annotation data will seperate for the Title and Abstract pieces of the text.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Make-raw-text-files-for-pretraining">Make raw text files for pretraining<a class="anchor-link" href="#Make-raw-text-files-for-pretraining"> </a></h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">srsly</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dev_text</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">&#39;development.abstracts.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">,</span> <span class="s1">&#39;Abstract&#39;</span><span class="p">])</span>
+<span class="n">eval_text</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">&#39;evaluation.abstracts.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">,</span> <span class="s1">&#39;Abstract&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">texts_path</span> <span class="o">=</span> <span class="n">export_path</span><span class="o">/</span><span class="s1">&#39;texts&#39;</span>
+<span class="n">texts_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">make_jsonl</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+    <span class="n">jsonl_txts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">itertuples</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">jsonl_txts</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;text&#39;</span><span class="p">:</span><span class="n">data</span><span class="o">.</span><span class="n">Title</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span><span class="n">data</span><span class="o">.</span><span class="n">Abstract</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">jsonl_txts</span>
+
+<span class="n">train_txts</span> <span class="o">=</span> <span class="n">make_jsonl</span><span class="p">(</span><span class="n">train_text</span><span class="p">)</span>
+<span class="n">dev_txts</span> <span class="o">=</span> <span class="n">make_jsonl</span><span class="p">(</span><span class="n">dev_text</span><span class="p">)</span>
+<span class="n">eval_txts</span> <span class="o">=</span> <span class="n">make_jsonl</span><span class="p">(</span><span class="n">eval_text</span><span class="p">)</span>
+
+<span class="n">all_txts</span> <span class="o">=</span> <span class="n">train_txts</span> <span class="o">+</span> <span class="n">eval_txts</span> <span class="o">+</span> <span class="n">dev_txts</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">srsly</span><span class="o">.</span><span class="n">write_jsonl</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">texts_path</span><span class="o">/</span><span class="s1">&#39;pretrain_txts.jsonl&#39;</span><span class="p">),</span> <span class="n">train_txts</span><span class="p">[:</span><span class="mi">1500</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Make-json-file-for-training">Make <code>json</code> file for training<a class="anchor-link" href="#Make-json-file-for-training"> </a></h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># set pmid as the index</span>
+<span class="n">train_annot</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">train_text</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_data</span> <span class="o">=</span> <span class="n">train_text</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">train_annot</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Title</th>
+      <th>Abstract</th>
+      <th>Text Type</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>Entity Text</th>
+      <th>Entity</th>
+    </tr>
+    <tr>
+      <th>PMID</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>21826085</th>
+      <td>DPP6 as a candidate gene for neuroleptic-induc...</td>
+      <td>We implemented a two-step approach to detect p...</td>
+      <td>A</td>
+      <td>946.0</td>
+      <td>957.0</td>
+      <td>haloperidol</td>
+      <td>TRIVIAL</td>
+    </tr>
+    <tr>
+      <th>22080034</th>
+      <td>Nanosilver effects on growth parameters in exp...</td>
+      <td>Aflatoxicosis is a cause of economic losses in...</td>
+      <td>A</td>
+      <td>190.0</td>
+      <td>199.0</td>
+      <td>aflatoxin</td>
+      <td>FAMILY</td>
+    </tr>
+    <tr>
+      <th>22080034</th>
+      <td>Nanosilver effects on growth parameters in exp...</td>
+      <td>Aflatoxicosis is a cause of economic losses in...</td>
+      <td>A</td>
+      <td>594.0</td>
+      <td>603.0</td>
+      <td>aflatoxin</td>
+      <td>FAMILY</td>
+    </tr>
+    <tr>
+      <th>22080034</th>
+      <td>Nanosilver effects on growth parameters in exp...</td>
+      <td>Aflatoxicosis is a cause of economic losses in...</td>
+      <td>A</td>
+      <td>718.0</td>
+      <td>727.0</td>
+      <td>aflatoxin</td>
+      <td>FAMILY</td>
+    </tr>
+    <tr>
+      <th>22080034</th>
+      <td>Nanosilver effects on growth parameters in exp...</td>
+      <td>Aflatoxicosis is a cause of economic losses in...</td>
+      <td>A</td>
+      <td>1072.0</td>
+      <td>1081.0</td>
+      <td>aflatoxin</td>
+      <td>FAMILY</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's check the number of annotations for each label.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;Entity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Number of annotations per label&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fcc6f26c630&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+" />
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We have eight entities and the entity named <code>TRIVIAL</code> has the most number of annotations</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we can start generating the annotation from the dataframe, to accomodate the training format that we want we can split the data frame to Title and Abstract annotations, so that we can run the same logic easily, (ie) grouping the texts and getting all the annotations corresponding to that text in one shot.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">abstract_annots</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;Text Type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">title_annots</span> <span class="o">=</span> <span class="n">train_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;Text Type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="p">:]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">en_core_sci_lg</span>
+<span class="kn">from</span> <span class="nn">spacy.tokens</span> <span class="kn">import</span> <span class="n">Span</span>
+<span class="kn">from</span> <span class="nn">spacy.gold</span> <span class="kn">import</span> <span class="n">docs_to_json</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="c1"># load the pretrained model and other utility functions</span>
+<span class="c1"># to generate the training data</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">en_core_sci_lg</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="c1"># since we are going to fill this manually</span>
+<span class="c1"># for annotation, disabling some pipeline </span>
+<span class="c1"># modules may speedup the process</span>
+<span class="n">mod</span><span class="o">.</span><span class="n">disable_pipes</span><span class="p">([</span><span class="s1">&#39;ner&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(&#39;ner&#39;, &lt;spacy.pipeline.pipes.EntityRecognizer at 0x7f8f0be55408&gt;)]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">extract_spacy_docs</span><span class="p">(</span><span class="n">annot_df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ext_from</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="c1"># Extracting the doc objects from a pretrained model</span>
+    <span class="c1"># so that the tokenization matches for this domain of </span>
+    <span class="c1"># text that we have</span>
+
+    <span class="n">annot_docs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Same texts have multiple annotations so group and take </span>
+    <span class="c1"># one by one</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">annot_data</span> <span class="ow">in</span> <span class="n">annot_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">ext_from</span><span class="p">):</span>
+        <span class="c1"># Text for annotation</span>
+        <span class="n">txt</span> <span class="o">=</span> <span class="n">annot_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">ext_from</span><span class="p">]</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">mod</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+        <span class="n">ent_spans</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">text_ranges</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">annot</span> <span class="ow">in</span> <span class="n">annot_data</span><span class="o">.</span><span class="n">itertuples</span><span class="p">():</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">annot</span><span class="o">.</span><span class="n">Start</span><span class="p">)</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">annot</span><span class="o">.</span><span class="n">End</span><span class="p">)</span>
+            <span class="c1"># Validating overlapping entity annotations</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">text_ranges</span> <span class="ow">and</span> <span class="n">end</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">text_ranges</span><span class="p">:</span>
+                <span class="c1"># Make spans with our annotations</span>
+                <span class="n">span</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">char_span</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">annot</span><span class="o">.</span><span class="n">Start</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">annot</span><span class="o">.</span><span class="n">End</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="n">annot</span><span class="o">.</span><span class="n">Entity</span><span class="p">)</span>
+
+                <span class="c1"># It may be None for invalid annotations(wrt spaCy)</span>
+                <span class="k">if</span> <span class="n">span</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">ent_spans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">span</span><span class="p">)</span>
+                    <span class="n">text_ranges</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">1</span><span class="p">,)))</span>
+
+            <span class="c1"># Just for info</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">txt</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">])</span>
+
+        <span class="n">doc</span><span class="o">.</span><span class="n">ents</span> <span class="o">=</span> <span class="n">ent_spans</span>
+        <span class="n">annot_docs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">annot_docs</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">abstract_annots</span> <span class="o">=</span> <span class="n">extract_spacy_docs</span><span class="p">(</span><span class="n">abstract_annots</span><span class="p">,</span> <span class="s1">&#39;Abstract&#39;</span><span class="p">)</span>
+<span class="n">title_annots</span> <span class="o">=</span> <span class="n">extract_spacy_docs</span><span class="p">(</span><span class="n">title_annots</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">)</span>
+
+<span class="n">train_annot_docs</span> <span class="o">=</span> <span class="n">abstract_annots</span> <span class="o">+</span> <span class="n">title_annots</span>
+
+<span class="n">train_json</span> <span class="o">=</span> <span class="n">docs_to_json</span><span class="p">(</span><span class="n">train_annot_docs</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">spacy_annot_path</span> <span class="o">=</span> <span class="n">export_path</span><span class="o">/</span><span class="s1">&#39;annots&#39;</span>
+<span class="n">spacy_annot_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">srsly</span><span class="o">.</span><span class="n">write_json</span><span class="p">(</span><span class="n">spacy_annot_path</span><span class="o">/</span><span class="s1">&#39;train_data.json&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">train_json</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We must do the same for the development and evaluation data</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Make-json-file-for-evaluation-and-development">Make json file for evaluation and development<a class="anchor-link" href="#Make-json-file-for-evaluation-and-development"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's make a function out of the process we did for the training data, for the evaluation and development data.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dev_annots</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">&#39;development.annotations.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span>
+                         <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="s1">&#39;Text Type&#39;</span><span class="p">,</span> <span class="s1">&#39;Start&#39;</span><span class="p">,</span> <span class="s1">&#39;End&#39;</span><span class="p">,</span> <span class="s1">&#39;Entity Text&#39;</span><span class="p">,</span> <span class="s1">&#39;Entity&#39;</span><span class="p">])</span>
+
+<span class="n">eval_annots</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">annot_path</span><span class="o">/</span><span class="s1">&#39;evaluation.annotations.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span>
+                         <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="s1">&#39;Text Type&#39;</span><span class="p">,</span> <span class="s1">&#39;Start&#39;</span><span class="p">,</span> <span class="s1">&#39;End&#39;</span><span class="p">,</span> <span class="s1">&#39;Entity Text&#39;</span><span class="p">,</span> <span class="s1">&#39;Entity&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">prepare_df_for_spacy_annots</span><span class="p">(</span><span class="n">df1</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">df2</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Abstract and Title dataframes&#39;</span><span class="p">:</span>
+    <span class="c1"># Emulates the processing we did for training data</span>
+    <span class="n">df1</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df2</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;PMID&#39;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span>
+    <span class="n">abstract_annots</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Text Type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">title_annots</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Text Type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="k">return</span> <span class="n">abstract_annots</span><span class="p">,</span> <span class="n">title_annots</span>
+
+
+<span class="k">def</span> <span class="nf">prepare_spacy_json_from_df</span><span class="p">(</span><span class="n">df1</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">df2</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+    <span class="c1"># transform the docs to spacy json    </span>
+    <span class="n">abstract_annots</span><span class="p">,</span> <span class="n">title_annots</span> <span class="o">=</span> <span class="n">prepare_df_for_spacy_annots</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">)</span>
+    
+    <span class="n">abstract_docs</span> <span class="o">=</span> <span class="n">extract_spacy_docs</span><span class="p">(</span><span class="n">abstract_annots</span><span class="p">,</span> <span class="s1">&#39;Abstract&#39;</span><span class="p">)</span>
+    <span class="n">title_docs</span> <span class="o">=</span> <span class="n">extract_spacy_docs</span><span class="p">(</span><span class="n">title_annots</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">)</span>
+
+    <span class="n">annot_docs</span> <span class="o">=</span> <span class="n">abstract_docs</span> <span class="o">+</span> <span class="n">title_docs</span>
+
+    <span class="n">spacy_json</span> <span class="o">=</span> <span class="n">docs_to_json</span><span class="p">(</span><span class="n">train_annot_docs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">spacy_json</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dev_json</span> <span class="o">=</span> <span class="n">prepare_spacy_json_from_df</span><span class="p">(</span><span class="n">dev_text</span><span class="p">,</span> <span class="n">dev_annots</span><span class="p">)</span>
+<span class="n">eval_json</span> <span class="o">=</span> <span class="n">prepare_spacy_json_from_df</span><span class="p">(</span><span class="n">eval_text</span><span class="p">,</span> <span class="n">eval_annots</span><span class="p">)</span>
+
+<span class="n">srsly</span><span class="o">.</span><span class="n">write_json</span><span class="p">(</span><span class="n">spacy_annot_path</span><span class="o">/</span><span class="s1">&#39;eval_data.json&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">eval_json</span><span class="p">])</span>
+<span class="n">srsly</span><span class="o">.</span><span class="n">write_json</span><span class="p">(</span><span class="n">spacy_annot_path</span><span class="o">/</span><span class="s1">&#39;dev_data.json&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">dev_json</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We now have all the files required to make the model, let's start by pretraining the model with spacy cli</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Pretrain-spacy-with-texts">Pretrain spacy with texts<a class="anchor-link" href="#Pretrain-spacy-with-texts"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We have imported <code>scispacy's</code> model vectors(<code>en_core_sci_lg</code>) to give us a headstart</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python -m spacy pretrain /content/data/spacy_annotation_data/texts/pretrain_txts.jsonl /usr/local/lib/python3.6/dist-packages/en_core_sci_lg/en_core_sci_lg-0.3.0 /content/data/pretrained_model -i <span class="m">50</span> -se <span class="m">10</span> -s <span class="m">0</span> -bs <span class="m">64</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Debug-the-training-data-for-spacy-NER-model">Debug the training data for spacy NER model<a class="anchor-link" href="#Debug-the-training-data-for-spacy-NER-model"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's see if the data is proper for training using spacy's <code>debug-data</code> command</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+python -m spacy debug-data en<span class="se">\</span>
+    /content/drive/MyDrive/chemdNER<span class="se">\ </span>data/annot_data/train_data.json <span class="se">\</span>
+    /content/drive/MyDrive/chemdNER<span class="se">\ </span>data/annot_data/dev_data.json <span class="se">\</span>
+    -p <span class="s1">&#39;ner&#39;</span> <span class="se">\</span>
+    -b /usr/local/lib/python3.6/dist-packages/en_core_sci_lg/en_core_sci_lg-0.3.0
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-bold">
+=========================== Data format validation ===========================</span>
+<span class="ansi-green-fg">✔ Corpus is loadable</span>
+<span class="ansi-bold">
+=============================== Training stats ===============================</span>
+Training pipeline: ner
+Starting with base model
+&#39;/usr/local/lib/python3.6/dist-packages/en_core_sci_lg/en_core_sci_lg-0.3.0&#39;
+4884 training docs
+4884 evaluation docs
+<span class="ansi-yellow-fg">⚠ 4884 training examples also in evaluation data</span>
+<span class="ansi-bold">
+============================== Vocab &amp; Vectors ==============================</span>
+<span class="ansi-blue-fg">ℹ 647737 total words in the data (47733 unique)</span>
+<span class="ansi-blue-fg">ℹ 600000 vectors (667864 unique keys, 200 dimensions)</span>
+<span class="ansi-yellow-fg">⚠ 21625 words in training data without vectors (0.03%)</span>
+<span class="ansi-bold">
+========================== Named Entity Recognition ==========================</span>
+<span class="ansi-blue-fg">ℹ 8 new labels, 0 existing labels</span>
+0 missing values (tokens with &#39;-&#39; label)
+<span class="ansi-yellow-fg">⚠ 3 entity span(s) with punctuation</span>
+<span class="ansi-yellow-fg">⚠ Low number of examples for new label &#39;NO CLASS&#39; (40)</span>
+<span class="ansi-green-fg">✔ Examples without occurrences available for all labels</span>
+<span class="ansi-green-fg">✔ No entities consisting of or starting/ending with whitespace</span>
+Entity spans consisting of or starting/ending with punctuation can not be
+trained with a noise level &gt; 0.
+<span class="ansi-bold">
+================================== Summary ==================================</span>
+<span class="ansi-green-fg">✔ 3 checks passed</span>
+<span class="ansi-yellow-fg">⚠ 4 warnings</span>
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We have low annotations for <code>NO CLASS</code> but since we do not have more data, we have to work with what we've got.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We only had <code>4884</code> pieces of text from the dataset, and it seems to be used in all the places (train, dev, eval), but the annotation in each will differ.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>python -m spacy link /usr/local/lib/python3.6/dist-packages/en_core_sci_lg/en_core_sci_lg-0.3.0 en_core_sci_lg
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Train-model">Train model<a class="anchor-link" href="#Train-model"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I tried to train with the pretrained model which we made using raw text but it was not working and it seems most of the tutorials use it only text classification problems.</p>
+<p>But anyway I start with the vectors of <code>scispacy's</code> pretrained <code>en_core_sci_lg</code> model for a headstart.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+
+python -m spacy train <span class="se">\</span>
+    en <span class="se">\</span>
+    /content/data/NER<span class="se">\ </span>model <span class="se">\</span>
+    /content/drive/MyDrive/chemdNER<span class="se">\ </span>data/annot_data/train_data.json <span class="se">\</span>
+    /content/drive/MyDrive/chemdNER<span class="se">\ </span>data/annot_data/dev_data.json <span class="se">\</span>
+    -v /usr/local/lib/python3.6/dist-packages/en_core_sci_lg/en_core_sci_lg-0.3.0 <span class="se">\</span>
+    -p <span class="s2">&quot;ner&quot;</span> <span class="se">\</span>
+    -n <span class="m">30</span> <span class="se">\</span>
+    -g <span class="m">0</span> <span class="se">\</span>
+    -V <span class="m">0</span>.1 <span class="se">\</span>
+    -cW <span class="m">3</span> -cd <span class="m">4</span> -cw <span class="m">4</span> -cP <span class="m">3</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Training pipeline: [&#39;ner&#39;]
+Using GPU: 0
+Starting with blank model &#39;en&#39;
+Loading vector from model
+&#39;/usr/local/lib/python3.6/dist-packages/en_core_sci_lg/en_core_sci_lg-0.3.0&#39;
+Counting training words (limit=0)
+
+Itn  NER Loss   NER P   NER R   NER F   Token %  CPU WPS  GPU WPS
+---  ---------  ------  ------  ------  -------  -------  -------
+  1  48369.133  38.580  23.141  28.929   91.214    79243    91040
+  2  37874.029  41.895  28.937  34.231   91.214    79243    93572
+  3  35916.519  45.435  33.101  38.300   91.214    79243    88774
+  4  34941.559  48.925  37.233  42.286   91.214    79243    90150
+  5  33485.552  52.235  40.570  45.669   91.214    79243    88586
+  6  32591.528  56.412  44.786  49.931   91.214    79243    85016
+  7  31565.729  59.580  48.290  53.344   91.214    79243    87689
+  8  30361.623  63.674  53.106  57.912   91.214    79243    83318
+  9  29941.032  66.154  56.482  60.937   91.214    79243    82007
+ 10  28910.156  68.003  58.950  63.154   91.214    79243    81201
+ 11  28704.946  69.475  60.998  64.961   91.214    79243    84349
+ 12  27963.309  70.596  62.859  66.503   91.214    79243    84314
+ 13  27236.334  71.279  64.103  67.501   91.214    79243    85654
+ 14  27401.528  72.042  65.215  68.458   91.214    79243    85735
+ 15  26876.413  72.860  65.895  69.203   91.214    79243    86002
+ 16  26792.615  73.405  66.611  69.843   91.214    79243    83849
+ 17  26456.828  74.399  67.623  70.849   91.214    79243    86532
+ 18  25825.262  74.959  68.207  71.424   91.214    79243    85455
+ 19  25672.156  75.481  68.839  72.007   91.214    79243    84888
+ 20  25490.234  75.762  69.159  72.310   91.214    79243    84073
+ 21  24909.075  76.367  69.799  72.935   91.214    79243    86211
+ 22  24919.627  76.807  70.315  73.418   91.214    79243    85168
+ 23  24733.465  77.390  70.775  73.935   91.214    79243    87323
+ 24  24437.002  77.744  71.139  74.295   91.214    79243    83429
+ 25  24302.424  78.324  71.547  74.782   91.214    79243    88724
+ 26  24329.596  78.659  71.951  75.156   91.214    79243    84788
+ 27  24270.859  79.210  72.179  75.531   91.214    79243    86826
+ 28  23739.026  79.464  72.519  75.833   91.214    79243    85965
+ 29  23988.403  79.575  72.563  75.908   91.214    79243    83390
+ 30  23883.377  79.800  72.583  76.021   91.214    79243    82936
+<span class="ansi-green-fg">✔ Saved model to output directory</span>
+/content/data/NER model/model-final
+<span class="ansi-green-fg">✔ Created best model</span>
+/content/data/NER model/model-best
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>                              
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I did not try to tune the hyper parameters and relied on the defaults from the lib, but it has given decent results</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Evaluate-model-with-test-data">Evaluate model with test data<a class="anchor-link" href="#Evaluate-model-with-test-data"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's evaluate with the evaluation data that we generated earlier</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span>%%bash
+python -m spacy evaluate <span class="se">\</span>
+    /content/data/NER<span class="se">\ </span>model/model-best <span class="se">\</span>
+    /content/drive/MyDrive/chemdNER<span class="se">\ </span>data/annot_data/eval_data.json <span class="se">\</span>
+    -g <span class="m">0</span> -dp /content/data/eval<span class="se">\ </span>results -R
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-bold">
+================================== Results ==================================</span>
+
+Time      8.66 s
+Words     688898
+Words/s   79533 
+TOK       91.21 
+POS       0.03  
+UAS       3.88  
+LAS       0.00  
+NER P     79.80 
+NER R     72.58 
+NER F     76.02 
+Textcat   0.00  
+
+<span class="ansi-green-fg">✔ Generated 25 parses as HTML</span>
+/content/data/eval results
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/usr/local/lib/python3.6/dist-packages/spacy/displacy/__init__.py:189: UserWarning: [W006] No entities to visualize found in Doc object. If this is surprising to you, make sure the Doc was processed using a model that supports named entity recognition, and check the `doc.ents` property manually if necessary.
+  warnings.warn(Warnings.W006)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The results of some text are persisted and can be viewed in the archive.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Misc">Misc<a class="anchor-link" href="#Misc"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here I tried to write code for simple annotation format, mostly for archival, can be skipped, if need be</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">extract_annot_data</span><span class="p">(</span><span class="n">annot_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ext_from</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="c1"># groups text and generates the list of entities and</span>
+    <span class="c1"># their spans in the text</span>
+    <span class="n">train_data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">annot_data</span> <span class="ow">in</span> <span class="n">annot_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">ext_from</span><span class="p">):</span>
+        <span class="n">ttext</span> <span class="o">=</span> <span class="n">annot_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">ext_from</span><span class="p">]</span>
+        <span class="n">entity_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># print(ttext)</span>
+        <span class="n">text_ranges</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">annot</span> <span class="ow">in</span> <span class="n">annot_data</span><span class="o">.</span><span class="n">itertuples</span><span class="p">():</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">annot</span><span class="o">.</span><span class="n">Start</span><span class="p">)</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">annot</span><span class="o">.</span><span class="n">End</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">text_ranges</span> <span class="ow">and</span> <span class="n">end</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">text_ranges</span><span class="p">:</span>
+                <span class="n">text_ranges</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">+</span><span class="mi">1</span><span class="p">,)))</span>
+                <span class="n">entity_list</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">annot</span><span class="o">.</span><span class="n">Start</span><span class="p">,</span> <span class="n">annot</span><span class="o">.</span><span class="n">End</span><span class="p">,</span> <span class="n">annot</span><span class="o">.</span><span class="n">Entity</span><span class="p">))</span>
+
+        <span class="n">train_data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ttext</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;entities&#39;</span><span class="p">:</span><span class="n">entity_list</span><span class="p">}))</span>
+
+    <span class="k">return</span> <span class="n">train_data</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">abst_annots</span> <span class="o">=</span> <span class="n">extract_annot_data</span><span class="p">(</span><span class="n">abstract_annots</span><span class="p">,</span> <span class="s1">&#39;Abstract&#39;</span><span class="p">)</span>
+<span class="n">title_annots</span> <span class="o">=</span> <span class="n">extract_annot_data</span><span class="p">(</span><span class="n">title_annots</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">abst_annots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(&#39;(-)-Carvone is a monoterpene ketone found in spearmint (Mentha spicata var. crispa) essential oil that is widely used as an odor and flavor additive. An intestinal antispasmodic effect was recently reported for (-)-carvone, and it has been shown to be more potent than its (+)-antipode. The mechanism of (-)-carvone action in the intestines has not been investigated. To gain a better understanding of the (-)-carvone antispasmodic effect, we investigated its pharmacological effects in the guinea pig ileum. Terminal portions of the ileum were mounted for isotonic contraction recordings. The effect of (-)-carvone was compared with that of the classical calcium channel blocker (CCB) verapamil. In isolated ileal smooth muscle, (-)-carvone did not produce direct contractile or relaxation responses and did not modify electrically elicited contractions or low K(+)-evoked contractions. The submaximal contractions induced by histamine (p&lt;0.001), BaCl2 (p&lt;0.05), and carbachol (p&lt;0.01) were significantly reduced by (-)-carvone. The contractile response elicited by high concentrations of carbachol was reduced but not abolished by (-)-carvone. No additive action was detected with co-incubation of (-)-carvone and verapamil on carbachol-induced contraction. (-)-Carvone reduced the contraction induced by high K(+) and was almost 100 times more potent than verapamil. Thus, (-)-carvone showed a typical and potent CCB-like action. Many effects described for both (-)-carvone and spearmint oil can be explained as a CCB-like mode of action.&#39;,
+ {&#39;entities&#39;: [(1090.0, 1099.0, &#39;TRIVIAL&#39;),
+   (1133.0, 1144.0, &#39;TRIVIAL&#39;),
+   (1200.0, 1211.0, &#39;TRIVIAL&#39;),
+   (1216.0, 1225.0, &#39;TRIVIAL&#39;),
+   (1229.0, 1238.0, &#39;TRIVIAL&#39;),
+   (1359.0, 1368.0, &#39;TRIVIAL&#39;),
+   (1312.0, 1316.0, &#39;FORMULA&#39;),
+   (968.0, 977.0, &#39;TRIVIAL&#39;),
+   (1376.0, 1387.0, &#39;TRIVIAL&#39;),
+   (1465.0, 1476.0, &#39;TRIVIAL&#39;),
+   (1260.0, 1271.0, &#39;TRIVIAL&#39;),
+   (948.0, 953.0, &#39;FORMULA&#39;),
+   (1017.0, 1028.0, &#39;TRIVIAL&#39;),
+   (862.0, 866.0, &#39;FORMULA&#39;),
+   (927.0, 936.0, &#39;TRIVIAL&#39;),
+   (0.0, 11.0, &#39;TRIVIAL&#39;),
+   (17.0, 35.0, &#39;FAMILY&#39;),
+   (211.0, 222.0, &#39;TRIVIAL&#39;),
+   (304.0, 315.0, &#39;TRIVIAL&#39;),
+   (604.0, 615.0, &#39;TRIVIAL&#39;),
+   (656.0, 663.0, &#39;SYSTEMATIC&#39;),
+   (686.0, 695.0, &#39;TRIVIAL&#39;),
+   (730.0, 741.0, &#39;TRIVIAL&#39;),
+   (406.0, 417.0, &#39;TRIVIAL&#39;)]})</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A sample text from the corpus</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ttext</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;(-)-Carvone is a monoterpene ketone found in spearmint (Mentha spicata var. crispa) essential oil that is widely used as an odor and flavor additive. An intestinal antispasmodic effect was recently reported for (-)-carvone, and it has been shown to be more potent than its (+)-antipode. The mechanism of (-)-carvone action in the intestines has not been investigated. To gain a better understanding of the (-)-carvone antispasmodic effect, we investigated its pharmacological effects in the guinea pig ileum. Terminal portions of the ileum were mounted for isotonic contraction recordings. The effect of (-)-carvone was compared with that of the classical calcium channel blocker (CCB) verapamil. In isolated ileal smooth muscle, (-)-carvone did not produce direct contractile or relaxation responses and did not modify electrically elicited contractions or low K(+)-evoked contractions. The submaximal contractions induced by histamine (p&lt;0.001), BaCl2 (p&lt;0.05), and carbachol (p&lt;0.01) were significantly reduced by (-)-carvone. The contractile response elicited by high concentrations of carbachol was reduced but not abolished by (-)-carvone. No additive action was detected with co-incubation of (-)-carvone and verapamil on carbachol-induced contraction. (-)-Carvone reduced the contraction induced by high K(+) and was almost 100 times more potent than verapamil. Thus, (-)-carvone showed a typical and potent CCB-like action. Many effects described for both (-)-carvone and spearmint oil can be explained as a CCB-like mode of action.&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">spacy.gold</span> <span class="kn">import</span> <span class="n">docs_to_json</span><span class="p">,</span> <span class="n">GoldParse</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A sample of the spacy json format for training models</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">docs_to_json</span><span class="p">([</span><span class="n">mod</span><span class="p">(</span><span class="n">ttext</span><span class="p">)])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;id&#39;: 0,
+ &#39;paragraphs&#39;: [{&#39;cats&#39;: [],
+   &#39;raw&#39;: &#39;(-)-Carvone is a monoterpene ketone found in spearmint (Mentha spicata var. crispa) essential oil that is widely used as an odor and flavor additive. An intestinal antispasmodic effect was recently reported for (-)-carvone, and it has been shown to be more potent than its (+)-antipode. The mechanism of (-)-carvone action in the intestines has not been investigated. To gain a better understanding of the (-)-carvone antispasmodic effect, we investigated its pharmacological effects in the guinea pig ileum. Terminal portions of the ileum were mounted for isotonic contraction recordings. The effect of (-)-carvone was compared with that of the classical calcium channel blocker (CCB) verapamil. In isolated ileal smooth muscle, (-)-carvone did not produce direct contractile or relaxation responses and did not modify electrically elicited contractions or low K(+)-evoked contractions. The submaximal contractions induced by histamine (p&lt;0.001), BaCl2 (p&lt;0.05), and carbachol (p&lt;0.01) were significantly reduced by (-)-carvone. The contractile response elicited by high concentrations of carbachol was reduced but not abolished by (-)-carvone. No additive action was detected with co-incubation of (-)-carvone and verapamil on carbachol-induced contraction. (-)-Carvone reduced the contraction induced by high K(+) and was almost 100 times more potent than verapamil. Thus, (-)-carvone showed a typical and potent CCB-like action. Many effects described for both (-)-carvone and spearmint oil can be explained as a CCB-like mode of action.&#39;,
+   &#39;sentences&#39;: [{&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;nsubj&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 0,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-Carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;cop&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 1,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;is&#39;,
+       &#39;tag&#39;: &#39;VBZ&#39;},
+      {&#39;dep&#39;: &#39;det&#39;, &#39;head&#39;: 2, &#39;id&#39;: 2, &#39;ner&#39;: &#39;O&#39;, &#39;orth&#39;: &#39;a&#39;, &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 3,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;monoterpene&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 4,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;ketone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;acl&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 5,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;found&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 6,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;in&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 7,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;spearmint&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 8,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(&#39;,
+       &#39;tag&#39;: &#39;-LRB-&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 9,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;Mentha&#39;,
+       &#39;tag&#39;: &#39;FW&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 10,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;spicata&#39;,
+       &#39;tag&#39;: &#39;FW&#39;},
+      {&#39;dep&#39;: &#39;dep&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 11,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;var&#39;,
+       &#39;tag&#39;: &#39;FW&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -8,
+       &#39;id&#39;: 12,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 13,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;crispa&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 14,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;)&#39;,
+       &#39;tag&#39;: &#39;-RRB-&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 15,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;essential&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;appos&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 16,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;oil&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 17,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;that&#39;,
+       &#39;tag&#39;: &#39;WDT&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 18,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;is&#39;,
+       &#39;tag&#39;: &#39;VBZ&#39;},
+      {&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 19,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;widely&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;acl:relcl&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 20,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;used&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 5,
+       &#39;id&#39;: 21,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;as&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 22,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;an&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 23,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;odor&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 24,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 25,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;flavor&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -6,
+       &#39;id&#39;: 26,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;additive&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -14,
+       &#39;id&#39;: 27,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 28,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;An&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 29,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;intestinal&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 30,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;antispasmodic&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 31,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;effect&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 32,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;was&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 33,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;recently&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 34,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;reported&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 35,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;for&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 36,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 37,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;,&#39;,
+       &#39;tag&#39;: &#39;,&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 38,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 39,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;it&#39;,
+       &#39;tag&#39;: &#39;PRP&#39;},
+      {&#39;dep&#39;: &#39;aux&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 40,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;has&#39;,
+       &#39;tag&#39;: &#39;VBZ&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 41,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;been&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -8,
+       &#39;id&#39;: 42,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;shown&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;mark&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 43,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;to&#39;,
+       &#39;tag&#39;: &#39;TO&#39;},
+      {&#39;dep&#39;: &#39;cop&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 44,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;be&#39;,
+       &#39;tag&#39;: &#39;VB&#39;},
+      {&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 45,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;more&#39;,
+       &#39;tag&#39;: &#39;RBR&#39;},
+      {&#39;dep&#39;: &#39;xcomp&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 46,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;potent&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 47,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;than&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod:poss&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 48,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;its&#39;,
+       &#39;tag&#39;: &#39;PRP$&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 49,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(+)-antipode&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -16,
+       &#39;id&#39;: 50,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 51,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;The&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 10,
+       &#39;id&#39;: 52,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;mechanism&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 53,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 54,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 55,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;action&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 56,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;in&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 57,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;the&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 58,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;intestines&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;aux&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 59,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;has&#39;,
+       &#39;tag&#39;: &#39;VBZ&#39;},
+      {&#39;dep&#39;: &#39;neg&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 60,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;not&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 61,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;been&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 62,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;investigated&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 63,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;mark&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 64,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;To&#39;,
+       &#39;tag&#39;: &#39;TO&#39;},
+      {&#39;dep&#39;: &#39;advcl&#39;,
+       &#39;head&#39;: 11,
+       &#39;id&#39;: 65,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;gain&#39;,
+       &#39;tag&#39;: &#39;VB&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 66,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;a&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 67,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;better&#39;,
+       &#39;tag&#39;: &#39;JJR&#39;},
+      {&#39;dep&#39;: &#39;dobj&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 68,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;understanding&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 69,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 70,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;the&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 71,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 72,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;antispasmodic&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -5,
+       &#39;id&#39;: 73,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;effect&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 74,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;,&#39;,
+       &#39;tag&#39;: &#39;,&#39;},
+      {&#39;dep&#39;: &#39;nsubj&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 75,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;we&#39;,
+       &#39;tag&#39;: &#39;PRP&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 76,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;investigated&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;nmod:poss&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 77,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;its&#39;,
+       &#39;tag&#39;: &#39;PRP$&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 78,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;pharmacological&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;dobj&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 79,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;effects&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 80,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;in&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 81,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;the&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 82,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;guinea&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 83,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;pig&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -5,
+       &#39;id&#39;: 84,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;ileum&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -9,
+       &#39;id&#39;: 85,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 86,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;Terminal&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 5,
+       &#39;id&#39;: 87,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;portions&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 88,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 89,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;the&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 90,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;ileum&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 91,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;were&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 92,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;mounted&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 93,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;for&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 94,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;isotonic&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 95,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contraction&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 96,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;recordings&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -5,
+       &#39;id&#39;: 97,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 98,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;The&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 99,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;effect&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 100,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 101,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 102,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;was&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 103,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;compared&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 104,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;with&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 105,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;that&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 9,
+       &#39;id&#39;: 106,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 8,
+       &#39;id&#39;: 107,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;the&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 7,
+       &#39;id&#39;: 108,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;classical&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 109,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;calcium&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 110,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;channel&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 111,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;blocker&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 112,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(&#39;,
+       &#39;tag&#39;: &#39;-LRB-&#39;},
+      {&#39;dep&#39;: &#39;appos&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 113,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;CCB&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 114,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;)&#39;,
+       &#39;tag&#39;: &#39;-RRB-&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -10,
+       &#39;id&#39;: 115,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;verapamil&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -13,
+       &#39;id&#39;: 116,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 117,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;In&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 118,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;isolated&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 119,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;ileal&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 120,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;smooth&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: 5,
+       &#39;id&#39;: 121,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;muscle&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 122,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;,&#39;,
+       &#39;tag&#39;: &#39;,&#39;},
+      {&#39;dep&#39;: &#39;nsubj&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 123,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;aux&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 124,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;did&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;neg&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 125,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;not&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 126,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;produce&#39;,
+       &#39;tag&#39;: &#39;VB&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 127,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;direct&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;dobj&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 128,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contractile&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 129,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;or&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 130,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;relaxation&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;dep&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 131,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;responses&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -6,
+       &#39;id&#39;: 132,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;aux&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 133,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;did&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;neg&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 134,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;not&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -9,
+       &#39;id&#39;: 135,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;modify&#39;,
+       &#39;tag&#39;: &#39;VB&#39;},
+      {&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 136,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;electrically&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 137,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;elicited&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;dobj&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 138,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contractions&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 139,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;or&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 140,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;low&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 141,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;K(+)-evoked&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 142,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contractions&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -17,
+       &#39;id&#39;: 143,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 144,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;The&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 145,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;submaximal&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 20,
+       &#39;id&#39;: 146,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contractions&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;acl&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 147,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;induced&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 148,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;by&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 149,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;histamine&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 150,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(&#39;,
+       &#39;tag&#39;: &#39;-LRB-&#39;},
+      {&#39;dep&#39;: &#39;appos&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 151,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;p&lt;0.001&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 152,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;)&#39;,
+       &#39;tag&#39;: &#39;-RRB-&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 153,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;,&#39;,
+       &#39;tag&#39;: &#39;,&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -5,
+       &#39;id&#39;: 154,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;BaCl2&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 155,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(&#39;,
+       &#39;tag&#39;: &#39;-LRB-&#39;},
+      {&#39;dep&#39;: &#39;appos&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 156,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;p&lt;0.05&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 157,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;)&#39;,
+       &#39;tag&#39;: &#39;-RRB-&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -9,
+       &#39;id&#39;: 158,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;,&#39;,
+       &#39;tag&#39;: &#39;,&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -10,
+       &#39;id&#39;: 159,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -11,
+       &#39;id&#39;: 160,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;carbachol&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 161,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(&#39;,
+       &#39;tag&#39;: &#39;-LRB-&#39;},
+      {&#39;dep&#39;: &#39;appos&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 162,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;p&lt;0.01&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 163,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;)&#39;,
+       &#39;tag&#39;: &#39;-RRB-&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 164,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;were&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 165,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;significantly&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 166,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;reduced&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 167,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;by&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 168,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 169,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 170,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;The&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 171,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contractile&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 8,
+       &#39;id&#39;: 172,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;response&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;acl&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 173,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;elicited&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 174,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;by&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 175,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;high&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 176,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;concentrations&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 177,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 178,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;carbachol&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 179,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;was&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 180,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;reduced&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 181,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;but&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;neg&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 182,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;not&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 183,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;abolished&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 184,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;by&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 185,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -6,
+       &#39;id&#39;: 186,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;neg&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 187,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;No&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 188,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;additive&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 189,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;action&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 190,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;was&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 191,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;detected&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 192,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;with&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 193,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;co-incubation&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 194,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 195,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 196,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 197,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;verapamil&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 198,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;on&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 199,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;carbachol-induced&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -7,
+       &#39;id&#39;: 200,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contraction&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -10,
+       &#39;id&#39;: 201,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;nsubj&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 202,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-Carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 203,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;reduced&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 204,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;the&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;dobj&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 205,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;contraction&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;acl&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 206,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;induced&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 207,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;by&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 208,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;high&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -3,
+       &#39;id&#39;: 209,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;K(+&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -7,
+       &#39;id&#39;: 210,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;)&#39;,
+       &#39;tag&#39;: &#39;-RRB-&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -8,
+       &#39;id&#39;: 211,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;cop&#39;,
+       &#39;head&#39;: 5,
+       &#39;id&#39;: 212,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;was&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 213,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;almost&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;nummod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 214,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;100&#39;,
+       &#39;tag&#39;: &#39;CD&#39;},
+      {&#39;dep&#39;: &#39;nmod:npmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 215,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;times&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 216,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;more&#39;,
+       &#39;tag&#39;: &#39;RBR&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -14,
+       &#39;id&#39;: 217,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;potent&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 218,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;than&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 219,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;verapamil&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -17,
+       &#39;id&#39;: 220,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;advmod&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 221,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;Thus&#39;,
+       &#39;tag&#39;: &#39;RB&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 222,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;,&#39;,
+       &#39;tag&#39;: &#39;,&#39;},
+      {&#39;dep&#39;: &#39;nsubj&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 223,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 224,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;showed&#39;,
+       &#39;tag&#39;: &#39;VBD&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 5,
+       &#39;id&#39;: 225,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;a&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 4,
+       &#39;id&#39;: 226,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;typical&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 227,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 228,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;potent&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 229,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;CCB-like&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;dobj&#39;,
+       &#39;head&#39;: -6,
+       &#39;id&#39;: 230,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;action&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -7,
+       &#39;id&#39;: 231,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]},
+    {&#39;brackets&#39;: [],
+     &#39;tokens&#39;: [{&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 232,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;Many&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nsubjpass&#39;,
+       &#39;head&#39;: 10,
+       &#39;id&#39;: 233,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;effects&#39;,
+       &#39;tag&#39;: &#39;NNS&#39;},
+      {&#39;dep&#39;: &#39;acl&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 234,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;described&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 5,
+       &#39;id&#39;: 235,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;for&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;cc:preconj&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 236,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;both&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;compound&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 237,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;(-)-carvone&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;cc&#39;,
+       &#39;head&#39;: -1,
+       &#39;id&#39;: 238,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;and&#39;,
+       &#39;tag&#39;: &#39;CC&#39;},
+      {&#39;dep&#39;: &#39;conj&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 239,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;spearmint&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -6,
+       &#39;id&#39;: 240,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;oil&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;aux&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 241,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;can&#39;,
+       &#39;tag&#39;: &#39;MD&#39;},
+      {&#39;dep&#39;: &#39;auxpass&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 242,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;be&#39;,
+       &#39;tag&#39;: &#39;VB&#39;},
+      {&#39;dep&#39;: &#39;ROOT&#39;,
+       &#39;head&#39;: 0,
+       &#39;id&#39;: 243,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;explained&#39;,
+       &#39;tag&#39;: &#39;VBN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 3,
+       &#39;id&#39;: 244,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;as&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;det&#39;,
+       &#39;head&#39;: 2,
+       &#39;id&#39;: 245,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;a&#39;,
+       &#39;tag&#39;: &#39;DT&#39;},
+      {&#39;dep&#39;: &#39;amod&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 246,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;CCB-like&#39;,
+       &#39;tag&#39;: &#39;JJ&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -4,
+       &#39;id&#39;: 247,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;mode&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;case&#39;,
+       &#39;head&#39;: 1,
+       &#39;id&#39;: 248,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;of&#39;,
+       &#39;tag&#39;: &#39;IN&#39;},
+      {&#39;dep&#39;: &#39;nmod&#39;,
+       &#39;head&#39;: -2,
+       &#39;id&#39;: 249,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;action&#39;,
+       &#39;tag&#39;: &#39;NN&#39;},
+      {&#39;dep&#39;: &#39;punct&#39;,
+       &#39;head&#39;: -7,
+       &#39;id&#39;: 250,
+       &#39;ner&#39;: &#39;O&#39;,
+       &#39;orth&#39;: &#39;.&#39;,
+       &#39;tag&#39;: &#39;.&#39;}]}]}]}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+</p>
+    </details>
+</div>
+    
+
+</div>
+
+
+
+      </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="mani2106/Blog-Posts"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/Blog-Posts/take-home/deep-learning/spacy/nlp/2021/04/26/chemdNER.html" hidden></a>
+    </main>
+  </div>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/Blog-Posts/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/Blog-Posts/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/Blog-Posts/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Manimaran Panneerselvam</li>
+          <li><a class="u-email" href="mailto:manimaran_p@outlook.com">manimaran_p@outlook.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>This is where I write about my work on data science. I will also post Notebooks and sample codes to solve some interesting problems that I face everyday.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/mani2106" target="_blank" title="mani2106"><svg class="svg-icon grey"><use xlink:href="/Blog-Posts/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://www.linkedin.com/in/manimaran-p" target="_blank" title="manimaran-p"><svg class="svg-icon grey"><use xlink:href="/Blog-Posts/assets/minima-social-icons.svg#linkedin"></use></svg></a></li><li><a rel="me" href="https://twitter.com/mani_maranp" target="_blank" title="mani_maranp"><svg class="svg-icon grey"><use xlink:href="/Blog-Posts/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

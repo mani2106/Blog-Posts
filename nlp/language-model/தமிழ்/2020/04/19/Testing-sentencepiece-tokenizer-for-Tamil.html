@@ -4,22 +4,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Explaining prediction models and individual predictions | Manimaran Panneerselvam’s blog</title>
+<title>Testing out தமிழ் language tokenizer | Manimaran Panneerselvam’s blog</title>
 <meta name="generator" content="Jekyll v4.3.4" />
-<meta property="og:title" content="Explaining prediction models and individual predictions" />
+<meta property="og:title" content="Testing out தமிழ் language tokenizer" />
 <meta name="author" content="Manimaran Panneerselvam" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="The following script tries to reproduce one algorithm from the paper titled Explaining prediction models and individual predictions" />
-<meta property="og:description" content="The following script tries to reproduce one algorithm from the paper titled Explaining prediction models and individual predictions" />
-<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html" />
-<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html" />
+<meta name="description" content="In this notebook I test out the sentencepiece tokenizers built previously" />
+<meta property="og:description" content="In this notebook I test out the sentencepiece tokenizers built previously" />
+<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/nlp/language-model/%E0%AE%A4%E0%AE%AE%E0%AE%BF%E0%AE%B4%E0%AF%8D/2020/04/19/Testing-sentencepiece-tokenizer-for-Tamil.html" />
+<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/nlp/language-model/%E0%AE%A4%E0%AE%AE%E0%AE%BF%E0%AE%B4%E0%AF%8D/2020/04/19/Testing-sentencepiece-tokenizer-for-Tamil.html" />
 <meta property="og:site_name" content="Manimaran Panneerselvam’s blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-05-29T00:00:00+00:00" />
+<meta property="article:published_time" content="2020-04-19T00:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Explaining prediction models and individual predictions" />
+<meta property="twitter:title" content="Testing out தமிழ் language tokenizer" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Manimaran Panneerselvam"},"dateModified":"2021-05-29T00:00:00+00:00","datePublished":"2021-05-29T00:00:00+00:00","description":"The following script tries to reproduce one algorithm from the paper titled Explaining prediction models and individual predictions","headline":"Explaining prediction models and individual predictions","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html"},"url":"https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Manimaran Panneerselvam"},"dateModified":"2020-04-19T00:00:00+00:00","datePublished":"2020-04-19T00:00:00+00:00","description":"In this notebook I test out the sentencepiece tokenizers built previously","headline":"Testing out தமிழ் language tokenizer","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/nlp/language-model/%E0%AE%A4%E0%AE%AE%E0%AE%BF%E0%AE%B4%E0%AF%8D/2020/04/19/Testing-sentencepiece-tokenizer-for-Tamil.html"},"url":"https://mani2106.github.io/Blog-Posts/nlp/language-model/%E0%AE%A4%E0%AE%AE%E0%AE%BF%E0%AE%B4%E0%AF%8D/2020/04/19/Testing-sentencepiece-tokenizer-for-Tamil.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Panneerselvam&apos;s blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -170,29 +170,54 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Explaining prediction models and individual predictions</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-05-29T00:00:00+00:00" itemprop="datePublished">
-        May 29, 2021
+    <h1 class="post-title p-name" itemprop="name headline">Testing out தமிழ் language tokenizer</h1><p class="page-description">In this notebook I test out the sentencepiece tokenizers built previously</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-04-19T00:00:00+00:00" itemprop="datePublished">
+        Apr 19, 2020
       </time>
        • <span class="read-time" title="Estimated read time">
     
     
-      2 min read
+      4 min read
     
 </span></p>
 
     
       <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i>
       
-        <a class="category-tags-link" href="/Blog-Posts/categories/#take-home">take-home</a>
+        <a class="category-tags-link" href="/Blog-Posts/categories/#nlp">nlp</a>
         &nbsp;
       
-        <a class="category-tags-link" href="/Blog-Posts/categories/#Implementation">Implementation</a>
+        <a class="category-tags-link" href="/Blog-Posts/categories/#language-model">language-model</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#தமிழ்">தமிழ்</a>
         
       
       </p>
     
 
-    </header>
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/mani2106/Blog-Posts/tree/master/_notebooks/2020-04-19-Testing sentencepiece tokenizer for Tamil.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/Blog-Posts/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/mani2106/Blog-Posts/master?filepath=_notebooks%2F2020-04-19-Testing+sentencepiece+tokenizer+for+Tamil.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/Blog-Posts/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/mani2106/Blog-Posts/blob/master/_notebooks/2020-04-19-Testing sentencepiece tokenizer for Tamil.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/Blog-Posts/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
 
   <div class="post-container">
     <aside class="toc-sidebar">
@@ -1127,121 +1152,386 @@ window.onload = wrap_img;
     </aside>
     <main class="post-main">
       <div class="post-content e-content" itemprop="articleBody">
-        <p>The following script tries to reproduce one algorithm from the paper titled <code class="language-plaintext highlighter-rouge">Explaining prediction models and individual predictions</code></p>
+        <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-04-19-Testing sentencepiece tokenizer for Tamil.ipynb
+-->
 
-<p>You can have a look at the resultant json <a href="https://github.com/mani2106/Poshmark-assignment">here</a></p>
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can find the notebook in which I built the tokenizers <a href="https://www.kaggle.com/manimaranp/building-a-tokenizer-for-tamil-with-sentencepiece">here</a></p>
 
-<p>The json would have record level information of each feature and its impact on the prediction.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Introduction">Introduction<a class="anchor-link" href="#Introduction"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This notebook is intended to experiment with different tokenizers built previously, with varying <code>vocab_size</code> values like <code>8000</code>, <code>16000</code>, <code>20000</code>, <code>30000</code>, So how do we exactly test a <strong>tokenizer</strong>?, this brings us to why do we need a tokenizer in the first place.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">os</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">from</span> <span class="n">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="n">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">import</span> <span class="n">json</span><span class="p">,</span> <span class="n">joblib</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In <code>English</code> language we can easily find meaningful units of a sentence, by <strong>whitespaces</strong>. But it is not that easy in other languages, Like in <code>தமிழ்</code>, Consider the following sentence,</p>
 
-<span class="c1"># The feature importances for each data instance 
-# are calculated with four random samples drawn from the data
-# I also tried to use numba to compile to machine code but could
-# not achieve it
-</span>
-<span class="n">file_path</span> <span class="o">=</span> <span class="sh">'</span><span class="s">.</span><span class="sh">'</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>இந்த தொழிற்சாலை பணப்பற்றாக்குறை முதலான பல்வேறு இடைஞ்சல்களை தாண்டி 17 ஆண்டுகள் கழித்தே செயல்பாட்டுக்கு வந்துள்ளது.</strong>, this loosely translates to something like <strong>The factory has come in to operation after over 17 years of series of disruptions, including lack of cash.</strong></p>
 
-<span class="c1"># LOAD your model
-</span><span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="sh">'</span><span class="s">model_pipeline.joblib</span><span class="sh">'</span><span class="p">))</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We need to focus on the compound word <code>பணப்பற்றாக்குறை</code> which means <code>lack of cash</code>, that compound word is actually a combination of two words <code>பணம்</code> and <code>பற்றாக்குறை</code> representing <code>Cash</code> and <code>Deficiency/lack of</code> A tokenizer for <code>தமிழ்</code>, should split the words into two as mentioned above.</p>
 
-<span class="c1"># Bring in the data training and testing data
-</span><span class="n">X_train</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="sh">'</span><span class="s">train.csv</span><span class="sh">'</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">X_test</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="sh">'</span><span class="s">test.csv</span><span class="sh">'</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Since Tokenization is <code>the process of demarcating and possibly classifying sections of a string of input characters</code><sup>[1](https://en.wikipedia.org/wiki/Lexical_analysis#Tokenization)</sup> or in simple words identifying <strong>linguistically meaningful units</strong> <sup>[2](https://stackoverflow.com/questions/17314506/why-do-i-need-a-tokenizer-for-each-language)</sup> for further processing. We need it for a language model which essentially built to understand the language that it is built for.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Since we built the tokenizer in an <strong>unsupervised</strong><sup>[3](https://github.com/google/sentencepiece#sentencepiece)</sup> way, There are no numerical ways of gauging the efficiency of the tokenization (AFAIK), so we are left with to try and tokenize some random sentences with the model, and check the tokenizer ourselves.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Sentences-for-testing-tokenization">Sentences for testing tokenization<a class="anchor-link" href="#Sentences-for-testing-tokenization"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I have chosen some sentences at random, Check the comments above each for their translation in <code>English</code>.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># Sita is a mischievous girl</span>
+    <span class="s1">&#39;சீதா ஒரு குறும்பு பெண்&#39;</span><span class="p">,</span>
+    <span class="c1"># I remember my childhood</span>
+    <span class="s1">&#39;எனக்கு என் குழந்தைப் பருவம் நினைவிருக்கிறது&#39;</span><span class="p">,</span>
+    <span class="c1"># India has successfully tested the Agni-5 missile for the fourth time from Abdul Kalam Island (Wheeler Island) in Odisha.</span>
+    <span class="s1">&#39;இந்தியா அக்னி-5 வகை ஏவுகணையை நான்காவது முறையாக வெற்றிகரமாக ஒடிசாவிலுள்ள அப்துல் கலாம் தீவிலிருந்து (வீலர் தீவு) சோதித்தது.&#39;</span><span class="p">,</span>
+    <span class="c1"># The European Union&#39;s Galileo satellite system is in operation. It is believed to be the world&#39;s most accurate high-precision positioning system.</span>
+    <span class="s1">&#39;ஐரோப்பிய ஒன்றியத்தின் கலிலியோ செயற்கைகோள் அமைப்பு செயல்பாட்டுக்கு வந்துள்ளது. இது உலகின் மிக துல்லியமான செய்மதி இடஞ்சுட்டலாக இருக்கும் என நம்பப்படுகிறது.&#39;</span><span class="p">,</span>
+    <span class="c1"># The factory has come in to operation after over 17 years of series of disruptions, including lack of cash.</span>
+    <span class="s1">&#39;இந்த தொழிற்சாலை பணபற்றாக்குறை முதலான பல்வேறு இடைஞ்சல்களை தாண்டி 17 ஆண்டுகள் கழித்தே செயல்பாட்டுக்கு வந்துள்ளது.&#39;</span><span class="p">,</span>
+    <span class="c1"># Citizens, witnesses and warriors mourn the death of their king. It is up to the department to regret any loss.</span>
+    <span class="s1">&#39;தம் மன்னன் இறந்ததற்கு குடிமக்களும் சான்றோரும் வீரர்களும் வருந்திப் பாடுவது கையறுநிலை என்னும் துறையாகும். எந்த இழப்பையும் எண்ணி வருந்துவது கையறுநிலைத் துறைக்குரியது.&#39;</span><span class="p">,</span>
+    <span class="c1"># The Poems from Sangam Tamil Literature portrays the trading feats of early Tamilian,Tamilians traded across seas and other countries</span>
+    <span class="s1">&#39;சங்கத்தமிழ்க் கவிதைகள் பழந்தமிழர்தம் வணிகச்சிறப்பைப் பறைசாற்றி நிற்கின்றன. தமிழர் கடல்கடந்து, அயல்நாடுகளிலும் வணிகம் செய்தனர் என்ற செய்திகளைச் சங்கப்பாடல்கள்வழி அறிகின்றோம்.&#39;</span><span class="p">,</span>
+    <span class="c1"># Everyone stood up to call for a national flag at a school event.</span>
+    <span class="s1">&#39;பள்ளி நிகழ்ச்சி ஒன்றில் தேசியக் கொடி ஏற்றுமாறு அழைக்க அவரும் எழுந்தார் அனைவரும் எழுந்து நின்றனர்&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's try to tokenize each one of them.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Begin-Experimentation">Begin Experimentation<a class="anchor-link" href="#Begin-Experimentation"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Initial-setup">Initial setup<a class="anchor-link" href="#Initial-setup"> </a></h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">sentencepiece</span> <span class="k">as</span> <span class="nn">spm</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">IPython.core.display</span> <span class="kn">import</span> <span class="n">display</span><span class="p">,</span> <span class="n">HTML</span>
+<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">Template</span>
+
+<span class="n">sp</span> <span class="o">=</span> <span class="n">spm</span><span class="o">.</span><span class="n">SentencePieceProcessor</span><span class="p">()</span>
+
+<span class="n">TOK_PATH</span> <span class="o">=</span> <span class="s1">&#39;/kaggle/input/building-a-tokenizer-for-tamil-with-sentencepiece/tokenizer&#39;</span>
+
+<span class="n">MODEL_PATHS</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">Path</span><span class="p">(</span><span class="n">TOK_PATH</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.model&#39;</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Sentence-Tokenization">Sentence Tokenization<a class="anchor-link" href="#Sentence-Tokenization"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I will try to comment on the tokenization with a limited knowledge of தமிழ் grammar, I will refer to the model by the vocab size they are built with (ie) 8000, 16000, 20000, 30000</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First sentence <code>சீதா ஒரு குறும்பு பெண்</code></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokenize_and_display_results</span><span class="p">(</span><span class="n">sentences</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
 
 
-<span class="c1"># TODO try to complete numba usage
-# @numba.jit(nopython=True)
-</span><span class="k">def</span> <span class="nf">shuffle_feature_records</span><span class="p">(</span>
-    <span class="n">full_data</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">,</span>
-    <span class="n">feature_data</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">,</span>
-    <span class="n">feature_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">]:</span>
-    <span class="sh">"""</span><span class="s">
-    Randomly selects `m` no of records to compare and calculate feature importances
-    </span><span class="sh">"""</span>
-    <span class="n">feat_len</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">feature_data</span><span class="p">)</span>
-    <span class="n">feature_indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">feat_len</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">)</span>
-    <span class="c1"># take random indices
-</span>    <span class="n">rand_indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">choice</span><span class="p">(</span><span class="n">full_data</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class="output_html rendered_html output_subarea ">
+<table><tr><td>tok_30000_size</td> <td>▁சீதா</td><td>▁ஒரு</td><td>▁குறும்ப</td><td>ு</td><td>▁பெண்</td></tr><tr><td>tok_20000_size</td> <td>▁சீதா</td><td>▁ஒரு</td><td>▁குறும்ப</td><td>ு</td><td>▁பெண்</td></tr><tr><td>tok_8000_size</td> <td>▁சீதா</td><td>▁ஒரு</td><td>▁குறு</td><td>ம்பு</td><td>▁பெண்</td></tr><tr><td>tok_16000_size</td> <td>▁சீதா</td><td>▁ஒரு</td><td>▁குறும்ப</td><td>ு</td><td>▁பெண்</td></tr></table>
+</div>
 
-    <span class="c1"># take random samples
-</span>    <span class="n">w</span> <span class="o">=</span> <span class="n">full_data</span><span class="p">[</span><span class="n">rand_indices</span><span class="p">]</span>
+</div>
 
-    <span class="n">b1_vec</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">empty</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">feat_len</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nb">object</span><span class="p">)</span>
-    <span class="n">b2_vec</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">empty</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">feat_len</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nb">object</span><span class="p">)</span>
+</div>
+</div>
 
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+</div>
+    
 
-        <span class="n">del_index</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">argwhere</span><span class="p">(</span><span class="n">feature_indices</span><span class="o">==</span><span class="n">feature_index</span><span class="p">)</span>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>குறும்பு</code> is actually not a compound word, so I think apart from the model with <code>8000</code> size all other models got it right.</p>
 
-        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="n">feature_indices</span><span class="p">,</span> <span class="n">del_index</span><span class="p">)</span>
-        <span class="c1"># remove current feature index to add later
-</span>        <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">shuffle</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next sentence <code>எனக்கு என் குழந்தைப் பருவம் நினைவிருக்கிறது</code></p>
 
-        <span class="n">split_pt</span> <span class="o">=</span> <span class="n">indices</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-        <span class="c1"># split indices for 2 different vectors
-</span>        <span class="n">ind_x</span><span class="p">,</span> <span class="n">ind_w</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[:</span><span class="n">split_pt</span><span class="p">],</span> <span class="n">indices</span><span class="p">[</span><span class="n">split_pt</span><span class="p">:]</span>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokenize_and_display_results</span><span class="p">(</span><span class="n">sentences</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
 
-        <span class="c1"># form the indices for b1 and b2 vectors
-</span>        <span class="n">ind_x_1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">ind_x</span><span class="p">,</span> <span class="n">feature_index</span><span class="p">)</span>
-        <span class="n">ind_w_1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">ind_w</span><span class="p">,</span> <span class="n">feature_index</span><span class="p">)</span>
+    </div>
+</div>
+</div>
 
-        <span class="c1"># to ensure the features are assigned in the order of training data
-</span>        <span class="n">b1_sort_indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">argsort</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">ind_x</span><span class="p">,</span> <span class="n">ind_w_1</span><span class="p">))</span>
-        <span class="n">b2_sort_indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">argsort</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">ind_x_1</span><span class="p">,</span> <span class="n">ind_w</span><span class="p">))</span>
+<div class="output_wrapper">
+<div class="output">
 
-        <span class="n">b1_vec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">((</span><span class="n">feature_data</span><span class="p">[</span><span class="n">ind_x</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ind_w_1</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="n">b1_sort_indices</span><span class="p">]</span>
-        <span class="n">b2_vec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">((</span><span class="n">feature_data</span><span class="p">[</span><span class="n">ind_x_1</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ind_w</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="n">b2_sort_indices</span><span class="p">]</span>
-
-    <span class="n">arrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">b1_vec</span><span class="p">,</span> <span class="n">b2_vec</span><span class="p">]</span>
-
-    <span class="k">return</span> <span class="n">arrs</span>
-
-<span class="k">def</span> <span class="nf">get_feat_imp_data</span><span class="p">(</span>
-    <span class="n">model</span><span class="p">:</span> <span class="n">Pipeline</span><span class="p">,</span>
-    <span class="n">X_train</span><span class="p">:</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">,</span>
-    <span class="n">X_test</span><span class="p">:</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="sh">"""</span><span class="s">
-    Loops over the available data and sends them for calculation
-    </span><span class="sh">"""</span>
-    <span class="c1"># Get features for 100 records
-</span>    <span class="n">tr_data</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">X_train</span><span class="p">[</span><span class="sh">'</span><span class="s">id</span><span class="sh">'</span><span class="p">].</span><span class="nf">isin</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">101</span><span class="p">))].</span><span class="nf">copy</span><span class="p">()</span>
-    <span class="n">te_data</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="n">X_test</span><span class="p">[</span><span class="sh">'</span><span class="s">id</span><span class="sh">'</span><span class="p">].</span><span class="nf">isin</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">101</span><span class="p">))].</span><span class="nf">copy</span><span class="p">()</span>
-
-    <span class="c1"># join all the data
-</span>    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">concat</span><span class="p">([</span><span class="n">tr_data</span><span class="p">,</span> <span class="n">te_data</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="sh">'</span><span class="s">rows</span><span class="sh">'</span><span class="p">)</span>
-
-    <span class="n">cols</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">columns</span><span class="p">.</span><span class="nf">tolist</span><span class="p">()</span>
-
-    <span class="n">feat_imp</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="c1"># send them one by one to calculate
-</span>    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">.</span><span class="n">values</span><span class="p">:</span>
-        <span class="n">col_imp</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">feat_index</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-            <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span> <span class="o">=</span> <span class="nf">shuffle_feature_records</span><span class="p">(</span><span class="n">X_train</span><span class="p">.</span><span class="n">values</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">feature_index</span><span class="o">=</span><span class="n">feat_index</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-            <span class="n">b1</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
-            <span class="n">b2</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">b2</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
-            <span class="n">b1_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span>
-            <span class="n">b2_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">b2</span><span class="p">)</span>
-            <span class="n">col_imp</span><span class="p">[</span><span class="n">cols</span><span class="p">[</span><span class="n">feat_index</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">b1_pred</span> <span class="o">-</span> <span class="n">b2_pred</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span>
-
-        <span class="n">feat_imp</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">col_imp</span>
-
-    <span class="k">return</span> <span class="n">feat_imp</span>
+<div class="output_area">
 
 
-<span class="n">feats</span> <span class="o">=</span> <span class="nf">get_feat_imp_data</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">)</span>
+<div class="output_html rendered_html output_subarea ">
+<table><tr><td>tok_30000_size</td> <td>▁எனக்கு</td><td>▁என்</td><td>▁குழந்தைப்</td><td>▁பருவம்</td><td>▁நினைவ</td><td>ிருக்கிறது</td></tr><tr><td>tok_20000_size</td> <td>▁எனக்கு</td><td>▁என்</td><td>▁குழந்தைப்</td><td>▁பருவம்</td><td>▁நினைவ</td><td>ிருக்கிறது</td></tr><tr><td>tok_8000_size</td> <td>▁என</td><td>க்கு</td><td>▁என்</td><td>▁குழந்தை</td><td>ப்</td><td>▁பருவ</td><td>ம்</td><td>▁நினைவ</td><td>ிருக்கிறது</td></tr><tr><td>tok_16000_size</td> <td>▁எனக்கு</td><td>▁என்</td><td>▁குழந்தை</td><td>ப்</td><td>▁பருவம்</td><td>▁நினைவ</td><td>ிருக்கிறது</td></tr></table>
+</div>
 
-<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">'</span><span class="s">feat_imps_1.json</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">w</span><span class="sh">'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">json</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="n">feats</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
-</code></pre></div></div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this sentence <code>I remember my childhood</code> the model with <code>20000</code> and <code>30000</code> got the tokenization right.
+<code>16000</code> was just close, because the letter <code>ப்</code> does not have a meaning on it's own.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next sentence <code>இந்தியா அக்னி-5 வகை ஏவுகணையை நான்காவது முறையாக வெற்றிகரமாக ஒடிசாவிலுள்ள அப்துல் கலாம் தீவிலிருந்து (வீலர் தீவு) சோதித்தது.</code></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokenize_and_display_results</span><span class="p">(</span><span class="n">sentences</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table><tr><td>tok_30000_size</td> <td>▁இந்தியா</td><td>▁அக்னி</td><td>-</td><td>5</td><td>▁வகை</td><td>▁ஏவுகணை</td><td>யை</td><td>▁நான்காவது</td><td>▁முறையாக</td><td>▁வெற்றிகரமாக</td><td>▁ஒடிசாவில</td><td>ுள்ள</td><td>▁அப்துல்</td><td>▁க</td><td>லாம்</td><td>▁தீ</td><td>விலிருந்து</td><td>▁</td><td>(</td><td>வீ</td><td>லர்</td><td>▁தீவு</td><td>)</td><td>▁சோதி</td><td>த்தது</td><td>.</td></tr><tr><td>tok_20000_size</td> <td>▁இந்தியா</td><td>▁அக்னி</td><td>-</td><td>5</td><td>▁வகை</td><td>▁ஏவுகணை</td><td>யை</td><td>▁நான்காவது</td><td>▁முறையாக</td><td>▁வெற்றிகரமாக</td><td>▁ஒடிசா</td><td>விலுள்ள</td><td>▁அப்துல்</td><td>▁க</td><td>லாம்</td><td>▁தீ</td><td>விலிருந்து</td><td>▁</td><td>(</td><td>வீ</td><td>லர்</td><td>▁தீவு</td><td>)</td><td>▁சோதி</td><td>த்தது</td><td>.</td></tr><tr><td>tok_8000_size</td> <td>▁இந்தியா</td><td>▁அக்</td><td>னி</td><td>-</td><td>5</td><td>▁வகை</td><td>▁ஏவுகணை</td><td>யை</td><td>▁நான்காவது</td><td>▁முறையாக</td><td>▁வெற்றிகரமாக</td><td>▁ஒடிசா</td><td>வ</td><td>ிலுள்ள</td><td>▁அப்துல்</td><td>▁க</td><td>லாம்</td><td>▁தீ</td><td>விலிருந்து</td><td>▁</td><td>(</td><td>வீ</td><td>லர்</td><td>▁தீவு</td><td>)</td><td>▁சோ</td><td>தி</td><td>த்தது</td><td>.</td></tr><tr><td>tok_16000_size</td> <td>▁இந்தியா</td><td>▁அக்னி</td><td>-</td><td>5</td><td>▁வகை</td><td>▁ஏவுகணை</td><td>யை</td><td>▁நான்காவது</td><td>▁முறையாக</td><td>▁வெற்றிகரமாக</td><td>▁ஒடிசா</td><td>விலுள்ள</td><td>▁அப்துல்</td><td>▁க</td><td>லாம்</td><td>▁தீ</td><td>விலிருந்து</td><td>▁</td><td>(</td><td>வீ</td><td>லர்</td><td>▁தீவு</td><td>)</td><td>▁சோதி</td><td>த்தது</td><td>.</td></tr></table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is interesting, We can probably say that <code>8000</code> vocab model is not doing so well. Looking at the others, both the <code>16000</code> vocab model and <code>20000</code> split <code>ஒடிசாவிலுள்ள</code> meaning to refer something <code>in Odisha</code> into <code>ஒடிசா</code> and <code>விலுள்ள</code>, I think the right split is <code>ஒடிசாவில்</code> and <code>உள்ள</code>, which the <code>30000</code> got right.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next Sentence</p>
+<p><code>ஐரோப்பிய ஒன்றியத்தின் கலிலியோ செயற்கைகோள் அமைப்பு
+செயல்பாட்டுக்கு வந்துள்ளது. இது உலகின் மிக துல்லியமான
+செய்மதி இடஞ்சுட்டலாக இருக்கும் என நம்பப்படுகிறது.</code></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tokenize_and_display_results</span><span class="p">(</span><span class="n">sentences</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<table><tr><td>tok_30000_size</td> <td>▁ஐரோப்பிய</td><td>▁ஒன்றியத்தின்</td><td>▁கலி</td><td>லியோ</td><td>▁செயற்கை</td><td>கோள்</td><td>▁அமைப்பு</td><td>▁செயல்பாட்டு</td><td>க்கு</td><td>▁வந்துள்ளது</td><td>.</td><td>▁இது</td><td>▁உலகின்</td><td>▁மிக</td><td>▁துல்லியமான</td><td>▁செய்மதி</td><td>▁இட</td><td>ஞ்சு</td><td>ட்ட</td><td>லாக</td><td>▁இருக்கும்</td><td>▁என</td><td>▁நம்பப்படுகிறது</td><td>.</td></tr><tr><td>tok_20000_size</td> <td>▁ஐரோப்பிய</td><td>▁ஒன்றியத்தின்</td><td>▁கலி</td><td>லியோ</td><td>▁செயற்கை</td><td>கோள்</td><td>▁அமைப்பு</td><td>▁செயல்பாட்டு</td><td>க்கு</td><td>▁வந்துள்ளது</td><td>.</td><td>▁இது</td><td>▁உலகின்</td><td>▁மிக</td><td>▁துல்லியமான</td><td>▁செய்மதி</td><td>▁இட</td><td>ஞ்சு</td><td>ட்ட</td><td>லாக</td><td>▁இருக்கும்</td><td>▁என</td><td>▁நம்பப்படுகிறது</td><td>.</td></tr><tr><td>tok_8000_size</td> <td>▁ஐரோப்பிய</td><td>▁ஒன்றியத்தின்</td><td>▁கலி</td><td>லி</td><td>யோ</td><td>▁செயற்கை</td><td>கோள</td><td>்</td><td>▁அமைப்பு</td><td>▁செயல்பாட்ட</td><td>ுக்கு</td><td>▁வந்துள்ளது</td><td>.</td><td>▁இது</td><td>▁உலகின்</td><td>▁மிக</td><td>▁துல்லிய</td><td>மான</td><td>▁செய்</td><td>மதி</td><td>▁இட</td><td>ஞ்சு</td><td>ட்ட</td><td>லாக</td><td>▁இருக்கும்</td><td>▁என</td><td>▁நம்பப்படுகிறது</td><td>.</td></tr><tr><td>tok_16000_size</td> <td>▁ஐரோப்பிய</td><td>▁ஒன்றியத்தின்</td><td>▁கலி</td><td>லியோ</td><td>▁செயற்கை</td><td>கோள்</td><td>▁அமைப்பு</td><td>▁செயல்பாட்டு</td><td>க்கு</td><td>▁வந்துள்ளது</td><td>.</td><td>▁இது</td><td>▁உலகின்</td><td>▁மிக</td><td>▁துல்லியமான</td><td>▁செய்மதி</td><td>▁இட</td><td>ஞ்சு</td><td>ட்ட</td><td>லாக</td><td>▁இருக்கும்</td><td>▁என</td><td>▁நம்பப்படுகிறது</td><td>.</td></tr></table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>All of them may have got it wrong with <code>Galileo</code> which is split into <code>கலி</code>(Gali) and <code>லியோ</code>(leo), (Maybe I am wrong on this part) and in GPS <code>இடஞ்சுட்டலாக</code> may be called as <code>இடம்சுட்டல்</code>(can be loosely translated to Location Pointer) should have been split like <code>இடம்</code> and <code>சுட்டல்</code> and <code>ஆக</code>, Maybe I am expecting too much.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I will stop here for this blogpost, You can try the other sentences if you want by forking the notebook <a href="https://www.kaggle.com/manimaranp/testing-sentencepiece-tokenizer-for-tamil">here</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Please comment if you think something is wrong somewhere, share it if you have found this interesting.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
 
       </div><!-- from https://github.com/utterance/utterances -->
 <script src="https://utteranc.es/client.js"
@@ -1251,7 +1541,7 @@ window.onload = wrap_img;
         theme="github-light"
         crossorigin="anonymous"
         async>
-</script><a class="u-url" href="/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html" hidden></a>
+</script><a class="u-url" href="/Blog-Posts/nlp/language-model/%E0%AE%A4%E0%AE%AE%E0%AE%BF%E0%AE%B4%E0%AF%8D/2020/04/19/Testing-sentencepiece-tokenizer-for-Tamil.html" hidden></a>
     </main>
   </div>
 </article>

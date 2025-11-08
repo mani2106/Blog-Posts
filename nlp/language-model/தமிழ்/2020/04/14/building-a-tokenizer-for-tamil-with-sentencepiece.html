@@ -4,22 +4,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Explaining prediction models and individual predictions | Manimaran Panneerselvam’s blog</title>
+<title>Building தமிழ் language tokenizer | Manimaran Panneerselvam’s blog</title>
 <meta name="generator" content="Jekyll v4.3.4" />
-<meta property="og:title" content="Explaining prediction models and individual predictions" />
+<meta property="og:title" content="Building தமிழ் language tokenizer" />
 <meta name="author" content="Manimaran Panneerselvam" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="The following script tries to reproduce one algorithm from the paper titled Explaining prediction models and individual predictions" />
-<meta property="og:description" content="The following script tries to reproduce one algorithm from the paper titled Explaining prediction models and individual predictions" />
-<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html" />
-<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html" />
+<meta name="description" content="In this notebook I try to build sentencepiece tokenizers for தமிழ் language with data extracted from wiki dump" />
+<meta property="og:description" content="In this notebook I try to build sentencepiece tokenizers for தமிழ் language with data extracted from wiki dump" />
+<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/nlp/language-model/%E0%AE%A4%E0%AE%AE%E0%AE%BF%E0%AE%B4%E0%AF%8D/2020/04/14/building-a-tokenizer-for-tamil-with-sentencepiece.html" />
+<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/nlp/language-model/%E0%AE%A4%E0%AE%AE%E0%AE%BF%E0%AE%B4%E0%AF%8D/2020/04/14/building-a-tokenizer-for-tamil-with-sentencepiece.html" />
 <meta property="og:site_name" content="Manimaran Panneerselvam’s blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-05-29T00:00:00+00:00" />
+<meta property="article:published_time" content="2020-04-14T00:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Explaining prediction models and individual predictions" />
+<meta property="twitter:title" content="Building தமிழ் language tokenizer" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Manimaran Panneerselvam"},"dateModified":"2021-05-29T00:00:00+00:00","datePublished":"2021-05-29T00:00:00+00:00","description":"The following script tries to reproduce one algorithm from the paper titled Explaining prediction models and individual predictions","headline":"Explaining prediction models and individual predictions","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html"},"url":"https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Manimaran Panneerselvam"},"dateModified":"2020-04-14T00:00:00+00:00","datePublished":"2020-04-14T00:00:00+00:00","description":"In this notebook I try to build sentencepiece tokenizers for தமிழ் language with data extracted from wiki dump","headline":"Building தமிழ் language tokenizer","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/nlp/language-model/%E0%AE%A4%E0%AE%AE%E0%AE%BF%E0%AE%B4%E0%AF%8D/2020/04/14/building-a-tokenizer-for-tamil-with-sentencepiece.html"},"url":"https://mani2106.github.io/Blog-Posts/nlp/language-model/%E0%AE%A4%E0%AE%AE%E0%AE%BF%E0%AE%B4%E0%AF%8D/2020/04/14/building-a-tokenizer-for-tamil-with-sentencepiece.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Panneerselvam&apos;s blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -170,29 +170,54 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Explaining prediction models and individual predictions</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-05-29T00:00:00+00:00" itemprop="datePublished">
-        May 29, 2021
+    <h1 class="post-title p-name" itemprop="name headline">Building தமிழ் language tokenizer</h1><p class="page-description">In this notebook I try to build sentencepiece tokenizers for தமிழ் language with data extracted from wiki dump</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-04-14T00:00:00+00:00" itemprop="datePublished">
+        Apr 14, 2020
       </time>
        • <span class="read-time" title="Estimated read time">
     
     
-      2 min read
+      1 min read
     
 </span></p>
 
     
       <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i>
       
-        <a class="category-tags-link" href="/Blog-Posts/categories/#take-home">take-home</a>
+        <a class="category-tags-link" href="/Blog-Posts/categories/#nlp">nlp</a>
         &nbsp;
       
-        <a class="category-tags-link" href="/Blog-Posts/categories/#Implementation">Implementation</a>
+        <a class="category-tags-link" href="/Blog-Posts/categories/#language-model">language-model</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#தமிழ்">தமிழ்</a>
         
       
       </p>
     
 
-    </header>
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/mani2106/Blog-Posts/tree/master/_notebooks/2020-04-14-building-a-tokenizer-for-tamil-with-sentencepiece.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/Blog-Posts/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/mani2106/Blog-Posts/master?filepath=_notebooks%2F2020-04-14-building-a-tokenizer-for-tamil-with-sentencepiece.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/Blog-Posts/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/mani2106/Blog-Posts/blob/master/_notebooks/2020-04-14-building-a-tokenizer-for-tamil-with-sentencepiece.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/Blog-Posts/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
 
   <div class="post-container">
     <aside class="toc-sidebar">
@@ -1127,121 +1152,415 @@ window.onload = wrap_img;
     </aside>
     <main class="post-main">
       <div class="post-content e-content" itemprop="articleBody">
-        <p>The following script tries to reproduce one algorithm from the paper titled <code class="language-plaintext highlighter-rouge">Explaining prediction models and individual predictions</code></p>
+        <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-04-14-building-a-tokenizer-for-tamil-with-sentencepiece.ipynb
+-->
 
-<p>You can have a look at the resultant json <a href="https://github.com/mani2106/Poshmark-assignment">here</a></p>
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can find the blog post regarding extraction <a href="https://mani2106.github.io/Blog-Posts/data-cleaning/language-model/2020/04/14/wiki-data-extraction.html">here</a> and kaggle notebook with output <a href="https://www.kaggle.com/manimaranp/tamil-wiki-data-extraction">here</a></p>
 
-<p>The json would have record level information of each feature and its impact on the prediction.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Import-required-libraries">Import required libraries<a class="anchor-link" href="#Import-required-libraries"> </a></h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">os</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">from</span> <span class="n">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="n">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">import</span> <span class="n">json</span><span class="p">,</span> <span class="n">joblib</span>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
-<span class="c1"># The feature importances for each data instance 
-# are calculated with four random samples drawn from the data
-# I also tried to use numba to compile to machine code but could
-# not achieve it
-</span>
-<span class="n">file_path</span> <span class="o">=</span> <span class="sh">'</span><span class="s">.</span><span class="sh">'</span>
+<span class="kn">import</span> <span class="nn">sentencepiece</span> <span class="k">as</span> <span class="nn">spm</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
 
-<span class="c1"># LOAD your model
-</span><span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="sh">'</span><span class="s">model_pipeline.joblib</span><span class="sh">'</span><span class="p">))</span>
+    </div>
+</div>
+</div>
 
-<span class="c1"># Bring in the data training and testing data
-</span><span class="n">X_train</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="sh">'</span><span class="s">train.csv</span><span class="sh">'</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">X_test</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="sh">'</span><span class="s">test.csv</span><span class="sh">'</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</div>
+    
 
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Read-data-from-csv">Read data from csv<a class="anchor-link" href="#Read-data-from-csv"> </a></h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
 
-<span class="c1"># TODO try to complete numba usage
-# @numba.jit(nopython=True)
-</span><span class="k">def</span> <span class="nf">shuffle_feature_records</span><span class="p">(</span>
-    <span class="n">full_data</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">,</span>
-    <span class="n">feature_data</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">,</span>
-    <span class="n">feature_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">]:</span>
-    <span class="sh">"""</span><span class="s">
-    Randomly selects `m` no of records to compare and calculate feature importances
-    </span><span class="sh">"""</span>
-    <span class="n">feat_len</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">feature_data</span><span class="p">)</span>
-    <span class="n">feature_indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">feat_len</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">)</span>
-    <span class="c1"># take random indices
-</span>    <span class="n">rand_indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">choice</span><span class="p">(</span><span class="n">full_data</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lang_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../input/tamil-wiki-data-extraction/filtered_data.csv.tar.gz&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">lang_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
 
-    <span class="c1"># take random samples
-</span>    <span class="n">w</span> <span class="o">=</span> <span class="n">full_data</span><span class="p">[</span><span class="n">rand_indices</span><span class="p">]</span>
+    </div>
+</div>
+</div>
 
-    <span class="n">b1_vec</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">empty</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">feat_len</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nb">object</span><span class="p">)</span>
-    <span class="n">b2_vec</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">empty</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">feat_len</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nb">object</span><span class="p">)</span>
+<div class="output_wrapper">
+<div class="output">
 
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
-
-        <span class="n">del_index</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">argwhere</span><span class="p">(</span><span class="n">feature_indices</span><span class="o">==</span><span class="n">feature_index</span><span class="p">)</span>
-
-        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="n">feature_indices</span><span class="p">,</span> <span class="n">del_index</span><span class="p">)</span>
-        <span class="c1"># remove current feature index to add later
-</span>        <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">shuffle</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
-
-        <span class="n">split_pt</span> <span class="o">=</span> <span class="n">indices</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span>
-
-        <span class="c1"># split indices for 2 different vectors
-</span>        <span class="n">ind_x</span><span class="p">,</span> <span class="n">ind_w</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[:</span><span class="n">split_pt</span><span class="p">],</span> <span class="n">indices</span><span class="p">[</span><span class="n">split_pt</span><span class="p">:]</span>
-
-        <span class="c1"># form the indices for b1 and b2 vectors
-</span>        <span class="n">ind_x_1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">ind_x</span><span class="p">,</span> <span class="n">feature_index</span><span class="p">)</span>
-        <span class="n">ind_w_1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">ind_w</span><span class="p">,</span> <span class="n">feature_index</span><span class="p">)</span>
-
-        <span class="c1"># to ensure the features are assigned in the order of training data
-</span>        <span class="n">b1_sort_indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">argsort</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">ind_x</span><span class="p">,</span> <span class="n">ind_w_1</span><span class="p">))</span>
-        <span class="n">b2_sort_indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">argsort</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">ind_x_1</span><span class="p">,</span> <span class="n">ind_w</span><span class="p">))</span>
-
-        <span class="n">b1_vec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">((</span><span class="n">feature_data</span><span class="p">[</span><span class="n">ind_x</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ind_w_1</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="n">b1_sort_indices</span><span class="p">]</span>
-        <span class="n">b2_vec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">((</span><span class="n">feature_data</span><span class="p">[</span><span class="n">ind_x_1</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ind_w</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="n">b2_sort_indices</span><span class="p">]</span>
-
-    <span class="n">arrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">b1_vec</span><span class="p">,</span> <span class="n">b2_vec</span><span class="p">]</span>
-
-    <span class="k">return</span> <span class="n">arrs</span>
-
-<span class="k">def</span> <span class="nf">get_feat_imp_data</span><span class="p">(</span>
-    <span class="n">model</span><span class="p">:</span> <span class="n">Pipeline</span><span class="p">,</span>
-    <span class="n">X_train</span><span class="p">:</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">,</span>
-    <span class="n">X_test</span><span class="p">:</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="sh">"""</span><span class="s">
-    Loops over the available data and sends them for calculation
-    </span><span class="sh">"""</span>
-    <span class="c1"># Get features for 100 records
-</span>    <span class="n">tr_data</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">X_train</span><span class="p">[</span><span class="sh">'</span><span class="s">id</span><span class="sh">'</span><span class="p">].</span><span class="nf">isin</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">101</span><span class="p">))].</span><span class="nf">copy</span><span class="p">()</span>
-    <span class="n">te_data</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="n">X_test</span><span class="p">[</span><span class="sh">'</span><span class="s">id</span><span class="sh">'</span><span class="p">].</span><span class="nf">isin</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">101</span><span class="p">))].</span><span class="nf">copy</span><span class="p">()</span>
-
-    <span class="c1"># join all the data
-</span>    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">concat</span><span class="p">([</span><span class="n">tr_data</span><span class="p">,</span> <span class="n">te_data</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="sh">'</span><span class="s">rows</span><span class="sh">'</span><span class="p">)</span>
-
-    <span class="n">cols</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">columns</span><span class="p">.</span><span class="nf">tolist</span><span class="p">()</span>
-
-    <span class="n">feat_imp</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="c1"># send them one by one to calculate
-</span>    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">.</span><span class="n">values</span><span class="p">:</span>
-        <span class="n">col_imp</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">feat_index</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-            <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span> <span class="o">=</span> <span class="nf">shuffle_feature_records</span><span class="p">(</span><span class="n">X_train</span><span class="p">.</span><span class="n">values</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">feature_index</span><span class="o">=</span><span class="n">feat_index</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-            <span class="n">b1</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
-            <span class="n">b2</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">b2</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
-            <span class="n">b1_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span>
-            <span class="n">b2_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">b2</span><span class="p">)</span>
-            <span class="n">col_imp</span><span class="p">[</span><span class="n">cols</span><span class="p">[</span><span class="n">feat_index</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">b1_pred</span> <span class="o">-</span> <span class="n">b2_pred</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span>
-
-        <span class="n">feat_imp</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">col_imp</span>
-
-    <span class="k">return</span> <span class="n">feat_imp</span>
+<div class="output_area">
 
 
-<span class="n">feats</span> <span class="o">=</span> <span class="nf">get_feat_imp_data</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">)</span>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">'</span><span class="s">feat_imps_1.json</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">w</span><span class="sh">'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">json</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="n">feats</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
-</code></pre></div></div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>url</th>
+      <th>title</th>
+      <th>text</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>48482</td>
+      <td>https://ta.wikipedia.org/wiki?curid=48482</td>
+      <td>தென் துருவம்</td>
+      <td>தென் துருவம் தென் முனை தென் துருவம் என்பது புவ...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>48485</td>
+      <td>https://ta.wikipedia.org/wiki?curid=48485</td>
+      <td>ஆர்க்டிக் வட்டம்</td>
+      <td>ஆர்க்டிக் வட்டம் ஆர்க்டிக் வட்டம் என்பது ஐந்து...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>48486</td>
+      <td>https://ta.wikipedia.org/wiki?curid=48486</td>
+      <td>நாஞ்சில் நாடன்</td>
+      <td>நாஞ்சில் நாடன் நாஞ்சில் நாடன் பிறப்பு திசம்பர்...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>48492</td>
+      <td>https://ta.wikipedia.org/wiki?curid=48492</td>
+      <td>டிக்கோயா</td>
+      <td>டிக்கோயா டிக்கோயா இலங்கையின் மத்திய மாகாணத்தின...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>48493</td>
+      <td>https://ta.wikipedia.org/wiki?curid=48493</td>
+      <td>நள்ளிரவுச் சூரியன்</td>
+      <td>நள்ளிரவுச் சூரியன் நள்ளிரவுச் சூரியன் அல்லது த...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">lang_data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Int64Index: 133412 entries, 0 to 133411
+Data columns (total 4 columns):
+id       133412 non-null int64
+url      133412 non-null object
+title    133412 non-null object
+text     133412 non-null object
+dtypes: int64(1), object(3)
+memory usage: 5.1+ MB
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Setup-paths">Setup paths<a class="anchor-link" href="#Setup-paths"> </a></h1>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">OUTPUT_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;/kaggle/working&#39;</span><span class="p">)</span>
+<span class="n">TEXTS_DIR</span> <span class="o">=</span> <span class="n">OUTPUT_DIR</span><span class="o">/</span><span class="s1">&#39;texts&#39;</span>
+<span class="n">TOK_DIR</span> <span class="o">=</span> <span class="n">OUTPUT_DIR</span><span class="o">/</span><span class="s1">&#39;tokenizer&#39;</span>
+
+<span class="c1"># Create directories</span>
+<span class="n">TOK_DIR</span><span class="o">.</span><span class="n">mkdir</span><span class="p">()</span>
+<span class="n">TEXTS_DIR</span><span class="o">.</span><span class="n">mkdir</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Prepare-texts">Prepare texts<a class="anchor-link" href="#Prepare-texts"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can pass a list of files as a comma seperated string according to <a href="https://github.com/google/sentencepiece#train-sentencepiece-model">documentation</a>, So we can store each article in a text file and pass the names in a comma seperated string.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">lang_data</span><span class="o">.</span><span class="n">itertuples</span><span class="p">():</span>
+    <span class="n">file_name</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">TEXTS_DIR</span><span class="o">/</span><span class="sa">f</span><span class="s1">&#39;text_</span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">Index</span><span class="si">}</span><span class="s1">.txt&#39;</span><span class="p">)</span>
+    <span class="n">file_name</span><span class="o">.</span><span class="n">touch</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">file_name</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">len</span><span class="p">([</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">TEXTS_DIR</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()]),</span> <span class="n">lang_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(133412, 133412)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>All the files have been converted to texts</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Train-sentencepiece-model">Train sentencepiece model<a class="anchor-link" href="#Train-sentencepiece-model"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's make a comma seperated string of filenames</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">files</span> <span class="o">=</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">TEXTS_DIR</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()])</span>
+<span class="n">files</span><span class="p">[:</span><span class="mi">100</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;/kaggle/working/texts/text_40902.txt,/kaggle/working/texts/text_44212.txt,/kaggle/working/texts/text&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We must find the right <code>vocab_size</code> for the tokenizer, that can be done only by testing the tokenizer after building onw</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="mi">8000</span><span class="p">,</span> <span class="mi">16000</span><span class="p">,</span> <span class="mi">20000</span><span class="p">,</span> <span class="mi">30000</span><span class="p">:</span>
+    <span class="n">api_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;--input=</span><span class="si">{</span><span class="n">files</span><span class="si">}</span><span class="s2"> --vocab_size=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> --model_type=unigram --character_coverage=0.9995 --model_prefix=</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">TOK_DIR</span><span class="p">)</span><span class="si">}</span><span class="s2">/tok_</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">_size --max_sentence_length=20000&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training with vocab set as:&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="n">spm</span><span class="o">.</span><span class="n">SentencePieceTrainer</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">api_str</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Training with vocab set as: 8000
+Training with vocab set as: 16000
+Training with vocab set as: 20000
+Training with vocab set as: 30000
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Cleanup">Cleanup<a class="anchor-link" href="#Cleanup"> </a></h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>rm -rf /kaggle/working/texts/
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's test the models in another notebook, you can find the outputs in this kaggle <a href="https://www.kaggle.com/manimaranp/building-a-tokenizer-for-tamil-with-sentencepiece">notebook</a></p>
+
+</div>
+</div>
+</div>
+</div>
+
+
 
       </div><!-- from https://github.com/utterance/utterances -->
 <script src="https://utteranc.es/client.js"
@@ -1251,7 +1570,7 @@ window.onload = wrap_img;
         theme="github-light"
         crossorigin="anonymous"
         async>
-</script><a class="u-url" href="/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html" hidden></a>
+</script><a class="u-url" href="/Blog-Posts/nlp/language-model/%E0%AE%A4%E0%AE%AE%E0%AE%BF%E0%AE%B4%E0%AF%8D/2020/04/14/building-a-tokenizer-for-tamil-with-sentencepiece.html" hidden></a>
     </main>
   </div>
 </article>

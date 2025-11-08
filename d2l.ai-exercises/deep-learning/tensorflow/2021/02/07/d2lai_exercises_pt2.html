@@ -4,22 +4,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Explaining prediction models and individual predictions | Manimaran Panneerselvam’s blog</title>
+<title>Data Preprocessing - d2l.ai Exercises - Part 2 | Manimaran Panneerselvam’s blog</title>
 <meta name="generator" content="Jekyll v4.3.4" />
-<meta property="og:title" content="Explaining prediction models and individual predictions" />
+<meta property="og:title" content="Data Preprocessing - d2l.ai Exercises - Part 2" />
 <meta name="author" content="Manimaran Panneerselvam" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="The following script tries to reproduce one algorithm from the paper titled Explaining prediction models and individual predictions" />
-<meta property="og:description" content="The following script tries to reproduce one algorithm from the paper titled Explaining prediction models and individual predictions" />
-<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html" />
-<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html" />
+<meta name="description" content="The second notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning" />
+<meta property="og:description" content="The second notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning" />
+<link rel="canonical" href="https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/07/d2lai_exercises_pt2.html" />
+<meta property="og:url" content="https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/07/d2lai_exercises_pt2.html" />
 <meta property="og:site_name" content="Manimaran Panneerselvam’s blog" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-05-29T00:00:00+00:00" />
+<meta property="article:published_time" content="2021-02-07T00:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Explaining prediction models and individual predictions" />
+<meta property="twitter:title" content="Data Preprocessing - d2l.ai Exercises - Part 2" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Manimaran Panneerselvam"},"dateModified":"2021-05-29T00:00:00+00:00","datePublished":"2021-05-29T00:00:00+00:00","description":"The following script tries to reproduce one algorithm from the paper titled Explaining prediction models and individual predictions","headline":"Explaining prediction models and individual predictions","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html"},"url":"https://mani2106.github.io/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Manimaran Panneerselvam"},"dateModified":"2021-02-07T00:00:00+00:00","datePublished":"2021-02-07T00:00:00+00:00","description":"The second notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning","headline":"Data Preprocessing - d2l.ai Exercises - Part 2","mainEntityOfPage":{"@type":"WebPage","@id":"https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/07/d2lai_exercises_pt2.html"},"url":"https://mani2106.github.io/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/07/d2lai_exercises_pt2.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/Blog-Posts/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://mani2106.github.io/Blog-Posts/feed.xml" title="Manimaran Panneerselvam&apos;s blog" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -170,29 +170,54 @@ window.onload = wrap_img;
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">Explaining prediction models and individual predictions</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-05-29T00:00:00+00:00" itemprop="datePublished">
-        May 29, 2021
+    <h1 class="post-title p-name" itemprop="name headline">Data Preprocessing - d2l.ai Exercises - Part 2</h1><p class="page-description">The second notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-02-07T00:00:00+00:00" itemprop="datePublished">
+        Feb 7, 2021
       </time>
        • <span class="read-time" title="Estimated read time">
     
     
-      2 min read
+      3 min read
     
 </span></p>
 
     
       <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i>
       
-        <a class="category-tags-link" href="/Blog-Posts/categories/#take-home">take-home</a>
+        <a class="category-tags-link" href="/Blog-Posts/categories/#d2l.ai-exercises">d2l.ai-exercises</a>
         &nbsp;
       
-        <a class="category-tags-link" href="/Blog-Posts/categories/#Implementation">Implementation</a>
+        <a class="category-tags-link" href="/Blog-Posts/categories/#deep-learning">deep-learning</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/Blog-Posts/categories/#tensorflow">tensorflow</a>
         
       
       </p>
     
 
-    </header>
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/mani2106/Blog-Posts/tree/master/_notebooks/2021-02-07-d2lai_exercises_pt2.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/Blog-Posts/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/mani2106/Blog-Posts/master?filepath=_notebooks%2F2021-02-07-d2lai_exercises_pt2.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/Blog-Posts/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/mani2106/Blog-Posts/blob/master/_notebooks/2021-02-07-d2lai_exercises_pt2.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/Blog-Posts/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
 
   <div class="post-container">
     <aside class="toc-sidebar">
@@ -1127,121 +1152,814 @@ window.onload = wrap_img;
     </aside>
     <main class="post-main">
       <div class="post-content e-content" itemprop="articleBody">
-        <p>The following script tries to reproduce one algorithm from the paper titled <code class="language-plaintext highlighter-rouge">Explaining prediction models and individual predictions</code></p>
+        <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-02-07-d2lai_exercises_pt2.ipynb
+-->
 
-<p>You can have a look at the resultant json <a href="https://github.com/mani2106/Poshmark-assignment">here</a></p>
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Exercise-setup">Exercise setup<a class="anchor-link" href="#Exercise-setup"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's use the sample datasets offered directly in colab</p>
 
-<p>The json would have record level information of each feature and its impact on the prediction.</p>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p><div class="input">
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">os</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">from</span> <span class="n">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="n">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">import</span> <span class="n">json</span><span class="p">,</span> <span class="n">joblib</span>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="c1"># The feature importances for each data instance 
-# are calculated with four random samples drawn from the data
-# I also tried to use numba to compile to machine code but could
-# not achieve it
-</span>
-<span class="n">file_path</span> <span class="o">=</span> <span class="sh">'</span><span class="s">.</span><span class="sh">'</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/content/sample_data/california_housing_train.csv&#39;</span><span class="p">)</span>
+</pre></div>
 
-<span class="c1"># LOAD your model
-</span><span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="p">.</span><span class="nf">load</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="sh">'</span><span class="s">model_pipeline.joblib</span><span class="sh">'</span><span class="p">))</span>
+    </div>
+</div>
+</div>
+</p>
+    </details>
+</div>
+    
 
-<span class="c1"># Bring in the data training and testing data
-</span><span class="n">X_train</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="sh">'</span><span class="s">train.csv</span><span class="sh">'</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">X_test</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="sh">'</span><span class="s">test.csv</span><span class="sh">'</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p><div class="input">
 
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
 
-<span class="c1"># TODO try to complete numba usage
-# @numba.jit(nopython=True)
-</span><span class="k">def</span> <span class="nf">shuffle_feature_records</span><span class="p">(</span>
-    <span class="n">full_data</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">,</span>
-    <span class="n">feature_data</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">,</span>
-    <span class="n">feature_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">m</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">]:</span>
-    <span class="sh">"""</span><span class="s">
-    Randomly selects `m` no of records to compare and calculate feature importances
-    </span><span class="sh">"""</span>
-    <span class="n">feat_len</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">feature_data</span><span class="p">)</span>
-    <span class="n">feature_indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">feat_len</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">uint8</span><span class="p">)</span>
-    <span class="c1"># take random indices
-</span>    <span class="n">rand_indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">choice</span><span class="p">(</span><span class="n">full_data</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    </div>
+</div>
+</div>
+</p>
+    </details>
+<div class="output_wrapper">
+<div class="output">
 
-    <span class="c1"># take random samples
-</span>    <span class="n">w</span> <span class="o">=</span> <span class="n">full_data</span><span class="p">[</span><span class="n">rand_indices</span><span class="p">]</span>
-
-    <span class="n">b1_vec</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">empty</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">feat_len</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nb">object</span><span class="p">)</span>
-    <span class="n">b2_vec</span><span class="p">:</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">empty</span><span class="p">((</span><span class="n">m</span><span class="p">,</span> <span class="n">feat_len</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nb">object</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
-
-        <span class="n">del_index</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">argwhere</span><span class="p">(</span><span class="n">feature_indices</span><span class="o">==</span><span class="n">feature_index</span><span class="p">)</span>
-
-        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="n">feature_indices</span><span class="p">,</span> <span class="n">del_index</span><span class="p">)</span>
-        <span class="c1"># remove current feature index to add later
-</span>        <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">shuffle</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
-
-        <span class="n">split_pt</span> <span class="o">=</span> <span class="n">indices</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span>
-
-        <span class="c1"># split indices for 2 different vectors
-</span>        <span class="n">ind_x</span><span class="p">,</span> <span class="n">ind_w</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[:</span><span class="n">split_pt</span><span class="p">],</span> <span class="n">indices</span><span class="p">[</span><span class="n">split_pt</span><span class="p">:]</span>
-
-        <span class="c1"># form the indices for b1 and b2 vectors
-</span>        <span class="n">ind_x_1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">ind_x</span><span class="p">,</span> <span class="n">feature_index</span><span class="p">)</span>
-        <span class="n">ind_w_1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">ind_w</span><span class="p">,</span> <span class="n">feature_index</span><span class="p">)</span>
-
-        <span class="c1"># to ensure the features are assigned in the order of training data
-</span>        <span class="n">b1_sort_indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">argsort</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">ind_x</span><span class="p">,</span> <span class="n">ind_w_1</span><span class="p">))</span>
-        <span class="n">b2_sort_indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">argsort</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">ind_x_1</span><span class="p">,</span> <span class="n">ind_w</span><span class="p">))</span>
-
-        <span class="n">b1_vec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">((</span><span class="n">feature_data</span><span class="p">[</span><span class="n">ind_x</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ind_w_1</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="n">b1_sort_indices</span><span class="p">]</span>
-        <span class="n">b2_vec</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">((</span><span class="n">feature_data</span><span class="p">[</span><span class="n">ind_x_1</span><span class="p">],</span> <span class="n">w</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ind_w</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="n">b2_sort_indices</span><span class="p">]</span>
-
-    <span class="n">arrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">b1_vec</span><span class="p">,</span> <span class="n">b2_vec</span><span class="p">]</span>
-
-    <span class="k">return</span> <span class="n">arrs</span>
-
-<span class="k">def</span> <span class="nf">get_feat_imp_data</span><span class="p">(</span>
-    <span class="n">model</span><span class="p">:</span> <span class="n">Pipeline</span><span class="p">,</span>
-    <span class="n">X_train</span><span class="p">:</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">,</span>
-    <span class="n">X_test</span><span class="p">:</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="sh">"""</span><span class="s">
-    Loops over the available data and sends them for calculation
-    </span><span class="sh">"""</span>
-    <span class="c1"># Get features for 100 records
-</span>    <span class="n">tr_data</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">X_train</span><span class="p">[</span><span class="sh">'</span><span class="s">id</span><span class="sh">'</span><span class="p">].</span><span class="nf">isin</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">101</span><span class="p">))].</span><span class="nf">copy</span><span class="p">()</span>
-    <span class="n">te_data</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="n">X_test</span><span class="p">[</span><span class="sh">'</span><span class="s">id</span><span class="sh">'</span><span class="p">].</span><span class="nf">isin</span><span class="p">(</span><span class="nf">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">101</span><span class="p">))].</span><span class="nf">copy</span><span class="p">()</span>
-
-    <span class="c1"># join all the data
-</span>    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">concat</span><span class="p">([</span><span class="n">tr_data</span><span class="p">,</span> <span class="n">te_data</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="sh">'</span><span class="s">rows</span><span class="sh">'</span><span class="p">)</span>
-
-    <span class="n">cols</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">columns</span><span class="p">.</span><span class="nf">tolist</span><span class="p">()</span>
-
-    <span class="n">feat_imp</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="c1"># send them one by one to calculate
-</span>    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">.</span><span class="n">values</span><span class="p">:</span>
-        <span class="n">col_imp</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">feat_index</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-            <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span> <span class="o">=</span> <span class="nf">shuffle_feature_records</span><span class="p">(</span><span class="n">X_train</span><span class="p">.</span><span class="n">values</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">feature_index</span><span class="o">=</span><span class="n">feat_index</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-            <span class="n">b1</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
-            <span class="n">b2</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">b2</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
-            <span class="n">b1_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">b1</span><span class="p">)</span>
-            <span class="n">b2_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nf">predict</span><span class="p">(</span><span class="n">b2</span><span class="p">)</span>
-            <span class="n">col_imp</span><span class="p">[</span><span class="n">cols</span><span class="p">[</span><span class="n">feat_index</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">b1_pred</span> <span class="o">-</span> <span class="n">b2_pred</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span>
-
-        <span class="n">feat_imp</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">col_imp</span>
-
-    <span class="k">return</span> <span class="n">feat_imp</span>
+<div class="output_area">
 
 
-<span class="n">feats</span> <span class="o">=</span> <span class="nf">get_feat_imp_data</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">)</span>
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="sh">'</span><span class="s">feat_imps_1.json</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">w</span><span class="sh">'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">json</span><span class="p">.</span><span class="nf">dump</span><span class="p">(</span><span class="n">feats</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
-</code></pre></div></div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>longitude</th>
+      <th>latitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>total_bedrooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>median_house_value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-114.31</td>
+      <td>34.19</td>
+      <td>15.0</td>
+      <td>5612.0</td>
+      <td>1283.0</td>
+      <td>1015.0</td>
+      <td>472.0</td>
+      <td>1.4936</td>
+      <td>66900.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-114.47</td>
+      <td>34.40</td>
+      <td>19.0</td>
+      <td>7650.0</td>
+      <td>1901.0</td>
+      <td>1129.0</td>
+      <td>463.0</td>
+      <td>1.8200</td>
+      <td>80100.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-114.56</td>
+      <td>33.69</td>
+      <td>17.0</td>
+      <td>720.0</td>
+      <td>174.0</td>
+      <td>333.0</td>
+      <td>117.0</td>
+      <td>1.6509</td>
+      <td>85700.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-114.57</td>
+      <td>33.64</td>
+      <td>14.0</td>
+      <td>1501.0</td>
+      <td>337.0</td>
+      <td>515.0</td>
+      <td>226.0</td>
+      <td>3.1917</td>
+      <td>73400.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-114.57</td>
+      <td>33.57</td>
+      <td>20.0</td>
+      <td>1454.0</td>
+      <td>326.0</td>
+      <td>624.0</td>
+      <td>262.0</td>
+      <td>1.9250</td>
+      <td>65500.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description" open="">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p><div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+</p>
+    </details>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 17000 entries, 0 to 16999
+Data columns (total 9 columns):
+ #   Column              Non-Null Count  Dtype  
+---  ------              --------------  -----  
+ 0   longitude           17000 non-null  float64
+ 1   latitude            17000 non-null  float64
+ 2   housing_median_age  17000 non-null  float64
+ 3   total_rooms         17000 non-null  float64
+ 4   total_bedrooms      17000 non-null  float64
+ 5   population          17000 non-null  float64
+ 6   households          17000 non-null  float64
+ 7   median_income       17000 non-null  float64
+ 8   median_house_value  17000 non-null  float64
+dtypes: float64(9)
+memory usage: 1.2 MB
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Since there is no data missing, we will add random missing entries in the data</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">mask</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;</span> <span class="o">.</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 17000 entries, 0 to 16999
+Data columns (total 9 columns):
+ #   Column              Non-Null Count  Dtype  
+---  ------              --------------  -----  
+ 0   longitude           15290 non-null  float64
+ 1   latitude            15376 non-null  float64
+ 2   housing_median_age  15281 non-null  float64
+ 3   total_rooms         15325 non-null  float64
+ 4   total_bedrooms      15246 non-null  float64
+ 5   population          15358 non-null  float64
+ 6   households          15351 non-null  float64
+ 7   median_income       15298 non-null  float64
+ 8   median_house_value  15275 non-null  float64
+dtypes: float64(9)
+memory usage: 1.2 MB
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Questions">Questions<a class="anchor-link" href="#Questions"> </a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li><p>Delete the column with the most missing values.</p>
+</li>
+<li><p>Convert the preprocessed dataset to the tensor format.</p>
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Delete-column-with-most-missing-values">Delete column with most missing values<a class="anchor-link" href="#Delete-column-with-most-missing-values"> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Peek at the data with <code>na</code></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>longitude</th>
+      <th>latitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>total_bedrooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>median_house_value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-114.31</td>
+      <td>34.19</td>
+      <td>15.0</td>
+      <td>5612.0</td>
+      <td>1283.0</td>
+      <td>1015.0</td>
+      <td>472.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-114.47</td>
+      <td>34.40</td>
+      <td>NaN</td>
+      <td>7650.0</td>
+      <td>1901.0</td>
+      <td>1129.0</td>
+      <td>NaN</td>
+      <td>1.8200</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-114.56</td>
+      <td>33.69</td>
+      <td>17.0</td>
+      <td>720.0</td>
+      <td>174.0</td>
+      <td>333.0</td>
+      <td>117.0</td>
+      <td>1.6509</td>
+      <td>85700.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-114.57</td>
+      <td>33.64</td>
+      <td>14.0</td>
+      <td>1501.0</td>
+      <td>337.0</td>
+      <td>515.0</td>
+      <td>226.0</td>
+      <td>3.1917</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-114.57</td>
+      <td>33.57</td>
+      <td>20.0</td>
+      <td>1454.0</td>
+      <td>326.0</td>
+      <td>624.0</td>
+      <td>262.0</td>
+      <td>1.9250</td>
+      <td>65500.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Find the column name with most <code>na</code>s</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">column_with_most_na</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span>
+                          <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">(),</span> <span class="n">x</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;total_bedrooms&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Remove the column</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>longitude</th>
+      <th>latitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+      <th>median_house_value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-114.31</td>
+      <td>34.19</td>
+      <td>15.0</td>
+      <td>5612.0</td>
+      <td>1015.0</td>
+      <td>472.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-114.47</td>
+      <td>34.40</td>
+      <td>NaN</td>
+      <td>7650.0</td>
+      <td>1129.0</td>
+      <td>NaN</td>
+      <td>1.8200</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-114.56</td>
+      <td>33.69</td>
+      <td>17.0</td>
+      <td>720.0</td>
+      <td>333.0</td>
+      <td>117.0</td>
+      <td>1.6509</td>
+      <td>85700.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-114.57</td>
+      <td>33.64</td>
+      <td>14.0</td>
+      <td>1501.0</td>
+      <td>515.0</td>
+      <td>226.0</td>
+      <td>3.1917</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-114.57</td>
+      <td>33.57</td>
+      <td>20.0</td>
+      <td>1454.0</td>
+      <td>624.0</td>
+      <td>262.0</td>
+      <td>1.9250</td>
+      <td>65500.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Conversion-of-the-preprocessed-dataset-to-the-tensor-format.">Conversion of the preprocessed dataset to the tensor format.<a class="anchor-link" href="#Conversion-of-the-preprocessed-dataset-to-the-tensor-format."> </a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can split the dataset to inputs and output, with the <code>median_house_value</code> as the output</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">outputs</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">inputs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>longitude</th>
+      <th>latitude</th>
+      <th>housing_median_age</th>
+      <th>total_rooms</th>
+      <th>population</th>
+      <th>households</th>
+      <th>median_income</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-114.31</td>
+      <td>34.19</td>
+      <td>15.0</td>
+      <td>5612.0</td>
+      <td>1015.0</td>
+      <td>472.0</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-114.47</td>
+      <td>34.40</td>
+      <td>NaN</td>
+      <td>7650.0</td>
+      <td>1129.0</td>
+      <td>NaN</td>
+      <td>1.8200</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-114.56</td>
+      <td>33.69</td>
+      <td>17.0</td>
+      <td>720.0</td>
+      <td>333.0</td>
+      <td>117.0</td>
+      <td>1.6509</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-114.57</td>
+      <td>33.64</td>
+      <td>14.0</td>
+      <td>1501.0</td>
+      <td>515.0</td>
+      <td>226.0</td>
+      <td>3.1917</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-114.57</td>
+      <td>33.57</td>
+      <td>20.0</td>
+      <td>1454.0</td>
+      <td>624.0</td>
+      <td>262.0</td>
+      <td>1.9250</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">outputs</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0        NaN
+1        NaN
+2    85700.0
+3        NaN
+4    65500.0
+Name: median_house_value, dtype: float64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(&lt;tf.Tensor: shape=(17000, 7), dtype=float64, numpy=
+ array([[-114.31  ,   34.19  ,   15.    , ..., 1015.    ,  472.    ,
+               nan],
+        [-114.47  ,   34.4   ,       nan, ..., 1129.    ,       nan,
+            1.82  ],
+        [-114.56  ,   33.69  ,   17.    , ...,  333.    ,  117.    ,
+            1.6509],
+        ...,
+        [-124.3   ,   41.84  ,   17.    , ..., 1244.    ,  456.    ,
+            3.0313],
+        [-124.3   ,   41.8   ,   19.    , ..., 1298.    ,  478.    ,
+            1.9797],
+        [-124.35  ,   40.54  ,   52.    , ...,  806.    ,  270.    ,
+            3.0147]])&gt;,
+ &lt;tf.Tensor: shape=(17000,), dtype=float64, numpy=array([    nan,     nan,  85700., ..., 103600.,  85800.,  94600.])&gt;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This completes the <a href="https://d2l.ai/chapter_preliminaries/pandas.html#">second part</a> of the preliminaries.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
 
       </div><!-- from https://github.com/utterance/utterances -->
 <script src="https://utteranc.es/client.js"
@@ -1251,7 +1969,7 @@ window.onload = wrap_img;
         theme="github-light"
         crossorigin="anonymous"
         async>
-</script><a class="u-url" href="/Blog-Posts/take-home/implementation/2021/05/29/model-agnostic-featimp.html" hidden></a>
+</script><a class="u-url" href="/Blog-Posts/d2l.ai-exercises/deep-learning/tensorflow/2021/02/07/d2lai_exercises_pt2.html" hidden></a>
     </main>
   </div>
 </article>
