@@ -421,6 +421,7 @@
   }
 
   #toc ul li a {
+
     // Slightly different styling to indicate reduced functionality
     &:hover {
       background-color: #f0f0f0;
@@ -430,6 +431,7 @@
 
 // Dark theme support to match blog's color scheme
 [data-theme="dark"] {
+
   // Body background and text color for dark theme (Requirement 4.1, 4.2)
   body {
     background: #0d1117;
@@ -471,7 +473,12 @@
     }
 
     // Headings in dark theme
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       color: #f0f6fc;
     }
 
@@ -511,9 +518,10 @@
   }
 
   .toc-container {
-    background: #0d1117;
-    border-color: #30363d;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    background: #161b22;
+    border: 1px solid #21262d;
+    box-shadow: none;
+    border-radius: 8px;
 
     .toc-header {
       border-bottom-color: #30363d;
@@ -598,13 +606,19 @@
 
 // Ensure images and other content don't overflow
 .post-content {
-  img, video, iframe, embed, object {
+
+  img,
+  video,
+  iframe,
+  embed,
+  object {
     max-width: 100%;
     height: auto;
   }
 
   // Prevent code blocks from causing horizontal scroll
-  pre, code {
+  pre,
+  code {
     overflow-x: auto;
     word-wrap: break-word;
   }
@@ -624,6 +638,7 @@
 
 // Mobile-specific optimizations
 @media (max-width: 768px) {
+
   // Ensure body doesn't overflow
   body {
     overflow-x: hidden;
@@ -636,12 +651,29 @@
   }
 
   // Adjust heading sizes on mobile
-  .post-content h1 { font-size: 1.75rem; }
-  .post-content h2 { font-size: 1.5rem; }
-  .post-content h3 { font-size: 1.25rem; }
-  .post-content h4 { font-size: 1.1rem; }
-  .post-content h5 { font-size: 1rem; }
-  .post-content h6 { font-size: 0.9rem; }
+  .post-content h1 {
+    font-size: 1.75rem;
+  }
+
+  .post-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .post-content h3 {
+    font-size: 1.25rem;
+  }
+
+  .post-content h4 {
+    font-size: 1.1rem;
+  }
+
+  .post-content h5 {
+    font-size: 1rem;
+  }
+
+  .post-content h6 {
+    font-size: 0.9rem;
+  }
 }
 
 // Very small mobile devices (phones in portrait)
@@ -650,9 +682,17 @@
     font-size: 0.9rem;
   }
 
-  .post-content h1 { font-size: 1.5rem; }
-  .post-content h2 { font-size: 1.3rem; }
-  .post-content h3 { font-size: 1.15rem; }
+  .post-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .post-content h2 {
+    font-size: 1.3rem;
+  }
+
+  .post-content h3 {
+    font-size: 1.15rem;
+  }
 }
 
 // Additional TOC styling to match blog design system (Requirement 4.4)
@@ -696,6 +736,7 @@
 
 // Print styles - hide TOC when printing
 @media print {
+
   .toc-sidebar,
   .toc-container {
     display: none !important;
@@ -728,8 +769,13 @@
 
 // Spinner animation for loading state
 @keyframes toc-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 // Performance optimizations: Hardware acceleration for smooth animations
