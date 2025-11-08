@@ -20,7 +20,7 @@ RUN gem install jekyll
 # Install Python dependencies for notebook conversion
 RUN pip3 install --break-system-packages \
     watchdog[watchmedo] \
-    fastscript==1.0.0 \
+    fastscript \
     nbdev==0.2.18
 
 WORKDIR /fastpages
