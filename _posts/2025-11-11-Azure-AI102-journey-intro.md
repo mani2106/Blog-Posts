@@ -1,5 +1,5 @@
 ---
-title: Azure AI-102: Ceritification Journey - Introduction
+title: Azure AI-102 Certification Journey - Introduction
 layout: post
 summary: "Intro for my Azure AI-102 certification journey: took the official practice assessment, received a customised learning plan, and will follow recommended modules (Plan and prepare to develop AI solutions on Azure; Create an Azure AI Search solution). Links to the certification page and study guide are included."
 toc: false
