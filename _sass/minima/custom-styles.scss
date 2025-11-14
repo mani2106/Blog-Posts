@@ -133,39 +133,39 @@
     display: none;
   }
 
-  // Resize functionality - enable horizontal resizing
-  resize: horizontal;
-  min-width: 200px;
-  max-width: 400px;
-  overflow: auto;
-
-  // Visual resize handle indicator
-  &::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: transparent;
-    cursor: col-resize;
-    transition: background-color 0.2s ease;
-  }
-
-  &:hover::after {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-
-  // Disable resize on mobile/tablet
-  @media (max-width: 1024px) {
-    resize: none;
-  }
-
   // Performance optimization: Enable hardware acceleration
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+}
+
+// Resize handle for TOC
+.toc-resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  background: transparent;
+  cursor: col-resize;
+  transition: background-color 0.2s ease;
+  z-index: 10;
+
+  &:hover,
+  &:focus {
+    background-color: rgba(0, 0, 0, 0.15);
+    outline: none;
+  }
+
+  &:active {
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+
+  // Hide on mobile/tablet
+  @media (max-width: 1024px) {
+    display: none;
+  }
 }
 
 // Main post content area
@@ -454,9 +454,14 @@
 }
 
 // Dark mode styles for resize handle (Requirement 3.1)
-[data-theme="dark"] .toc-sidebar {
-  &:hover::after {
-    background-color: rgba(255, 255, 255, 0.1);
+[data-theme="dark"] .toc-resize-handle {
+  &:hover,
+  &:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.25);
   }
 }
 
