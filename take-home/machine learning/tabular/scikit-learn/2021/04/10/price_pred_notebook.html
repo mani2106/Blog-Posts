@@ -182,453 +182,455 @@ window.onload = wrap_img;
   <nav class="toc-nav" aria-label="Table of Contents">
     <div id="toc" role="navigation"></div>
   </nav>
+  <div class="toc-resize-handle" title="Drag to resize" tabindex="0" role="separator"
+    aria-label="Resize table of contents" aria-orientation="vertical"></div>
 </div>
 
 <script>
-    // Performance optimization: Debounce utility for scroll handlers (Requirement 3.4)
-    function debounce(func, wait, immediate) {
-      var timeout;
-      return function executedFunction() {
-        var context = this;
-        var args = arguments;
-        var later = function() {
-          timeout = null;
-          if (!immediate) func.apply(context, args);
-        };
-        var callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func.apply(context, args);
+  // Performance optimization: Debounce utility for scroll handlers (Requirement 3.4)
+  function debounce(func, wait, immediate) {
+    var timeout;
+    return function executedFunction() {
+      var context = this;
+      var args = arguments;
+      var later = function () {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
       };
-    }
-
-    // Performance optimization: Throttle utility for high-frequency events
-    function throttle(func, limit) {
-      var inThrottle;
-      return function() {
-        var args = arguments;
-        var context = this;
-        if (!inThrottle) {
-          func.apply(context, args);
-          inThrottle = true;
-          setTimeout(function() { inThrottle = false; }, limit);
-        }
-      };
-    }
-
-    // Performance optimization: RequestAnimationFrame polyfill for smooth animations
-    (function() {
-      var lastTime = 0;
-      var vendors = ['ms', 'moz', 'webkit', 'o'];
-      for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] ||
-                                      window[vendors[x] + 'CancelRequestAnimationFrame'];
-      }
-
-      if (!window.requestAnimationFrame) {
-        window.requestAnimationFrame = function(callback, element) {
-          var currTime = new Date().getTime();
-          var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-          var id = window.setTimeout(function() { callback(currTime + timeToCall); }, timeToCall);
-          lastTime = currTime + timeToCall;
-          return id;
-        };
-      }
-
-      if (!window.cancelAnimationFrame) {
-        window.cancelAnimationFrame = function(id) {
-          clearTimeout(id);
-        };
-      }
-    })();
-
-    // Enhanced feature detection with polyfill support (Requirement 5.2)
-    var features = {
-      jquery: typeof jQuery !== 'undefined',
-      cssGrid: (function() {
-        try {
-          return CSS && CSS.supports && CSS.supports('display', 'grid');
-        } catch (e) {
-          return false;
-        }
-      })(),
-      stickyPosition: (function() {
-        try {
-          return CSS && CSS.supports && (
-            CSS.supports('position', 'sticky') ||
-            CSS.supports('position', '-webkit-sticky')
-          );
-        } catch (e) {
-          return false;
-        }
-      })(),
-      intersectionObserver: (function() {
-        try {
-          return 'IntersectionObserver' in window &&
-                 typeof IntersectionObserver === 'function';
-        } catch (e) {
-          return false;
-        }
-      })(),
-      smoothScroll: (function() {
-        try {
-          return 'scrollBehavior' in document.documentElement.style;
-        } catch (e) {
-          return false;
-        }
-      })(),
-      // Additional performance-related feature detection
-      passiveEvents: (function() {
-        try {
-          var opts = Object.defineProperty({}, 'passive', {
-            get: function() {
-              return true;
-            }
-          });
-          window.addEventListener('testPassive', null, opts);
-          window.removeEventListener('testPassive', null, opts);
-          return true;
-        } catch (e) {
-          return false;
-        }
-      })(),
-      requestAnimationFrame: typeof window.requestAnimationFrame === 'function'
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
     };
+  }
 
-    // Log feature support for debugging
-    console.log('TOC Feature Support:', features);
+  // Performance optimization: Throttle utility for high-frequency events
+  function throttle(func, limit) {
+    var inThrottle;
+    return function () {
+      var args = arguments;
+      var context = this;
+      if (!inThrottle) {
+        func.apply(context, args);
+        inThrottle = true;
+        setTimeout(function () { inThrottle = false; }, limit);
+      }
+    };
+  }
 
-    // Apply graceful degradation classes based on feature support (Requirement 5.3)
-    function applyFeatureDegradation() {
-      var tocContainer = document.querySelector('.toc-container');
-      if (!tocContainer) return;
-
-      // Add classes for CSS to handle graceful degradation
-      if (!features.cssGrid) {
-        tocContainer.classList.add('no-css-grid');
-      }
-      if (!features.stickyPosition) {
-        tocContainer.classList.add('no-sticky-position');
-      }
-      if (!features.intersectionObserver) {
-        tocContainer.classList.add('no-intersection-observer');
-      }
+  // Performance optimization: RequestAnimationFrame polyfill for smooth animations
+  (function () {
+    var lastTime = 0;
+    var vendors = ['ms', 'moz', 'webkit', 'o'];
+    for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+      window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+      window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] ||
+        window[vendors[x] + 'CancelRequestAnimationFrame'];
     }
 
-    // Fallback TOC generation if jQuery plugin fails (Requirement 5.1)
-    // Enhanced with stack-based algorithm for proper heading hierarchy (Requirements 4.1-4.5)
-    function generateFallbackTOC() {
+    if (!window.requestAnimationFrame) {
+      window.requestAnimationFrame = function (callback, element) {
+        var currTime = new Date().getTime();
+        var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+        var id = window.setTimeout(function () { callback(currTime + timeToCall); }, timeToCall);
+        lastTime = currTime + timeToCall;
+        return id;
+      };
+    }
+
+    if (!window.cancelAnimationFrame) {
+      window.cancelAnimationFrame = function (id) {
+        clearTimeout(id);
+      };
+    }
+  })();
+
+  // Enhanced feature detection with polyfill support (Requirement 5.2)
+  var features = {
+    jquery: typeof jQuery !== 'undefined',
+    cssGrid: (function () {
       try {
-        // Select all heading levels H2-H6 (Requirement 4.1)
-        var headers = document.querySelectorAll('h2, h3, h4, h5, h6');
-
-        // Hide TOC if fewer than 2 headers (Requirement 1.4)
-        if (headers.length < 2) {
-          hideTOCContainer();
-          return false;
-        }
-
-        var tocContainer = document.getElementById('toc');
-        if (!tocContainer) {
-          console.warn('TOC container not found');
-          return false;
-        }
-
-        // Clear existing content
-        tocContainer.innerHTML = '';
-
-        // Build hierarchical structure using stack-based algorithm (Requirement 4.2, 4.3)
-        var rootList = document.createElement('ul');
-        var stack = [{ level: 1, list: rootList }]; // Stack to track nesting levels
-
-        headers.forEach(function(header, index) {
-          // Auto-generate IDs for headings without IDs (Requirement 4.4)
-          if (!header.id) {
-            header.id = 'toc-header-' + index;
-          }
-
-          var level = parseInt(header.tagName.charAt(1)); // Extract level (2-6)
-          var listItem = document.createElement('li');
-          var link = document.createElement('a');
-
-          link.href = '#' + header.id;
-          link.textContent = header.textContent || header.innerText;
-          link.setAttribute('data-level', level);
-          listItem.appendChild(link);
-
-          // Handle non-sequential heading hierarchies gracefully (Requirement 4.3)
-          // Find the correct parent level in the stack
-          while (stack.length > 1 && stack[stack.length - 1].level >= level) {
-            stack.pop();
-          }
-
-          // If we need to go deeper, create nested lists for proper indentation (Requirement 4.5)
-          if (level > stack[stack.length - 1].level) {
-            // Create nested list structure
-            var nestedList = document.createElement('ul');
-            var parentList = stack[stack.length - 1].list;
-
-            // Append to last item in parent list, or to parent list if empty
-            if (parentList.lastElementChild) {
-              parentList.lastElementChild.appendChild(nestedList);
-            } else {
-              // Handle case where parent header is missing (non-sequential hierarchy)
-              parentList.appendChild(nestedList);
-            }
-
-            // Push new level onto stack
-            stack.push({ level: level, list: nestedList });
-          }
-
-          // Append item to current level
-          stack[stack.length - 1].list.appendChild(listItem);
-        });
-
-        tocContainer.appendChild(rootList);
-
-        // Add click handlers for smooth scrolling
-        addFallbackScrollHandlers();
-
-        console.log('Fallback TOC generated successfully with all heading levels (H2-H6)');
-        return true;
-      } catch (error) {
-        console.error('Fallback TOC generation failed:', error);
-        hideTOCContainer();
+        return CSS && CSS.supports && CSS.supports('display', 'grid');
+      } catch (e) {
         return false;
       }
-    }
-
-    // Add smooth scrolling handlers for fallback TOC (Requirement 5.1)
-    function addFallbackScrollHandlers() {
-      var tocLinks = document.querySelectorAll('#toc a');
-
-      tocLinks.forEach(function(link) {
-        // Create named handler for cleanup
-        var clickHandler = function(e) {
-          try {
-            e.preventDefault();
-
-            var targetId = this.getAttribute('href').substring(1);
-            var target = document.getElementById(targetId);
-
-            if (target) {
-              var offset = 32; // Account for sticky headers
-              var targetPosition = target.offsetTop - offset;
-
-              // Use smooth scroll if supported, otherwise fallback to instant scroll
-              if (features.smoothScroll) {
-                window.scrollTo({
-                  top: targetPosition,
-                  behavior: 'smooth'
-                });
-              } else {
-                window.scrollTo(0, targetPosition);
-              }
-            }
-          } catch (scrollError) {
-            console.warn('Error in fallback scroll handler:', scrollError);
-            // Allow default browser behavior as fallback
+    })(),
+    stickyPosition: (function () {
+      try {
+        return CSS && CSS.supports && (
+          CSS.supports('position', 'sticky') ||
+          CSS.supports('position', '-webkit-sticky')
+        );
+      } catch (e) {
+        return false;
+      }
+    })(),
+    intersectionObserver: (function () {
+      try {
+        return 'IntersectionObserver' in window &&
+          typeof IntersectionObserver === 'function';
+      } catch (e) {
+        return false;
+      }
+    })(),
+    smoothScroll: (function () {
+      try {
+        return 'scrollBehavior' in document.documentElement.style;
+      } catch (e) {
+        return false;
+      }
+    })(),
+    // Additional performance-related feature detection
+    passiveEvents: (function () {
+      try {
+        var opts = Object.defineProperty({}, 'passive', {
+          get: function () {
             return true;
           }
-          return false;
-        };
-
-        // Store handler reference for cleanup
-        link._tocClickHandler = clickHandler;
-        link.addEventListener('click', clickHandler);
-      });
-    }
-
-    // Hide TOC container when not needed (Requirement 1.4)
-    function hideTOCContainer() {
-      var tocContainer = document.querySelector('.toc-container');
-      if (tocContainer) {
-        tocContainer.style.display = 'none';
-      }
-    }
-
-    // Show TOC container with loading state management
-    function showTOCContainer() {
-      var tocContainer = document.querySelector('.toc-container');
-      if (tocContainer) {
-        tocContainer.style.display = 'block';
-        // Remove loading state if present
-        tocContainer.classList.remove('toc-loading');
-        tocContainer.classList.add('toc-loaded');
-      }
-    }
-
-    // Add loading state to TOC container
-    function showTOCLoading() {
-      var tocContainer = document.querySelector('.toc-container');
-      if (tocContainer) {
-        tocContainer.classList.add('toc-loading');
-        tocContainer.classList.remove('toc-loaded');
-
-        // Add loading indicator
-        var tocContent = document.getElementById('toc');
-        if (tocContent) {
-          tocContent.innerHTML = '<div class="toc-loading-indicator">' +
-            '<div class="toc-spinner"></div>' +
-            '<span>Generating table of contents...</span>' +
-            '</div>';
-        }
-      }
-    }
-
-    // Performance optimization: Batch DOM operations for faster TOC generation
-    function batchDOMOperations(operations) {
-      if (features.requestAnimationFrame) {
-        return new Promise(function(resolve) {
-          requestAnimationFrame(function() {
-            operations();
-            resolve();
-          });
         });
-      } else {
-        // Fallback for browsers without requestAnimationFrame
-        return new Promise(function(resolve) {
-          setTimeout(function() {
-            operations();
-            resolve();
-          }, 0);
-        });
+        window.addEventListener('testPassive', null, opts);
+        window.removeEventListener('testPassive', null, opts);
+        return true;
+      } catch (e) {
+        return false;
       }
+    })(),
+    requestAnimationFrame: typeof window.requestAnimationFrame === 'function'
+  };
+
+  // Log feature support for debugging
+  console.log('TOC Feature Support:', features);
+
+  // Apply graceful degradation classes based on feature support (Requirement 5.3)
+  function applyFeatureDegradation() {
+    var tocContainer = document.querySelector('.toc-container');
+    if (!tocContainer) return;
+
+    // Add classes for CSS to handle graceful degradation
+    if (!features.cssGrid) {
+      tocContainer.classList.add('no-css-grid');
     }
+    if (!features.stickyPosition) {
+      tocContainer.classList.add('no-sticky-position');
+    }
+    if (!features.intersectionObserver) {
+      tocContainer.classList.add('no-intersection-observer');
+    }
+  }
 
-    // Error recovery and cleanup utilities (Requirement 5.1)
-    var tocErrorCount = 0;
-    var maxRetries = 3;
+  // Fallback TOC generation if jQuery plugin fails (Requirement 5.1)
+  // Enhanced with stack-based algorithm for proper heading hierarchy (Requirements 4.1-4.5)
+  function generateFallbackTOC() {
+    try {
+      // Select all heading levels H2-H6 (Requirement 4.1)
+      var headers = document.querySelectorAll('h2, h3, h4, h5, h6');
 
-    function handleTOCError(error, context) {
-      tocErrorCount++;
-      console.error('TOC Error in ' + context + ':', error);
-
-      if (tocErrorCount >= maxRetries) {
-        console.error('TOC initialization failed after ' + maxRetries + ' attempts, disabling TOC');
+      // Hide TOC if fewer than 2 headers (Requirement 1.4)
+      if (headers.length < 2) {
         hideTOCContainer();
         return false;
       }
 
+      var tocContainer = document.getElementById('toc');
+      if (!tocContainer) {
+        console.warn('TOC container not found');
+        return false;
+      }
+
+      // Clear existing content
+      tocContainer.innerHTML = '';
+
+      // Build hierarchical structure using stack-based algorithm (Requirement 4.2, 4.3)
+      var rootList = document.createElement('ul');
+      var stack = [{ level: 1, list: rootList }]; // Stack to track nesting levels
+
+      headers.forEach(function (header, index) {
+        // Auto-generate IDs for headings without IDs (Requirement 4.4)
+        if (!header.id) {
+          header.id = 'toc-header-' + index;
+        }
+
+        var level = parseInt(header.tagName.charAt(1)); // Extract level (2-6)
+        var listItem = document.createElement('li');
+        var link = document.createElement('a');
+
+        link.href = '#' + header.id;
+        link.textContent = header.textContent || header.innerText;
+        link.setAttribute('data-level', level);
+        listItem.appendChild(link);
+
+        // Handle non-sequential heading hierarchies gracefully (Requirement 4.3)
+        // Find the correct parent level in the stack
+        while (stack.length > 1 && stack[stack.length - 1].level >= level) {
+          stack.pop();
+        }
+
+        // If we need to go deeper, create nested lists for proper indentation (Requirement 4.5)
+        if (level > stack[stack.length - 1].level) {
+          // Create nested list structure
+          var nestedList = document.createElement('ul');
+          var parentList = stack[stack.length - 1].list;
+
+          // Append to last item in parent list, or to parent list if empty
+          if (parentList.lastElementChild) {
+            parentList.lastElementChild.appendChild(nestedList);
+          } else {
+            // Handle case where parent header is missing (non-sequential hierarchy)
+            parentList.appendChild(nestedList);
+          }
+
+          // Push new level onto stack
+          stack.push({ level: level, list: nestedList });
+        }
+
+        // Append item to current level
+        stack[stack.length - 1].list.appendChild(listItem);
+      });
+
+      tocContainer.appendChild(rootList);
+
+      // Add click handlers for smooth scrolling
+      addFallbackScrollHandlers();
+
+      console.log('Fallback TOC generated successfully with all heading levels (H2-H6)');
       return true;
+    } catch (error) {
+      console.error('Fallback TOC generation failed:', error);
+      hideTOCContainer();
+      return false;
     }
+  }
 
-    // Cross-browser compatibility: Array.from polyfill for IE11
-    if (!Array.from) {
-      Array.from = function(arrayLike) {
-        var result = [];
-        for (var i = 0; i < arrayLike.length; i++) {
-          result.push(arrayLike[i]);
+  // Add smooth scrolling handlers for fallback TOC (Requirement 5.1)
+  function addFallbackScrollHandlers() {
+    var tocLinks = document.querySelectorAll('#toc a');
+
+    tocLinks.forEach(function (link) {
+      // Create named handler for cleanup
+      var clickHandler = function (e) {
+        try {
+          e.preventDefault();
+
+          var targetId = this.getAttribute('href').substring(1);
+          var target = document.getElementById(targetId);
+
+          if (target) {
+            var offset = 32; // Account for sticky headers
+            var targetPosition = target.offsetTop - offset;
+
+            // Use smooth scroll if supported, otherwise fallback to instant scroll
+            if (features.smoothScroll) {
+              window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+              });
+            } else {
+              window.scrollTo(0, targetPosition);
+            }
+          }
+        } catch (scrollError) {
+          console.warn('Error in fallback scroll handler:', scrollError);
+          // Allow default browser behavior as fallback
+          return true;
         }
-        return result;
+        return false;
       };
+
+      // Store handler reference for cleanup
+      link._tocClickHandler = clickHandler;
+      link.addEventListener('click', clickHandler);
+    });
+  }
+
+  // Hide TOC container when not needed (Requirement 1.4)
+  function hideTOCContainer() {
+    var tocContainer = document.querySelector('.toc-container');
+    if (tocContainer) {
+      tocContainer.style.display = 'none';
+    }
+  }
+
+  // Show TOC container with loading state management
+  function showTOCContainer() {
+    var tocContainer = document.querySelector('.toc-container');
+    if (tocContainer) {
+      tocContainer.style.display = 'block';
+      // Remove loading state if present
+      tocContainer.classList.remove('toc-loading');
+      tocContainer.classList.add('toc-loaded');
+    }
+  }
+
+  // Add loading state to TOC container
+  function showTOCLoading() {
+    var tocContainer = document.querySelector('.toc-container');
+    if (tocContainer) {
+      tocContainer.classList.add('toc-loading');
+      tocContainer.classList.remove('toc-loaded');
+
+      // Add loading indicator
+      var tocContent = document.getElementById('toc');
+      if (tocContent) {
+        tocContent.innerHTML = '<div class="toc-loading-indicator">' +
+          '<div class="toc-spinner"></div>' +
+          '<span>Generating table of contents...</span>' +
+          '</div>';
+      }
+    }
+  }
+
+  // Performance optimization: Batch DOM operations for faster TOC generation
+  function batchDOMOperations(operations) {
+    if (features.requestAnimationFrame) {
+      return new Promise(function (resolve) {
+        requestAnimationFrame(function () {
+          operations();
+          resolve();
+        });
+      });
+    } else {
+      // Fallback for browsers without requestAnimationFrame
+      return new Promise(function (resolve) {
+        setTimeout(function () {
+          operations();
+          resolve();
+        }, 0);
+      });
+    }
+  }
+
+  // Error recovery and cleanup utilities (Requirement 5.1)
+  var tocErrorCount = 0;
+  var maxRetries = 3;
+
+  function handleTOCError(error, context) {
+    tocErrorCount++;
+    console.error('TOC Error in ' + context + ':', error);
+
+    if (tocErrorCount >= maxRetries) {
+      console.error('TOC initialization failed after ' + maxRetries + ' attempts, disabling TOC');
+      hideTOCContainer();
+      return false;
     }
 
-    // Cross-browser compatibility: forEach polyfill for NodeList in IE11
-    if (window.NodeList && !NodeList.prototype.forEach) {
-      NodeList.prototype.forEach = function(callback, thisArg) {
-        thisArg = thisArg || window;
-        for (var i = 0; i < this.length; i++) {
-          callback.call(thisArg, this[i], i, this);
-        }
-      };
-    }
+    return true;
+  }
 
-    // Cross-browser compatibility: Object.assign polyfill for IE11
-    if (typeof Object.assign !== 'function') {
-      Object.assign = function(target) {
-        if (target == null) {
-          throw new TypeError('Cannot convert undefined or null to object');
-        }
-        var to = Object(target);
-        for (var index = 1; index < arguments.length; index++) {
-          var nextSource = arguments[index];
-          if (nextSource != null) {
-            for (var nextKey in nextSource) {
-              if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-                to[nextKey] = nextSource[nextKey];
-              }
+  // Cross-browser compatibility: Array.from polyfill for IE11
+  if (!Array.from) {
+    Array.from = function (arrayLike) {
+      var result = [];
+      for (var i = 0; i < arrayLike.length; i++) {
+        result.push(arrayLike[i]);
+      }
+      return result;
+    };
+  }
+
+  // Cross-browser compatibility: forEach polyfill for NodeList in IE11
+  if (window.NodeList && !NodeList.prototype.forEach) {
+    NodeList.prototype.forEach = function (callback, thisArg) {
+      thisArg = thisArg || window;
+      for (var i = 0; i < this.length; i++) {
+        callback.call(thisArg, this[i], i, this);
+      }
+    };
+  }
+
+  // Cross-browser compatibility: Object.assign polyfill for IE11
+  if (typeof Object.assign !== 'function') {
+    Object.assign = function (target) {
+      if (target == null) {
+        throw new TypeError('Cannot convert undefined or null to object');
+      }
+      var to = Object(target);
+      for (var index = 1; index < arguments.length; index++) {
+        var nextSource = arguments[index];
+        if (nextSource != null) {
+          for (var nextKey in nextSource) {
+            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+              to[nextKey] = nextSource[nextKey];
             }
           }
         }
-        return to;
-      };
-    }
-
-    // Enhanced cleanup function for memory management and performance
-    function cleanupTOC() {
-      try {
-        // Performance optimization: Cancel any pending animation frames
-        if (window.tocAnimationFrame) {
-          cancelAnimationFrame(window.tocAnimationFrame);
-          window.tocAnimationFrame = null;
-        }
-
-        // Remove event listeners to prevent memory leaks
-        var tocLinks = document.querySelectorAll('#toc a');
-        tocLinks.forEach(function(link) {
-          if (link._tocClickHandler) {
-            link.removeEventListener('click', link._tocClickHandler);
-            delete link._tocClickHandler;
-          }
-        });
-
-        // Clear any active observers
-        if (window.tocObserver) {
-          window.tocObserver.disconnect();
-          window.tocObserver = null;
-        }
-
-        // Clear timeouts and intervals
-        if (window.tocScrollTimeout) {
-          clearTimeout(window.tocScrollTimeout);
-          window.tocScrollTimeout = null;
-        }
-        if (window.tocResizeTimeout) {
-          clearTimeout(window.tocResizeTimeout);
-          window.tocResizeTimeout = null;
-        }
-
-        // Clear performance monitoring
-        if (window.tocPerformanceStart) {
-          window.tocPerformanceStart = null;
-        }
-
-        console.log('TOC cleanup completed');
-      } catch (cleanupError) {
-        console.warn('Error during TOC cleanup:', cleanupError);
       }
+      return to;
+    };
+  }
+
+  // Enhanced cleanup function for memory management and performance
+  function cleanupTOC() {
+    try {
+      // Performance optimization: Cancel any pending animation frames
+      if (window.tocAnimationFrame) {
+        cancelAnimationFrame(window.tocAnimationFrame);
+        window.tocAnimationFrame = null;
+      }
+
+      // Remove event listeners to prevent memory leaks
+      var tocLinks = document.querySelectorAll('#toc a');
+      tocLinks.forEach(function (link) {
+        if (link._tocClickHandler) {
+          link.removeEventListener('click', link._tocClickHandler);
+          delete link._tocClickHandler;
+        }
+      });
+
+      // Clear any active observers
+      if (window.tocObserver) {
+        window.tocObserver.disconnect();
+        window.tocObserver = null;
+      }
+
+      // Clear timeouts and intervals
+      if (window.tocScrollTimeout) {
+        clearTimeout(window.tocScrollTimeout);
+        window.tocScrollTimeout = null;
+      }
+      if (window.tocResizeTimeout) {
+        clearTimeout(window.tocResizeTimeout);
+        window.tocResizeTimeout = null;
+      }
+
+      // Clear performance monitoring
+      if (window.tocPerformanceStart) {
+        window.tocPerformanceStart = null;
+      }
+
+      console.log('TOC cleanup completed');
+    } catch (cleanupError) {
+      console.warn('Error during TOC cleanup:', cleanupError);
     }
+  }
 
-    // Main TOC initialization with comprehensive error handling and performance optimization
-    function initializeTOC() {
-      try {
-        // Performance optimization: Show loading state immediately
-        showTOCLoading();
+  // Main TOC initialization with comprehensive error handling and performance optimization
+  function initializeTOC() {
+    try {
+      // Performance optimization: Show loading state immediately
+      showTOCLoading();
 
-        // Clean up any previous initialization
-        cleanupTOC();
+      // Clean up any previous initialization
+      cleanupTOC();
 
-        // Apply feature degradation classes first
-        applyFeatureDegradation();
+      // Apply feature degradation classes first
+      applyFeatureDegradation();
 
-        // Performance optimization: Use requestAnimationFrame for non-blocking execution
-        return batchDOMOperations(function() {
-          // Check if we have enough headers (Requirement 1.4)
-          var headers = document.querySelectorAll('h2, h3, h4, h5, h6');
-          if (headers.length < 2) {
-            console.log('TOC hidden: fewer than 2 headers found (' + headers.length + ')');
-            hideTOCContainer();
-            return;
-          }
+      // Performance optimization: Use requestAnimationFrame for non-blocking execution
+      return batchDOMOperations(function () {
+        // Check if we have enough headers (Requirement 1.4)
+        var headers = document.querySelectorAll('h2, h3, h4, h5, h6');
+        if (headers.length < 2) {
+          console.log('TOC hidden: fewer than 2 headers found (' + headers.length + ')');
+          hideTOCContainer();
+          return;
+        }
 
-          console.log('Initializing TOC with ' + headers.length + ' headers');
+        console.log('Initializing TOC with ' + headers.length + ' headers');
 
-          // Performance monitoring: Track TOC generation time
-          window.tocPerformanceStart = performance && performance.now ? performance.now() : Date.now();
+        // Performance monitoring: Track TOC generation time
+        window.tocPerformanceStart = performance && performance.now ? performance.now() : Date.now();
 
-          var tocGenerated = false;
+        var tocGenerated = false;
 
         // Try jQuery TOC plugin first if available
         if (features.jquery && typeof $ !== 'undefined' && $.fn && typeof $.fn.toc === 'function') {
@@ -647,7 +649,7 @@ window.onload = wrap_img;
               console.log('jQuery TOC plugin initialized successfully');
 
               // Enhanced smooth scrolling with proper offset calculation (Requirements 3.2, 3.3)
-              $('#toc').on('click', 'a', function(e) {
+              $('#toc').on('click', 'a', function (e) {
                 try {
                   e.preventDefault();
                   var target = $(this.getAttribute('href'));
@@ -692,527 +694,633 @@ window.onload = wrap_img;
           }
         }
 
-          if (tocGenerated) {
-            try {
-              // Initialize active section highlighting if supported (Requirements 3.1, 3.4)
-              initializeActiveHighlighting();
-              showTOCContainer();
+        if (tocGenerated) {
+          try {
+            // Initialize active section highlighting if supported (Requirements 3.1, 3.4)
+            initializeActiveHighlighting();
+            showTOCContainer();
 
-              // Performance monitoring: Log completion time
-              if (window.tocPerformanceStart) {
-                var endTime = performance && performance.now ? performance.now() : Date.now();
-                var duration = endTime - window.tocPerformanceStart;
-                console.log('TOC initialization completed in ' + duration.toFixed(2) + 'ms');
+            // Performance monitoring: Log completion time
+            if (window.tocPerformanceStart) {
+              var endTime = performance && performance.now ? performance.now() : Date.now();
+              var duration = endTime - window.tocPerformanceStart;
+              console.log('TOC initialization completed in ' + duration.toFixed(2) + 'ms');
 
-                // Performance validation: Warn if TOC generation is slow (Requirement 3.4)
-                if (duration > 50) {
-                  console.warn('TOC generation took longer than expected (' + duration.toFixed(2) + 'ms). Consider optimizing for better performance.');
-                }
+              // Performance validation: Warn if TOC generation is slow (Requirement 3.4)
+              if (duration > 50) {
+                console.warn('TOC generation took longer than expected (' + duration.toFixed(2) + 'ms). Consider optimizing for better performance.');
               }
-
-              // Validate final implementation against requirements
-              validateTOCImplementation();
-
-            } catch (highlightError) {
-              // Active highlighting is optional, don't fail the entire TOC
-              console.warn('Active highlighting failed, but TOC is still functional:', highlightError);
-              showTOCContainer();
             }
-          } else {
-            console.warn('TOC generation failed, hiding container');
-            hideTOCContainer();
-          }
-        }).catch(function(batchError) {
-          console.error('Error in batched TOC operations:', batchError);
-          hideTOCContainer();
-        });
 
-      } catch (error) {
-        handleTOCError(error, 'main initialization');
-      }
-    }
+            // Validate final implementation against requirements
+            validateTOCImplementation();
 
-    // Cleanup on page unload to prevent memory leaks
-    window.addEventListener('beforeunload', cleanupTOC);
-
-    // Validate final implementation against all requirements
-    function validateTOCImplementation() {
-      try {
-        var validationResults = {
-          requirement1_1: false, // TOC displays in right sidebar
-          requirement1_2: false, // TOC remains sticky during scroll
-          requirement1_3: false, // TOC hidden on mobile/tablet
-          requirement1_4: false, // TOC hidden when fewer than 2 headers
-          requirement3_1: false, // Active section highlighting
-          requirement3_4: false, // Smooth scrolling with proper performance
-          requirement4_1: false, // Consistent typography and colors
-          requirement6_4: false  // Responsive behavior
-        };
-
-        // Check Requirement 1.1: TOC displays in right sidebar
-        var tocSidebar = document.querySelector('.toc-sidebar');
-        var tocContainer = document.querySelector('.toc-container');
-        if (tocSidebar && tocContainer && tocContainer.style.display !== 'none') {
-          validationResults.requirement1_1 = true;
-        }
-
-        // Check Requirement 1.2: Sticky positioning
-        if (features.stickyPosition) {
-          var stickyStyle = window.getComputedStyle(tocSidebar);
-          if (stickyStyle.position === 'sticky' || stickyStyle.position === '-webkit-sticky') {
-            validationResults.requirement1_2 = true;
+          } catch (highlightError) {
+            // Active highlighting is optional, don't fail the entire TOC
+            console.warn('Active highlighting failed, but TOC is still functional:', highlightError);
+            showTOCContainer();
           }
         } else {
-          // Graceful degradation is acceptable
+          console.warn('TOC generation failed, hiding container');
+          hideTOCContainer();
+        }
+      }).catch(function (batchError) {
+        console.error('Error in batched TOC operations:', batchError);
+        hideTOCContainer();
+      });
+
+    } catch (error) {
+      handleTOCError(error, 'main initialization');
+    }
+  }
+
+  // Cleanup on page unload to prevent memory leaks
+  window.addEventListener('beforeunload', cleanupTOC);
+
+  // Validate final implementation against all requirements
+  function validateTOCImplementation() {
+    try {
+      var validationResults = {
+        requirement1_1: false, // TOC displays in right sidebar
+        requirement1_2: false, // TOC remains sticky during scroll
+        requirement1_3: false, // TOC hidden on mobile/tablet
+        requirement1_4: false, // TOC hidden when fewer than 2 headers
+        requirement3_1: false, // Active section highlighting
+        requirement3_4: false, // Smooth scrolling with proper performance
+        requirement4_1: false, // Consistent typography and colors
+        requirement6_4: false  // Responsive behavior
+      };
+
+      // Check Requirement 1.1: TOC displays in right sidebar
+      var tocSidebar = document.querySelector('.toc-sidebar');
+      var tocContainer = document.querySelector('.toc-container');
+      if (tocSidebar && tocContainer && tocContainer.style.display !== 'none') {
+        validationResults.requirement1_1 = true;
+      }
+
+      // Check Requirement 1.2: Sticky positioning
+      if (features.stickyPosition) {
+        var stickyStyle = window.getComputedStyle(tocSidebar);
+        if (stickyStyle.position === 'sticky' || stickyStyle.position === '-webkit-sticky') {
           validationResults.requirement1_2 = true;
         }
-
-        // Check Requirement 1.3: Responsive behavior
-        var mediaQuery = window.matchMedia('(max-width: 1024px)');
-        if (mediaQuery.matches) {
-          var tocDisplay = window.getComputedStyle(tocSidebar).display;
-          if (tocDisplay === 'none') {
-            validationResults.requirement1_3 = true;
-          }
-        } else {
-          validationResults.requirement1_3 = true; // Not on mobile, so requirement is met
-        }
-
-        // Check Requirement 1.4: Hidden when fewer than 2 headers
-        var headers = document.querySelectorAll('h2, h3, h4, h5, h6');
-        if (headers.length >= 2) {
-          validationResults.requirement1_4 = true; // TOC should be visible
-        } else {
-          // TOC should be hidden
-          if (tocContainer && tocContainer.style.display === 'none') {
-            validationResults.requirement1_4 = true;
-          }
-        }
-
-        // Check Requirement 3.1: Active section highlighting
-        var tocLinks = document.querySelectorAll('#toc a');
-        var hasActiveClass = false;
-        tocLinks.forEach(function(link) {
-          if (link.classList.contains('toc-active')) {
-            hasActiveClass = true;
-          }
-        });
-        if (features.intersectionObserver || hasActiveClass) {
-          validationResults.requirement3_1 = true;
-        }
-
-        // Check Requirement 3.4: Performance (scroll handlers are throttled)
-        if (window.tocObserver || (window.addEventListener.toString().indexOf('throttle') > -1)) {
-          validationResults.requirement3_4 = true;
-        }
-
-        // Check Requirement 4.1: Typography and colors
-        if (tocContainer) {
-          var containerStyles = window.getComputedStyle(tocContainer);
-          if (containerStyles.fontFamily && containerStyles.color) {
-            validationResults.requirement4_1 = true;
-          }
-        }
-
-        // Check Requirement 6.4: Responsive adaptation
-        validationResults.requirement6_4 = validationResults.requirement1_3;
-
-        // Log validation results
-        var passedCount = 0;
-        var totalCount = 0;
-        for (var req in validationResults) {
-          totalCount++;
-          if (validationResults[req]) {
-            passedCount++;
-          } else {
-            console.warn('Requirement validation failed:', req);
-          }
-        }
-
-        console.log('TOC Requirements Validation: ' + passedCount + '/' + totalCount + ' requirements met');
-
-        if (passedCount === totalCount) {
-          console.log('✅ All TOC requirements successfully validated');
-        } else {
-          console.warn('⚠️ Some TOC requirements not fully met - check console for details');
-        }
-
-        return validationResults;
-      } catch (validationError) {
-        console.error('Error during TOC validation:', validationError);
-        return null;
+      } else {
+        // Graceful degradation is acceptable
+        validationResults.requirement1_2 = true;
       }
-    }
 
-    // Cross-browser compatibility: Performance monitoring fallback
-    if (!window.performance || !window.performance.now) {
-      window.performance = {
-        now: function() {
-          return Date.now();
+      // Check Requirement 1.3: Responsive behavior
+      var mediaQuery = window.matchMedia('(max-width: 1024px)');
+      if (mediaQuery.matches) {
+        var tocDisplay = window.getComputedStyle(tocSidebar).display;
+        if (tocDisplay === 'none') {
+          validationResults.requirement1_3 = true;
         }
-      };
-    }
+      } else {
+        validationResults.requirement1_3 = true; // Not on mobile, so requirement is met
+      }
 
-    // Initialize when DOM is ready with error handling
-    function initializeTOCWhenReady() {
-      try {
-        if (features.jquery && typeof $ !== 'undefined') {
-          $(document).ready(function() {
+      // Check Requirement 1.4: Hidden when fewer than 2 headers
+      var headers = document.querySelectorAll('h2, h3, h4, h5, h6');
+      if (headers.length >= 2) {
+        validationResults.requirement1_4 = true; // TOC should be visible
+      } else {
+        // TOC should be hidden
+        if (tocContainer && tocContainer.style.display === 'none') {
+          validationResults.requirement1_4 = true;
+        }
+      }
+
+      // Check Requirement 3.1: Active section highlighting
+      var tocLinks = document.querySelectorAll('#toc a');
+      var hasActiveClass = false;
+      tocLinks.forEach(function (link) {
+        if (link.classList.contains('toc-active')) {
+          hasActiveClass = true;
+        }
+      });
+      if (features.intersectionObserver || hasActiveClass) {
+        validationResults.requirement3_1 = true;
+      }
+
+      // Check Requirement 3.4: Performance (scroll handlers are throttled)
+      if (window.tocObserver || (window.addEventListener.toString().indexOf('throttle') > -1)) {
+        validationResults.requirement3_4 = true;
+      }
+
+      // Check Requirement 4.1: Typography and colors
+      if (tocContainer) {
+        var containerStyles = window.getComputedStyle(tocContainer);
+        if (containerStyles.fontFamily && containerStyles.color) {
+          validationResults.requirement4_1 = true;
+        }
+      }
+
+      // Check Requirement 6.4: Responsive adaptation
+      validationResults.requirement6_4 = validationResults.requirement1_3;
+
+      // Log validation results
+      var passedCount = 0;
+      var totalCount = 0;
+      for (var req in validationResults) {
+        totalCount++;
+        if (validationResults[req]) {
+          passedCount++;
+        } else {
+          console.warn('Requirement validation failed:', req);
+        }
+      }
+
+      console.log('TOC Requirements Validation: ' + passedCount + '/' + totalCount + ' requirements met');
+
+      if (passedCount === totalCount) {
+        console.log('✅ All TOC requirements successfully validated');
+      } else {
+        console.warn('⚠️ Some TOC requirements not fully met - check console for details');
+      }
+
+      return validationResults;
+    } catch (validationError) {
+      console.error('Error during TOC validation:', validationError);
+      return null;
+    }
+  }
+
+  // Cross-browser compatibility: Performance monitoring fallback
+  if (!window.performance || !window.performance.now) {
+    window.performance = {
+      now: function () {
+        return Date.now();
+      }
+    };
+  }
+
+  // Initialize when DOM is ready with error handling
+  function initializeTOCWhenReady() {
+    try {
+      if (features.jquery && typeof $ !== 'undefined') {
+        $(document).ready(function () {
+          setTimeout(initializeTOC, 0); // Non-blocking initialization
+        });
+      } else {
+        // Fallback for when jQuery is not available
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', function () {
             setTimeout(initializeTOC, 0); // Non-blocking initialization
           });
         } else {
-          // Fallback for when jQuery is not available
-          if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
-              setTimeout(initializeTOC, 0); // Non-blocking initialization
-            });
-          } else {
-            setTimeout(initializeTOC, 0); // Non-blocking initialization
-          }
+          setTimeout(initializeTOC, 0); // Non-blocking initialization
         }
-      } catch (initError) {
-        console.error('Error setting up TOC initialization:', initError);
-        // Fallback: try direct initialization
-        setTimeout(function() {
-          try {
-            initializeTOC();
-          } catch (fallbackError) {
-            console.error('TOC fallback initialization also failed:', fallbackError);
-          }
-        }, 100);
       }
+    } catch (initError) {
+      console.error('Error setting up TOC initialization:', initError);
+      // Fallback: try direct initialization
+      setTimeout(function () {
+        try {
+          initializeTOC();
+        } catch (fallbackError) {
+          console.error('TOC fallback initialization also failed:', fallbackError);
+        }
+      }, 100);
     }
+  }
 
-    // Start initialization
-    initializeTOCWhenReady();
+  // TOC Resize functionality (Requirements 1.1, 1.2, 1.4, 1.5, 3.1, 3.2, 3.3)
+  function initTOCResize() {
+    try {
+      var resizeHandle = document.querySelector('.toc-resize-handle');
+      var tocSidebar = document.querySelector('.toc-sidebar');
 
-    // Active section highlighting using Intersection Observer API (Requirement 3.1)
-    function initializeActiveHighlighting() {
-      try {
-        // Check if Intersection Observer is supported (Requirement 5.2)
-        if (!features.intersectionObserver) {
-          console.warn('Intersection Observer not supported, using fallback scroll-based highlighting');
-          initializeFallbackHighlighting();
+      if (!resizeHandle || !tocSidebar) {
+        console.log('Resize handle or TOC sidebar not found');
+        return;
+      }
+
+      var isResizing = false;
+      var startX = 0;
+      var startWidth = 0;
+      var minWidth = 200;
+      var maxWidth = 400;
+
+      // Load saved width from localStorage
+      var savedWidth = localStorage.getItem('toc-width');
+      if (savedWidth) {
+        var width = parseInt(savedWidth, 10);
+        if (width >= minWidth && width <= maxWidth) {
+          tocSidebar.style.width = width + 'px';
+        }
+      }
+
+      // Mouse events for drag-to-resize
+      function startResize(e) {
+        isResizing = true;
+        startX = e.clientX || (e.touches && e.touches[0].clientX);
+        startWidth = tocSidebar.offsetWidth;
+
+        document.body.style.cursor = 'col-resize';
+        document.body.style.userSelect = 'none';
+
+        e.preventDefault();
+      }
+
+      function doResize(e) {
+        if (!isResizing) return;
+
+        var clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        var deltaX = clientX - startX;
+        var newWidth = startWidth + deltaX;
+
+        // Constrain width
+        newWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
+
+        tocSidebar.style.width = newWidth + 'px';
+
+        e.preventDefault();
+      }
+
+      function stopResize() {
+        if (!isResizing) return;
+
+        isResizing = false;
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+
+        // Save width to localStorage
+        localStorage.setItem('toc-width', tocSidebar.offsetWidth);
+      }
+
+      // Mouse events
+      resizeHandle.addEventListener('mousedown', startResize);
+      document.addEventListener('mousemove', doResize);
+      document.addEventListener('mouseup', stopResize);
+
+      // Touch events for mobile (though handle is hidden on mobile)
+      resizeHandle.addEventListener('touchstart', startResize, { passive: false });
+      document.addEventListener('touchmove', doResize, { passive: false });
+      document.addEventListener('touchend', stopResize);
+
+      // Keyboard accessibility (Requirements 7.1, 7.2, 7.3)
+      resizeHandle.addEventListener('keydown', function (e) {
+        var currentWidth = tocSidebar.offsetWidth;
+        var step = 10; // 10px per keypress
+        var newWidth = currentWidth;
+
+        if (e.key === 'ArrowLeft') {
+          newWidth = Math.max(minWidth, currentWidth - step);
+          e.preventDefault();
+        } else if (e.key === 'ArrowRight') {
+          newWidth = Math.min(maxWidth, currentWidth + step);
+          e.preventDefault();
+        } else {
           return;
         }
 
-        var headers = document.querySelectorAll('h2, h3, h4, h5, h6');
-        var tocLinks = document.querySelectorAll('#toc a');
-        var activeClass = 'toc-active';
+        tocSidebar.style.width = newWidth + 'px';
+        localStorage.setItem('toc-width', newWidth);
+      });
 
-        if (headers.length === 0 || tocLinks.length === 0) {
-          console.log('No headers or TOC links found for active highlighting');
-          return;
-        }
+      console.log('TOC resize functionality initialized');
+    } catch (error) {
+      console.error('Error initializing TOC resize:', error);
+    }
+  }
 
-        // Create a map of header IDs to TOC links for efficient lookup
-        var headerToLinkMap = {};
-        tocLinks.forEach(function(link) {
-          try {
-            var href = link.getAttribute('href');
-            if (href && href.startsWith('#')) {
-              var headerId = href.substring(1);
-              headerToLinkMap[headerId] = link;
-            }
-          } catch (linkError) {
-            console.warn('Error processing TOC link:', linkError);
-          }
-        });
+  // Start initialization
+  initializeTOCWhenReady();
 
-        // Intersection Observer configuration (Requirement 3.4)
-        var observerOptions = {
-          // Trigger when section is in the middle portion of viewport
-          rootMargin: '-20% 0px -35% 0px',
-          threshold: 0
-        };
+  // Initialize resize after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTOCResize);
+  } else {
+    initTOCResize();
+  }
 
-        // Track currently active section
-        var currentActiveLink = null;
-
-        // Intersection Observer callback (Requirement 3.1, 3.4)
-        window.tocObserver = new IntersectionObserver(function(entries) {
-          try {
-            var visibleHeaders = [];
-
-            // Collect all visible headers
-            entries.forEach(function(entry) {
-              if (entry.isIntersecting) {
-                visibleHeaders.push({
-                  element: entry.target,
-                  ratio: entry.intersectionRatio,
-                  top: entry.boundingClientRect.top
-                });
-              }
-            });
-
-            // Sort by position in viewport (topmost first)
-            visibleHeaders.sort(function(a, b) {
-              return a.top - b.top;
-            });
-
-            // Clear previous active state
-            if (currentActiveLink) {
-              currentActiveLink.classList.remove(activeClass);
-              currentActiveLink = null;
-            }
-
-            // Set new active state for the topmost visible header (Requirement 3.4)
-            if (visibleHeaders.length > 0) {
-              var activeHeader = visibleHeaders[0].element;
-              var activeLink = headerToLinkMap[activeHeader.id];
-
-              if (activeLink) {
-                activeLink.classList.add(activeClass);
-                currentActiveLink = activeLink;
-              }
-            }
-          } catch (observerError) {
-            console.error('Error in Intersection Observer callback:', observerError);
-          }
-        }, observerOptions);
-
-        // Start observing all headers (Requirement 3.1)
-        headers.forEach(function(header, index) {
-          try {
-            // Ensure header has an ID for linking
-            if (!header.id) {
-              // Generate ID if missing (fallback)
-              header.id = 'toc-header-' + index;
-            }
-            window.tocObserver.observe(header);
-          } catch (headerError) {
-            console.warn('Error observing header:', headerError);
-          }
-        });
-
-        // Handle edge case: highlight first section when at top of page
-        function handleScrollTop() {
-          try {
-            if (window.pageYOffset < 100 && tocLinks.length > 0) {
-              // Clear all active states
-              tocLinks.forEach(function(link) {
-                link.classList.remove(activeClass);
-              });
-
-              // Activate first link
-              tocLinks[0].classList.add(activeClass);
-              currentActiveLink = tocLinks[0];
-            }
-          } catch (scrollError) {
-            console.warn('Error in scroll top handler:', scrollError);
-          }
-        }
-
-        // Optimized scroll handler with throttling for 60fps performance (Requirement 3.4)
-        var optimizedScrollHandler = throttle(handleScrollTop, 16); // ~60fps
-        var eventOptions = features.passiveEvents ? { passive: true } : false;
-
-        window.addEventListener('scroll', optimizedScrollHandler, eventOptions);
-
-        // Initial check
-        handleScrollTop();
-
-        console.log('Intersection Observer active highlighting initialized');
-
-      } catch (error) {
-        console.error('Error initializing active highlighting:', error);
-        // Fallback to scroll-based highlighting
+  // Active section highlighting using Intersection Observer API (Requirement 3.1)
+  function initializeActiveHighlighting() {
+    try {
+      // Check if Intersection Observer is supported (Requirement 5.2)
+      if (!features.intersectionObserver) {
+        console.warn('Intersection Observer not supported, using fallback scroll-based highlighting');
         initializeFallbackHighlighting();
+        return;
       }
-    }
 
-    // Fallback active highlighting for browsers without Intersection Observer (Requirement 5.2, 5.3)
-    function initializeFallbackHighlighting() {
-      try {
-        var headers = document.querySelectorAll('h2, h3, h4, h5, h6');
-        var tocLinks = document.querySelectorAll('#toc a');
-        var activeClass = 'toc-active';
+      var headers = document.querySelectorAll('h2, h3, h4, h5, h6');
+      var tocLinks = document.querySelectorAll('#toc a');
+      var activeClass = 'toc-active';
 
-        if (headers.length === 0 || tocLinks.length === 0) {
-          return;
-        }
+      if (headers.length === 0 || tocLinks.length === 0) {
+        console.log('No headers or TOC links found for active highlighting');
+        return;
+      }
 
-        // Create header position cache for performance
-        var headerPositions = [];
-
-        function updateHeaderPositions() {
-          headerPositions = Array.from(headers).map(function(header) {
-            return {
-              element: header,
-              top: header.offsetTop,
-              id: header.id
-            };
-          });
-        }
-
-        // Create header ID to link mapping
-        var headerToLinkMap = {};
-        tocLinks.forEach(function(link) {
+      // Create a map of header IDs to TOC links for efficient lookup
+      var headerToLinkMap = {};
+      tocLinks.forEach(function (link) {
+        try {
           var href = link.getAttribute('href');
           if (href && href.startsWith('#')) {
             var headerId = href.substring(1);
             headerToLinkMap[headerId] = link;
           }
-        });
+        } catch (linkError) {
+          console.warn('Error processing TOC link:', linkError);
+        }
+      });
 
-        // Scroll-based active highlighting
-        function updateActiveSection() {
-          try {
-            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            var currentActive = null;
+      // Intersection Observer configuration (Requirement 3.4)
+      var observerOptions = {
+        // Trigger when section is in the middle portion of viewport
+        rootMargin: '-20% 0px -35% 0px',
+        threshold: 0
+      };
 
-            // Find the current section based on scroll position
-            for (var i = headerPositions.length - 1; i >= 0; i--) {
-              if (scrollTop >= headerPositions[i].top - 100) {
-                currentActive = headerPositions[i];
-                break;
-              }
+      // Track currently active section
+      var currentActiveLink = null;
+
+      // Intersection Observer callback (Requirement 3.1, 3.4)
+      window.tocObserver = new IntersectionObserver(function (entries) {
+        try {
+          var visibleHeaders = [];
+
+          // Collect all visible headers
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              visibleHeaders.push({
+                element: entry.target,
+                ratio: entry.intersectionRatio,
+                top: entry.boundingClientRect.top
+              });
             }
+          });
 
+          // Sort by position in viewport (topmost first)
+          visibleHeaders.sort(function (a, b) {
+            return a.top - b.top;
+          });
+
+          // Clear previous active state
+          if (currentActiveLink) {
+            currentActiveLink.classList.remove(activeClass);
+            currentActiveLink = null;
+          }
+
+          // Set new active state for the topmost visible header (Requirement 3.4)
+          if (visibleHeaders.length > 0) {
+            var activeHeader = visibleHeaders[0].element;
+            var activeLink = headerToLinkMap[activeHeader.id];
+
+            if (activeLink) {
+              activeLink.classList.add(activeClass);
+              currentActiveLink = activeLink;
+            }
+          }
+        } catch (observerError) {
+          console.error('Error in Intersection Observer callback:', observerError);
+        }
+      }, observerOptions);
+
+      // Start observing all headers (Requirement 3.1)
+      headers.forEach(function (header, index) {
+        try {
+          // Ensure header has an ID for linking
+          if (!header.id) {
+            // Generate ID if missing (fallback)
+            header.id = 'toc-header-' + index;
+          }
+          window.tocObserver.observe(header);
+        } catch (headerError) {
+          console.warn('Error observing header:', headerError);
+        }
+      });
+
+      // Handle edge case: highlight first section when at top of page
+      function handleScrollTop() {
+        try {
+          if (window.pageYOffset < 100 && tocLinks.length > 0) {
             // Clear all active states
-            tocLinks.forEach(function(link) {
+            tocLinks.forEach(function (link) {
               link.classList.remove(activeClass);
             });
 
-            // Set active state
-            if (currentActive && headerToLinkMap[currentActive.id]) {
-              headerToLinkMap[currentActive.id].classList.add(activeClass);
-            } else if (tocLinks.length > 0 && scrollTop < 100) {
-              // Activate first link when at top
-              tocLinks[0].classList.add(activeClass);
-            }
-          } catch (updateError) {
-            console.warn('Error updating active section:', updateError);
+            // Activate first link
+            tocLinks[0].classList.add(activeClass);
+            currentActiveLink = tocLinks[0];
           }
+        } catch (scrollError) {
+          console.warn('Error in scroll top handler:', scrollError);
         }
-
-        // Initialize header positions
-        updateHeaderPositions();
-
-        // Optimized scroll handler with throttling for 60fps performance (Requirement 3.4)
-        var optimizedScrollHandler = throttle(updateActiveSection, 16); // ~60fps
-        var eventOptions = features.passiveEvents ? { passive: true } : false;
-
-        window.addEventListener('scroll', optimizedScrollHandler, eventOptions);
-
-        // Optimized resize handler with debouncing
-        var optimizedResizeHandler = debounce(updateHeaderPositions, 250);
-        window.addEventListener('resize', optimizedResizeHandler, eventOptions);
-
-        // Initial update
-        updateActiveSection();
-
-        console.log('Fallback scroll-based active highlighting initialized');
-
-      } catch (error) {
-        console.error('Error initializing fallback highlighting:', error);
       }
+
+      // Optimized scroll handler with throttling for 60fps performance (Requirement 3.4)
+      var optimizedScrollHandler = throttle(handleScrollTop, 16); // ~60fps
+      var eventOptions = features.passiveEvents ? { passive: true } : false;
+
+      window.addEventListener('scroll', optimizedScrollHandler, eventOptions);
+
+      // Initial check
+      handleScrollTop();
+
+      console.log('Intersection Observer active highlighting initialized');
+
+    } catch (error) {
+      console.error('Error initializing active highlighting:', error);
+      // Fallback to scroll-based highlighting
+      initializeFallbackHighlighting();
     }
+  }
 
-    // TOC Resize Functionality with localStorage persistence (Requirements 3.4, 3.5, 3.6, 3.7)
-    function initializeTOCResize() {
-      try {
-        var tocSidebar = document.querySelector('.toc-sidebar');
-        if (!tocSidebar) {
-          console.log('TOC sidebar not found, skipping resize initialization');
-          return;
-        }
+  // Fallback active highlighting for browsers without Intersection Observer (Requirement 5.2, 5.3)
+  function initializeFallbackHighlighting() {
+    try {
+      var headers = document.querySelectorAll('h2, h3, h4, h5, h6');
+      var tocLinks = document.querySelectorAll('#toc a');
+      var activeClass = 'toc-active';
 
-        // Check if we're on mobile/tablet (resize should be disabled)
-        var mediaQuery = window.matchMedia('(max-width: 1024px)');
-        if (mediaQuery.matches) {
-          console.log('Resize disabled on mobile/tablet devices');
-          return;
-        }
-
-        // Restore saved width from localStorage (Requirement 3.5)
-        try {
-          var savedWidth = localStorage.getItem('toc-width');
-          if (savedWidth) {
-            var width = parseInt(savedWidth, 10);
-            // Validate bounds (200-400px) (Requirement 3.6)
-            if (width >= 200 && width <= 400) {
-              tocSidebar.style.width = width + 'px';
-              console.log('Restored TOC width from localStorage: ' + width + 'px');
-            } else {
-              console.warn('Saved TOC width out of bounds (' + width + 'px), using default');
-            }
-          }
-        } catch (storageError) {
-          console.warn('Could not restore TOC width from localStorage:', storageError);
-        }
-
-        // Use ResizeObserver to detect width changes (Requirement 3.6)
-        if ('ResizeObserver' in window) {
-          // Debounced save function to prevent excessive localStorage writes (Requirement 3.6)
-          var debouncedSave = debounce(function(width) {
-            try {
-              localStorage.setItem('toc-width', Math.round(width));
-              console.log('Saved TOC width to localStorage: ' + Math.round(width) + 'px');
-            } catch (e) {
-              console.warn('Could not save TOC width to localStorage:', e);
-            }
-          }, 300);
-
-          var resizeObserver = new ResizeObserver(function(entries) {
-            try {
-              for (var i = 0; i < entries.length; i++) {
-                var entry = entries[i];
-                var width = entry.contentRect.width;
-
-                // Enforce bounds (200-400px) (Requirement 3.6)
-                if (width < 200) {
-                  tocSidebar.style.width = '200px';
-                  width = 200;
-                } else if (width > 400) {
-                  tocSidebar.style.width = '400px';
-                  width = 400;
-                }
-
-                // Save to localStorage (debounced) (Requirement 3.5)
-                debouncedSave(width);
-              }
-            } catch (observerError) {
-              console.warn('Error in ResizeObserver callback:', observerError);
-            }
-          });
-
-          resizeObserver.observe(tocSidebar);
-
-          // Store observer reference for cleanup (Requirement 3.7)
-          window.tocResizeObserver = resizeObserver;
-
-          // Cleanup on page unload (Requirement 3.7)
-          window.addEventListener('beforeunload', function() {
-            if (window.tocResizeObserver) {
-              window.tocResizeObserver.disconnect();
-              window.tocResizeObserver = null;
-              console.log('TOC ResizeObserver disconnected');
-            }
-          });
-
-          console.log('TOC resize functionality initialized with ResizeObserver');
-        } else {
-          // Graceful degradation when ResizeObserver is not supported (Requirement 3.7)
-          console.warn('ResizeObserver not supported - resize will work but without bounds enforcement or localStorage persistence');
-        }
-
-      } catch (error) {
-        console.error('Error initializing TOC resize functionality:', error);
+      if (headers.length === 0 || tocLinks.length === 0) {
+        return;
       }
-    }
 
-    // Initialize resize functionality after TOC is loaded
-    // This should be called after the TOC is generated
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(initializeTOCResize, 100); // Small delay to ensure TOC is rendered
+      // Create header position cache for performance
+      var headerPositions = [];
+
+      function updateHeaderPositions() {
+        headerPositions = Array.from(headers).map(function (header) {
+          return {
+            element: header,
+            top: header.offsetTop,
+            id: header.id
+          };
+        });
+      }
+
+      // Create header ID to link mapping
+      var headerToLinkMap = {};
+      tocLinks.forEach(function (link) {
+        var href = link.getAttribute('href');
+        if (href && href.startsWith('#')) {
+          var headerId = href.substring(1);
+          headerToLinkMap[headerId] = link;
+        }
       });
-    } else {
-      setTimeout(initializeTOCResize, 100); // Small delay to ensure TOC is rendered
-    }
-</script>
 
+      // Scroll-based active highlighting
+      function updateActiveSection() {
+        try {
+          var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          var currentActive = null;
+
+          // Find the current section based on scroll position
+          for (var i = headerPositions.length - 1; i >= 0; i--) {
+            if (scrollTop >= headerPositions[i].top - 100) {
+              currentActive = headerPositions[i];
+              break;
+            }
+          }
+
+          // Clear all active states
+          tocLinks.forEach(function (link) {
+            link.classList.remove(activeClass);
+          });
+
+          // Set active state
+          if (currentActive && headerToLinkMap[currentActive.id]) {
+            headerToLinkMap[currentActive.id].classList.add(activeClass);
+          } else if (tocLinks.length > 0 && scrollTop < 100) {
+            // Activate first link when at top
+            tocLinks[0].classList.add(activeClass);
+          }
+        } catch (updateError) {
+          console.warn('Error updating active section:', updateError);
+        }
+      }
+
+      // Initialize header positions
+      updateHeaderPositions();
+
+      // Optimized scroll handler with throttling for 60fps performance (Requirement 3.4)
+      var optimizedScrollHandler = throttle(updateActiveSection, 16); // ~60fps
+      var eventOptions = features.passiveEvents ? { passive: true } : false;
+
+      window.addEventListener('scroll', optimizedScrollHandler, eventOptions);
+
+      // Optimized resize handler with debouncing
+      var optimizedResizeHandler = debounce(updateHeaderPositions, 250);
+      window.addEventListener('resize', optimizedResizeHandler, eventOptions);
+
+      // Initial update
+      updateActiveSection();
+
+      console.log('Fallback scroll-based active highlighting initialized');
+
+    } catch (error) {
+      console.error('Error initializing fallback highlighting:', error);
+    }
+  }
+
+  // TOC Resize Functionality with localStorage persistence (Requirements 3.4, 3.5, 3.6, 3.7)
+  function initializeTOCResize() {
+    try {
+      var tocSidebar = document.querySelector('.toc-sidebar');
+      if (!tocSidebar) {
+        console.log('TOC sidebar not found, skipping resize initialization');
+        return;
+      }
+
+      // Check if we're on mobile/tablet (resize should be disabled)
+      var mediaQuery = window.matchMedia('(max-width: 1024px)');
+      if (mediaQuery.matches) {
+        console.log('Resize disabled on mobile/tablet devices');
+        return;
+      }
+
+      // Restore saved width from localStorage (Requirement 3.5)
+      try {
+        var savedWidth = localStorage.getItem('toc-width');
+        if (savedWidth) {
+          var width = parseInt(savedWidth, 10);
+          // Validate bounds (200-400px) (Requirement 3.6)
+          if (width >= 200 && width <= 400) {
+            tocSidebar.style.width = width + 'px';
+            console.log('Restored TOC width from localStorage: ' + width + 'px');
+          } else {
+            console.warn('Saved TOC width out of bounds (' + width + 'px), using default');
+          }
+        }
+      } catch (storageError) {
+        console.warn('Could not restore TOC width from localStorage:', storageError);
+      }
+
+      // Use ResizeObserver to detect width changes (Requirement 3.6)
+      if ('ResizeObserver' in window) {
+        // Debounced save function to prevent excessive localStorage writes (Requirement 3.6)
+        var debouncedSave = debounce(function (width) {
+          try {
+            localStorage.setItem('toc-width', Math.round(width));
+            console.log('Saved TOC width to localStorage: ' + Math.round(width) + 'px');
+          } catch (e) {
+            console.warn('Could not save TOC width to localStorage:', e);
+          }
+        }, 300);
+
+        var resizeObserver = new ResizeObserver(function (entries) {
+          try {
+            for (var i = 0; i < entries.length; i++) {
+              var entry = entries[i];
+              var width = entry.contentRect.width;
+
+              // Enforce bounds (200-400px) (Requirement 3.6)
+              if (width < 200) {
+                tocSidebar.style.width = '200px';
+                width = 200;
+              } else if (width > 400) {
+                tocSidebar.style.width = '400px';
+                width = 400;
+              }
+
+              // Save to localStorage (debounced) (Requirement 3.5)
+              debouncedSave(width);
+            }
+          } catch (observerError) {
+            console.warn('Error in ResizeObserver callback:', observerError);
+          }
+        });
+
+        resizeObserver.observe(tocSidebar);
+
+        // Store observer reference for cleanup (Requirement 3.7)
+        window.tocResizeObserver = resizeObserver;
+
+        // Cleanup on page unload (Requirement 3.7)
+        window.addEventListener('beforeunload', function () {
+          if (window.tocResizeObserver) {
+            window.tocResizeObserver.disconnect();
+            window.tocResizeObserver = null;
+            console.log('TOC ResizeObserver disconnected');
+          }
+        });
+
+        console.log('TOC resize functionality initialized with ResizeObserver');
+      } else {
+        // Graceful degradation when ResizeObserver is not supported (Requirement 3.7)
+        console.warn('ResizeObserver not supported - resize will work but without bounds enforcement or localStorage persistence');
+      }
+
+    } catch (error) {
+      console.error('Error initializing TOC resize functionality:', error);
+    }
+  }
+
+  // Initialize resize functionality after TOC is loaded
+  // This should be called after the TOC is generated
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(initializeTOCResize, 100); // Small delay to ensure TOC is rendered
+    });
+  } else {
+    setTimeout(initializeTOCResize, 100); // Small delay to ensure TOC is rendered
+  }
+</script>
     </aside>
     <main class="post-main">
       <div class="post-content e-content" itemprop="articleBody">
