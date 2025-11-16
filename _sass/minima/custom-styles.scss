@@ -833,6 +833,7 @@
   // Tables
   table {
     border-color: #30363d;
+    color: #c9d1d9;
 
     th {
       background-color: #161b22;
@@ -841,12 +842,15 @@
     }
 
     td {
+      background-color: transparent;
+      color: #c9d1d9;
       border-color: #30363d;
     }
 
     tr {
       background-color: #0d1117;
       border-color: #30363d;
+      color: #c9d1d9;
 
       &:nth-child(even) {
         background-color: #161b22;
