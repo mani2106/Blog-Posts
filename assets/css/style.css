@@ -1864,6 +1864,7 @@ p code {
 }
 [data-theme=dark] table {
   border-color: #30363d;
+  color: #c9d1d9;
 }
 [data-theme=dark] table th {
   background-color: #161b22;
@@ -1871,11 +1872,14 @@ p code {
   border-color: #30363d;
 }
 [data-theme=dark] table td {
+  background-color: transparent;
+  color: #c9d1d9;
   border-color: #30363d;
 }
 [data-theme=dark] table tr {
   background-color: #0d1117;
   border-color: #30363d;
+  color: #c9d1d9;
 }
 [data-theme=dark] table tr:nth-child(even) {
   background-color: #161b22;
