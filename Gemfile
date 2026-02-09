@@ -45,5 +45,5 @@ gem "wdm", "~> 0.2", :install_if => Gem.win_platform?
 gem "nokogiri", "~> 1.18"
 gem "rexml", "~> 3.4"
 gem "activesupport", "~> 7.2"
-gem "faraday", "~> 2.12"
+gem "faraday", "~> 2.14"
 
