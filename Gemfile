@@ -42,7 +42,7 @@ end
 # Performance-booster for watching directories on Windows
 gem "wdm", "~> 0.2", :install_if => Gem.win_platform?
 
-gem "nokogiri", "~> 1.18"
+gem "nokogiri", "~> 1.19"
 gem "rexml", "~> 3.4"
 gem "activesupport", "~> 7.2"
 gem "faraday", "~> 2.12"
