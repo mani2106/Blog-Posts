@@ -1,7 +1,7 @@
 ---
 title: Azure AI-102 Certification Journey - Day 2 - Plan and prepare to develop AI
   solutions on Azure
-image: images/Azure_day2/fairness.png
+image: /images/Azure_day2/fairness.png
 categories:
 - azure
 - azure-ai

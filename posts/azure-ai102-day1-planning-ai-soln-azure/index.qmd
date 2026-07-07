@@ -1,7 +1,7 @@
 ---
 title: Azure AI-102 Certification Journey - Day 1 - Plan and prepare to develop AI
   solutions on Azure
-image: images/Azure_day1/agent.png
+image: /images/Azure_day1/agent.png
 categories:
 - azure
 - azure-ai

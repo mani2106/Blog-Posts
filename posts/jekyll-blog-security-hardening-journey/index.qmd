@@ -2,7 +2,7 @@
 title: 'Back from Hiatus: Jekyll Blog Security Hardening with Spec-Driven Development'
 description: How I returned to blogging by systematically resolving 12 security vulnerabilities
   using Kiro's spec-driven approach, and what's coming next
-image: images/images/small_ruby_secure.png
+image: /images/images/small_ruby_secure.png
 search_exclude: false
 categories:
 - security

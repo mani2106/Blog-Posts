@@ -2,7 +2,7 @@
 title: 'Building a Sticky Table of Contents: From Spec to Implementation'
 description: A comprehensive guide to implementing a responsive, accessible sticky
   TOC component using spec-driven development methodology
-image: images/images/a small blog title i.png
+image: /images/images/a small blog title i.png
 search_exclude: false
 categories:
 - web-development
