@@ -2,6 +2,7 @@ import re
 import sys
 import pathlib
 import posixpath
+import json
 
 DROP_KEYS = {"layout", "keywords", "toc", "branch", "badges", "comments", "hide", "nb_path"}
 DATE_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})")
@@ -38,6 +39,15 @@ IMAGE_INCLUDE_RE = re.compile(
     re.DOTALL,
 )
 RELURL_RE = re.compile(r"\{\{\s*['\"](?P<p>[^'\"]+)['\"]\s*\|\s*relative_url\s*\}\}")
+IMG_MD_RE = re.compile(r"!\[(?P<alt>[^\]]*)\]\((?P<src>[^)]+)\)")
+# fastpages stores notebook front matter as a markdown list (- toc: true, etc.).
+# Quarto's YAML extractor concatenates markdown cells and misreads these as YAML
+# list continuation past the closing --- fence, breaking render. Strip them — the
+# authoritative values now live in the YAML front matter cell we prepend.
+FASTPAGE_META_LINE_RE = re.compile(
+    r"^- (?:toc|branch|badges|comments|hide|image|categories):.*$\n?",
+    re.MULTILINE,
+)
 
 def _parse_kv(args: str) -> dict:
     kv = {}
@@ -88,3 +98,33 @@ LIQUID_RE = re.compile(r"\{%.*?%\}|\{\{.*?\}\}", re.DOTALL)
 def _leftover_liquid_tags(body: str) -> list:
     """Any Liquid tags ({% ... %} or {{ ... }}) still present after conversion."""
     return LIQUID_RE.findall(body)
+
+def fix_markdown_cell(md: str) -> str:
+    def _repl(m):
+        return f"![{m.group('alt')}]({_resolve_path(m.group('src'))})"
+    md = IMG_MD_RE.sub(_repl, md)
+    md = RELURL_RE.sub(lambda m: _resolve_path(m.group("p")), md)
+    md = FASTPAGE_META_LINE_RE.sub("", md)
+    # Convert `---` horizontal rules to `***` — both render as <hr>, but Quarto's
+    # YAML extractor treats `---` as a document separator and parses content after
+    # it as YAML, breaking notebook render. Runs before FM cell is prepended, so
+    # the FM fences are untouched.
+    md = re.sub(r"^-{3,}$", "***", md, flags=re.MULTILINE)
+    return md
+
+def convert_notebook(input_nb: pathlib.Path, output_nb: pathlib.Path, fm_yaml: str) -> None:
+    nb = json.loads(input_nb.read_text(encoding="utf-8"))
+    for cell in nb.get("cells", []):
+        if cell.get("cell_type") == "markdown":
+            cell["source"] = fix_markdown_cell("".join(cell["source"])).splitlines(keepends=True)
+    # Prepend a markdown cell holding YAML front matter — Quarto reads a leading
+    # fenced markdown cell as the document's front matter. fm_yaml is already the
+    # cleaned YAML string (produced by convert_frontmatter in the driver).
+    fm_cell = {
+        "cell_type": "markdown", "metadata": {},
+        "source": [f"---\n{fm_yaml}\n---\n\n"],
+    }
+    nb["cells"] = [fm_cell] + nb["cells"]
+    # nbformat metadata left untouched.
+    output_nb.parent.mkdir(parents=True, exist_ok=True)
+    output_nb.write_text(json.dumps(nb, indent=1), encoding="utf-8")

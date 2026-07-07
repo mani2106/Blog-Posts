@@ -1,7 +1,7 @@
 import sys, pathlib, tempfile, io
 from contextlib import redirect_stderr
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
-from convert_post import convert_frontmatter, convert_body, convert, _leftover_liquid_tags
+from convert_post import convert_frontmatter, convert_body, convert, _leftover_liquid_tags, fix_markdown_cell
 
 def _yaml_scalar_pairs(text):
     """Map each top-level 'key: value' line to {key: value}, skipping
@@ -82,6 +82,27 @@ def test_convert_warns_on_leftover_liquid(tmp_path):
     assert "include x.html" in buf.getvalue()
     assert out.exists()
 
+def test_cell_baseurl_and_dotdot_collapsed():
+    cell = "![m](/Blog-Posts/images/copied_from_nb/../images/manhattan.png)"
+    assert fix_markdown_cell(cell) == "![m](/images/images/manhattan.png)"
+
+def test_cell_strips_fastpages_metadata_list():
+    # fastpages notebooks embed `- toc:` etc. as a markdown list; Quarto's YAML
+    # extractor misreads these as YAML continuation. fix_markdown_cell strips them.
+    cell = "# Title\n> Desc\n- toc: true\n- badges: true\n- categories: [a, b]\n\nBody.\n"
+    out = fix_markdown_cell(cell)
+    assert "- toc:" not in out and "- badges:" not in out and "- categories:" not in out
+    assert "# Title" in out and "> Desc" in out and "Body." in out
+
+def test_cell_converts_dash_hr_to_asterisk():
+    # `---` horizontal rules in cell content are mistaken for YAML document
+    # separators by Quarto; convert to `***` (renders identically as <hr>).
+    cell = "Para one.\n\n---\n\nPara two.\n"
+    out = fix_markdown_cell(cell)
+    assert "\n---\n" not in out
+    assert "***" in out
+    assert "Para one." in out and "Para two." in out
+
 # run all
 def _run_all():
     test_drops_fastpages_keys_and_maps_summary()
@@ -91,6 +112,9 @@ def _run_all():
     test_relative_url_filter_strips_baseurl()
     test_leftover_liquid_detected()
     test_convert_warns_on_leftover_liquid(pathlib.Path(tempfile.mkdtemp()))
+    test_cell_baseurl_and_dotdot_collapsed()
+    test_cell_strips_fastpages_metadata_list()
+    test_cell_converts_dash_hr_to_asterisk()
     print("OK")
 
 if __name__ == "__main__":
