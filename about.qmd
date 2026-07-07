@@ -1,0 +1,4 @@
+---
+title: "About"
+---
+About this blog. (Port real About content from `_pages/about.md` in Task 8.)
