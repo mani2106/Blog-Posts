@@ -5,8 +5,6 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
-  pages: write
-  id-token: write
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -16,7 +14,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: "1.9.38"
+      - uses: quarto-dev/quarto-actions/render@v2
+      - name: Check for Windows path separators
+        run: |
+          set -e
+          matches=$(grep -rEn '(src|href)="[^"]*\\[^"]*"' _site/ --include='*.html' || true)
+          if [ -n "$matches" ]; then
+            echo "::error::Backslash in src/href attribute — Windows path-separator artifact leaked into Linux build"
+            echo "$matches" | head -20
+            exit 1
+          fi
+          echo "OK: no backslashes in src/href"
       - uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
-          render: true

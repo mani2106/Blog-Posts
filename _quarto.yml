@@ -23,6 +23,7 @@ website:
   search: true
   repo-url: https://github.com/mani2106/Blog-Posts
   repo-actions: [source, edit]
+  repo-branch: master
   comments:
     utterances:
       repo: mani2106/Blog-Posts
