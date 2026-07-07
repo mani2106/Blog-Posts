@@ -1,4 +1,5 @@
 import re
+import sys
 import pathlib
 import posixpath
 
@@ -71,5 +72,19 @@ def convert(input_path: pathlib.Path, output_path: pathlib.Path) -> None:
         fm, body = "---\n" + m.group(1) + "\n---", m.group(2)
     fm = convert_frontmatter(fm, input_path.name)
     body = convert_body(body)
+    tags = _leftover_liquid_tags(body)
+    if tags:
+        preview = tags[0].strip()
+        suffix = f" (+{len(tags) - 1} more)" if len(tags) > 1 else ""
+        print(
+            f"warning: {input_path.name}: {len(tags)} unconverted Liquid tag(s){suffix}, e.g. {preview!r}",
+            file=sys.stderr,
+        )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(f"---\n{fm}\n---\n\n{body}", encoding="utf-8")
+
+LIQUID_RE = re.compile(r"\{%.*?%\}|\{\{.*?\}\}", re.DOTALL)
+
+def _leftover_liquid_tags(body: str) -> list:
+    """Any Liquid tags ({% ... %} or {{ ... }}) still present after conversion."""
+    return LIQUID_RE.findall(body)

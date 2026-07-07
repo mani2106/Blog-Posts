@@ -1,6 +1,7 @@
-import sys, pathlib
+import sys, pathlib, tempfile, io
+from contextlib import redirect_stderr
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
-from convert_post import convert_frontmatter, convert_body
+from convert_post import convert_frontmatter, convert_body, convert, _leftover_liquid_tags
 
 def _yaml_scalar_pairs(text):
     """Map each top-level 'key: value' line to {key: value}, skipping
@@ -63,6 +64,24 @@ def test_relative_url_filter_strips_baseurl():
     assert "/Blog-Posts" not in out
     assert "/assets/y.css" in out
 
+def test_leftover_liquid_detected():
+    assert _leftover_liquid_tags("plain text, no Liquid here") == []
+    assert _leftover_liquid_tags("see {% include note.html content='x' %} now") == \
+        ["{% include note.html content='x' %}"]
+    assert _leftover_liquid_tags("{{ 'y' | relative_url }}") == ["{{ 'y' | relative_url }}"]
+    assert len(_leftover_liquid_tags("{% a %} {{ b }} {% c %}")) == 3
+
+def test_convert_warns_on_leftover_liquid(tmp_path):
+    src = tmp_path / "in.md"
+    src.write_text("---\ntitle: T\n---\n\nleftover {% include x.html %} tag\n", encoding="utf-8")
+    out = tmp_path / "out.md"
+    buf = io.StringIO()
+    with redirect_stderr(buf):
+        convert(src, out)
+    assert "in.md" in buf.getvalue()
+    assert "include x.html" in buf.getvalue()
+    assert out.exists()
+
 # run all
 def _run_all():
     test_drops_fastpages_keys_and_maps_summary()
@@ -70,6 +89,8 @@ def _run_all():
     test_strips_autogen_banner()
     test_image_include_to_markdown_and_normalizes_path()
     test_relative_url_filter_strips_baseurl()
+    test_leftover_liquid_detected()
+    test_convert_warns_on_leftover_liquid(pathlib.Path(tempfile.mkdtemp()))
     print("OK")
 
 if __name__ == "__main__":
