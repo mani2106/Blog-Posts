@@ -1,0 +1,4 @@
+---
+title: "Not found"
+---
+That page doesn't exist. [Return home](/Blog-Posts/).
