@@ -1,6 +1,9 @@
 project:
   type: website
   output-dir: _site
+  render:
+    - "*.qmd"
+    - "posts/**"
   resources:
     - "images/**"
 
@@ -25,8 +28,6 @@ website:
       repo: mani2106/Blog-Posts
       label: blog-comments
       theme: boxy-light
-  blog:
-    post: "posts"
   page-navigation: true
 
 format:
