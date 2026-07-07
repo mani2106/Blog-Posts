@@ -18,3 +18,5 @@ settings.ini
 new_blog/
 .kiro/
 _ideas/
+/.quarto/
+**/*.quarto_ipynb
