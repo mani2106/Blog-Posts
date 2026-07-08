@@ -30,3 +30,4 @@ jobs:
       - uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
+          render: false   # publish the _site/ already rendered + gate-checked above (no double render)
