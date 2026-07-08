@@ -14,7 +14,7 @@ description: 'Study notes for the first module in my Azure AI-102 certification 
 
 # Introduction
 
-[In the previous notes](https://mani2106.github.io/Blog-Posts/azure/azure-ai/ai-102/2025/11/15/Azure-AI102-Day1-Planning-AI-Soln-Azure.html) I mentioned a lot of Azure's product offerings and how they can be combined and used within a real word project setting.
+[In the previous notes](https://mani2106.github.io/Blog-Posts/posts/azure-ai102-day1-planning-ai-soln-azure/) I mentioned a lot of Azure's product offerings and how they can be combined and used within a real word project setting.
 
 Today, I will try to write about what I learnt from the Responsible AI module in the same lesson and about the questions in the sample assessment.
 
