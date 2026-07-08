@@ -8,8 +8,6 @@ date: '2020-08-31'
 description: Data extraction from Wikimedia dump
 ---
 
-# Implementing Linear Regression with Gradient Descent
-
 This post is my understanding of Linear Regression, Please feel free to comment and point out any errors if seen.
 
 ## The Cost Function
@@ -45,7 +43,7 @@ A sample pseudocode for the mean of squares of errors would be
 
 It can be represented like $h_0(x) = \theta_0+\theta_1X_1+\theta_2X_2+\cdots+\theta_nX_n$ where $n$ is the number of features we are using for the problem.
 
-# Gradient Descent
+## Gradient Descent
 
 We need to update the parameters $\theta_0,\theta_1, \theta_2\cdots\theta_n$ so that the cost function
 
@@ -64,7 +62,7 @@ Where,
 
 For each feature in the dataset the update has to be done simultaneously for each parameter $\theta$, until the convergence / error given by cost function at its minimum.
 
-## Deriving the derivative term $\frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1,\cdots\theta_j)$
+### Deriving the derivative term $\frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1,\cdots\theta_j)$
 
 $^3$To simplify the problem I am considering that we have 2 parameters $\theta_0$ and $\theta_1$, our hypothesis $h_0(x)$ function becomes $\theta_0+\theta_1X$
 
@@ -152,7 +150,7 @@ One disadvantage in Gradient Descent is that depending on the position it is ini
 
 I tried to implement this in python which can be found [here](https://github.com/mani2106/Algorithm-Implementations)
 
-# Resources and references
+## Resources and references
 
 - [How to implement a machine learning algorithm](https://machinelearningmastery.com/how-to-implement-a-machine-learning-algorithm/)
 - [Understanding math in Machine learning](https://machinelearningmastery.com/techniques-to-understand-machine-learning-algorithms-without-the-background-in-mathematics/)

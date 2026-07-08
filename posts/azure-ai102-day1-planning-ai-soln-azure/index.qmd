@@ -12,7 +12,7 @@ description: 'Study notes for the first module in my Azure AI-102 certification 
   hands-on exercises are included to help reinforce learning.'
 ---
 
-# Introduction
+## Introduction
 
 The First few units focus on general definitions of AI and Gen AI and also some key terms that are used within Azure and Machine learning in General.
 

@@ -1,0 +1,90 @@
+/*-- scss:rules --*/
+/* Shared layout + hero for light and dark themes.
+   Included in both theme arrays via _quarto.yml, so these rules
+   compile once per mode. Color uses $primary so the hero adapts
+   automatically: Flatly navy (#2c3e50) in light, Darkly blue (#375a7f) in dark. */
+
+/* Prevent the full-bleed hero breakout from creating a horizontal
+   scrollbar. Use `clip` (not `hidden`) so the sticky navbar still works. */
+#quarto-content {
+  overflow-x: clip;
+}
+
+/* ===== Homepage hero = styled title block =====
+   Only the home page uses page-layout: full, which renders
+   <main class="content column-page">. Scoping to main.column-page
+   keeps the band on home only (posts/Categories use the default layout).
+   The breakout (width:100vw; left:50%; translateX(-50%)) pushes the
+   band edge-to-edge past the .column-page gutter. */
+main.column-page #title-block-header.quarto-title-block {
+  background-color: $primary;
+  color: #ffffff;
+  margin: 0;
+  padding: 4rem 1.5rem;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+main.column-page #title-block-header .quarto-title {
+  max-width: 800px;
+  margin-inline: auto;
+  text-align: center;
+}
+main.column-page #title-block-header h1.title {
+  color: #ffffff;
+  font-size: 2.5rem;
+  font-weight: 700;
+  border-bottom: none; /* Flatly underlines h1; clear it in the hero */
+}
+main.column-page #title-block-header .subtitle {
+  color: #ffffff;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+/* ===== Center + cap the post grid (home uses page-layout: full) ===== */
+.quarto-listing {
+  max-width: 1100px;
+  margin-inline: auto;
+  margin-top: 2.5rem;
+  padding-inline: 1rem;
+}
+
+/* Wider gaps between grid cards (Quarto listing grid uses CSS grid) */
+.quarto-listing .list.grid {
+  gap: 1.75rem;
+}
+
+/* ===== Card polish ===== */
+/* Breathing room between the card image and the title.
+   Bootstrap's .card-body already has 1rem padding; bump the top. */
+.quarto-grid-item .card-body.post-contents {
+  padding-top: 1.25rem;
+}
+
+/* Snippet: lighter + slightly smaller than the bold title.
+   $gray-600 resolves per mode (Flatly light / Darkly dark). */
+.quarto-grid-item .listing-description {
+  color: $gray-600;
+  font-size: 0.92rem;
+}
+
+/* ===== Card hover lift ===== */
+.quarto-grid-item {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.quarto-grid-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.12);
+}
+
+/* ===== Uniform card image slot =====
+   Applies object-fit:cover + fixed height so real images and the
+   listing placeholder share one aspect ratio. The img carries an
+   inline height:150px already; width/object-fit come from here. */
+.quarto-grid-item .card-img-top img.thumbnail-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}

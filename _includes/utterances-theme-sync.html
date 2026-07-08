@@ -1,0 +1,38 @@
+<script>
+/* Keep the Utterances comment box in sync with Quarto's light/dark toggle.
+   Utterances renders in a cross-origin utteranc.es iframe, so we can't style it
+   directly — we postMessage a {type:'set-theme'} command into the frame.
+   Quarto's toggle dispatches only a generic 'resize' event (no clean hook), so we
+   react to clicks on .quarto-color-scheme-toggle and read the *resulting* body
+   background luminance to decide light vs dark. Reading the outcome (not Quarto
+   internals) survives version upgrades. */
+(function () {
+  function darkMode() {
+    var bg = getComputedStyle(document.body).backgroundColor; // "rgb(r, g, b)"
+    var m = bg.match(/\d+/g);
+    if (!m) return false;
+    return (0.299 * +m[0] + 0.587 * +m[1] + 0.114 * +m[2]) < 128;
+  }
+  function sync() {
+    var f = document.querySelector("iframe.utterances-frame");
+    if (f && f.contentWindow) {
+      f.contentWindow.postMessage(
+        { type: "set-theme", theme: darkMode() ? "github-dark" : "github-light" },
+        "https://utteranc.es"
+      );
+    }
+  }
+  // Sync once the Utterances iframe is injected by client.js.
+  if (document.body) {
+    new MutationObserver(function (_, obs) {
+      if (document.querySelector("iframe.utterances-frame")) { sync(); obs.disconnect(); }
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+  // Re-sync whenever the reader toggles the theme (give Quarto a tick to flip DOM).
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.closest && e.target.closest(".quarto-color-scheme-toggle")) {
+      setTimeout(sync, 60);
+    }
+  });
+})();
+</script>

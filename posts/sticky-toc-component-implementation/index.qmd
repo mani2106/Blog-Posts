@@ -15,7 +15,7 @@ categories:
 date: '2025-10-04'
 ---
 
-# Transforming Blog Navigation: The Sticky TOC Journey
+## Transforming Blog Navigation: The Sticky TOC Journey
 
 Reading long-form technical content can be challenging without proper navigation aids. When I noticed the empty right sidebar space on my Jekyll blog posts, I saw an opportunity to dramatically improve the reading experience by implementing a sticky table of contents (TOC) component. This post documents the complete journey from initial concept to production implementation using spec-driven development methodology.
 

@@ -11,12 +11,12 @@ description: 'Intro for my Azure AI-102 certification journey: took the official
   Links to the certification page and study guide are included.'
 ---
 
-# Introduction
+## Introduction
 I recently decided to take the Azure AI-102 exam, So I thought I would share my learnings from Day 1 of my preparation journey. The full learning plan is quite detailed and can be found [here](https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer/?practice-assessment-type=certification)
 
 [Study guide](https://aka.ms/ai102-StudyGuide) can also be found which explains a lot of what skills are measured and what to expect in the exam.
 
-# Practice assessment
+## Practice assessment
 Firstly I took a practice assessment directly in which I scored less than the recommended amount, so it generated a customised learning plan to help me pass the exam.
 
 **Recommended modules included**

@@ -15,7 +15,7 @@ categories:
 date: '2025-09-30'
 ---
 
-# The Comeback: From Hiatus to Security Hardening
+## The Comeback: From Hiatus to Security Hardening
 
 After a long hiatus from blogging, I decided it was time to dust off my Jekyll blog and get back to writing. But when I opened my repository, I was greeted by a concerning sight: **12 GitHub Dependabot security alerts** ranging from critical to low severity. These weren't just minor updates—some were critical vulnerabilities with CVSS scores of 9.1 that could lead to memory corruption and use-after-free attacks.
 

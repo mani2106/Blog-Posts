@@ -11,9 +11,9 @@ This post explains how I downloaded and extracted wiki dump archive using [wikie
 
 This code was used on a kaggle environment, which can be found [here](https://www.kaggle.com/manimaranp/tamil-wiki-data-extraction). You can fork and change as per your needs.
 
-# Setup
+## Setup
 
-## Import required libraries
+### Import required libraries
 
 ```python
 # For JSON data extraction
@@ -35,7 +35,7 @@ import subprocess
 import pandas as pd
 ```
 
-## Setup output paths
+### Setup output paths
 
 ```python
 DATA_PATH = Path('/kaggle/working/')
@@ -43,28 +43,28 @@ EXTRACTED_PATH = DATA_PATH/'extracted'
 EXTRACTED_PATH.mkdir()
 ```
 
-# Data Extraction
+## Data Extraction
 
-## Request file from wikipedia.
+### Request file from wikipedia.
 You can use a different link here.
 
 ```python
 bzip_file = req.get('https://dumps.wikimedia.org/tawiki/latest/tawiki-latest-pages-articles.xml.bz2')
 ```
-## Save request content to a file
+### Save request content to a file
 ```python
 with open(DATA_PATH/'tawiki-latest-pages-articles.xml.bz2', 'wb') as f:
     f.write(bzip_file.content)
 ```
 
-## Clone wiki extractor from github
+### Clone wiki extractor from github
 Thanks to [attardi](https://github.com/attardi) and GitPython
 
 ```python
     git.Git(str(DATA_PATH)).clone("https://github.com/attardi/wikiextractor.git")
 ```
 
-## Use wikiextractor to get data from the dump
+### Use wikiextractor to get data from the dump
 This runs the wikiextractor cloned from github.
 
 ```python
@@ -102,11 +102,11 @@ for _file in files_extracted:
     for line in file_lines:
         lang_text.append(json.loads(line))
 ```
-# Preprocessing
+## Preprocessing
 You can use any of the following, or skip the preprocessing altogether if you wish so.
 
 
-## Filter English words from text
+### Filter English words from text
 
 Check each word after removing their punctuations, if it is an english word
 
@@ -137,7 +137,7 @@ lang_df = pd.DataFrame(lang_text)
 lang_df['text'] = lang_df['text'].apply(filter_english)
 ```
 
-# Store the output in compressed format
+## Store the output in compressed format
 ```python
 lang_df.to_csv(DATA_PATH/'filtered_data.csv.tar.gz', header=True)
 ```
@@ -145,7 +145,7 @@ The above saved file can be loaded with `pd.read_csv`.
 
 You can find the full code for this in [Github gist](https://gist.github.com/mani2106/97c0af61c9fde6e6cd7f6304f1b593af) or with the output in [kaggle](https://www.kaggle.com/manimaranp/tamil-wiki-data-extraction).
 
-# Clean up the downloaded files, (if required)
+## Clean up the downloaded files, (if required)
 ```python
 shutil.rmtree(str(EXTRACTED_PATH))
 shutil.rmtree(str(DATA_PATH/'wikiextractor'))
