@@ -132,12 +132,6 @@
   @media (max-width: 1400px) {
     display: none;
   }
-
-  // Performance optimization: Enable hardware acceleration
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
 }
 
 // Resize handle for TOC
@@ -706,32 +700,6 @@
 @keyframes toc-spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
-}
-
-// Performance optimizations: Hardware acceleration for smooth animations
-.toc-container {
-  .toc-nav #toc ul li a {
-    // Enable hardware acceleration for smooth transitions
-    transform: translateZ(0);
-    backface-visibility: hidden;
-
-    &::before {
-      // Hardware acceleration for border animations
-      transform: translateZ(0);
-      will-change: width;
-    }
-
-    &.toc-active {
-      // Optimize active state transitions
-      will-change: background-color, color, border-left-color;
-    }
-  }
-
-  // Optimize loading spinner performance
-  &.toc-loading .toc-loading-indicator .toc-spinner {
-    transform: translateZ(0);
-    will-change: transform;
-  }
 }
 
 // Performance optimization: Contain layout changes to TOC area
