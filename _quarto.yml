@@ -1,0 +1,47 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - "*.qmd"
+    - "posts/**"
+  resources:
+    - "images/**"
+
+website:
+  title: "Manimaran Panneerselvam's Blog"
+  site-url: "https://mani2106.github.io/Blog-Posts/"
+  description: "Personal data-science blog"
+  navbar:
+    right:
+      - text: Home
+        href: index.qmd
+      - text: About
+        href: about.qmd
+      - icon: github
+        href: https://github.com/mani2106/Blog-Posts
+  reader-mode: true
+  search: true
+  repo-url: https://github.com/mani2106/Blog-Posts
+  repo-actions: [source, edit]
+  repo-branch: master
+  comments:
+    utterances:
+      repo: mani2106/Blog-Posts
+      label: blog-comments
+      theme: boxy-light
+  page-navigation: true
+
+format:
+  html:
+    theme:
+      light: [flatly, custom.scss]
+      dark: [darkly, custom-dark.scss]
+    toc: true
+    toc-location: right
+    code-copy: true
+    code-link: true
+    fig-cap-location: bottom
+    mainfont: sans-serif
+
+execute:
+  freeze: auto

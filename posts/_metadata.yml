@@ -1,0 +1,4 @@
+# Defaults applied to all posts under posts/
+execute:
+  freeze: true
+lang: en
