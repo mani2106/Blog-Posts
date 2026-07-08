@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2025-09-30">
+<meta name="description" content="How I returned to blogging by systematically resolving 12 security vulnerabilities using Kiro’s spec-driven approach, and what’s coming next">
+
+<title>Back from Hiatus: Jekyll Blog Security Hardening with Spec-Driven Development – Manimaran Panneerselvam’s Blog</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-4bca183f81dc75909957b0c4cfbacfd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-35c71ae082fd9efa4ba7a035d616c586.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-4bca183f81dc75909957b0c4cfbacfd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Manimaran Panneerselvam’s Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/mani2106/Blog-Posts"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-comeback-from-hiatus-to-security-hardening" id="toc-the-comeback-from-hiatus-to-security-hardening" class="nav-link active" data-scroll-target="#the-comeback-from-hiatus-to-security-hardening">The Comeback: From Hiatus to Security Hardening</a>
+  <ul class="collapse">
+  <li><a href="#why-spec-driven-development" id="toc-why-spec-driven-development" class="nav-link" data-scroll-target="#why-spec-driven-development">Why Spec-Driven Development?</a></li>
+  <li><a href="#the-security-landscape" id="toc-the-security-landscape" class="nav-link" data-scroll-target="#the-security-landscape">The Security Landscape</a>
+  <ul class="collapse">
+  <li><a href="#critical-priority" id="toc-critical-priority" class="nav-link" data-scroll-target="#critical-priority">Critical Priority 🚨</a></li>
+  <li><a href="#high-priority" id="toc-high-priority" class="nav-link" data-scroll-target="#high-priority">High Priority ⚠️</a></li>
+  <li><a href="#medium-priority" id="toc-medium-priority" class="nav-link" data-scroll-target="#medium-priority">Medium Priority 📋</a></li>
+  </ul></li>
+  <li><a href="#the-spec-driven-approach-with-kiro" id="toc-the-spec-driven-approach-with-kiro" class="nav-link" data-scroll-target="#the-spec-driven-approach-with-kiro">The Spec-Driven Approach with Kiro</a>
+  <ul class="collapse">
+  <li><a href="#requirements-gathering" id="toc-requirements-gathering" class="nav-link" data-scroll-target="#requirements-gathering">1. Requirements Gathering</a></li>
+  <li><a href="#design-document" id="toc-design-document" class="nav-link" data-scroll-target="#design-document">2. Design Document</a></li>
+  <li><a href="#implementation-planning" id="toc-implementation-planning" class="nav-link" data-scroll-target="#implementation-planning">3. Implementation Planning</a></li>
+  <li><a href="#baseline-documentation" id="toc-baseline-documentation" class="nav-link" data-scroll-target="#baseline-documentation">4. Baseline Documentation</a></li>
+  <li><a href="#priority-based-upgrade-strategy" id="toc-priority-based-upgrade-strategy" class="nav-link" data-scroll-target="#priority-based-upgrade-strategy">5. Priority-Based Upgrade Strategy</a></li>
+  <li><a href="#constraint-optimization" id="toc-constraint-optimization" class="nav-link" data-scroll-target="#constraint-optimization">3. Constraint Optimization</a></li>
+  </ul></li>
+  <li><a href="#the-implementation-journey-spec-to-code" id="toc-the-implementation-journey-spec-to-code" class="nav-link" data-scroll-target="#the-implementation-journey-spec-to-code">The Implementation Journey: Spec to Code</a>
+  <ul class="collapse">
+  <li><a href="#task-by-task-execution" id="toc-task-by-task-execution" class="nav-link" data-scroll-target="#task-by-task-execution">Task-by-Task Execution</a></li>
+  <li><a href="#ruby-version-upgrade" id="toc-ruby-version-upgrade" class="nav-link" data-scroll-target="#ruby-version-upgrade">Ruby Version Upgrade</a></li>
+  <li><a href="#critical-security-updates" id="toc-critical-security-updates" class="nav-link" data-scroll-target="#critical-security-updates">Critical Security Updates</a></li>
+  </ul></li>
+  <li><a href="#testing-and-validation" id="toc-testing-and-validation" class="nav-link" data-scroll-target="#testing-and-validation">Testing and Validation</a>
+  <ul class="collapse">
+  <li><a href="#automated-checks" id="toc-automated-checks" class="nav-link" data-scroll-target="#automated-checks">Automated Checks</a></li>
+  <li><a href="#manual-verification" id="toc-manual-verification" class="nav-link" data-scroll-target="#manual-verification">Manual Verification</a></li>
+  </ul></li>
+  <li><a href="#the-results" id="toc-the-results" class="nav-link" data-scroll-target="#the-results">The Results</a>
+  <ul class="collapse">
+  <li><a href="#security-impact" id="toc-security-impact" class="nav-link" data-scroll-target="#security-impact">Security Impact</a></li>
+  <li><a href="#performance-improvements" id="toc-performance-improvements" class="nav-link" data-scroll-target="#performance-improvements">Performance Improvements</a></li>
+  <li><a href="#version-summary" id="toc-version-summary" class="nav-link" data-scroll-target="#version-summary">Version Summary</a></li>
+  </ul></li>
+  <li><a href="#the-power-of-spec-driven-development" id="toc-the-power-of-spec-driven-development" class="nav-link" data-scroll-target="#the-power-of-spec-driven-development">The Power of Spec-Driven Development</a>
+  <ul class="collapse">
+  <li><a href="#benefits-i-experienced" id="toc-benefits-i-experienced" class="nav-link" data-scroll-target="#benefits-i-experienced">Benefits I Experienced</a></li>
+  <li><a href="#the-kiro-advantage" id="toc-the-kiro-advantage" class="nav-link" data-scroll-target="#the-kiro-advantage">The Kiro Advantage</a></li>
+  </ul></li>
+  <li><a href="#lessons-learned" id="toc-lessons-learned" class="nav-link" data-scroll-target="#lessons-learned">Lessons Learned</a>
+  <ul class="collapse">
+  <li><a href="#spec-driven-beats-ad-hoc" id="toc-spec-driven-beats-ad-hoc" class="nav-link" data-scroll-target="#spec-driven-beats-ad-hoc">1. Spec-Driven Beats Ad-Hoc</a></li>
+  <li><a href="#version-constraints-matter" id="toc-version-constraints-matter" class="nav-link" data-scroll-target="#version-constraints-matter">2. Version Constraints Matter</a></li>
+  <li><a href="#major-version-upgrades-arent-always-breaking" id="toc-major-version-upgrades-arent-always-breaking" class="nav-link" data-scroll-target="#major-version-upgrades-arent-always-breaking">3. Major Version Upgrades Aren’t Always Breaking</a></li>
+  <li><a href="#documentation-is-critical" id="toc-documentation-is-critical" class="nav-link" data-scroll-target="#documentation-is-critical">4. Documentation Is Critical</a></li>
+  <li><a href="#kiro-makes-complex-projects-manageable" id="toc-kiro-makes-complex-projects-manageable" class="nav-link" data-scroll-target="#kiro-makes-complex-projects-manageable">5. Kiro Makes Complex Projects Manageable</a></li>
+  </ul></li>
+  <li><a href="#whats-next-for-this-blog" id="toc-whats-next-for-this-blog" class="nav-link" data-scroll-target="#whats-next-for-this-blog">What’s Next for This Blog</a>
+  <ul class="collapse">
+  <li><a href="#upcoming-ux-enhancements" id="toc-upcoming-ux-enhancements" class="nav-link" data-scroll-target="#upcoming-ux-enhancements">Upcoming UX Enhancements</a></li>
+  <li><a href="#technical-roadmap" id="toc-technical-roadmap" class="nav-link" data-scroll-target="#technical-roadmap">Technical Roadmap</a></li>
+  <li><a href="#content-strategy-evolution" id="toc-content-strategy-evolution" class="nav-link" data-scroll-target="#content-strategy-evolution">Content Strategy Evolution</a></li>
+  </ul></li>
+  <li><a href="#ongoing-maintenance-strategy" id="toc-ongoing-maintenance-strategy" class="nav-link" data-scroll-target="#ongoing-maintenance-strategy">Ongoing Maintenance Strategy</a>
+  <ul class="collapse">
+  <li><a href="#monthly-security-reviews" id="toc-monthly-security-reviews" class="nav-link" data-scroll-target="#monthly-security-reviews">Monthly Security Reviews</a></li>
+  <li><a href="#quarterly-dependency-updates" id="toc-quarterly-dependency-updates" class="nav-link" data-scroll-target="#quarterly-dependency-updates">Quarterly Dependency Updates</a></li>
+  <li><a href="#annual-major-updates" id="toc-annual-major-updates" class="nav-link" data-scroll-target="#annual-major-updates">Annual Major Updates</a></li>
+  </ul></li>
+  <li><a href="#the-maintenance-procedures" id="toc-the-maintenance-procedures" class="nav-link" data-scroll-target="#the-maintenance-procedures">The Maintenance Procedures</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a>
+  <ul class="collapse">
+  <li><a href="#for-jekyll-users" id="toc-for-jekyll-users" class="nav-link" data-scroll-target="#for-jekyll-users">For Jekyll Users</a></li>
+  <li><a href="#for-developers" id="toc-for-developers" class="nav-link" data-scroll-target="#for-developers">For Developers</a></li>
+  </ul></li>
+  <li><a href="#the-bottom-line" id="toc-the-bottom-line" class="nav-link" data-scroll-target="#the-bottom-line">The Bottom Line</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/mani2106/Blog-Posts/blob/master/posts/jekyll-blog-security-hardening-journey/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/mani2106/Blog-Posts/edit/master/posts/jekyll-blog-security-hardening-journey/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Back from Hiatus: Jekyll Blog Security Hardening with Spec-Driven Development</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">security</div>
+    <div class="quarto-category">jekyll</div>
+    <div class="quarto-category">ruby</div>
+    <div class="quarto-category">devops</div>
+    <div class="quarto-category">maintenance</div>
+    <div class="quarto-category">kiro</div>
+    <div class="quarto-category">spec-driven-development</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    How I returned to blogging by systematically resolving 12 security vulnerabilities using Kiro’s spec-driven approach, and what’s coming next
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 30, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="the-comeback-from-hiatus-to-security-hardening" class="level1">
+<h1>The Comeback: From Hiatus to Security Hardening</h1>
+<p>After a long hiatus from blogging, I decided it was time to dust off my Jekyll blog and get back to writing. But when I opened my repository, I was greeted by a concerning sight: <strong>12 GitHub Dependabot security alerts</strong> ranging from critical to low severity. These weren’t just minor updates—some were critical vulnerabilities with CVSS scores of 9.1 that could lead to memory corruption and use-after-free attacks.</p>
+<p>This seemed like the perfect opportunity to not only get my blog back online securely, but also to try out a new approach I’d been exploring: <strong>spec-driven development using Kiro</strong>. Rather than diving straight into code changes, I decided to treat this security hardening as a proper software project with requirements, design, and implementation planning.</p>
+<section id="why-spec-driven-development" class="level2">
+<h2 class="anchored" data-anchor-id="why-spec-driven-development">Why Spec-Driven Development?</h2>
+<p>Coming back to a project after months away, I realized I needed more than just quick fixes. I needed: - <strong>Clear documentation</strong> of what needed to be done and why - <strong>Systematic approach</strong> to prevent breaking changes - <strong>Maintainable procedures</strong> for future updates - <strong>Comprehensive testing strategy</strong> to ensure nothing broke</p>
+<p>This is where Kiro’s spec-driven approach became invaluable.</p>
+</section>
+<section id="the-security-landscape" class="level2">
+<h2 class="anchored" data-anchor-id="the-security-landscape">The Security Landscape</h2>
+<p>The vulnerabilities spanned across multiple critical components:</p>
+<ul>
+<li><strong>Nokogiri</strong> (XML/HTML parser): 5 alerts including critical memory corruption issues</li>
+<li><strong>REXML</strong> (XML parser): 6 alerts mostly related to Denial of Service attacks</li>
+<li><strong>ActiveSupport</strong> (Rails component): 1 alert for potential file disclosure</li>
+</ul>
+<p>Here’s what I was facing:</p>
+<section id="critical-priority" class="level3">
+<h3 class="anchored" data-anchor-id="critical-priority">Critical Priority 🚨</h3>
+<ul>
+<li><strong>CVE-2025-49794, CVE-2025-49796</strong>: Use-after-free and memory corruption in Nokogiri (CVSS 9.1)</li>
+</ul>
+</section>
+<section id="high-priority" class="level3">
+<h3 class="anchored" data-anchor-id="high-priority">High Priority ⚠️</h3>
+<ul>
+<li><strong>CVE-2025-24855, CVE-2024-55549</strong>: Use-after-free in libxslt</li>
+<li><strong>CVE-2024-43398</strong>: REXML DoS vulnerability with deep XML elements</li>
+</ul>
+</section>
+<section id="medium-priority" class="level3">
+<h3 class="anchored" data-anchor-id="medium-priority">Medium Priority 📋</h3>
+<ul>
+<li>Multiple REXML DoS vulnerabilities</li>
+<li>ActiveSupport file disclosure vulnerability</li>
+</ul>
+</section>
+</section>
+<section id="the-spec-driven-approach-with-kiro" class="level2">
+<h2 class="anchored" data-anchor-id="the-spec-driven-approach-with-kiro">The Spec-Driven Approach with Kiro</h2>
+<p>Instead of randomly updating gems, I used Kiro to develop a structured methodology through proper specification:</p>
+<section id="requirements-gathering" class="level3">
+<h3 class="anchored" data-anchor-id="requirements-gathering">1. Requirements Gathering</h3>
+<p>Using Kiro, I started by creating a comprehensive requirements document that captured: - <strong>User stories</strong> for each type of security concern - <strong>Acceptance criteria</strong> in EARS format (Easy Approach to Requirements Syntax) - <strong>Priority matrix</strong> based on vulnerability severity - <strong>Success metrics</strong> for the security hardening</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>**User Story:** As a blog maintainer, I want to analyze the current GitHub</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>security alerts for my gem dependencies, so that I can prioritize which</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>vulnerabilities need immediate attention.</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Acceptance Criteria</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>WHEN analyzing GitHub alerts THEN the system SHALL categorize</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   vulnerabilities by severity (critical, high, medium, low)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>WHEN vulnerabilities are categorized THEN the system SHALL identify</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>   which gems require updates</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="design-document" class="level3">
+<h3 class="anchored" data-anchor-id="design-document">2. Design Document</h3>
+<p>Kiro helped me create a detailed design that outlined: - <strong>Vulnerability analysis framework</strong> with three-phase approach - <strong>Gem upgrade mapping</strong> with version constraints - <strong>Dependency resolution strategy</strong> to prevent conflicts - <strong>Error handling scenarios</strong> and rollback procedures</p>
+</section>
+<section id="implementation-planning" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-planning">3. Implementation Planning</h3>
+<p>The spec process generated a detailed task breakdown: - 8 major phases with 15 sub-tasks - Each task linked to specific requirements - Clear validation steps for each phase - Rollback procedures documented upfront</p>
+</section>
+<section id="baseline-documentation" class="level3">
+<h3 class="anchored" data-anchor-id="baseline-documentation">4. Baseline Documentation</h3>
+<p>Through the spec process, I systematically documented the current state: - Ruby 2.7.1 (approaching EOL) - Jekyll 4.1.1 (outdated) - Bundler 2.1.4 (incompatible with modern Ruby) - Multiple outdated gems with restrictive version constraints</p>
+</section>
+<section id="priority-based-upgrade-strategy" class="level3">
+<h3 class="anchored" data-anchor-id="priority-based-upgrade-strategy">5. Priority-Based Upgrade Strategy</h3>
+<p>The design phase helped me categorize updates by security impact and dependency relationships:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode ruby code-with-copy"><code class="sourceCode ruby"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Phase 1: Ruby runtime upgrade</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">Ruby</span> <span class="fl">2.7</span><span class="at">.</span><span class="dv">1</span> → <span class="dt">Ruby</span> <span class="fl">3.3</span><span class="at">.</span><span class="dv">9</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Phase 2: Critical security gems</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="wa">nokogiri:</span> <span class="st">"&lt; 1.18.9"</span> → <span class="st">"~&gt; 1.18.0"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="wa">rexml:</span> <span class="st">"&lt; 3.3.9"</span> → <span class="st">"~&gt; 3.4.0"</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Phase 3: Major framework updates</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="wa">activesupport:</span> <span class="st">"&lt; 6.1.7.5"</span> → <span class="st">"~&gt; 7.2.0"</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Phase 4: Supporting infrastructure</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="wa">faraday:</span> <span class="st">"&lt; 1.0"</span> → <span class="st">"~&gt; 2.12.0"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="constraint-optimization" class="level3">
+<h3 class="anchored" data-anchor-id="constraint-optimization">3. Constraint Optimization</h3>
+<p>One major issue was overly restrictive version constraints that prevented security updates:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode ruby code-with-copy"><code class="sourceCode ruby"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Before: Blocking security updates</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>gem <span class="st">"faraday"</span>, <span class="st">"&lt; 1.0"</span>  <span class="co"># Stuck on 0.17.5 from 2019!</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># After: Security-friendly constraints</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>gem <span class="st">"faraday"</span>, <span class="st">"~&gt; 2.12"</span>  <span class="co"># Allows patch updates</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="the-implementation-journey-spec-to-code" class="level2">
+<h2 class="anchored" data-anchor-id="the-implementation-journey-spec-to-code">The Implementation Journey: Spec to Code</h2>
+<p>With Kiro’s comprehensive spec in hand, the implementation became straightforward. Each task was clearly defined with acceptance criteria, making it easy to know exactly what needed to be done and how to validate success.</p>
+<section id="task-by-task-execution" class="level3">
+<h3 class="anchored" data-anchor-id="task-by-task-execution">Task-by-Task Execution</h3>
+<p>The beauty of the spec-driven approach was that I could work through each task systematically:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> 1. Establish baseline and prepare for upgrades</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> 2. Upgrade Ruby version to latest stable</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> 3. Update critical security gems (Nokogiri and REXML)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> 4. Update ActiveSupport to latest Rails 7.x series</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> 5. Update supporting gems to latest versions</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> 6. Optimize Gemfile version constraints for security</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> 7. Comprehensive testing and validation</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> 8. Document changes and create maintenance procedures</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="ruby-version-upgrade" class="level3">
+<h3 class="anchored" data-anchor-id="ruby-version-upgrade">Ruby Version Upgrade</h3>
+<p>Following the spec’s Phase 1, the foundation needed to be solid. Ruby 2.7.1 was approaching end-of-life and causing bundler compatibility issues:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode dockerfile code-with-copy"><code class="sourceCode dockerfile"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Before</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> jekyll/jekyll:4.1.0  <span class="co"># Ruby 2.7.1</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># After</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> ruby:3.3-alpine     <span class="co"># Ruby 3.3.9</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This single change resolved multiple compatibility issues and enabled modern gem versions.</p>
+</section>
+<section id="critical-security-updates" class="level3">
+<h3 class="anchored" data-anchor-id="critical-security-updates">Critical Security Updates</h3>
+<p><strong>Nokogiri: The Big One</strong> Nokogiri had the most severe vulnerabilities, including critical memory corruption issues:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode ruby code-with-copy"><code class="sourceCode ruby"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Updated from 1.16.3 to 1.18.10</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>gem <span class="st">"nokogiri"</span>, <span class="st">"~&gt; 1.18"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This update resolved 5 security alerts, including the critical CVE-2025-49794 and CVE-2025-49796.</p>
+<p><strong>REXML: DoS Protection</strong> REXML had 6 different Denial of Service vulnerabilities:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode ruby code-with-copy"><code class="sourceCode ruby"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Updated from 3.2.5 to 3.4.4</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>gem <span class="st">"rexml"</span>, <span class="st">"~&gt; 3.4"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>ActiveSupport: Major Version Jump</strong> The most challenging update was ActiveSupport, requiring a major version upgrade:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode ruby code-with-copy"><code class="sourceCode ruby"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 6.0.6.1 → 7.2.2.2 (major version jump)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>gem <span class="st">"activesupport"</span>, <span class="st">"~&gt; 7.2"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Surprisingly, this major version upgrade had zero breaking changes for Jekyll usage—a testament to Rails’ commitment to backward compatibility.</p>
+</section>
+</section>
+<section id="testing-and-validation" class="level2">
+<h2 class="anchored" data-anchor-id="testing-and-validation">Testing and Validation</h2>
+<p>Each phase included comprehensive testing:</p>
+<section id="automated-checks" class="level3">
+<h3 class="anchored" data-anchor-id="automated-checks">Automated Checks</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build verification</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">bundle</span> install</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ex">jekyll</span> build</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Functionality testing</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="ex">docker-compose</span> up <span class="at">-d</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-I</span> http://localhost:4000</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="manual-verification" class="level3">
+<h3 class="anchored" data-anchor-id="manual-verification">Manual Verification</h3>
+<ul>
+<li>✅ All blog posts render correctly</li>
+<li>✅ Math equations display properly (KaTeX)</li>
+<li>✅ Code syntax highlighting works</li>
+<li>✅ RSS feed generates correctly</li>
+<li>✅ SEO tags are present</li>
+<li>✅ Site navigation functions</li>
+</ul>
+</section>
+</section>
+<section id="the-results" class="level2">
+<h2 class="anchored" data-anchor-id="the-results">The Results</h2>
+<section id="security-impact" class="level3">
+<h3 class="anchored" data-anchor-id="security-impact">Security Impact</h3>
+<ul>
+<li><strong>12 vulnerabilities resolved</strong>: From critical to low severity</li>
+<li><strong>Zero known vulnerabilities</strong>: Clean security audit</li>
+<li><strong>Future-proof constraints</strong>: Automatic security patches enabled</li>
+</ul>
+</section>
+<section id="performance-improvements" class="level3">
+<h3 class="anchored" data-anchor-id="performance-improvements">Performance Improvements</h3>
+<ul>
+<li><strong>Ruby 3.3.x</strong>: Significant performance gains over 2.7.x</li>
+<li><strong>Modern HTTP/2</strong>: Faraday 2.x includes modern features</li>
+<li><strong>Updated plugins</strong>: Performance optimizations included</li>
+</ul>
+</section>
+<section id="version-summary" class="level3">
+<h3 class="anchored" data-anchor-id="version-summary">Version Summary</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 18%">
+<col style="width: 16%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Before</th>
+<th>After</th>
+<th>Security Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ruby</td>
+<td>2.7.1</td>
+<td>3.3.9</td>
+<td>Latest security patches</td>
+</tr>
+<tr class="even">
+<td>Nokogiri</td>
+<td>1.16.3</td>
+<td>1.18.10</td>
+<td>5 CVEs resolved</td>
+</tr>
+<tr class="odd">
+<td>REXML</td>
+<td>3.2.5</td>
+<td>3.4.4</td>
+<td>6 DoS vulnerabilities fixed</td>
+</tr>
+<tr class="even">
+<td>ActiveSupport</td>
+<td>6.0.6.1</td>
+<td>7.2.2.2</td>
+<td>File disclosure vulnerability fixed</td>
+</tr>
+<tr class="odd">
+<td>Faraday</td>
+<td>0.17.5</td>
+<td>2.12.3</td>
+<td>5+ years of security updates</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="the-power-of-spec-driven-development" class="level2">
+<h2 class="anchored" data-anchor-id="the-power-of-spec-driven-development">The Power of Spec-Driven Development</h2>
+<p>This project reinforced why I’m excited about spec-driven development with Kiro:</p>
+<section id="benefits-i-experienced" class="level3">
+<h3 class="anchored" data-anchor-id="benefits-i-experienced">Benefits I Experienced</h3>
+<ol type="1">
+<li><strong>Clear roadmap</strong>: Never wondered “what should I do next?”</li>
+<li><strong>Risk mitigation</strong>: Potential issues identified upfront in design phase</li>
+<li><strong>Comprehensive testing</strong>: Validation criteria defined before implementation</li>
+<li><strong>Documentation by design</strong>: Requirements and procedures created as part of the process</li>
+<li><strong>Maintainable outcomes</strong>: Future changes have a clear framework to follow</li>
+</ol>
+</section>
+<section id="the-kiro-advantage" class="level3">
+<h3 class="anchored" data-anchor-id="the-kiro-advantage">The Kiro Advantage</h3>
+<ul>
+<li><strong>Iterative refinement</strong>: Requirements → Design → Tasks → Implementation</li>
+<li><strong>Built-in validation</strong>: Each phase reviewed before proceeding</li>
+<li><strong>Comprehensive coverage</strong>: Nothing falls through the cracks</li>
+<li><strong>Future-ready</strong>: Maintenance procedures established from day one</li>
+</ul>
+</section>
+</section>
+<section id="lessons-learned" class="level2">
+<h2 class="anchored" data-anchor-id="lessons-learned">Lessons Learned</h2>
+<section id="spec-driven-beats-ad-hoc" class="level3">
+<h3 class="anchored" data-anchor-id="spec-driven-beats-ad-hoc">1. Spec-Driven Beats Ad-Hoc</h3>
+<p>Taking time to create proper requirements and design prevented dependency conflicts and reduced risk significantly.</p>
+</section>
+<section id="version-constraints-matter" class="level3">
+<h3 class="anchored" data-anchor-id="version-constraints-matter">2. Version Constraints Matter</h3>
+<p>Overly restrictive constraints (<code>gem "name", "&lt; 1.0"</code>) can block critical security updates for years.</p>
+</section>
+<section id="major-version-upgrades-arent-always-breaking" class="level3">
+<h3 class="anchored" data-anchor-id="major-version-upgrades-arent-always-breaking">3. Major Version Upgrades Aren’t Always Breaking</h3>
+<p>ActiveSupport 6.x → 7.x had zero breaking changes for our Jekyll usage.</p>
+</section>
+<section id="documentation-is-critical" class="level3">
+<h3 class="anchored" data-anchor-id="documentation-is-critical">4. Documentation Is Critical</h3>
+<p>The spec process automatically generated detailed records of changes, rationale, and rollback procedures.</p>
+</section>
+<section id="kiro-makes-complex-projects-manageable" class="level3">
+<h3 class="anchored" data-anchor-id="kiro-makes-complex-projects-manageable">5. Kiro Makes Complex Projects Manageable</h3>
+<p>What could have been an overwhelming security crisis became a systematic, well-documented project.</p>
+</section>
+</section>
+<section id="whats-next-for-this-blog" class="level2">
+<h2 class="anchored" data-anchor-id="whats-next-for-this-blog">What’s Next for This Blog</h2>
+<p>Now that the security foundation is solid, I’m excited about the future improvements planned:</p>
+<section id="upcoming-ux-enhancements" class="level3">
+<h3 class="anchored" data-anchor-id="upcoming-ux-enhancements">Upcoming UX Enhancements</h3>
+<ul>
+<li><strong>GitHub Discussions integration</strong>: Moving away from Utterances to GitHub’s native discussion feature for better community engagement and moderation</li>
+<li><strong>Redesigned reading experience</strong>: Complete UX overhaul focusing on readability, accessibility, and modern design principles</li>
+<li><strong>Enhanced layout architecture</strong>:
+<ul>
+<li><strong>Left sidebar</strong>: Table of Contents for easy navigation within posts</li>
+<li><strong>Right sidebar</strong>: Comments section for contextual discussions</li>
+<li><strong>Responsive design</strong>: Seamless experience across desktop, tablet, and mobile</li>
+<li><strong>Progressive enhancement</strong>: Modern features that degrade gracefully</li>
+</ul></li>
+</ul>
+</section>
+<section id="technical-roadmap" class="level3">
+<h3 class="anchored" data-anchor-id="technical-roadmap">Technical Roadmap</h3>
+<ul>
+<li><strong>Performance optimization</strong>: Leveraging Ruby 3.3.x performance gains and modern Jekyll features</li>
+<li><strong>Enhanced SEO</strong>: Building on Jekyll-seo-tag 2.8.0 improvements with structured data</li>
+<li><strong>Better accessibility</strong>: WCAG 2.1 compliance and screen reader optimization</li>
+<li><strong>Modern web standards</strong>: HTTP/3, WebP images, and progressive loading</li>
+</ul>
+</section>
+<section id="content-strategy-evolution" class="level3">
+<h3 class="anchored" data-anchor-id="content-strategy-evolution">Content Strategy Evolution</h3>
+<ul>
+<li><strong>More technical deep-dives</strong>: Like this security hardening journey</li>
+<li><strong>Spec-driven development series</strong>: Sharing the Kiro methodology and real-world applications</li>
+<li><strong>Open source contributions</strong>: Documenting contributions and community learnings</li>
+<li><strong>Interactive tutorials</strong>: Hands-on guides with embedded examples</li>
+</ul>
+</section>
+</section>
+<section id="ongoing-maintenance-strategy" class="level2">
+<h2 class="anchored" data-anchor-id="ongoing-maintenance-strategy">Ongoing Maintenance Strategy</h2>
+<p>The spec process established comprehensive ongoing procedures:</p>
+<section id="monthly-security-reviews" class="level3">
+<h3 class="anchored" data-anchor-id="monthly-security-reviews">Monthly Security Reviews</h3>
+<ul>
+<li>Monitor GitHub Dependabot alerts</li>
+<li>Apply critical security patches following established procedures</li>
+<li>Update security documentation</li>
+</ul>
+</section>
+<section id="quarterly-dependency-updates" class="level3">
+<h3 class="anchored" data-anchor-id="quarterly-dependency-updates">Quarterly Dependency Updates</h3>
+<ul>
+<li>Update all gems to latest stable versions</li>
+<li>Execute comprehensive testing protocols</li>
+<li>Review and optimize version constraints</li>
+</ul>
+</section>
+<section id="annual-major-updates" class="level3">
+<h3 class="anchored" data-anchor-id="annual-major-updates">Annual Major Updates</h3>
+<ul>
+<li>Evaluate Ruby version upgrades</li>
+<li>Consider Jekyll major version updates</li>
+<li>Comprehensive security audit and spec review</li>
+</ul>
+</section>
+</section>
+<section id="the-maintenance-procedures" class="level2">
+<h2 class="anchored" data-anchor-id="the-maintenance-procedures">The Maintenance Procedures</h2>
+<p>Kiro helped create comprehensive <a href="https://github.com/mani2106/Blog-Posts/blob/master/MAINTENANCE_PROCEDURES.md">maintenance procedures</a> covering:</p>
+<ul>
+<li><strong>Emergency Response</strong>: Critical vulnerability response within 24 hours</li>
+<li><strong>Regular Updates</strong>: Monthly and quarterly update schedules</li>
+<li><strong>Testing Protocols</strong>: Comprehensive validation checklists</li>
+<li><strong>Rollback Procedures</strong>: Quick recovery from failed updates</li>
+<li><strong>Documentation Standards</strong>: Keeping procedures current</li>
+</ul>
+</section>
+<section id="key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<section id="for-jekyll-users" class="level3">
+<h3 class="anchored" data-anchor-id="for-jekyll-users">For Jekyll Users</h3>
+<ol type="1">
+<li><strong>Don’t ignore Dependabot alerts</strong>: They represent real security risks</li>
+<li><strong>Use semantic versioning wisely</strong>: <code>~&gt; x.y</code> allows security patches</li>
+<li><strong>Keep Ruby current</strong>: EOL versions create cascading problems</li>
+<li><strong>Test systematically</strong>: Automated + manual validation prevents issues</li>
+<li><strong>Document everything</strong>: Future you will thank present you</li>
+</ol>
+</section>
+<section id="for-developers" class="level3">
+<h3 class="anchored" data-anchor-id="for-developers">For Developers</h3>
+<ol type="1">
+<li><strong>Spec-driven development works</strong>: Taking time to plan saves time in execution</li>
+<li><strong>Requirements matter</strong>: Clear acceptance criteria prevent scope creep and missed edge cases</li>
+<li><strong>Design upfront</strong>: Identifying issues before coding saves debugging time</li>
+<li><strong>Maintenance is part of the spec</strong>: Don’t just build it, plan to maintain it</li>
+<li><strong>Tools like Kiro are game-changers</strong>: Structured approaches scale better than ad-hoc methods</li>
+</ol>
+</section>
+</section>
+<section id="the-bottom-line" class="level2">
+<h2 class="anchored" data-anchor-id="the-bottom-line">The Bottom Line</h2>
+<p>What started as a comeback blog post became a demonstration of modern development practices. The combination of returning from hiatus with 12 security alerts created the perfect opportunity to try spec-driven development with Kiro.</p>
+<p>The systematic approach took more time upfront but resulted in: - <strong>Zero security vulnerabilities</strong> - <strong>Improved performance and modern dependencies</strong> - <strong>Comprehensive documentation and procedures</strong> - <strong>Clear roadmap for future improvements</strong> - <strong>Confidence in ongoing maintenance</strong></p>
+<p>The blog is now running on Ruby 3.3.9 with the latest secure versions of all dependencies. More importantly, I have a proven methodology for future updates—both security and feature enhancements.</p>
+<p>This is just the beginning of my return to regular blogging. With a solid, secure foundation and a clear development methodology, I’m excited to continue improving this blog and sharing more technical insights.</p>
+<p>The next posts will dive deeper into spec-driven development, the upcoming UX redesign process, and how GitHub Discussions will transform the commenting experience.</p>
+<p>I will try to do regular blogging after a multi-year dormancy! 🚀</p>
+<hr>
+<!--
+*The complete specification documentation for this security hardening project, including requirements, design documents, task breakdowns, and maintenance procedures, is available in the [blog repository](https://github.com/mani2106/Blog-Posts) under `.kiro/specs/gemfile-security-hardening/`.* -->
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/mani2106\.github\.io\/Blog-Posts\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<script src="https://utteranc.es/client.js" repo="mani2106/Blog-Posts" issue-term="pathname" theme="boxy-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/mani2106/Blog-Posts/blob/master/posts/jekyll-blog-security-hardening-journey/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/mani2106/Blog-Posts/edit/master/posts/jekyll-blog-security-hardening-journey/index.qmd" class="toc-action"><i class="bi empty"></i>Edit this page</a></li></ul></div></div></div></footer></body></html>
