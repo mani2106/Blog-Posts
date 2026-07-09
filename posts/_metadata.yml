@@ -2,3 +2,9 @@
 execute:
   freeze: true
 lang: en
+filters:
+  - collapse-output
+format:
+  html:
+    code-fold: true
+    code-summary: "Show code"
