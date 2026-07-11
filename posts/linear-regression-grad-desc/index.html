@@ -46,9 +46,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-4bca183f81dc75909957b0c4cfbacfd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-35c71ae082fd9efa4ba7a035d616c586.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-4bca183f81dc75909957b0c4cfbacfd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-2e03207ff041bee075d423b439726f38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-d636c70dd44b135d7809ea13442498b3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-2e03207ff041bee075d423b439726f38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -293,6 +293,10 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../../categories.html"> 
+<span class="menu-text">Categories</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
@@ -323,10 +327,7 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#implementing-linear-regression-with-gradient-descent" id="toc-implementing-linear-regression-with-gradient-descent" class="nav-link active" data-scroll-target="#implementing-linear-regression-with-gradient-descent">Implementing Linear Regression with Gradient Descent</a>
-  <ul class="collapse">
-  <li><a href="#the-cost-function" id="toc-the-cost-function" class="nav-link" data-scroll-target="#the-cost-function">The Cost Function</a></li>
-  </ul></li>
+  <li><a href="#the-cost-function" id="toc-the-cost-function" class="nav-link active" data-scroll-target="#the-cost-function">The Cost Function</a></li>
   <li><a href="#gradient-descent" id="toc-gradient-descent" class="nav-link" data-scroll-target="#gradient-descent">Gradient Descent</a>
   <ul class="collapse">
   <li><a href="#deriving-the-derivative-term-fracpartialpartial-theta_j-jtheta_0-theta_1cdotstheta_j" id="toc-deriving-the-derivative-term-fracpartialpartial-theta_j-jtheta_0-theta_1cdotstheta_j" class="nav-link" data-scroll-target="#deriving-the-derivative-term-fracpartialpartial-theta_j-jtheta_0-theta_1cdotstheta_j">Deriving the derivative term <span class="math inline">\(\frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1,\cdots\theta_j)\)</span></a></li>
@@ -374,8 +375,6 @@ window.Quarto = {
 </header>
 
 
-<section id="implementing-linear-regression-with-gradient-descent" class="level1">
-<h1>Implementing Linear Regression with Gradient Descent</h1>
 <p>This post is my understanding of Linear Regression, Please feel free to comment and point out any errors if seen.</p>
 <section id="the-cost-function" class="level2">
 <h2 class="anchored" data-anchor-id="the-cost-function">The Cost Function</h2>
@@ -402,9 +401,8 @@ Each one of the parameter represent the weight of each feature in the dataset, t
 </ul>
 <p>It can be represented like <span class="math inline">\(h_0(x) = \theta_0+\theta_1X_1+\theta_2X_2+\cdots+\theta_nX_n\)</span> where <span class="math inline">\(n\)</span> is the number of features we are using for the problem.</p>
 </section>
-</section>
-<section id="gradient-descent" class="level1">
-<h1>Gradient Descent</h1>
+<section id="gradient-descent" class="level2">
+<h2 class="anchored" data-anchor-id="gradient-descent">Gradient Descent</h2>
 <p>We need to update the parameters <span class="math inline">\(\theta_0,\theta_1, \theta_2\cdots\theta_n\)</span> so that the cost function</p>
 <p><span class="math display">\[J(\theta_0, \theta_1,\cdots\theta_n) = \frac{1}{2m}\sum_{i=1}^{m}  (h_\theta(x^i) - y^i)^2\]</span> can be minimized.</p>
 <p>So to find the minimum for the parameters <span class="math inline">\(\theta_0,\theta_1,\theta_2\cdots\theta_n\)</span> the update is performed like below</p>
@@ -417,8 +415,8 @@ Each one of the parameter represent the weight of each feature in the dataset, t
 <li>The <span class="math inline">\(\frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1,\cdots\theta_j)\)</span> is the derivative term of the cost function, it is like <code>slope</code><span class="math inline">\(^2\)</span> of the line <code>tangent</code><span class="math inline">\(^1\)</span> to the curve touching on where the <span class="math inline">\(\theta\)</span> is present in that curve.</li>
 </ul>
 <p>For each feature in the dataset the update has to be done simultaneously for each parameter <span class="math inline">\(\theta\)</span>, until the convergence / error given by cost function at its minimum.</p>
-<section id="deriving-the-derivative-term-fracpartialpartial-theta_j-jtheta_0-theta_1cdotstheta_j" class="level2">
-<h2 class="anchored" data-anchor-id="deriving-the-derivative-term-fracpartialpartial-theta_j-jtheta_0-theta_1cdotstheta_j">Deriving the derivative term <span class="math inline">\(\frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1,\cdots\theta_j)\)</span></h2>
+<section id="deriving-the-derivative-term-fracpartialpartial-theta_j-jtheta_0-theta_1cdotstheta_j" class="level3">
+<h3 class="anchored" data-anchor-id="deriving-the-derivative-term-fracpartialpartial-theta_j-jtheta_0-theta_1cdotstheta_j">Deriving the derivative term <span class="math inline">\(\frac{\partial}{\partial \theta_j} J(\theta_0, \theta_1,\cdots\theta_j)\)</span></h3>
 <p><span class="math inline">\(^3\)</span>To simplify the problem I am considering that we have 2 parameters <span class="math inline">\(\theta_0\)</span> and <span class="math inline">\(\theta_1\)</span>, our hypothesis <span class="math inline">\(h_0(x)\)</span> function becomes <span class="math inline">\(\theta_0+\theta_1X\)</span></p>
 <p>Now let <span class="math inline">\(g(\theta_0, \theta_1)\)</span> be our derivative term</p>
 <p><span class="math display">\[g(\theta_0, \theta_1)=J(\theta_0, \theta_1)\]</span></p>
@@ -463,8 +461,8 @@ Each one of the parameter represent the weight of each feature in the dataset, t
 <p>I tried to implement this in python which can be found <a href="https://github.com/mani2106/Algorithm-Implementations">here</a></p>
 </section>
 </section>
-<section id="resources-and-references" class="level1">
-<h1>Resources and references</h1>
+<section id="resources-and-references" class="level2">
+<h2 class="anchored" data-anchor-id="resources-and-references">Resources and references</h2>
 <ul>
 <li><p><a href="https://machinelearningmastery.com/how-to-implement-a-machine-learning-algorithm/">How to implement a machine learning algorithm</a></p></li>
 <li><p><a href="https://machinelearningmastery.com/techniques-to-understand-machine-learning-algorithms-without-the-background-in-mathematics/">Understanding math in Machine learning</a></p></li>
@@ -487,6 +485,44 @@ Each one of the parameter represent the weight of each feature in the dataset, t
 </section>
 
 </main> <!-- /main -->
+<script>
+/* Keep the Utterances comment box in sync with Quarto's light/dark toggle.
+   Utterances renders in a cross-origin utteranc.es iframe, so we can't style it
+   directly — we postMessage a {type:'set-theme'} command into the frame.
+   Quarto flips a `quarto-dark`/`quarto-light` class on <body> when the navbar
+   toggle is clicked (see its generated toggleBodyColorMode), so we read that
+   class as the authoritative light/dark state. We re-sync on clicks on
+   .quarto-color-scheme-toggle, giving Quarto a tick to flip the class first. */
+(function () {
+  function darkMode() {
+    // Quarto sets <body> to class quarto-dark|quarto-light; read it directly.
+    // (Background-luminance probing was fragile — it lagged behind the CSS
+    // transition after a toggle, leaving the box stuck on the old theme.)
+    return document.body.classList.contains("quarto-dark");
+  }
+  function sync() {
+    var f = document.querySelector("iframe.utterances-frame");
+    if (f && f.contentWindow) {
+      f.contentWindow.postMessage(
+        { type: "set-theme", theme: darkMode() ? "github-dark" : "github-light" },
+        "https://utteranc.es"
+      );
+    }
+  }
+  // Sync once the Utterances iframe is injected by client.js.
+  if (document.body) {
+    new MutationObserver(function (_, obs) {
+      if (document.querySelector("iframe.utterances-frame")) { sync(); obs.disconnect(); }
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+  // Re-sync whenever the reader toggles the theme (give Quarto a tick to flip DOM).
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.closest && e.target.closest(".quarto-color-scheme-toggle")) {
+      setTimeout(sync, 60);
+    }
+  });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -900,7 +936,7 @@ Each one of the parameter represent the weight of each feature in the dataset, t
     }
   });
   </script>
-<script src="https://utteranc.es/client.js" repo="mani2106/Blog-Posts" issue-term="pathname" theme="boxy-light" crossorigin="anonymous" async="">
+<script src="https://utteranc.es/client.js" repo="mani2106/Blog-Posts" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 

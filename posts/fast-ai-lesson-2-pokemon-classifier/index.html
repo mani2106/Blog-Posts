@@ -81,9 +81,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-4bca183f81dc75909957b0c4cfbacfd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-35c71ae082fd9efa4ba7a035d616c586.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-4bca183f81dc75909957b0c4cfbacfd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-2e03207ff041bee075d423b439726f38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-d636c70dd44b135d7809ea13442498b3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-2e03207ff041bee075d423b439726f38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -302,6 +302,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../../categories.html"> 
+<span class="menu-text">Categories</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
@@ -390,24 +394,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 <p>In this notebook, I used the pokemon images dataset from <a href="https://kaggle.com/mrgravelord/complete-pokemon-image-dataset">here</a> but unfortuantely it is not available now.</p>
 <div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#hide</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> files</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>files.upload()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-5" class="cell" data-outputid="d5bc77c9-74f4-4f48-ee9a-04a6df998ef0" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:34}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#hide</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's make sure the kaggle.json file is present.</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>ls <span class="op">-</span>lha kaggle.json</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>-rw-r--r-- 1 root root 66 Jul 28 09:40 kaggle.json</code></pre>
 </div>
 </div>
 <div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#hide</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Next, install the Kaggle API client.</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>q kaggle</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#hide</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The Kaggle API client expects this file to be in ~/.kaggle,</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># so move it there.</span></span>
@@ -416,11 +431,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># This permissions change avoids a warning on Kaggle tool startup.</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>chmod <span class="dv">600</span> <span class="op">~/</span>.kaggle<span class="op">/</span>kaggle.json</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-8" class="cell" data-outputid="fb6bc564-4cdb-445b-cfec-9fe94824a209" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:70}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#hide</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># using kaggle api</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>kaggle datasets download <span class="op">-</span>d mrgravelord<span class="op">/</span>complete<span class="op">-</span>pokemon<span class="op">-</span>image<span class="op">-</span>dataset</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Downloading complete-pokemon-image-dataset.zip to /content
  90% 121M/134M [00:01&lt;00:00, 77.3MB/s]
@@ -428,38 +447,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#hide</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>unzip <span class="op">/</span>content<span class="op">/</span>complete<span class="op">-</span>pokemon<span class="op">-</span>image<span class="op">-</span>dataset.<span class="bu">zip</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#hide</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>rm <span class="op">/</span>content<span class="op">/</span>complete<span class="op">-</span>pokemon<span class="op">-</span>image<span class="op">-</span>dataset.<span class="bu">zip</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <section id="load-required-libraries" class="level2">
 <h2 class="anchored" data-anchor-id="load-required-libraries">Load required libraries</h2>
 <div id="cell-12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#collapse</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.vision <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.metrics <span class="im">import</span> error_rate</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.callbacks.tracker <span class="im">import</span> ReduceLROnPlateauCallback, SaveModelCallback</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> fastai.callbacks <span class="im">import</span> CSVLogger</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="prepare-data-for-training" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-data-for-training">Prepare Data for training</h2>
 <div id="cell-14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#collapse</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> Path(<span class="st">"."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>Form data bunch object from the folders.</p>
 <div id="cell-16" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> ImageDataBunch.from_folder(path, train<span class="op">=</span><span class="st">"."</span>,</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                                    ds_tfms<span class="op">=</span>get_transforms(),</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                                    size<span class="op">=</span><span class="dv">128</span>, bs<span class="op">=</span><span class="dv">64</span>, valid_pct<span class="op">=</span><span class="fl">0.2</span>).normalize(imagenet_stats)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>Check the number of different pokemon images that we have.</p>
 <div id="cell-18" class="cell" data-outputid="fc8c58a9-5780-4774-9f4e-35c039e4501c" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:34}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(data.classes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>928</code></pre>
 </div>
@@ -471,22 +508,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Converting the operations to be performed in a lower precision, <a href="https://docs.nvidia.com/deeplearning/sdk/mixed-precision-training/index.html#mptrain">more</a></li>
 </ul>
 <div id="cell-20" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>learn <span class="op">=</span> cnn_learner(data, models.resnet18, metrics<span class="op">=</span>error_rate).mixup().to_fp16()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>Adding callbacks to monitor the training process and - Reduce the <code>learning_rate</code> by using the <code>ReduceLROnPlateauCallback</code>. - Saving the model on every improvement in <code>error_rate</code> - Log the training stats in a csv file.</p>
 <div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>callbacks_list <span class="op">=</span> [</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    ReduceLROnPlateauCallback(learn<span class="op">=</span>learn, monitor<span class="op">=</span><span class="st">'error_rate'</span>, factor<span class="op">=</span><span class="fl">1e-6</span>, patience<span class="op">=</span><span class="dv">5</span>, min_delta<span class="op">=</span><span class="fl">1e-5</span>),</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    SaveModelCallback(learn, mode<span class="op">=</span><span class="st">"min"</span>, every<span class="op">=</span><span class="st">'improvement'</span>, monitor<span class="op">=</span><span class="st">'error_rate'</span>, name<span class="op">=</span><span class="st">'best'</span>),</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    CSVLogger(learn<span class="op">=</span>learn, append<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="start-training" class="level2">
 <h2 class="anchored" data-anchor-id="start-training">Start Training</h2>
 <p>Now, All the setup has been made, Let’s train the model with default parameters, for <code>15</code> epochs.</p>
 <div id="cell-25" class="cell" data-outputid="b63e3695-f8e2-4996-e25f-c52e5bcd0002" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:800}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">15</span>, callbacks<span class="op">=</span>callbacks_list)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
@@ -630,22 +676,28 @@ Better model found at epoch 14 with error_rate value: 0.2801785469055176.</code>
 <p>Now that we have got some decent accuracy let us try to save the model and interpret from it.</p>
 <p>In the following cell, I - Load the <code>best</code> weights saved by the callbacks during training. - Convert the model back to use 32 bit precision. - Export the model as a whole. - Export the <code>weights</code> alone.</p>
 <div id="cell-27" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>learn.load(<span class="st">"best"</span>)<span class="op">;</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>learn.to_fp32()</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>learn.export(<span class="st">"pokemon_resnet18_st1.pkl"</span>)</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>learn.save(<span class="st">"pokemon_resnet18_st1_wgts"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="model-interpretation" class="level2">
 <h2 class="anchored" data-anchor-id="model-interpretation">Model Interpretation</h2>
 <p>It is very important that we get to know what the model has learnt from the training process. We can do that with the help of <code>ClassificationInterpretation</code> class from the <code>fastai</code> library.</p>
 <div id="cell-30" class="cell" data-outputid="8670bd62-876b-443e-d008-959a6506827b" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:34}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create interpretation object</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>interp <span class="op">=</span> ClassificationInterpretation.from_learner(learn)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the instances where the model has made the most error (by loss value) in the validation set.</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>losses,idxs <span class="op">=</span> interp.top_losses()</span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Check whether the values are all of same length as the validation set</span></span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(data.valid_ds)<span class="op">==</span><span class="bu">len</span>(losses)<span class="op">==</span><span class="bu">len</span>(idxs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="38">
 <pre><code>True</code></pre>
 </div>
@@ -655,7 +707,10 @@ Better model found at epoch 14 with error_rate value: 0.2801785469055176.</code>
 <hr>
 <p>You can notice that the image has some of it’s regions blighted, as far I know these are the regions that the model looked at to make the prediction for the corresponding image.</p>
 <div id="cell-32" class="cell" data-outputid="c9fceaf5-8efe-4081-fdd2-d08603231c9f" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:724}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>interp.plot_top_losses(<span class="dv">9</span>, figsize<span class="op">=</span>(<span class="dv">15</span>,<span class="dv">11</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -666,7 +721,10 @@ Better model found at epoch 14 with error_rate value: 0.2801785469055176.</code>
 </div>
 <p>Let us also see which pokemon have confused the model the most.</p>
 <div id="cell-34" class="cell" data-outputid="81607107-3d8e-41f6-e2a4-599db35feb21" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:158}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>interp.most_confused(min_val<span class="op">=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="40">
 <pre><code>[('Sharpedo(Mega)', 'Sharpedo', 7),
  ('Moltres', 'Rapidash', 4),
@@ -682,7 +740,10 @@ Better model found at epoch 14 with error_rate value: 0.2801785469055176.</code>
 <hr>
 <p>Let’s try to train the model a little bit differently this time.</p>
 <div id="cell-36" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>learn.load(<span class="st">'best'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>Till now we have been training only the tail region of the model (i.e.) only the last two/ three layers of our model, so essentially this model is almost same as the model which was pretrained on <code>1000</code> categories of the <code>ImageNet</code> dataset with some minor tweaks for our problem here. We have some options to improve the model, which are</p>
 <ul>
@@ -690,17 +751,23 @@ Better model found at epoch 14 with error_rate value: 0.2801785469055176.</code>
 <li>Train with a very low learning rate so that it does’nt forget the learnings from the pretrained weights. *** Let’s see how well we can improve the model.</li>
 </ul>
 <div id="cell-38" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>learn.to_fp16()</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>learn.unfreeze()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>Before we start training again, We need to figure out at what speed the neural network should learn, this is controlled by the learning rate parameter and finding a value for is <strong>crucial</strong> to the training process.</p>
 <p>Luckily the fastai’s <code>lr_find</code> method will help us do just the same.</p>
 <div id="cell-40" class="cell" data-outputid="880250be-8400-40a5-9cb8-dc4102050e99" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:317}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>learn.lr_find(start_lr<span class="op">=</span><span class="fl">1e-20</span>)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the learning rates and the corresponding losses.</span></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>learn.recorder.plot(suggestion<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the suggested learning rate</span></span>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>min_grad_lr <span class="op">=</span> learn.recorder.min_grad_lr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Min numerical gradient: 9.77E-17
 Min loss divided by 10: 6.46E-09</code></pre>
@@ -715,7 +782,10 @@ Min loss divided by 10: 6.46E-09</code></pre>
 </div>
 <p>Use the same callbacks as before and train for <code>30</code> epochs.</p>
 <div id="cell-42" class="cell" data-outputid="eb0678cb-d01f-4a3d-bce9-c9a7b9907462" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:1000}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>learn.fit_one_cycle(<span class="dv">30</span>, min_grad_lr, callbacks<span class="op">=</span>callbacks_list)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
@@ -956,11 +1026,17 @@ Epoch 29: reducing lr to 3.9089488838232423e-28</code></pre>
 </ul>
 <p>Persist the environment so that we would be able to deploy the model without any problems</p>
 <div id="cell-45" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip freeze <span class="op">&gt;</span> resnet18.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-46" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{}}" data-execution_count="0">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#hide</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>learn.csv_logger.read_logged_file()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="try-the-model" class="level2">
@@ -975,6 +1051,44 @@ Epoch 29: reducing lr to 3.9089488838232423e-28</code></pre>
 </section>
 
 </main> <!-- /main -->
+<script>
+/* Keep the Utterances comment box in sync with Quarto's light/dark toggle.
+   Utterances renders in a cross-origin utteranc.es iframe, so we can't style it
+   directly — we postMessage a {type:'set-theme'} command into the frame.
+   Quarto flips a `quarto-dark`/`quarto-light` class on <body> when the navbar
+   toggle is clicked (see its generated toggleBodyColorMode), so we read that
+   class as the authoritative light/dark state. We re-sync on clicks on
+   .quarto-color-scheme-toggle, giving Quarto a tick to flip the class first. */
+(function () {
+  function darkMode() {
+    // Quarto sets <body> to class quarto-dark|quarto-light; read it directly.
+    // (Background-luminance probing was fragile — it lagged behind the CSS
+    // transition after a toggle, leaving the box stuck on the old theme.)
+    return document.body.classList.contains("quarto-dark");
+  }
+  function sync() {
+    var f = document.querySelector("iframe.utterances-frame");
+    if (f && f.contentWindow) {
+      f.contentWindow.postMessage(
+        { type: "set-theme", theme: darkMode() ? "github-dark" : "github-light" },
+        "https://utteranc.es"
+      );
+    }
+  }
+  // Sync once the Utterances iframe is injected by client.js.
+  if (document.body) {
+    new MutationObserver(function (_, obs) {
+      if (document.querySelector("iframe.utterances-frame")) { sync(); obs.disconnect(); }
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+  // Re-sync whenever the reader toggles the theme (give Quarto a tick to flip DOM).
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.closest && e.target.closest(".quarto-color-scheme-toggle")) {
+      setTimeout(sync, 60);
+    }
+  });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -1388,7 +1502,7 @@ Epoch 29: reducing lr to 3.9089488838232423e-28</code></pre>
     }
   });
   </script>
-<script src="https://utteranc.es/client.js" repo="mani2106/Blog-Posts" issue-term="pathname" theme="boxy-light" crossorigin="anonymous" async="">
+<script src="https://utteranc.es/client.js" repo="mani2106/Blog-Posts" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 

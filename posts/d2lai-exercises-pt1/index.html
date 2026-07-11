@@ -81,9 +81,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-4bca183f81dc75909957b0c4cfbacfd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-35c71ae082fd9efa4ba7a035d616c586.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-4bca183f81dc75909957b0c4cfbacfd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-2e03207ff041bee075d423b439726f38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-d636c70dd44b135d7809ea13442498b3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-2e03207ff041bee075d423b439726f38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -299,6 +299,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../../categories.html"> 
+<span class="menu-text">Categories</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
@@ -392,10 +396,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This is the first notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning, the corresponding lesson reference for this notebook is <a href="https://d2l.ai/chapter_preliminaries/ndarray.html">this link</a>.</p>
 <p>This series of practice notebook posts may use the exercises and content provided from <a href="https://d2l.ai/">d2l.ai</a>, I write these to get a good hands-on practice in deep learning.</p>
 <div id="cell-3" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:35}}" data-outputid="d555a8a8-a5a2-4b5b-8e49-3f817df10568">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tf.__version__</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="29">
 <pre><code>'2.4.1'</code></pre>
 </div>
@@ -405,9 +415,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="problem-1" class="level3">
 <h3 class="anchored" data-anchor-id="problem-1">Problem 1</h3>
 <div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="b91da683-7c22-4c96-9a1c-cdbc73d1b8d9">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> tf.reshape(tf.<span class="bu">range</span>(<span class="dv">12</span>, dtype<span class="op">=</span>tf.float32), (<span class="dv">3</span>, <span class="dv">4</span>))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> tf.constant([[<span class="fl">2.0</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">3</span>], [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>], [<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>]])</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>X, Y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>(&lt;tf.Tensor: shape=(3, 4), dtype=float32, numpy=
  array([[ 0.,  1.,  2.,  3.],
@@ -423,9 +436,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="problem-2" class="level3">
 <h3 class="anchored" data-anchor-id="problem-2">Problem 2</h3>
 <div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="340243d3-bf6d-42b5-e3f9-67cf3dee17ea">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> tf.reshape(tf.<span class="bu">range</span>(<span class="dv">3</span>), (<span class="dv">3</span>, <span class="dv">1</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> tf.reshape(tf.<span class="bu">range</span>(<span class="dv">2</span>), (<span class="dv">1</span>, <span class="dv">2</span>))</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>a, b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>(&lt;tf.Tensor: shape=(3, 1), dtype=int32, numpy=
  array([[0],
@@ -441,7 +457,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="problem-1-1" class="level3">
 <h3 class="anchored" data-anchor-id="problem-1-1">Problem 1</h3>
 <div id="cell-12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="bd22a399-914c-4990-ca08-f5191aa5f21f">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">==</span> Y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>&lt;tf.Tensor: shape=(3, 4), dtype=bool, numpy=
 array([[False,  True, False,  True],
@@ -450,8 +469,11 @@ array([[False,  True, False,  True],
 </div>
 </div>
 <div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="e41f3e33-08db-44a4-c64c-1923fb28e94b">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replacing == with comparison operators</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">&lt;</span> Y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>&lt;tf.Tensor: shape=(3, 4), dtype=bool, numpy=
 array([[ True, False,  True, False],
@@ -460,8 +482,11 @@ array([[ True, False,  True, False],
 </div>
 </div>
 <div id="cell-14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="b9c4e6aa-5e3e-431b-c0fc-455d74ce0d8d">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Replacing == with comparison operators</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">&gt;</span> Y</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>&lt;tf.Tensor: shape=(3, 4), dtype=bool, numpy=
 array([[False, False, False, False],
@@ -471,7 +496,10 @@ array([[False, False, False, False],
 </div>
 <p>The operations are as expected of an elementwise comparison. Let’s try to check if the operations are opposites of each other by trying to <code>not</code> one of them.</p>
 <div id="cell-16" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="34569ce8-3b91-4544-a322-80c31e8fdb37">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>(X <span class="op">&gt;</span> Y) <span class="op">==</span> tf.math.logical_not(X <span class="op">&lt;</span> Y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>&lt;tf.Tensor: shape=(3, 4), dtype=bool, numpy=
 array([[ True, False,  True, False],
@@ -484,10 +512,13 @@ array([[ True, False,  True, False],
 <section id="problem-2-1" class="level3">
 <h3 class="anchored" data-anchor-id="problem-2-1">Problem 2</h3>
 <div id="cell-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="4589ae81-4461-4ad1-e2da-59827297237b">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we need to change tensors a and b with 3-d tensors</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> tf.reshape(tf.<span class="bu">range</span>(<span class="dv">16</span>), (<span class="dv">2</span>, <span class="dv">4</span>, <span class="op">-</span><span class="dv">1</span>))</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> tf.reshape(tf.<span class="bu">range</span>(<span class="dv">16</span>), (<span class="dv">4</span>, <span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>))</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>a, b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>(&lt;tf.Tensor: shape=(2, 4, 2), dtype=int32, numpy=
  array([[[ 0,  1],
@@ -514,7 +545,10 @@ array([[ True, False,  True, False],
 </div>
 </div>
 <div id="cell-20" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:233}}" data-outputid="4c1e4464-d593-4d68-c0b3-789179f0de0f">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">+</span> b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-error">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
@@ -570,9 +604,12 @@ array([[ True, False,  True, False],
 </ul>
 <p>In the above case we hade shapes: <code>[2,4,2]</code> vs.&nbsp;<code>[4,2,2]</code>, Let’s try a different shape</p>
 <div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="aeba2de3-225f-4903-f7d4-f313b82e4dab">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> tf.reshape(tf.<span class="bu">range</span>(<span class="dv">12</span>), (<span class="dv">6</span>, <span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>))</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> tf.reshape(tf.<span class="bu">range</span>(<span class="dv">16</span>), (<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>))</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>a, b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="27">
 <pre><code>(&lt;tf.Tensor: shape=(6, 2, 1), dtype=int32, numpy=
  array([[[ 0],
@@ -597,7 +634,10 @@ array([[ True, False,  True, False],
 </div>
 </div>
 <div id="cell-23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="f78a495c-9ee5-40eb-f70b-7922418f6a48">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">+</span> b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="28">
 <pre><code>&lt;tf.Tensor: shape=(6, 2, 16), dtype=int32, numpy=
 array([[[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15],
@@ -631,6 +671,44 @@ array([[[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15],
 </section>
 
 </main> <!-- /main -->
+<script>
+/* Keep the Utterances comment box in sync with Quarto's light/dark toggle.
+   Utterances renders in a cross-origin utteranc.es iframe, so we can't style it
+   directly — we postMessage a {type:'set-theme'} command into the frame.
+   Quarto flips a `quarto-dark`/`quarto-light` class on <body> when the navbar
+   toggle is clicked (see its generated toggleBodyColorMode), so we read that
+   class as the authoritative light/dark state. We re-sync on clicks on
+   .quarto-color-scheme-toggle, giving Quarto a tick to flip the class first. */
+(function () {
+  function darkMode() {
+    // Quarto sets <body> to class quarto-dark|quarto-light; read it directly.
+    // (Background-luminance probing was fragile — it lagged behind the CSS
+    // transition after a toggle, leaving the box stuck on the old theme.)
+    return document.body.classList.contains("quarto-dark");
+  }
+  function sync() {
+    var f = document.querySelector("iframe.utterances-frame");
+    if (f && f.contentWindow) {
+      f.contentWindow.postMessage(
+        { type: "set-theme", theme: darkMode() ? "github-dark" : "github-light" },
+        "https://utteranc.es"
+      );
+    }
+  }
+  // Sync once the Utterances iframe is injected by client.js.
+  if (document.body) {
+    new MutationObserver(function (_, obs) {
+      if (document.querySelector("iframe.utterances-frame")) { sync(); obs.disconnect(); }
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+  // Re-sync whenever the reader toggles the theme (give Quarto a tick to flip DOM).
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.closest && e.target.closest(".quarto-color-scheme-toggle")) {
+      setTimeout(sync, 60);
+    }
+  });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -1044,7 +1122,7 @@ array([[[ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15],
     }
   });
   </script>
-<script src="https://utteranc.es/client.js" repo="mani2106/Blog-Posts" issue-term="pathname" theme="boxy-light" crossorigin="anonymous" async="">
+<script src="https://utteranc.es/client.js" repo="mani2106/Blog-Posts" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 

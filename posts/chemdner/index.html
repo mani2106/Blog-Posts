@@ -81,9 +81,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-4bca183f81dc75909957b0c4cfbacfd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-35c71ae082fd9efa4ba7a035d616c586.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-4bca183f81dc75909957b0c4cfbacfd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-2e03207ff041bee075d423b439726f38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-d636c70dd44b135d7809ea13442498b3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-2e03207ff041bee075d423b439726f38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -302,6 +302,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../../categories.html"> 
+<span class="menu-text">Categories</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
@@ -405,12 +409,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="prepare-data">Prepare data</h2>
 <p>Get data and make create directories to organise information.</p>
 <div id="cell-6" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget <span class="op">--</span>no<span class="op">-</span>check<span class="op">-</span>certificate https:<span class="op">//</span>biocreative.bioinformatics.udel.edu<span class="op">/</span>media<span class="op">/</span>store<span class="op">/</span>files<span class="op">/</span><span class="dv">2014</span><span class="op">/</span>chemdner_corpus.tar.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="ab31fa89-42ac-490d-b2b5-972a55336a8a">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#collapse-output</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>mkdir <span class="op">/</span>content<span class="op">/</span>data</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>tar <span class="op">-</span>xvf <span class="op">/</span>content<span class="op">/</span>drive<span class="op">/</span>MyDrive<span class="op">/</span>chemdNER\ data<span class="op">/</span>data.tar.gz <span class="op">-</span>C <span class="op">/</span>content<span class="op">/</span>data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="ab31fa89-42ac-490d-b2b5-972a55336a8a" data-output-fold="true">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>mkdir <span class="op">/</span>content<span class="op">/</span>data</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>tar <span class="op">-</span>xvf <span class="op">/</span>content<span class="op">/</span>drive<span class="op">/</span>MyDrive<span class="op">/</span>chemdNER\ data<span class="op">/</span>data.tar.gz <span class="op">-</span>C <span class="op">/</span>content<span class="op">/</span>data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<details><summary>Standard Output</summary>
 <div class="cell-output cell-output-stdout">
 <pre><code>chemdner_corpus/
 chemdner_corpus/BioC.dtd
@@ -435,27 +445,40 @@ chemdner_corpus/training.annotations.txt
 chemdner_corpus/training.bioc.xml
 chemdner_corpus/evaluation.predictions.bioc.xml</code></pre>
 </div>
+</details>
 </div>
 <div id="cell-8" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#hide</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>tail <span class="op">-</span>f <span class="st">"/content/data/chemdner_corpus/training.annotations.txt"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="install-required-libraries" class="level2">
 <h2 class="anchored" data-anchor-id="install-required-libraries">Install required libraries</h2>
 <p>Look at the libraries currently installed.</p>
 <div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="eaf515c5-a949-40b5-c42d-1bd7e5a0bdc4">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip <span class="bu">list</span> <span class="op">|</span> grep spacy</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>spacy                         2.2.4          </code></pre>
 </div>
 </div>
 <div id="cell-12" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install https:<span class="op">//</span>s3<span class="op">-</span>us<span class="op">-</span>west<span class="op">-</span><span class="fl">2.</span><span class="er">amazonaws</span>.com<span class="op">/</span>ai2<span class="op">-</span>s2<span class="op">-</span>scispacy<span class="op">/</span>releases<span class="op">/</span>v0<span class="fl">.3.0</span><span class="op">/</span>en_core_sci_lg<span class="op">-</span><span class="fl">0.3.0</span>.tar.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>Since we are training data with medical text a model with similar vectors will be extremely useful, using the <a href="https://www.semanticscholar.org/paper/ScispaCy%3A-Fast-and-Robust-Models-for-Biomedical-Neumann-King/de28ec1d7bd38c8fc4e8ac59b6133800818b4e29">scispacy</a> model vectors.</p>
 <div id="cell-14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="c66e653f-eff8-4a11-c031-db86903e3cc2">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip <span class="bu">list</span><span class="op">|</span> grep en<span class="op">-</span>core<span class="op">-</span>sci<span class="op">-</span>lg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>en-core-sci-lg                0.3.0          </code></pre>
 </div>
@@ -464,17 +487,23 @@ chemdner_corpus/evaluation.predictions.bioc.xml</code></pre>
 <section id="import-annotations" class="level2">
 <h2 class="anchored" data-anchor-id="import-annotations">Import annotations</h2>
 <div id="cell-16" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>annot_path <span class="op">=</span> Path(<span class="st">'/content/data/chemdner_corpus'</span>)</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>export_path <span class="op">=</span> Path(<span class="st">'/content/data/spacy_annotation_data'</span>)</span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>export_path.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:198}}" data-outputid="120d0fc9-e9f6-423b-f040-9a1271902d86">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lets read the annotations</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>train_annot <span class="op">=</span> pd.read_csv(annot_path<span class="op">/</span><span class="st">'training.annotations.txt'</span>, sep<span class="op">=</span><span class="st">'</span><span class="ch">\t</span><span class="st">'</span>, names<span class="op">=</span>[<span class="st">'PMID'</span>, <span class="st">'Text Type'</span>, <span class="st">'Start'</span>, <span class="st">'End'</span>, <span class="st">'Entity Text'</span>, <span class="st">'Entity'</span>])</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>train_annot.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
@@ -546,18 +575,27 @@ chemdner_corpus/evaluation.predictions.bioc.xml</code></pre>
 <p>Since the training text can be in the title or in the abstract, we should be careful on what text we are giving in an annotation.</p>
 <p>Let’s check in the annotation for one value</p>
 <div id="cell-20" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>start, end <span class="op">=</span> train_annot.loc[train_annot[<span class="st">'PMID'</span>] <span class="op">==</span> <span class="dv">21826085</span>, [<span class="st">'Start'</span>, <span class="st">'End'</span>]].values.tolist()[<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="504c2530-9569-4364-8b17-ab85c5630ed6">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>start, end <span class="co"># start, end indices for haloperidol</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>(946, 957)</code></pre>
 </div>
 </div>
 <div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:198}}" data-outputid="94967d73-6cb8-4cf5-8367-6e2ed5dee62b">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lets read the texts from which the entities were annotated</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>train_text <span class="op">=</span> pd.read_csv(annot_path<span class="op">/</span><span class="st">'training.abstracts.txt'</span>, sep<span class="op">=</span><span class="st">'</span><span class="ch">\t</span><span class="st">'</span>, names<span class="op">=</span>[<span class="st">'PMID'</span>, <span class="st">'Title'</span>, <span class="st">'Abstract'</span>])</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>train_text.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
@@ -609,7 +647,10 @@ chemdner_corpus/evaluation.predictions.bioc.xml</code></pre>
 </div>
 </div>
 <div id="cell-23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="76d4f20e-4f9f-4ac4-df72-7e17f13d452d">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>train_annot[<span class="st">'Text Type'</span>].value_counts()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>A    26425
 T     3053
@@ -617,8 +658,11 @@ Name: Text Type, dtype: int64</code></pre>
 </div>
 </div>
 <div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:35}}" data-outputid="d1f19249-9b2e-48a1-f007-427c4e1427be">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># text in the abstract/title for the same id</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>train_text.loc[train_text[<span class="st">'PMID'</span>] <span class="op">==</span> <span class="dv">21826085</span>, <span class="st">'Abstract'</span>].item()[start:end]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>'haloperidol'</code></pre>
 </div>
@@ -628,14 +672,22 @@ Name: Text Type, dtype: int64</code></pre>
 <section id="make-raw-text-files-for-pretraining" class="level2">
 <h2 class="anchored" data-anchor-id="make-raw-text-files-for-pretraining">Make raw text files for pretraining</h2>
 <div id="cell-27" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> srsly</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-28" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import other files for text</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>dev_text <span class="op">=</span> pd.read_csv(annot_path<span class="op">/</span><span class="st">'development.abstracts.txt'</span>, sep<span class="op">=</span><span class="st">'</span><span class="ch">\t</span><span class="st">'</span>, names<span class="op">=</span>[<span class="st">'PMID'</span>, <span class="st">'Title'</span>, <span class="st">'Abstract'</span>])</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>eval_text <span class="op">=</span> pd.read_csv(annot_path<span class="op">/</span><span class="st">'evaluation.abstracts.txt'</span>, sep<span class="op">=</span><span class="st">'</span><span class="ch">\t</span><span class="st">'</span>, names<span class="op">=</span>[<span class="st">'PMID'</span>, <span class="st">'Title'</span>, <span class="st">'Abstract'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-29" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>texts_path <span class="op">=</span> export_path<span class="op">/</span><span class="st">'texts'</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>texts_path.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -650,26 +702,39 @@ Name: Text Type, dtype: int64</code></pre>
 <span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>eval_txts <span class="op">=</span> make_jsonl(eval_text)</span>
 <span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>all_txts <span class="op">=</span> train_txts <span class="op">+</span> eval_txts <span class="op">+</span> dev_txts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-30" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># I only write 1500 texts because it does not cause memory errors when pretraining</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>srsly.write_jsonl(<span class="bu">str</span>(texts_path<span class="op">/</span><span class="st">'pretrain_txts.jsonl'</span>), train_txts[:<span class="dv">1500</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="make-json-file-for-training" class="level2">
 <h2 class="anchored" data-anchor-id="make-json-file-for-training">Make <code>json</code> file for training</h2>
 <div id="cell-32" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># join the dataframes so that we can generate annotations from them</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># set pmid as the index</span></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>train_annot.set_index(<span class="st">'PMID'</span>, drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>train_text.set_index(<span class="st">'PMID'</span>, drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-33" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>train_data <span class="op">=</span> train_text.join(train_annot)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-34" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:228}}" data-outputid="9695ffc8-99dd-4b07-84b3-e1de9da465b6">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>train_data.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="32">
 <div>
 
@@ -756,7 +821,10 @@ Name: Text Type, dtype: int64</code></pre>
 </div>
 <p>Let’s check the number of annotations for each label.</p>
 <div id="cell-36" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:363}}" data-outputid="a0c47c57-6dc8-4fdb-81b5-f934e86b3994">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>train_data[<span class="st">'Entity'</span>].value_counts().plot(kind<span class="op">=</span><span class="st">'bar'</span>, title<span class="op">=</span><span class="st">'Number of annotations per label'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -768,10 +836,15 @@ Name: Text Type, dtype: int64</code></pre>
 <p>We have eight entities and the entity named <code>TRIVIAL</code> has the most number of annotations</p>
 <p>Now we can start generating the annotation from the dataframe, to accomodate the training format that we want we can split the data frame to Title and Abstract annotations, so that we can run the same logic easily, (ie) grouping the texts and getting all the annotations corresponding to that text in one shot.</p>
 <div id="cell-39" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>abstract_annots <span class="op">=</span> train_data.loc[train_data[<span class="st">'Text Type'</span>] <span class="op">==</span> <span class="st">'A'</span>, :]</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>title_annots <span class="op">=</span> train_data.loc[train_data[<span class="st">'Text Type'</span>] <span class="op">==</span> <span class="st">'T'</span>, :]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-40" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="45294ae6-4598-422e-e0d9-fcf830211e61">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> en_core_sci_lg</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spacy.tokens <span class="im">import</span> Span</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spacy.gold <span class="im">import</span> docs_to_json</span>
@@ -783,11 +856,14 @@ Name: Text Type, dtype: int64</code></pre>
 <span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co"># for annotation, disabling some pipeline </span></span>
 <span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co"># modules may speedup the process</span></span>
 <span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>mod.disable_pipes([<span class="st">'ner'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="34">
 <pre><code>[('ner', &lt;spacy.pipeline.pipes.EntityRecognizer at 0x7f8f0be55408&gt;)]</code></pre>
 </div>
 </div>
 <div id="cell-41" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_spacy_docs(annot_df:pd.DataFrame, ext_from:<span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">list</span>:</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extracting the doc objects from a pretrained model</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># so that the tokenization matches for this domain of </span></span>
@@ -822,8 +898,11 @@ Name: Text Type, dtype: int64</code></pre>
 <span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>        doc.ents <span class="op">=</span> ent_spans</span>
 <span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a>        annot_docs.append(doc)</span>
 <span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> annot_docs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-42" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># generate docs for training</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>abstract_annots <span class="op">=</span> extract_spacy_docs(abstract_annots, <span class="st">'Abstract'</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>title_annots <span class="op">=</span> extract_spacy_docs(title_annots, <span class="st">'Title'</span>)</span>
@@ -831,13 +910,17 @@ Name: Text Type, dtype: int64</code></pre>
 <span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>train_annot_docs <span class="op">=</span> abstract_annots <span class="op">+</span> title_annots</span>
 <span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>train_json <span class="op">=</span> docs_to_json(train_annot_docs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-43" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Persist data</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>spacy_annot_path <span class="op">=</span> export_path<span class="op">/</span><span class="st">'annots'</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>spacy_annot_path.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>srsly.write_json(spacy_annot_path<span class="op">/</span><span class="st">'train_data.json'</span>, [train_json])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>We must do the same for the development and evaluation data</p>
 </section>
@@ -845,13 +928,18 @@ Name: Text Type, dtype: int64</code></pre>
 <h2 class="anchored" data-anchor-id="make-json-file-for-evaluation-and-development">Make json file for evaluation and development</h2>
 <p>Let’s make a function out of the process we did for the training data, for the evaluation and development data.</p>
 <div id="cell-47" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>dev_annots <span class="op">=</span> pd.read_csv(annot_path<span class="op">/</span><span class="st">'development.annotations.txt'</span>, sep<span class="op">=</span><span class="st">'</span><span class="ch">\t</span><span class="st">'</span>,</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                         names<span class="op">=</span>[<span class="st">'PMID'</span>, <span class="st">'Text Type'</span>, <span class="st">'Start'</span>, <span class="st">'End'</span>, <span class="st">'Entity Text'</span>, <span class="st">'Entity'</span>])</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>eval_annots <span class="op">=</span> pd.read_csv(annot_path<span class="op">/</span><span class="st">'evaluation.annotations.txt'</span>, sep<span class="op">=</span><span class="st">'</span><span class="ch">\t</span><span class="st">'</span>,</span>
 <span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                         names<span class="op">=</span>[<span class="st">'PMID'</span>, <span class="st">'Text Type'</span>, <span class="st">'Start'</span>, <span class="st">'End'</span>, <span class="st">'Entity Text'</span>, <span class="st">'Entity'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-48" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> prepare_df_for_spacy_annots(df1: pd.DataFrame, df2: pd.DataFrame) <span class="op">-&gt;</span> <span class="st">'Abstract and Title dataframes'</span>:</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Emulates the processing we did for training data</span></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    df1.set_index(<span class="st">'PMID'</span>, drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
@@ -875,14 +963,18 @@ Name: Text Type, dtype: int64</code></pre>
 <span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>    spacy_json <span class="op">=</span> docs_to_json(train_annot_docs)</span>
 <span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> spacy_json</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-49" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This might take some time</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>dev_json <span class="op">=</span> prepare_spacy_json_from_df(dev_text, dev_annots)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>eval_json <span class="op">=</span> prepare_spacy_json_from_df(eval_text, eval_annots)</span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>srsly.write_json(spacy_annot_path<span class="op">/</span><span class="st">'eval_data.json'</span>, [eval_json])</span>
 <span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>srsly.write_json(spacy_annot_path<span class="op">/</span><span class="st">'dev_data.json'</span>, [dev_json])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>We now have all the files required to make the model, let’s start by pretraining the model with spacy cli</p>
 </section>
@@ -890,19 +982,25 @@ Name: Text Type, dtype: int64</code></pre>
 <h2 class="anchored" data-anchor-id="pretrain-spacy-with-texts">Pretrain spacy with texts</h2>
 <p>We have imported <code>scispacy's</code> model vectors(<code>en_core_sci_lg</code>) to give us a headstart</p>
 <div id="cell-53" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>python <span class="op">-</span>m spacy pretrain <span class="op">/</span>content<span class="op">/</span>data<span class="op">/</span>spacy_annotation_data<span class="op">/</span>texts<span class="op">/</span>pretrain_txts.jsonl <span class="op">/</span>usr<span class="op">/</span>local<span class="op">/</span>lib<span class="op">/</span>python3<span class="fl">.6</span><span class="op">/</span>dist<span class="op">-</span>packages<span class="op">/</span>en_core_sci_lg<span class="op">/</span>en_core_sci_lg<span class="op">-</span><span class="fl">0.3.0</span> <span class="op">/</span>content<span class="op">/</span>data<span class="op">/</span>pretrained_model <span class="op">-</span>i <span class="dv">50</span> <span class="op">-</span>se <span class="dv">10</span> <span class="op">-</span>s <span class="dv">0</span> <span class="op">-</span>bs <span class="dv">64</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="debug-the-training-data-for-spacy-ner-model" class="level2">
 <h2 class="anchored" data-anchor-id="debug-the-training-data-for-spacy-ner-model">Debug the training data for spacy NER model</h2>
 <p>Let’s see if the data is proper for training using spacy’s <code>debug-data</code> command</p>
 <div id="cell-56" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="8d4bbe98-dd76-4969-e40e-610d42768a7e">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>bash</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>python <span class="op">-</span>m spacy debug<span class="op">-</span>data en<span class="op">\</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span>content<span class="op">/</span>drive<span class="op">/</span>MyDrive<span class="op">/</span>chemdNER\ data<span class="op">/</span>annot_data<span class="op">/</span>train_data.json <span class="op">\</span></span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span>content<span class="op">/</span>drive<span class="op">/</span>MyDrive<span class="op">/</span>chemdNER\ data<span class="op">/</span>annot_data<span class="op">/</span>dev_data.json <span class="op">\</span></span>
 <span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span>p <span class="st">'ner'</span> <span class="op">\</span></span>
 <span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span>b <span class="op">/</span>usr<span class="op">/</span>local<span class="op">/</span>lib<span class="op">/</span>python3<span class="fl">.6</span><span class="op">/</span>dist<span class="op">-</span>packages<span class="op">/</span>en_core_sci_lg<span class="op">/</span>en_core_sci_lg<span class="op">-</span><span class="fl">0.3.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-bold">
@@ -1547,8 +1645,11 @@ trained with a noise level &gt; 0.
 <p>We have low annotations for <code>NO CLASS</code> but since we do not have more data, we have to work with what we’ve got.</p>
 <p>We only had <code>4884</code> pieces of text from the dataset, and it seems to be used in all the places (train, dev, eval), but the annotation in each will differ.</p>
 <div id="cell-59" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># linking for easy access</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>python <span class="op">-</span>m spacy link <span class="op">/</span>usr<span class="op">/</span>local<span class="op">/</span>lib<span class="op">/</span>python3<span class="fl">.6</span><span class="op">/</span>dist<span class="op">-</span>packages<span class="op">/</span>en_core_sci_lg<span class="op">/</span>en_core_sci_lg<span class="op">-</span><span class="fl">0.3.0</span> en_core_sci_lg</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section>
 <section id="train-model" class="level2">
@@ -1556,6 +1657,8 @@ trained with a noise level &gt; 0.
 <p>I tried to train with the pretrained model which we made using raw text but it was not working and it seems most of the tutorials use it only text classification problems.</p>
 <p>But anyway I start with the vectors of <code>scispacy's</code> pretrained <code>en_core_sci_lg</code> model for a headstart.</p>
 <div id="cell-62" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="4af3dd8d-95cd-4011-c345-e23934e1efb5">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>bash</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>python <span class="op">-</span>m spacy train <span class="op">\</span></span>
@@ -1569,6 +1672,7 @@ trained with a noise level &gt; 0.
 <span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span>g <span class="dv">0</span> <span class="op">\</span></span>
 <span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span>V <span class="fl">0.1</span> <span class="op">\</span></span>
 <span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span>cW <span class="dv">3</span> <span class="op">-</span>cd <span class="dv">4</span> <span class="op">-</span>cw <span class="dv">4</span> <span class="op">-</span>cP <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre>Training pipeline: ['ner']
@@ -11485,11 +11589,14 @@ Itn  NER Loss   NER P   NER R   NER F   Token %  CPU WPS  GPU WPS
 <h2 class="anchored" data-anchor-id="evaluate-model-with-test-data">Evaluate model with test data</h2>
 <p>Let’s evaluate with the evaluation data that we generated earlier</p>
 <div id="cell-66" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="5a498d45-3a21-4b39-8b11-53821b69838b">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>bash</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>python <span class="op">-</span>m spacy evaluate <span class="op">\</span></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span>content<span class="op">/</span>data<span class="op">/</span>NER\ model<span class="op">/</span>model<span class="op">-</span>best <span class="op">\</span></span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">/</span>content<span class="op">/</span>drive<span class="op">/</span>MyDrive<span class="op">/</span>chemdNER\ data<span class="op">/</span>annot_data<span class="op">/</span>eval_data.json <span class="op">\</span></span>
 <span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">-</span>g <span class="dv">0</span> <span class="op">-</span>dp <span class="op">/</span>content<span class="op">/</span>data<span class="op">/</span><span class="bu">eval</span>\ results <span class="op">-</span>R</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-stdout">
 <div class="ansi-escaped-output">
 <pre><span class="ansi-bold">
@@ -11540,6 +11647,8 @@ Textcat   0.00
 <h1>Misc</h1>
 <p>Here I tried to write code for simple annotation format, mostly for archival, can be skipped, if need be</p>
 <div id="cell-70" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_annot_data(annot_df: pd.DataFrame, ext_from: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">list</span>:</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># groups text and generates the list of entities and</span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># their spans in the text</span></span>
@@ -11560,13 +11669,20 @@ Textcat   0.00
 <span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>        train_data.append((ttext, {<span class="st">'entities'</span>:entity_list}))</span>
 <span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> train_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-71" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>abst_annots <span class="op">=</span> extract_annot_data(abstract_annots, <span class="st">'Abstract'</span>)</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>title_annots <span class="op">=</span> extract_annot_data(title_annots, <span class="st">'Title'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <div id="cell-72" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="6fc923c1-a0ee-40ad-bbbb-8dbed3e47efa">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>abst_annots[<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="135">
 <pre><code>('(-)-Carvone is a monoterpene ketone found in spearmint (Mentha spicata var. crispa) essential oil that is widely used as an odor and flavor additive. An intestinal antispasmodic effect was recently reported for (-)-carvone, and it has been shown to be more potent than its (+)-antipode. The mechanism of (-)-carvone action in the intestines has not been investigated. To gain a better understanding of the (-)-carvone antispasmodic effect, we investigated its pharmacological effects in the guinea pig ileum. Terminal portions of the ileum were mounted for isotonic contraction recordings. The effect of (-)-carvone was compared with that of the classical calcium channel blocker (CCB) verapamil. In isolated ileal smooth muscle, (-)-carvone did not produce direct contractile or relaxation responses and did not modify electrically elicited contractions or low K(+)-evoked contractions. The submaximal contractions induced by histamine (p&lt;0.001), BaCl2 (p&lt;0.05), and carbachol (p&lt;0.01) were significantly reduced by (-)-carvone. The contractile response elicited by high concentrations of carbachol was reduced but not abolished by (-)-carvone. No additive action was detected with co-incubation of (-)-carvone and verapamil on carbachol-induced contraction. (-)-Carvone reduced the contraction induced by high K(+) and was almost 100 times more potent than verapamil. Thus, (-)-carvone showed a typical and potent CCB-like action. Many effects described for both (-)-carvone and spearmint oil can be explained as a CCB-like mode of action.',
  {'entities': [(1090.0, 1099.0, 'TRIVIAL'),
@@ -11597,18 +11713,27 @@ Textcat   0.00
 </div>
 <p>A sample text from the corpus</p>
 <div id="cell-74" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:145}}" data-outputid="63652344-7371-4ed3-e630-b11344ab1761">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>ttext</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output cell-output-display" data-execution_count="118">
 <pre><code>'(-)-Carvone is a monoterpene ketone found in spearmint (Mentha spicata var. crispa) essential oil that is widely used as an odor and flavor additive. An intestinal antispasmodic effect was recently reported for (-)-carvone, and it has been shown to be more potent than its (+)-antipode. The mechanism of (-)-carvone action in the intestines has not been investigated. To gain a better understanding of the (-)-carvone antispasmodic effect, we investigated its pharmacological effects in the guinea pig ileum. Terminal portions of the ileum were mounted for isotonic contraction recordings. The effect of (-)-carvone was compared with that of the classical calcium channel blocker (CCB) verapamil. In isolated ileal smooth muscle, (-)-carvone did not produce direct contractile or relaxation responses and did not modify electrically elicited contractions or low K(+)-evoked contractions. The submaximal contractions induced by histamine (p&lt;0.001), BaCl2 (p&lt;0.05), and carbachol (p&lt;0.01) were significantly reduced by (-)-carvone. The contractile response elicited by high concentrations of carbachol was reduced but not abolished by (-)-carvone. No additive action was detected with co-incubation of (-)-carvone and verapamil on carbachol-induced contraction. (-)-Carvone reduced the contraction induced by high K(+) and was almost 100 times more potent than verapamil. Thus, (-)-carvone showed a typical and potent CCB-like action. Many effects described for both (-)-carvone and spearmint oil can be explained as a CCB-like mode of action.'</code></pre>
 </div>
 </div>
 <div id="cell-75" class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> spacy.gold <span class="im">import</span> docs_to_json, GoldParse</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>A sample of the spacy json format for training models</p>
-<div id="cell-77" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="66c30e0e-d5d7-413b-a7ac-1d468f846884">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">#collapse-output</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>docs_to_json([mod(ttext)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-77" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="66c30e0e-d5d7-413b-a7ac-1d468f846884" data-output-fold="true">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>docs_to_json([mod(ttext)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<details><summary>Display Output</summary>
 <div class="cell-output cell-output-display" data-execution_count="127">
 <pre><code>{'id': 0,
  'paragraphs': [{'cats': [],
@@ -13129,12 +13254,51 @@ Textcat   0.00
        'orth': '.',
        'tag': '.'}]}]}]}</code></pre>
 </div>
+</details>
 </div>
 
 
 </section>
 
 </main> <!-- /main -->
+<script>
+/* Keep the Utterances comment box in sync with Quarto's light/dark toggle.
+   Utterances renders in a cross-origin utteranc.es iframe, so we can't style it
+   directly — we postMessage a {type:'set-theme'} command into the frame.
+   Quarto flips a `quarto-dark`/`quarto-light` class on <body> when the navbar
+   toggle is clicked (see its generated toggleBodyColorMode), so we read that
+   class as the authoritative light/dark state. We re-sync on clicks on
+   .quarto-color-scheme-toggle, giving Quarto a tick to flip the class first. */
+(function () {
+  function darkMode() {
+    // Quarto sets <body> to class quarto-dark|quarto-light; read it directly.
+    // (Background-luminance probing was fragile — it lagged behind the CSS
+    // transition after a toggle, leaving the box stuck on the old theme.)
+    return document.body.classList.contains("quarto-dark");
+  }
+  function sync() {
+    var f = document.querySelector("iframe.utterances-frame");
+    if (f && f.contentWindow) {
+      f.contentWindow.postMessage(
+        { type: "set-theme", theme: darkMode() ? "github-dark" : "github-light" },
+        "https://utteranc.es"
+      );
+    }
+  }
+  // Sync once the Utterances iframe is injected by client.js.
+  if (document.body) {
+    new MutationObserver(function (_, obs) {
+      if (document.querySelector("iframe.utterances-frame")) { sync(); obs.disconnect(); }
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+  // Re-sync whenever the reader toggles the theme (give Quarto a tick to flip DOM).
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.closest && e.target.closest(".quarto-color-scheme-toggle")) {
+      setTimeout(sync, 60);
+    }
+  });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -13548,7 +13712,7 @@ Textcat   0.00
     }
   });
   </script>
-<script src="https://utteranc.es/client.js" repo="mani2106/Blog-Posts" issue-term="pathname" theme="boxy-light" crossorigin="anonymous" async="">
+<script src="https://utteranc.es/client.js" repo="mani2106/Blog-Posts" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 

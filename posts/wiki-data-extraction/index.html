@@ -81,9 +81,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-4bca183f81dc75909957b0c4cfbacfd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-35c71ae082fd9efa4ba7a035d616c586.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../site_libs/bootstrap/bootstrap-4bca183f81dc75909957b0c4cfbacfd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-2e03207ff041bee075d423b439726f38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-d636c70dd44b135d7809ea13442498b3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-2e03207ff041bee075d423b439726f38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -299,6 +299,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../../categories.html"> 
+<span class="menu-text">Categories</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
@@ -390,10 +394,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>This post explains how I downloaded and extracted wiki dump archive using <a href="https://github.com/attardi/wikiextractor">wikiextractor</a>.</p>
 <p>This code was used on a kaggle environment, which can be found <a href="https://www.kaggle.com/manimaranp/tamil-wiki-data-extraction">here</a>. You can fork and change as per your needs.</p>
-<section id="setup" class="level1">
-<h1>Setup</h1>
-<section id="import-required-libraries" class="level2">
-<h2 class="anchored" data-anchor-id="import-required-libraries">Import required libraries</h2>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="import-required-libraries" class="level3">
+<h3 class="anchored" data-anchor-id="import-required-libraries">Import required libraries</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For JSON data extraction</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># For path manipulations</span></span>
@@ -412,32 +416,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># To clean and process data</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="setup-output-paths" class="level2">
-<h2 class="anchored" data-anchor-id="setup-output-paths">Setup output paths</h2>
+<section id="setup-output-paths" class="level3">
+<h3 class="anchored" data-anchor-id="setup-output-paths">Setup output paths</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>DATA_PATH <span class="op">=</span> Path(<span class="st">'/kaggle/working/'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>EXTRACTED_PATH <span class="op">=</span> DATA_PATH<span class="op">/</span><span class="st">'extracted'</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>EXTRACTED_PATH.mkdir()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
-<section id="data-extraction" class="level1">
-<h1>Data Extraction</h1>
-<section id="request-file-from-wikipedia." class="level2">
-<h2 class="anchored" data-anchor-id="request-file-from-wikipedia.">Request file from wikipedia.</h2>
+<section id="data-extraction" class="level2">
+<h2 class="anchored" data-anchor-id="data-extraction">Data Extraction</h2>
+<section id="request-file-from-wikipedia." class="level3">
+<h3 class="anchored" data-anchor-id="request-file-from-wikipedia.">Request file from wikipedia.</h3>
 <p>You can use a different link here.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>bzip_file <span class="op">=</span> req.get(<span class="st">'https://dumps.wikimedia.org/tawiki/latest/tawiki-latest-pages-articles.xml.bz2'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="save-request-content-to-a-file" class="level2">
-<h2 class="anchored" data-anchor-id="save-request-content-to-a-file">Save request content to a file</h2>
+<section id="save-request-content-to-a-file" class="level3">
+<h3 class="anchored" data-anchor-id="save-request-content-to-a-file">Save request content to a file</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(DATA_PATH<span class="op">/</span><span class="st">'tawiki-latest-pages-articles.xml.bz2'</span>, <span class="st">'wb'</span>) <span class="im">as</span> f:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    f.write(bzip_file.content)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="clone-wiki-extractor-from-github" class="level2">
-<h2 class="anchored" data-anchor-id="clone-wiki-extractor-from-github">Clone wiki extractor from github</h2>
+<section id="clone-wiki-extractor-from-github" class="level3">
+<h3 class="anchored" data-anchor-id="clone-wiki-extractor-from-github">Clone wiki extractor from github</h3>
 <p>Thanks to <a href="https://github.com/attardi">attardi</a> and GitPython</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>    git.Git(<span class="bu">str</span>(DATA_PATH)).clone(<span class="st">"https://github.com/attardi/wikiextractor.git"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="use-wikiextractor-to-get-data-from-the-dump" class="level2">
-<h2 class="anchored" data-anchor-id="use-wikiextractor-to-get-data-from-the-dump">Use wikiextractor to get data from the dump</h2>
+<section id="use-wikiextractor-to-get-data-from-the-dump" class="level3">
+<h3 class="anchored" data-anchor-id="use-wikiextractor-to-get-data-from-the-dump">Use wikiextractor to get data from the dump</h3>
 <p>This runs the wikiextractor cloned from github.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>run_stat <span class="op">=</span> subprocess.run(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'python'</span>,</span>
@@ -465,11 +469,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        lang_text.append(json.loads(line))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
-<section id="preprocessing" class="level1">
-<h1>Preprocessing</h1>
+<section id="preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="preprocessing">Preprocessing</h2>
 <p>You can use any of the following, or skip the preprocessing altogether if you wish so.</p>
-<section id="filter-english-words-from-text" class="level2">
-<h2 class="anchored" data-anchor-id="filter-english-words-from-text">Filter English words from text</h2>
+<section id="filter-english-words-from-text" class="level3">
+<h3 class="anchored" data-anchor-id="filter-english-words-from-text">Filter English words from text</h3>
 <p>Check each word after removing their punctuations, if it is an english word</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>filter_english <span class="op">=</span> <span class="kw">lambda</span> text: <span class="st">' '</span>.join([</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    word <span class="cf">for</span> word <span class="kw">in</span> text.split() </span>
@@ -492,14 +496,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>lang_df[<span class="st">'text'</span>] <span class="op">=</span> lang_df[<span class="st">'text'</span>].<span class="bu">apply</span>(filter_english)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
-<section id="store-the-output-in-compressed-format" class="level1">
-<h1>Store the output in compressed format</h1>
+<section id="store-the-output-in-compressed-format" class="level2">
+<h2 class="anchored" data-anchor-id="store-the-output-in-compressed-format">Store the output in compressed format</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>lang_df.to_csv(DATA_PATH<span class="op">/</span><span class="st">'filtered_data.csv.tar.gz'</span>, header<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The above saved file can be loaded with <code>pd.read_csv</code>.</p>
 <p>You can find the full code for this in <a href="https://gist.github.com/mani2106/97c0af61c9fde6e6cd7f6304f1b593af">Github gist</a> or with the output in <a href="https://www.kaggle.com/manimaranp/tamil-wiki-data-extraction">kaggle</a>.</p>
 </section>
-<section id="clean-up-the-downloaded-files-if-required" class="level1">
-<h1>Clean up the downloaded files, (if required)</h1>
+<section id="clean-up-the-downloaded-files-if-required" class="level2">
+<h2 class="anchored" data-anchor-id="clean-up-the-downloaded-files-if-required">Clean up the downloaded files, (if required)</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>shutil.rmtree(<span class="bu">str</span>(EXTRACTED_PATH))</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>shutil.rmtree(<span class="bu">str</span>(DATA_PATH<span class="op">/</span><span class="st">'wikiextractor'</span>))</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>Path(DATA_PATH<span class="op">/</span><span class="st">'tawiki-latest-pages-articles.xml.bz2'</span>).unlink()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -508,6 +512,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 
 </main> <!-- /main -->
+<script>
+/* Keep the Utterances comment box in sync with Quarto's light/dark toggle.
+   Utterances renders in a cross-origin utteranc.es iframe, so we can't style it
+   directly — we postMessage a {type:'set-theme'} command into the frame.
+   Quarto flips a `quarto-dark`/`quarto-light` class on <body> when the navbar
+   toggle is clicked (see its generated toggleBodyColorMode), so we read that
+   class as the authoritative light/dark state. We re-sync on clicks on
+   .quarto-color-scheme-toggle, giving Quarto a tick to flip the class first. */
+(function () {
+  function darkMode() {
+    // Quarto sets <body> to class quarto-dark|quarto-light; read it directly.
+    // (Background-luminance probing was fragile — it lagged behind the CSS
+    // transition after a toggle, leaving the box stuck on the old theme.)
+    return document.body.classList.contains("quarto-dark");
+  }
+  function sync() {
+    var f = document.querySelector("iframe.utterances-frame");
+    if (f && f.contentWindow) {
+      f.contentWindow.postMessage(
+        { type: "set-theme", theme: darkMode() ? "github-dark" : "github-light" },
+        "https://utteranc.es"
+      );
+    }
+  }
+  // Sync once the Utterances iframe is injected by client.js.
+  if (document.body) {
+    new MutationObserver(function (_, obs) {
+      if (document.querySelector("iframe.utterances-frame")) { sync(); obs.disconnect(); }
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+  // Re-sync whenever the reader toggles the theme (give Quarto a tick to flip DOM).
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.closest && e.target.closest(".quarto-color-scheme-toggle")) {
+      setTimeout(sync, 60);
+    }
+  });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -921,7 +963,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
   });
   </script>
-<script src="https://utteranc.es/client.js" repo="mani2106/Blog-Posts" issue-term="pathname" theme="boxy-light" crossorigin="anonymous" async="">
+<script src="https://utteranc.es/client.js" repo="mani2106/Blog-Posts" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 

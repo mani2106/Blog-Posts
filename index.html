@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Home – Manimaran Panneerselvam’s Blog</title>
+<title>Notes from the data-science trenches – Manimaran Panneerselvam’s Blog</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -46,9 +46,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-4bca183f81dc75909957b0c4cfbacfd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-35c71ae082fd9efa4ba7a035d616c586.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-4bca183f81dc75909957b0c4cfbacfd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-2e03207ff041bee075d423b439726f38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-d636c70dd44b135d7809ea13442498b3.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-2e03207ff041bee075d423b439726f38.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -86,10 +86,10 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-image','listing-title','listing-description','listing-date','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       page: 18,
     pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -323,6 +323,10 @@ window.Quarto = {
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./categories.html"> 
+<span class="menu-text">Categories</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
@@ -348,21 +352,20 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(23)</span></div><div class="category" data-category="YWNjZXNzaWJpbGl0eQ==">accessibility <span class="quarto-category-count">(1)</span></div><div class="category" data-category="QUktMTAy">AI-102 <span class="quarto-category-count">(3)</span></div><div class="category" data-category="YXp1cmU=">azure <span class="quarto-category-count">(3)</span></div><div class="category" data-category="YXp1cmUtYWk=">azure-ai <span class="quarto-category-count">(3)</span></div><div class="category" data-category="Y3Nz">css <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZDJsLmFpLWV4ZXJjaXNlcw==">d2l.ai-exercises <span class="quarto-category-count">(6)</span></div><div class="category" data-category="ZGF0YS1jbGVhbmluZw==">data-cleaning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZGVlcC1sZWFybmluZw==">deep-learning <span class="quarto-category-count">(7)</span></div><div class="category" data-category="ZGV2b3Bz">devops <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZWRh">eda <span class="quarto-category-count">(2)</span></div><div class="category" data-category="ZmFzdGFp">fastai <span class="quarto-category-count">(1)</span></div><div class="category" data-category="aW1hZ2UtY2xhc3NpZmljYXRpb24=">image-classification <span class="quarto-category-count">(1)</span></div><div class="category" data-category="SW1wbGVtZW50YXRpb24=">Implementation <span class="quarto-category-count">(2)</span></div><div class="category" data-category="amF2YXNjcmlwdA==">javascript <span class="quarto-category-count">(1)</span></div><div class="category" data-category="amVreWxs">jekyll <span class="quarto-category-count">(2)</span></div><div class="category" data-category="a2lybw==">kiro <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bGFuZ3VhZ2UtbW9kZWw=">language-model <span class="quarto-category-count">(4)</span></div><div class="category" data-category="TGluZWFyJTIwUmVncmVzc2lvbg==">Linear Regression <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TWFjaGluZSUyMExlYXJuaW5n">Machine Learning <span class="quarto-category-count">(2)</span></div><div class="category" data-category="bWFpbnRlbmFuY2U=">maintenance <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bmxw">nlp <span class="quarto-category-count">(6)</span></div><div class="category" data-category="cG9rZW1vbi1jbGFzc2lmZXI=">pokemon-classifer <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cnVieQ==">ruby <span class="quarto-category-count">(1)</span></div><div class="category" data-category="c2Npa2l0LWxlYXJu">scikit-learn <span class="quarto-category-count">(1)</span></div><div class="category" data-category="c2VjdXJpdHk=">security <span class="quarto-category-count">(1)</span></div><div class="category" data-category="c2VudGltZW50">sentiment <span class="quarto-category-count">(2)</span></div><div class="category" data-category="c3BhY3k=">spacy <span class="quarto-category-count">(1)</span></div><div class="category" data-category="c3BlYy1kcml2ZW4tZGV2ZWxvcG1lbnQ=">spec-driven-development <span class="quarto-category-count">(2)</span></div><div class="category" data-category="dGFidWxhcg==">tabular <span class="quarto-category-count">(2)</span></div><div class="category" data-category="dGFrZS1ob21l">take-home <span class="quarto-category-count">(3)</span></div><div class="category" data-category="dGVuc29yZmxvdw==">tensorflow <span class="quarto-category-count">(7)</span></div><div class="category" data-category="dXg=">ux <span class="quarto-category-count">(1)</span></div><div class="category" data-category="d2ViLWRldmVsb3BtZW50">web-development <span class="quarto-category-count">(1)</span></div><div class="category" data-category="JUUwJUFFJUE0JUUwJUFFJUFFJUUwJUFFJUJGJUUwJUFFJUI0JUUwJUFGJThE">தமிழ் <span class="quarto-category-count">(3)</span></div></div></div>
+    
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
+<main class="content column-page" id="quarto-document-content">
 
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Home</h1>
+<h1 class="title">Notes from the data-science trenches</h1>
+<p class="subtitle lead">Tutorials, certification deep-dives, and field notes on ML, Azure AI, and NLP.</p>
 </div>
 
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta column-page">
 
     
   
@@ -380,7 +383,27 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="YXp1cmUlMkNhenVyZS1haSUyQ0FJLTEwMg==" data-listing-date-sort="1763337600000" data-listing-file-modified-sort="1783517168007" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="869">
+<div class="g-col-1" data-index="0" data-categories="d2ViLWRldmVsb3BtZW50JTJDZGV2b3BzJTJDamVreWxsJTJDbWFpbnRlbmFuY2U=" data-listing-date-sort="1783555200000" data-listing-file-modified-sort="1783789292557" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="953">
+<a href="./posts/jekyll-to-quarto-migration/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+From Jekyll to Quarto: A Blog Migration Journey
+</h5>
+<div class="listing-reading-time card-text text-muted">5 min</div>
+<div class="card-text listing-description delink">
+<p>Migrating a data-science blog from Jekyll/fastpages to Quarto, including theme polish, TOC fixes, and dark-mode comments.</p>
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Jul 9, 2026
+</div>
+</div>
+</div>
+</div></a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="YXp1cmUlMkNhenVyZS1haSUyQ0FJLTEwMg==" data-listing-date-sort="1763337600000" data-listing-file-modified-sort="1783789292547" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="869">
 <a href="./posts/azure-ai102-day2-planning-ai-soln-azure/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -390,22 +413,11 @@ window.Quarto = {
 <h5 class="no-anchor card-title listing-title">
 Azure AI-102 Certification Journey - Day 2 - Plan and prepare to develop AI solutions on Azure
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('YXp1cmU='); return false;">azure</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YXp1cmUtYWk='); return false;">azure-ai</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('QUktMTAy'); return false;">AI-102</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">5 min</div>
 <div class="card-text listing-description delink">
 <p>Study notes for the first module in my Azure AI-102 certification journey: ‘Plan and prepare to develop AI solutions on Azure’. Key concepts, services, and hands-on…</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Nov 17, 2025
 </div>
@@ -413,7 +425,7 @@ Nov 17, 2025
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="1" data-categories="YXp1cmUlMkNhenVyZS1haSUyQ0FJLTEwMg==" data-listing-date-sort="1763164800000" data-listing-file-modified-sort="1783517168007" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="752">
+<div class="g-col-1" data-index="2" data-categories="YXp1cmUlMkNhenVyZS1haSUyQ0FJLTEwMg==" data-listing-date-sort="1763164800000" data-listing-file-modified-sort="1783789292547" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="752">
 <a href="./posts/azure-ai102-day1-planning-ai-soln-azure/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -423,22 +435,11 @@ Nov 17, 2025
 <h5 class="no-anchor card-title listing-title">
 Azure AI-102 Certification Journey - Day 1 - Plan and prepare to develop AI solutions on Azure
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('YXp1cmU='); return false;">azure</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YXp1cmUtYWk='); return false;">azure-ai</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('QUktMTAy'); return false;">AI-102</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">4 min</div>
 <div class="card-text listing-description delink">
 <p>Study notes for the first module in my Azure AI-102 certification journey: ‘Plan and prepare to develop AI solutions on Azure’. Key concepts, services, and hands-on…</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Nov 15, 2025
 </div>
@@ -446,7 +447,7 @@ Nov 15, 2025
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="2" data-categories="YXp1cmUlMkNhenVyZS1haSUyQ0FJLTEwMg==" data-listing-date-sort="1762819200000" data-listing-file-modified-sort="1783517168007" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="127">
+<div class="g-col-1" data-index="3" data-categories="YXp1cmUlMkNhenVyZS1haSUyQ0FJLTEwMg==" data-listing-date-sort="1762819200000" data-listing-file-modified-sort="1783789292547" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="127">
 <a href="./posts/azure-ai102-journey-intro/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
@@ -454,22 +455,11 @@ Nov 15, 2025
 <h5 class="no-anchor card-title listing-title">
 Azure AI-102 Certification Journey - Introduction
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('YXp1cmU='); return false;">azure</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YXp1cmUtYWk='); return false;">azure-ai</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('QUktMTAy'); return false;">AI-102</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">1 min</div>
 <div class="card-text listing-description delink">
 <p>Intro for my Azure AI-102 certification journey: took the official practice assessment, received a customised learning plan, and will follow recommended modules (Plan and…</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Nov 11, 2025
 </div>
@@ -477,7 +467,7 @@ Nov 11, 2025
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="3" data-categories="d2ViLWRldmVsb3BtZW50JTJDamVreWxsJTJDdXglMkNhY2Nlc3NpYmlsaXR5JTJDc3BlYy1kcml2ZW4tZGV2ZWxvcG1lbnQlMkNjc3MlMkNqYXZhc2NyaXB0" data-listing-date-sort="1759536000000" data-listing-file-modified-sort="1783517168024" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2674">
+<div class="g-col-1" data-index="4" data-categories="d2ViLWRldmVsb3BtZW50JTJDamVreWxsJTJDdXglMkNhY2Nlc3NpYmlsaXR5JTJDc3BlYy1kcml2ZW4tZGV2ZWxvcG1lbnQlMkNjc3MlMkNqYXZhc2NyaXB0" data-listing-date-sort="1759536000000" data-listing-file-modified-sort="1783789292560" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2674">
 <a href="./posts/sticky-toc-component-implementation/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -487,30 +477,11 @@ Nov 11, 2025
 <h5 class="no-anchor card-title listing-title">
 Building a Sticky Table of Contents: From Spec to Implementation
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('d2ViLWRldmVsb3BtZW50'); return false;">web-development</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('amVreWxs'); return false;">jekyll</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('dXg='); return false;">ux</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YWNjZXNzaWJpbGl0eQ=='); return false;">accessibility</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c3BlYy1kcml2ZW4tZGV2ZWxvcG1lbnQ='); return false;">spec-driven-development</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('Y3Nz'); return false;">css</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('amF2YXNjcmlwdA=='); return false;">javascript</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">14 min</div>
 <div class="card-text listing-description delink">
 <p>A comprehensive guide to implementing a responsive, accessible sticky TOC component using spec-driven development methodology</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Oct 4, 2025
 </div>
@@ -518,7 +489,7 @@ Oct 4, 2025
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="4" data-categories="c2VjdXJpdHklMkNqZWt5bGwlMkNydWJ5JTJDZGV2b3BzJTJDbWFpbnRlbmFuY2UlMkNraXJvJTJDc3BlYy1kcml2ZW4tZGV2ZWxvcG1lbnQ=" data-listing-date-sort="1759190400000" data-listing-file-modified-sort="1783517168021" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1764">
+<div class="g-col-1" data-index="5" data-categories="c2VjdXJpdHklMkNqZWt5bGwlMkNydWJ5JTJDZGV2b3BzJTJDbWFpbnRlbmFuY2UlMkNraXJvJTJDc3BlYy1kcml2ZW4tZGV2ZWxvcG1lbnQ=" data-listing-date-sort="1759190400000" data-listing-file-modified-sort="1783789292557" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1764">
 <a href="./posts/jekyll-blog-security-hardening-journey/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -528,30 +499,11 @@ Oct 4, 2025
 <h5 class="no-anchor card-title listing-title">
 Back from Hiatus: Jekyll Blog Security Hardening with Spec-Driven Development
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2VjdXJpdHk='); return false;">security</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('amVreWxs'); return false;">jekyll</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cnVieQ=='); return false;">ruby</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGV2b3Bz'); return false;">devops</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bWFpbnRlbmFuY2U='); return false;">maintenance</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('a2lybw=='); return false;">kiro</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c3BlYy1kcml2ZW4tZGV2ZWxvcG1lbnQ='); return false;">spec-driven-development</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">9 min</div>
 <div class="card-text listing-description delink">
 <p>How I returned to blogging by systematically resolving 12 security vulnerabilities using Kiro’s spec-driven approach, and what’s coming next</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Sep 30, 2025
 </div>
@@ -559,7 +511,7 @@ Sep 30, 2025
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="5" data-categories="dGFrZS1ob21lJTJDSW1wbGVtZW50YXRpb24=" data-listing-date-sort="1622246400000" data-listing-file-modified-sort="1783517168021" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="677">
+<div class="g-col-1" data-index="6" data-categories="dGFrZS1ob21lJTJDSW1wbGVtZW50YXRpb24=" data-listing-date-sort="1622246400000" data-listing-file-modified-sort="1783789292558" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="677">
 <a href="./posts/model-agnostic-featimp/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
@@ -567,20 +519,11 @@ Sep 30, 2025
 <h5 class="no-anchor card-title listing-title">
 Explaining prediction models and individual predictions
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('dGFrZS1ob21l'); return false;">take-home</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('SW1wbGVtZW50YXRpb24='); return false;">Implementation</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">4 min</div>
 <div class="card-text listing-description delink">
 <p>Implementation of algo from Explaining prediction models and individual predictions.</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 May 29, 2021
 </div>
@@ -588,7 +531,7 @@ May 29, 2021
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="6" data-categories="ZDJsLmFpLWV4ZXJjaXNlcyUyQ2RlZXAtbGVhcm5pbmclMkN0ZW5zb3JmbG93" data-listing-date-sort="1621728000000" data-listing-file-modified-sort="1783517168023" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="384">
+<div class="g-col-1" data-index="7" data-categories="ZDJsLmFpLWV4ZXJjaXNlcyUyQ2RlZXAtbGVhcm5pbmclMkN0ZW5zb3JmbG93" data-listing-date-sort="1621728000000" data-listing-file-modified-sort="1783789292560" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="384">
 <a href="./posts/probability/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img loading='lazy' src="posts/probability/index_files/figure-html/cell-6-output-1.svg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -596,22 +539,11 @@ May 29, 2021
 <h5 class="no-anchor card-title listing-title">
 Probability - d2l.ai Exercises - Part 6
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZDJsLmFpLWV4ZXJjaXNlcw=='); return false;">d2l.ai-exercises</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGVlcC1sZWFybmluZw=='); return false;">deep-learning</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('dGVuc29yZmxvdw=='); return false;">tensorflow</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">2 min</div>
 <div class="card-text listing-description delink">
 <p>This notebook tries to solve the probability exercises in d2l.ai</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 May 23, 2021
 </div>
@@ -619,7 +551,7 @@ May 23, 2021
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="7" data-categories="ZDJsLmFpLWV4ZXJjaXNlcyUyQ2RlZXAtbGVhcm5pbmclMkN0ZW5zb3JmbG93" data-listing-date-sort="1621123200000" data-listing-file-modified-sort="1783517168007" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="623">
+<div class="g-col-1" data-index="8" data-categories="ZDJsLmFpLWV4ZXJjaXNlcyUyQ2RlZXAtbGVhcm5pbmclMkN0ZW5zb3JmbG93" data-listing-date-sort="1621123200000" data-listing-file-modified-sort="1783789292547" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="623">
 <a href="./posts/autodiff/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img loading='lazy' src="posts/autodiff/index_files/figure-html/cell-24-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -627,22 +559,11 @@ May 23, 2021
 <h5 class="no-anchor card-title listing-title">
 Automatic differentiation - d2l.ai Exercises - Part 5
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZDJsLmFpLWV4ZXJjaXNlcw=='); return false;">d2l.ai-exercises</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGVlcC1sZWFybmluZw=='); return false;">deep-learning</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('dGVuc29yZmxvdw=='); return false;">tensorflow</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">4 min</div>
 <div class="card-text listing-description delink">
 <p>The fifth notebook in the series solving exercises from d2l.ai, this blog tries to test and understand the working of the autodiff functionality in tensorflow</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 May 16, 2021
 </div>
@@ -650,7 +571,7 @@ May 16, 2021
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="8" data-categories="dGFrZS1ob21lJTJDZGVlcC1sZWFybmluZyUyQ3NwYWN5JTJDbmxw" data-listing-date-sort="1619395200000" data-listing-file-modified-sort="1783517168011" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="581">
+<div class="g-col-1" data-index="9" data-categories="dGFrZS1ob21lJTJDZGVlcC1sZWFybmluZyUyQ3NwYWN5JTJDbmxw" data-listing-date-sort="1619395200000" data-listing-file-modified-sort="1783789292548" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="581">
 <a href="./posts/chemdner/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img loading='lazy' src="posts/chemdner/index_files/figure-html/cell-22-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -658,24 +579,11 @@ May 16, 2021
 <h5 class="no-anchor card-title listing-title">
 Text mining with chemical text from chemdNER
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('dGFrZS1ob21l'); return false;">take-home</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGVlcC1sZWFybmluZw=='); return false;">deep-learning</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c3BhY3k='); return false;">spacy</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bmxw'); return false;">nlp</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">3 min</div>
 <div class="card-text listing-description delink">
 <p>This is a take home project that I did for a company as part of their interview process.</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Apr 26, 2021
 </div>
@@ -683,7 +591,7 @@ Apr 26, 2021
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="9" data-categories="ZDJsLmFpLWV4ZXJjaXNlcyUyQ2RlZXAtbGVhcm5pbmclMkN0ZW5zb3JmbG93" data-listing-date-sort="1619308800000" data-listing-file-modified-sort="1783517168007" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="469">
+<div class="g-col-1" data-index="10" data-categories="ZDJsLmFpLWV4ZXJjaXNlcyUyQ2RlZXAtbGVhcm5pbmclMkN0ZW5zb3JmbG93" data-listing-date-sort="1619308800000" data-listing-file-modified-sort="1783789292547" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="469">
 <a href="./posts/calculus-nb/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img loading='lazy' src="posts/calculus-nb/index_files/figure-html/cell-7-output-1.svg" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -691,22 +599,11 @@ Apr 26, 2021
 <h5 class="no-anchor card-title listing-title">
 Calculus - d2l.ai Exercises - Part 4
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZDJsLmFpLWV4ZXJjaXNlcw=='); return false;">d2l.ai-exercises</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGVlcC1sZWFybmluZw=='); return false;">deep-learning</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('dGVuc29yZmxvdw=='); return false;">tensorflow</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">3 min</div>
 <div class="card-text listing-description delink">
 <p>The fourth notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Apr 25, 2021
 </div>
@@ -714,7 +611,7 @@ Apr 25, 2021
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="10" data-categories="dGFrZS1ob21lJTJDTWFjaGluZSUyMExlYXJuaW5nJTJDdGFidWxhciUyQ3NjaWtpdC1sZWFybg==" data-listing-date-sort="1618012800000" data-listing-file-modified-sort="1783517168021" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="679">
+<div class="g-col-1" data-index="11" data-categories="dGFrZS1ob21lJTJDTWFjaGluZSUyMExlYXJuaW5nJTJDdGFidWxhciUyQ3NjaWtpdC1sZWFybg==" data-listing-date-sort="1618012800000" data-listing-file-modified-sort="1783789292558" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="679">
 <a href="./posts/price-pred-notebook/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img loading='lazy' src="posts/price-pred-notebook/index_files/figure-html/cell-14-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -722,24 +619,11 @@ Apr 25, 2021
 <h5 class="no-anchor card-title listing-title">
 Recommending a product price for a seller
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('dGFrZS1ob21l'); return false;">take-home</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('TWFjaGluZSUyMExlYXJuaW5n'); return false;">Machine Learning</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('dGFidWxhcg=='); return false;">tabular</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2Npa2l0LWxlYXJu'); return false;">scikit-learn</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">4 min</div>
 <div class="card-text listing-description delink">
 <p>This is another take home assignment that I did for a company as part of their interview process</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Apr 10, 2021
 </div>
@@ -747,7 +631,7 @@ Apr 10, 2021
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="11" data-categories="ZDJsLmFpLWV4ZXJjaXNlcyUyQ2RlZXAtbGVhcm5pbmclMkN0ZW5zb3JmbG93" data-listing-date-sort="1612828800000" data-listing-file-modified-sort="1783517168011" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="945">
+<div class="g-col-1" data-index="12" data-categories="ZDJsLmFpLWV4ZXJjaXNlcyUyQ2RlZXAtbGVhcm5pbmclMkN0ZW5zb3JmbG93" data-listing-date-sort="1612828800000" data-listing-file-modified-sort="1783789292549" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="945">
 <a href="./posts/d2lai-exercises-pt3/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img loading='lazy' src="images/manhattan.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -755,22 +639,11 @@ Apr 10, 2021
 <h5 class="no-anchor card-title listing-title">
 Linear Algebra - d2l.ai Exercises - Part 3
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZDJsLmFpLWV4ZXJjaXNlcw=='); return false;">d2l.ai-exercises</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGVlcC1sZWFybmluZw=='); return false;">deep-learning</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('dGVuc29yZmxvdw=='); return false;">tensorflow</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">5 min</div>
 <div class="card-text listing-description delink">
 <p>The third notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Feb 9, 2021
 </div>
@@ -778,7 +651,7 @@ Feb 9, 2021
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="12" data-categories="ZDJsLmFpLWV4ZXJjaXNlcyUyQ2RlZXAtbGVhcm5pbmclMkN0ZW5zb3JmbG93" data-listing-date-sort="1612656000000" data-listing-file-modified-sort="1783517168011" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="112">
+<div class="g-col-1" data-index="13" data-categories="ZDJsLmFpLWV4ZXJjaXNlcyUyQ2RlZXAtbGVhcm5pbmclMkN0ZW5zb3JmbG93" data-listing-date-sort="1612656000000" data-listing-file-modified-sort="1783789292549" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="112">
 <a href="./posts/d2lai-exercises-pt2/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
@@ -786,22 +659,11 @@ Feb 9, 2021
 <h5 class="no-anchor card-title listing-title">
 Data Preprocessing - d2l.ai Exercises - Part 2
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZDJsLmFpLWV4ZXJjaXNlcw=='); return false;">d2l.ai-exercises</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGVlcC1sZWFybmluZw=='); return false;">deep-learning</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('dGVuc29yZmxvdw=='); return false;">tensorflow</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">1 min</div>
 <div class="card-text listing-description delink">
 <p>The second notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Feb 7, 2021
 </div>
@@ -809,7 +671,7 @@ Feb 7, 2021
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="13" data-categories="ZDJsLmFpLWV4ZXJjaXNlcyUyQ2RlZXAtbGVhcm5pbmclMkN0ZW5zb3JmbG93" data-listing-date-sort="1612396800000" data-listing-file-modified-sort="1783517168011" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="264">
+<div class="g-col-1" data-index="14" data-categories="ZDJsLmFpLWV4ZXJjaXNlcyUyQ2RlZXAtbGVhcm5pbmclMkN0ZW5zb3JmbG93" data-listing-date-sort="1612396800000" data-listing-file-modified-sort="1783789292549" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="264">
 <a href="./posts/d2lai-exercises-pt1/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
@@ -817,22 +679,11 @@ Feb 7, 2021
 <h5 class="no-anchor card-title listing-title">
 Data Manipulation - d2l.ai Exercises - Part 1
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZDJsLmFpLWV4ZXJjaXNlcw=='); return false;">d2l.ai-exercises</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGVlcC1sZWFybmluZw=='); return false;">deep-learning</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('dGVuc29yZmxvdw=='); return false;">tensorflow</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">2 min</div>
 <div class="card-text listing-description delink">
 <p>The first notebook in a series to be posted aiming to solve and understand exercises from d2l.ai curriculum on deep learning</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Feb 4, 2021
 </div>
@@ -840,7 +691,7 @@ Feb 4, 2021
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="14" data-categories="SW1wbGVtZW50YXRpb24lMkNNYWNoaW5lJTIwTGVhcm5pbmclMkNMaW5lYXIlMjBSZWdyZXNzaW9u" data-listing-date-sort="1598832000000" data-listing-file-modified-sort="1783517168021" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="899">
+<div class="g-col-1" data-index="15" data-categories="SW1wbGVtZW50YXRpb24lMkNNYWNoaW5lJTIwTGVhcm5pbmclMkNMaW5lYXIlMjBSZWdyZXNzaW9u" data-listing-date-sort="1598832000000" data-listing-file-modified-sort="1783789292557" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="896">
 <a href="./posts/linear-regression-grad-desc/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
@@ -848,22 +699,11 @@ Feb 4, 2021
 <h5 class="no-anchor card-title listing-title">
 Gradient Descent for Linear Regression
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('SW1wbGVtZW50YXRpb24='); return false;">Implementation</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('TWFjaGluZSUyMExlYXJuaW5n'); return false;">Machine Learning</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('TGluZWFyJTIwUmVncmVzc2lvbg=='); return false;">Linear Regression</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">5 min</div>
 <div class="card-text listing-description delink">
 <p>Data extraction from Wikimedia dump</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Aug 31, 2020
 </div>
@@ -871,7 +711,7 @@ Aug 31, 2020
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="15" data-categories="dGFidWxhciUyQ3RlbnNvcmZsb3c=" data-listing-date-sort="1592956800000" data-listing-file-modified-sort="1783517168024" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="316">
+<div class="g-col-1" data-index="16" data-categories="dGFidWxhciUyQ3RlbnNvcmZsb3c=" data-listing-date-sort="1592956800000" data-listing-file-modified-sort="1783789292561" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="316">
 <a href="./posts/tabular-data-modeling-with-tensorflow/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img loading='lazy' src="posts/tabular-data-modeling-with-tensorflow/index_files/figure-html/cell-9-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -879,20 +719,11 @@ Aug 31, 2020
 <h5 class="no-anchor card-title listing-title">
 Tabular data modeling - with Tensorflow
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('dGFidWxhcg=='); return false;">tabular</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('dGVuc29yZmxvdw=='); return false;">tensorflow</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">2 min</div>
 <div class="card-text listing-description delink">
 <p>In this notebook I try to use a competition dataset of log parameters of a server and classify if there was an attempt to attack the server</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Jun 24, 2020
 </div>
@@ -900,7 +731,7 @@ Jun 24, 2020
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="16" data-categories="bmxwJTJDZWRhJTJDc2VudGltZW50" data-listing-date-sort="1590796800000" data-listing-file-modified-sort="1783517168014" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1130">
+<div class="g-col-1" data-index="17" data-categories="bmxwJTJDZWRhJTJDc2VudGltZW50" data-listing-date-sort="1590796800000" data-listing-file-modified-sort="1783789292551" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1130">
 <a href="./posts/deep-learning-approach-for-text-classification-with-spacy/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img loading='lazy' src="posts/deep-learning-approach-for-text-classification-with-spacy/index_files/figure-html/cell-10-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -908,22 +739,11 @@ Jun 24, 2020
 <h5 class="no-anchor card-title listing-title">
 Mother’s day Sentiment analysis - with spaCy
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('bmxw'); return false;">nlp</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZWRh'); return false;">eda</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2VudGltZW50'); return false;">sentiment</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">6 min</div>
 <div class="card-text listing-description delink">
 <p>In this notebook I try to use a competition dataset of tweets reacting to Mother’s day and classify their sentiments with spaCy</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 May 30, 2020
 </div>
@@ -931,30 +751,19 @@ May 30, 2020
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="17" data-categories="bmxwJTJDZWRhJTJDc2VudGltZW50" data-listing-date-sort="1590278400000" data-listing-file-modified-sort="1783517168021" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="408">
+<div class="g-col-1" data-index="18" data-categories="bmxwJTJDZWRhJTJDc2VudGltZW50" data-listing-date-sort="1590278400000" data-listing-file-modified-sort="1783789292557" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="408">
 <a href="./posts/hackerearth-mothers-day-sentiment/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img loading='lazy' src="posts/hackerearth-mothers-day-sentiment/index_files/figure-html/cell-17-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img loading='lazy' data-src="posts/hackerearth-mothers-day-sentiment/index_files/figure-html/cell-17-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
 <div class="card-body post-contents">
 <h5 class="no-anchor card-title listing-title">
 Mother’s day Sentiment analysis
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('bmxw'); return false;">nlp</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZWRh'); return false;">eda</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('c2VudGltZW50'); return false;">sentiment</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">3 min</div>
 <div class="card-text listing-description delink">
 <p>In this notebook I explore a competition dataset of tweets reacting to Mother’s day</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 May 24, 2020
 </div>
@@ -962,7 +771,7 @@ May 24, 2020
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="18" data-categories="bmxwJTJDbGFuZ3VhZ2UtbW9kZWwlMkMlRTAlQUUlQTQlRTAlQUUlQUUlRTAlQUUlQkYlRTAlQUUlQjQlRTAlQUYlOEQ=" data-listing-date-sort="1587340800000" data-listing-file-modified-sort="1783517168024" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="646">
+<div class="g-col-1" data-index="19" data-categories="bmxwJTJDbGFuZ3VhZ2UtbW9kZWwlMkMlRTAlQUUlQTQlRTAlQUUlQUUlRTAlQUUlQkYlRTAlQUUlQjQlRTAlQUYlOEQ=" data-listing-date-sort="1587340800000" data-listing-file-modified-sort="1783789292561" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="646">
 <a href="./posts/tamil-language-model/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
@@ -970,22 +779,11 @@ May 24, 2020
 <h5 class="no-anchor card-title listing-title">
 Building தமிழ் language model
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('bmxw'); return false;">nlp</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bGFuZ3VhZ2UtbW9kZWw='); return false;">language-model</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('JUUwJUFFJUE0JUUwJUFFJUFFJUUwJUFFJUJGJUUwJUFFJUI0JUUwJUFGJThE'); return false;">தமிழ்</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">4 min</div>
 <div class="card-text listing-description delink">
 <p>In this notebook I try to build a language model for தமிழ்(Tamil) to help in some basic NLP tasks</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Apr 20, 2020
 </div>
@@ -993,7 +791,7 @@ Apr 20, 2020
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="19" data-categories="bmxwJTJDbGFuZ3VhZ2UtbW9kZWwlMkMlRTAlQUUlQTQlRTAlQUUlQUUlRTAlQUUlQkYlRTAlQUUlQjQlRTAlQUYlOEQ=" data-listing-date-sort="1587254400000" data-listing-file-modified-sort="1783517168025" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="564">
+<div class="g-col-1" data-index="20" data-categories="bmxwJTJDbGFuZ3VhZ2UtbW9kZWwlMkMlRTAlQUUlQTQlRTAlQUUlQUUlRTAlQUUlQkYlRTAlQUUlQjQlRTAlQUYlOEQ=" data-listing-date-sort="1587254400000" data-listing-file-modified-sort="1783789292561" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="564">
 <a href="./posts/testing-sentencepiece-tokenizer-for-tamil/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
@@ -1001,22 +799,11 @@ Apr 20, 2020
 <h5 class="no-anchor card-title listing-title">
 Testing out தமிழ் language tokenizer
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('bmxw'); return false;">nlp</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bGFuZ3VhZ2UtbW9kZWw='); return false;">language-model</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('JUUwJUFFJUE0JUUwJUFFJUFFJUUwJUFFJUJGJUUwJUFFJUI0JUUwJUFGJThE'); return false;">தமிழ்</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">3 min</div>
 <div class="card-text listing-description delink">
 <p>In this notebook I test out the sentencepiece tokenizers built previously</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Apr 19, 2020
 </div>
@@ -1024,7 +811,7 @@ Apr 19, 2020
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="20" data-categories="ZGF0YS1jbGVhbmluZyUyQ2xhbmd1YWdlLW1vZGVs" data-listing-date-sort="1586822400000" data-listing-file-modified-sort="1783517168025" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="513">
+<div class="g-col-1" data-index="21" data-categories="ZGF0YS1jbGVhbmluZyUyQ2xhbmd1YWdlLW1vZGVs" data-listing-date-sort="1586822400000" data-listing-file-modified-sort="1783789292561" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="513">
 <a href="./posts/wiki-data-extraction/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
@@ -1032,20 +819,11 @@ Apr 19, 2020
 <h5 class="no-anchor card-title listing-title">
 Wiki data extraction
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZGF0YS1jbGVhbmluZw=='); return false;">data-cleaning</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bGFuZ3VhZ2UtbW9kZWw='); return false;">language-model</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">3 min</div>
 <div class="card-text listing-description delink">
 <p>Data extraction from Wikimedia dump</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Apr 14, 2020
 </div>
@@ -1053,7 +831,7 @@ Apr 14, 2020
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="21" data-categories="bmxwJTJDbGFuZ3VhZ2UtbW9kZWwlMkMlRTAlQUUlQTQlRTAlQUUlQUUlRTAlQUUlQkYlRTAlQUUlQjQlRTAlQUYlOEQ=" data-listing-date-sort="1586822400000" data-listing-file-modified-sort="1783517168007" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="130">
+<div class="g-col-1" data-index="22" data-categories="bmxwJTJDbGFuZ3VhZ2UtbW9kZWwlMkMlRTAlQUUlQTQlRTAlQUUlQUUlRTAlQUUlQkYlRTAlQUUlQjQlRTAlQUYlOEQ=" data-listing-date-sort="1586822400000" data-listing-file-modified-sort="1783789292547" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="130">
 <a href="./posts/building-a-tokenizer-for-tamil-with-sentencepiece/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <div class="listing-item-img-placeholder card-img-top" style="height: 150px;">&nbsp;</div>
@@ -1061,22 +839,11 @@ Apr 14, 2020
 <h5 class="no-anchor card-title listing-title">
 Building தமிழ் language tokenizer
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('bmxw'); return false;">nlp</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bGFuZ3VhZ2UtbW9kZWw='); return false;">language-model</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('JUUwJUFFJUE0JUUwJUFFJUFFJUUwJUFFJUJGJUUwJUFFJUI0JUUwJUFGJThE'); return false;">தமிழ்</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">1 min</div>
 <div class="card-text listing-description delink">
 <p>In this notebook I try to build sentencepiece tokenizers for தமிழ் language with data extracted from wiki dump</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Apr 14, 2020
 </div>
@@ -1084,7 +851,7 @@ Apr 14, 2020
 </div>
 </div></a>
 </div>
-<div class="g-col-1" data-index="22" data-categories="cG9rZW1vbi1jbGFzc2lmZXIlMkNpbWFnZS1jbGFzc2lmaWNhdGlvbiUyQ2Zhc3RhaQ==" data-listing-date-sort="1559347200000" data-listing-file-modified-sort="1783517168016" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="663">
+<div class="g-col-1" data-index="23" data-categories="cG9rZW1vbi1jbGFzc2lmZXIlMkNpbWFnZS1jbGFzc2lmaWNhdGlvbiUyQ2Zhc3RhaQ==" data-listing-date-sort="1559347200000" data-listing-file-modified-sort="1783789292553" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="663">
 <a href="./posts/fast-ai-lesson-2-pokemon-classifier/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -1094,22 +861,11 @@ Apr 14, 2020
 <h5 class="no-anchor card-title listing-title">
 Building a Pokemon Classifier
 </h5>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('cG9rZW1vbi1jbGFzc2lmZXI='); return false;">pokemon-classifer</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('aW1hZ2UtY2xhc3NpZmljYXRpb24='); return false;">image-classification</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZmFzdGFp'); return false;">fastai</div>
-
-</div>
+<div class="listing-reading-time card-text text-muted">4 min</div>
 <div class="card-text listing-description delink">
 <p>Here I try to build a pokemon classifier, to understand transfer learning for image classification</p>
 </div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Jun 1, 2019
 </div>
@@ -1123,6 +879,44 @@ Jun 1, 2019
   <ul class="pagination"></ul>
 </nav>
 </div></main> <!-- /main -->
+<script>
+/* Keep the Utterances comment box in sync with Quarto's light/dark toggle.
+   Utterances renders in a cross-origin utteranc.es iframe, so we can't style it
+   directly — we postMessage a {type:'set-theme'} command into the frame.
+   Quarto flips a `quarto-dark`/`quarto-light` class on <body> when the navbar
+   toggle is clicked (see its generated toggleBodyColorMode), so we read that
+   class as the authoritative light/dark state. We re-sync on clicks on
+   .quarto-color-scheme-toggle, giving Quarto a tick to flip the class first. */
+(function () {
+  function darkMode() {
+    // Quarto sets <body> to class quarto-dark|quarto-light; read it directly.
+    // (Background-luminance probing was fragile — it lagged behind the CSS
+    // transition after a toggle, leaving the box stuck on the old theme.)
+    return document.body.classList.contains("quarto-dark");
+  }
+  function sync() {
+    var f = document.querySelector("iframe.utterances-frame");
+    if (f && f.contentWindow) {
+      f.contentWindow.postMessage(
+        { type: "set-theme", theme: darkMode() ? "github-dark" : "github-light" },
+        "https://utteranc.es"
+      );
+    }
+  }
+  // Sync once the Utterances iframe is injected by client.js.
+  if (document.body) {
+    new MutationObserver(function (_, obs) {
+      if (document.querySelector("iframe.utterances-frame")) { sync(); obs.disconnect(); }
+    }).observe(document.body, { childList: true, subtree: true });
+  }
+  // Re-sync whenever the reader toggles the theme (give Quarto a tick to flip DOM).
+  document.addEventListener("click", function (e) {
+    if (e.target && e.target.closest && e.target.closest(".quarto-color-scheme-toggle")) {
+      setTimeout(sync, 60);
+    }
+  });
+})();
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -1536,7 +1330,7 @@ Jun 1, 2019
     }
   });
   </script>
-<script src="https://utteranc.es/client.js" repo="mani2106/Blog-Posts" issue-term="pathname" theme="boxy-light" crossorigin="anonymous" async="">
+<script src="https://utteranc.es/client.js" repo="mani2106/Blog-Posts" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 
