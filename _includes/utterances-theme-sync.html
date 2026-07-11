@@ -2,16 +2,16 @@
 /* Keep the Utterances comment box in sync with Quarto's light/dark toggle.
    Utterances renders in a cross-origin utteranc.es iframe, so we can't style it
    directly — we postMessage a {type:'set-theme'} command into the frame.
-   Quarto's toggle dispatches only a generic 'resize' event (no clean hook), so we
-   react to clicks on .quarto-color-scheme-toggle and read the *resulting* body
-   background luminance to decide light vs dark. Reading the outcome (not Quarto
-   internals) survives version upgrades. */
+   Quarto flips a `quarto-dark`/`quarto-light` class on <body> when the navbar
+   toggle is clicked (see its generated toggleBodyColorMode), so we read that
+   class as the authoritative light/dark state. We re-sync on clicks on
+   .quarto-color-scheme-toggle, giving Quarto a tick to flip the class first. */
 (function () {
   function darkMode() {
-    var bg = getComputedStyle(document.body).backgroundColor; // "rgb(r, g, b)"
-    var m = bg.match(/\d+/g);
-    if (!m) return false;
-    return (0.299 * +m[0] + 0.587 * +m[1] + 0.114 * +m[2]) < 128;
+    // Quarto sets <body> to class quarto-dark|quarto-light; read it directly.
+    // (Background-luminance probing was fragile — it lagged behind the CSS
+    // transition after a toggle, leaving the box stuck on the old theme.)
+    return document.body.classList.contains("quarto-dark");
   }
   function sync() {
     var f = document.querySelector("iframe.utterances-frame");

@@ -1,0 +1,106 @@
+---
+title: 'From Jekyll to Quarto: A Blog Migration Journey'
+description: 'Migrating a data-science blog from Jekyll/fastpages to Quarto, including theme polish, TOC fixes, and dark-mode comments.'
+categories:
+- web-development
+- devops
+- jekyll
+- maintenance
+date: '2026-07-09'
+---
+
+## Why I left Jekyll
+
+My blog ran on Jekyll with fastpages for years. It worked, but the friction was constant:
+
+- **Notebook posts** required the nbdev + fastpages pipeline — push a notebook, wait for GitHub Actions, pray the conversion didn't mangle the markdown.
+- **Front matter inconsistencies** between hand-written posts and notebook-generated ones.
+- **Deployment latency** — the full Jekyll build on every push meant even a typo fix took minutes to appear.
+- **Theme constraints** — customizing Bootstrap meant fighting Jekyll's asset pipeline.
+
+Quarto promised a saner world: **plain `.qmd` files**, a unified authoring experience, and a build system that renders only what changed. When the `freeze: auto` feature landed (executed cells cache until the source changes), the last real advantage of the fastpages notebook pipeline evaporated. It was time to migrate.
+
+## The migration itself
+
+The mechanical work was straightforward — convert every post to `posts/<slug>/index.qmd`, standardize the front matter, and drop the Jekyll artifacts (`layout: post`, `nb_path`, `badges`). The **real work** was fixing what the migration exposed.
+
+### TOC disaster: the H1 problem
+
+The first issue readers noticed: **article table-of-contents were empty**. Sections weren't showing up in the right sidebar.
+
+Root cause: Quarto's TOC **excludes H1 headings**. It assumes the YAML `title:` field is the document's single H1, and any body `#` headings are duplicates. My Jekyll posts used `#` for their first real section — so Quarto silently dropped every section from the TOC.
+
+The fix was mechanical but pervasive: demote all body headings one level (`# Introduction` → `## Introduction`). Across 7 posts, this meant touching every section boundary. The upside: a working TOC and a proper heading hierarchy.
+
+::: {.callout-tip}
+**Audit your headings before you deploy.** The Jekyll→Quarto heading clash is a classic migration footgun: Jekyll treats the YAML `title` as metadata only, so authors reach for `#` for their first section. Quarto elevates that same `title` to the document's H1, which means the body must start at `##` — otherwise Quarto silently drops those sections from the table of contents.
+:::
+
+### Theme polish: breathing room
+
+The old Jekyll site had decent spacing. The Quarto migration landed with Flatly/Darkly themes, but the homepage felt cramped — cards stretched edge-to-edge with no max-width cap, and the "breathing room" the old site had was gone.
+
+I wanted three things:
+1. **Space** — center the post grid at ~1100px, wider gaps between cards.
+2. **Polish** — card hover effects, uniform image aspect ratios, metadata (date + reading time) on each card.
+3. **Structure** — a full-width hero band with the blog title, then the centered grid below.
+
+The hero implementation fought Quarto at first. I tried a hand-written `<div class="hero-band">` approach, but Quarto/Pandoc **absorbed the first body heading into the title block** when there was no YAML title. The band lost its heading. The fix was to make the title block *itself* the hero — set `title:` + `subtitle:` in front matter, then style `#title-block-header` as the accent band. Full-bleed width required a CSS breakout (`width: 100vw; left: 50%; translateX(-50%)`), because Quarto's `.column-page` grid still sits inside the container gutter even with `page-layout: full`.
+
+The result: a clean banded hero, a centered grid with hover lifts, and consistent card heights via `object-fit: cover`.
+
+### Relocating the categories sidebar
+
+The old site had a category filter sidebar on the homepage. It felt cluttered — the grid never got proper width, and the sidebar dominated on mobile.
+
+The solution was a **dedicated Categories page**:
+- **Home** (`index.qmd`): `categories: false`, hero band, clean centered grid.
+- **Categories** (`categories.qmd`): `categories: true`, grid + sidebar, filtering in place.
+
+This is the standard blog pattern: home = latest posts (clean), separate page = browse by category. One new navbar entry, zero redundancy.
+
+### Dark-mode comments with Utterances
+
+Comments are powered by Utterances (GitHub issues-backed). Quarto ships an automatic theme bridge for **Giscus**, but not for Utterances — the comment theme stayed light even in dark mode.
+
+The fix was a custom JS snippet:
+```javascript
+// Listen for Quarto's theme toggle and postMessage the Utterances iframe
+document.addEventListener('click', function (e) {
+  if (e.target.closest('.quarto-color-scheme-toggle')) {
+    setTimeout(function () {
+      var isDark = computeLuminance(document.body) < 128;
+      var frame = document.querySelector('iframe.utterances-frame');
+      if (frame) {
+        frame.contentWindow.postMessage({
+          type: 'set-theme',
+          theme: isDark ? 'github-dark' : 'github-light'
+        }, 'https://utteranc.es');
+      }
+    }, 60);
+  }
+});
+```
+
+Quarto's theme toggle dispatches only a generic `resize` event, so we listen for clicks on the stable `.quarto-color-scheme-toggle` class and read the **resulting body-background luminance** (version-proof, no Quarto internals). A `MutationObserver` handles the first sync when the iframe loads.
+
+## What I learned
+
+**Migrate early, migrate often.** The Jekyll→Quarto gap widened over time — waiting made the migration more painful than it needed to be.
+
+**Trust the framework, don't fight it.** The hero band problem vanished once I stopped trying to outsmart Quarto's title block and styled the existing element instead.
+
+**Test the dark mode.** Features that work in light mode often break in dark — the Utterances theme mismatch was invisible until I toggled.
+
+**Document your conventions.** The repo's `CLAUDE.md` still described the Jekyll pipeline after the migration was complete — I ended up writing a Quarto-specific authoring skill to capture the real conventions. Future sessions (and future-me) will thank me.
+
+## The result
+
+The blog is now **100% Quarto**:
+- Plain `.qmd` authoring with `freeze: true` (no surprise re-executions).
+- A polished theme with space, hover effects, and a working dark mode.
+- Article TOCs that actually populate.
+- Comments that follow the theme.
+- A dedicated Categories page for browsing by topic.
+
+Deployment is fast, edits are safe, and the site feels like *mine* again. If you're still clinging to a Jekyll blog with notebook posts, this is your sign.
