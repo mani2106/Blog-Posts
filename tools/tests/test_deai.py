@@ -115,3 +115,53 @@ def test_strip_invisible_unicode_removes_zero_width_and_bom():
 
 def test_strip_invisible_unicode_keeps_newline_and_tab():
     assert strip_invisible_unicode("a\nb\tc") == "a\nb\tc"
+
+
+from deai import find_flags
+
+
+def test_flag_vocabulary_cliche():
+    text = "Let us delve into the robust details.\n"
+    flags = find_flags(text)
+    words = {f[2].lower() for f in flags if f[1] == 'vocab'}
+    assert 'delve' in words
+    assert 'robust' in words
+
+
+def test_flag_not_only_but_also():
+    text = "It not only works but also shines here.\n"
+    cats = {f[1] for f in find_flags(text)}
+    assert 'not-only-but-also' in cats
+
+
+def test_flag_meta_framing():
+    text = "Let's explore the idea. Here's the thing though.\n"
+    cats = {f[1] for f in find_flags(text)}
+    assert 'meta-framing' in cats
+
+
+def test_flag_in_conclusion():
+    text = "In summary, we shipped it.\n"
+    cats = {f[1] for f in find_flags(text)}
+    assert 'conclusion-closer' in cats
+
+
+def test_flags_only_in_prose_not_code():
+    text = "```\ndelve into code\n```\nplain delve here\n"
+    flags = find_flags(text)
+    lines = [f[0] for f in flags if f[1] == 'vocab']
+    assert lines == [4]   # not line 2 (inside code block)
+
+
+def test_flag_tricolon_threshold():
+    # Three rule-of-three lists in one paragraph -> flag.
+    text = "It is fast, cheap, and good. Also bold, smart, and kind. Plus red, green, and blue.\n"
+    cats = {f[1] for f in find_flags(text)}
+    assert 'tricolon-overuse' in cats
+
+
+def test_flag_bold_overuse():
+    # >5 bold spans per 1000 words -> flag.
+    text = " **a** **b** **c** **d** **e** **f** in a short post\n"
+    cats = {f[1] for f in find_flags(text)}
+    assert 'bold-overuse' in cats

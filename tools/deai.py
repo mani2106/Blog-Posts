@@ -126,3 +126,85 @@ def strip_invisible_unicode(s):
         ch for ch in s
         if ch in keep or unicodedata.category(ch) not in ('Cc', 'Cf')
     )
+
+
+_VOCAB = {
+    'delve': 'examine / explore',
+    'tapestry': 'mix / range',
+    'testament': 'evidence / proof',
+    'robust': 'strong / reliable',
+    'seamless': 'smooth / integrated',
+    'seamlessly': 'smoothly',
+    'leverage': 'use / draw on',
+    'underscore': 'highlight / emphasize',
+    'navigate': 'work through / manage',
+    'landscape': 'field / area',
+    'realm': 'area / domain',
+    'plethora': 'many / abundance',
+    'myriad': 'many / numerous',
+    'foster': 'encourage / support',
+    'pivotal': 'important / key',
+    'intricate': 'complex / detailed',
+    'nuanced': 'subtle / detailed',
+    'elevate': 'improve / strengthen',
+    'empower': 'enable / support',
+    'journey': 'process / path',
+    'arguably': 'delete or strengthen',
+    'importantly': 'delete',
+    'significantly': 'delete or quantify',
+    'game-changer': 'major shift',
+    'game-changing': 'significant',
+    'harness': 'use / apply',
+    'unleash': 'release / apply',
+    'cutting-edge': 'latest / advanced',
+    'state-of-the-art': 'current / advanced',
+}
+
+_TRICOLON = re.compile(r',\s+[\w-]+(?:\s+[\w-]+)*,\s+and\s+[\w-]+')
+_BOLD = re.compile(r'\*\*[^*]+\*\*')
+_NOT_ONLY = re.compile(r'\bnot only\b.{0,80}?\bbut also\b', re.I)
+_META = re.compile(
+    r"\blet'?s (explore|dive in|unpack|dive deep)\b"
+    r"|\bhere'?s the (thing|deal)\b"
+    r"|\bat the end of the day\b"
+    r"|\bit'?s worth noting\b",
+    re.I,
+)
+_CONCLUSION = re.compile(r'^in (summary|conclusion|closing)\b|^to summarize\b|^key takeaways\b', re.I)
+_ITS_NOT = re.compile(r"\bit'?s not (just|merely|simply)\b.{0,60}?,\s*it'?s\b", re.I)
+_TRANSITION = re.compile(r'^(furthermore|moreover|additionally),', re.I)
+
+
+def _flag(line_no, category, snippet, suggestion):
+    return (line_no, category, snippet, suggestion)
+
+
+def find_flags(text):
+    """Scan prose for Tier 2/3 tells. Returns (line_no, category, snippet, suggestion)."""
+    flags = []
+    tricolon_total = 0
+    bold_total = 0
+    word_total = 0
+    for line_no, line in iter_prose_lines(text):
+        lower = line.lower()
+        for word, sug in _VOCAB.items():
+            if re.search(r'\b' + re.escape(word) + r'\b', lower):
+                flags.append(_flag(line_no, 'vocab', word, sug))
+        if _NOT_ONLY.search(line):
+            flags.append(_flag(line_no, 'not-only-but-also', line.strip()[:60], 'split into two clauses'))
+        if _ITS_NOT.search(line):
+            flags.append(_flag(line_no, 'its-not-its', line.strip()[:60], 'state positively'))
+        if _META.search(line):
+            flags.append(_flag(line_no, 'meta-framing', line.strip()[:60], 'delete; start with content'))
+        if _CONCLUSION.search(line.strip()):
+            flags.append(_flag(line_no, 'conclusion-closer', line.strip()[:60], 'delete or end on substance'))
+        if _TRANSITION.search(line.strip()):
+            flags.append(_flag(line_no, 'predictable-transition', line.strip()[:60], 'remove or vary'))
+        tricolon_total += len(_TRICOLON.findall(line))
+        bold_total += len(_BOLD.findall(line))
+        word_total += len(line.split())
+    if tricolon_total >= 3:
+        flags.append(_flag(0, 'tricolon-overuse', f'{tricolon_total} rule-of-three lists', 'vary list lengths'))
+    if word_total and bold_total * 1000 / word_total > 5:
+        flags.append(_flag(0, 'bold-overuse', f'{bold_total} bold spans / {word_total} words', 'reduce bolding'))
+    return flags
