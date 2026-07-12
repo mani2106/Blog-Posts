@@ -249,3 +249,12 @@ def test_process_returns_flags_and_stats():
         result = process(path, write=False)
     assert any(f[1] == 'vocab' for f in result['flags'])
     assert 'word_count' in result['stats']
+
+
+def test_fix_text_preserves_multiline_prose():
+    # Characterization: split_blocks yields prose one line at a time, so
+    # multi-line prose is fully preserved (no content dropped) and each
+    # line is transformed independently.
+    from deai import _fix_text
+    out = _fix_text("line1 — a\nline2 — b\nline3\n")
+    assert out == "line1, a\nline2, b\nline3\n"
