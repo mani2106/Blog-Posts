@@ -252,9 +252,8 @@ def _fix_text(text):
     out = []
     for kind, chunk in split_blocks(text):
         if kind == 'prose':
-            line = chunk.rstrip('\n')
-            fixed = with_inline_protected(line, _tier1)
-            out.append(fixed + '\n')
+            # Transform chunk in-place; newlines pass through _tier1 untouched
+            out.append(with_inline_protected(chunk, _tier1))
         else:
             out.append(chunk)
     return ''.join(out)
@@ -298,9 +297,12 @@ def _expand_targets(targets):
     return paths
 
 
-def _print_report(result, show_stats=True):
+def _print_report(result, show_stats=True, is_notebook=False):
     path = result['path']
-    if result['changed']:
+    if is_notebook:
+        # Notebooks are flag-only; don't show Tier-1 diff (it's raw JSON)
+        print(f'\n=== {path} (flag-only) ===')
+    elif result['changed']:
         diff = difflib.unified_diff(
             result['original'].splitlines(keepends=True),
             result['fixed'].splitlines(keepends=True),
@@ -344,7 +346,7 @@ def main(argv=None):
         else:
             args_write = args.write
         result = process(p, write=args_write)
-        _print_report(result, show_stats=not args.no_stats)
+        _print_report(result, show_stats=not args.no_stats, is_notebook=is_notebook)
         if args.check and (result['changed'] or result['flags']):
             rc = 1
     return rc

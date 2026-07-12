@@ -1,4 +1,4 @@
-import sys, pathlib
+import sys, pathlib, re
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from deai import split_blocks, iter_prose_lines, with_inline_protected, fix_em_dashes, normalize_typography, strip_invisible_unicode
 
@@ -146,6 +146,22 @@ def test_flag_in_conclusion():
     assert 'conclusion-closer' in cats
 
 
+def test_flag_its_not_pattern():
+    # M-3: test _ITS_NOT regex
+    text = "It's not just about speed, it's about reliability.\n"
+    flags = find_flags(text)
+    cats = {f[1] for f in flags}
+    assert 'its-not-its' in cats
+
+
+def test_flag_predictable_transition():
+    # M-3: test _TRANSITION regex
+    text = "Furthermore, the design holds up.\n"
+    flags = find_flags(text)
+    cats = {f[1] for f in flags}
+    assert 'predictable-transition' in cats
+
+
 def test_flags_only_in_prose_not_code():
     text = "```\ndelve into code\n```\nplain delve here\n"
     flags = find_flags(text)
@@ -260,6 +276,20 @@ def test_fix_text_preserves_multiline_prose():
     assert out == "line1, a\nline2, b\nline3\n"
 
 
+def test_fix_text_no_spurious_newline_on_final_prose_chunk():
+    # Regression for I-2: if the final prose chunk has no trailing \n,
+    # don't add one (false positive for --check).
+    from deai import _fix_text
+    # Body is prose with NO trailing newline AND no tells -> should be unchanged
+    original = "clean text here"
+    fixed = _fix_text(original)
+    assert fixed == original
+    # Also verify the case with trailing newline still works
+    with_newline = "clean text here\n"
+    fixed_with_nl = _fix_text(with_newline)
+    assert fixed_with_nl == with_newline
+
+
 import tempfile, os, io
 from contextlib import redirect_stdout
 from deai import main
@@ -301,5 +331,12 @@ def test_cli_refuses_write_on_notebook():
         buf = io.StringIO()
         with redirect_stdout(buf):
             rc = main([ipynb_path, '--write'])
+    output = buf.getvalue()
     assert rc == 0
-    assert 'flag-only' in buf.getvalue() or 'flag only' in buf.getvalue().lower()
+    assert 'flag-only' in output or 'flag only' in output.lower()
+    # M-6: notebooks should NOT print unified diff headers (no '--- file' or '+++ file')
+    # '--- flags ---' and '--- stats ---' are OK (section headers)
+    assert not re.search(r'^--- .*\.ipynb', output, re.MULTILINE)
+    assert '+++' not in output  # unified diff '+++' header never appears in notebook output
+    # But they SHOULD still print flags and stats section headers
+    assert ('--- flags ---' in output or '--- stats ---' in output)
