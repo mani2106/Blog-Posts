@@ -390,20 +390,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="why-i-left-jekyll">Why I left Jekyll</h2>
 <p>My blog ran on Jekyll with fastpages for years. It worked, but the friction was constant:</p>
 <ul>
-<li><strong>Notebook posts</strong> required the nbdev + fastpages pipeline — push a notebook, wait for GitHub Actions, pray the conversion didn’t mangle the markdown.</li>
+<li><strong>Notebook posts</strong> required the nbdev + fastpages pipeline: push a notebook, wait for GitHub Actions, pray the conversion didn’t mangle the markdown.</li>
 <li><strong>Front matter inconsistencies</strong> between hand-written posts and notebook-generated ones.</li>
-<li><strong>Deployment latency</strong> — the full Jekyll build on every push meant even a typo fix took minutes to appear.</li>
-<li><strong>Theme constraints</strong> — customizing Bootstrap meant fighting Jekyll’s asset pipeline.</li>
+<li><strong>Deployment latency</strong>, the full Jekyll build on every push meant even a typo fix took minutes to appear.</li>
+<li><strong>Theme constraints</strong>: customizing Bootstrap meant fighting Jekyll’s asset pipeline.</li>
 </ul>
 <p>Quarto promised a saner world: <strong>plain <code>.qmd</code> files</strong>, a unified authoring experience, and a build system that renders only what changed. When the <code>freeze: auto</code> feature landed (executed cells cache until the source changes), the last real advantage of the fastpages notebook pipeline evaporated. It was time to migrate.</p>
 </section>
 <section id="the-migration-itself" class="level2">
 <h2 class="anchored" data-anchor-id="the-migration-itself">The migration itself</h2>
-<p>The mechanical work was straightforward — convert every post to <code>posts/&lt;slug&gt;/index.qmd</code>, standardize the front matter, and drop the Jekyll artifacts (<code>layout: post</code>, <code>nb_path</code>, <code>badges</code>). The <strong>real work</strong> was fixing what the migration exposed.</p>
+<p>The mechanical work was straightforward, convert every post to <code>posts/&lt;slug&gt;/index.qmd</code>, standardize the front matter, and drop the Jekyll artifacts (<code>layout: post</code>, <code>nb_path</code>, <code>badges</code>). The <strong>real work</strong> was fixing what the migration exposed.</p>
 <section id="toc-disaster-the-h1-problem" class="level3">
 <h3 class="anchored" data-anchor-id="toc-disaster-the-h1-problem">TOC disaster: the H1 problem</h3>
 <p>The first issue readers noticed: <strong>article table-of-contents were empty</strong>. Sections weren’t showing up in the right sidebar.</p>
-<p>Root cause: Quarto’s TOC <strong>excludes H1 headings</strong>. It assumes the YAML <code>title:</code> field is the document’s single H1, and any body <code>#</code> headings are duplicates. My Jekyll posts used <code>#</code> for their first real section — so Quarto silently dropped every section from the TOC.</p>
+<p>Root cause: Quarto’s TOC <strong>excludes H1 headings</strong>. It assumes the YAML <code>title:</code> field is the document’s single H1, and any body <code>#</code> headings are duplicates. My Jekyll posts used <code>#</code> for their first real section, so Quarto silently dropped every section from the TOC.</p>
 <p>The fix was mechanical but pervasive: demote all body headings one level (<code># Introduction</code> → <code>## Introduction</code>). Across 7 posts, this meant touching every section boundary. The upside: a working TOC and a proper heading hierarchy.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -415,26 +415,26 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Audit your headings before you deploy.</strong> The Jekyll→Quarto heading clash is a classic migration footgun: Jekyll treats the YAML <code>title</code> as metadata only, so authors reach for <code>#</code> for their first section. Quarto elevates that same <code>title</code> to the document’s H1, which means the body must start at <code>##</code> — otherwise Quarto silently drops those sections from the table of contents.</p>
+<p><strong>Audit your headings before you deploy.</strong> The Jekyll→Quarto heading clash is a classic migration footgun: Jekyll treats the YAML <code>title</code> as metadata only, so authors reach for <code>#</code> for their first section. Quarto elevates that same <code>title</code> to the document’s H1, which means the body must start at <code>##</code>, otherwise Quarto silently drops those sections from the table of contents.</p>
 </div>
 </div>
 </section>
 <section id="theme-polish-breathing-room" class="level3">
 <h3 class="anchored" data-anchor-id="theme-polish-breathing-room">Theme polish: breathing room</h3>
-<p>The old Jekyll site had decent spacing. The Quarto migration landed with Flatly/Darkly themes, but the homepage felt cramped — cards stretched edge-to-edge with no max-width cap, and the “breathing room” the old site had was gone.</p>
-<p>I wanted three things: 1. <strong>Space</strong> — center the post grid at ~1100px, wider gaps between cards. 2. <strong>Polish</strong> — card hover effects, uniform image aspect ratios, metadata (date + reading time) on each card. 3. <strong>Structure</strong> — a full-width hero band with the blog title, then the centered grid below.</p>
-<p>The hero implementation fought Quarto at first. I tried a hand-written <code>&lt;div class="hero-band"&gt;</code> approach, but Quarto/Pandoc <strong>absorbed the first body heading into the title block</strong> when there was no YAML title. The band lost its heading. The fix was to make the title block <em>itself</em> the hero — set <code>title:</code> + <code>subtitle:</code> in front matter, then style <code>#title-block-header</code> as the accent band. Full-bleed width required a CSS breakout (<code>width: 100vw; left: 50%; translateX(-50%)</code>), because Quarto’s <code>.column-page</code> grid still sits inside the container gutter even with <code>page-layout: full</code>.</p>
+<p>The old Jekyll site had decent spacing. The Quarto migration landed with Flatly/Darkly themes, but the homepage felt cramped, cards stretched edge-to-edge with no max-width cap, and the “breathing room” the old site had was gone.</p>
+<p>I wanted three things: 1. <strong>Space</strong>: center the post grid at ~1100px, wider gaps between cards. 2. <strong>Polish</strong>: card hover effects, uniform image aspect ratios, metadata (date + reading time) on each card. 3. <strong>Structure</strong>: a full-width hero band with the blog title, then the centered grid below.</p>
+<p>The hero implementation fought Quarto at first. I tried a hand-written <code>&lt;div class="hero-band"&gt;</code> approach, but Quarto/Pandoc <strong>absorbed the first body heading into the title block</strong> when there was no YAML title. The band lost its heading. The fix was to make the title block <em>itself</em> the hero, set <code>title:</code> + <code>subtitle:</code> in front matter, then style <code>#title-block-header</code> as the accent band. Full-bleed width required a CSS breakout (<code>width: 100vw; left: 50%; translateX(-50%)</code>), because Quarto’s <code>.column-page</code> grid still sits inside the container gutter even with <code>page-layout: full</code>.</p>
 <p>The result: a clean banded hero, a centered grid with hover lifts, and consistent card heights via <code>object-fit: cover</code>.</p>
 </section>
 <section id="relocating-the-categories-sidebar" class="level3">
 <h3 class="anchored" data-anchor-id="relocating-the-categories-sidebar">Relocating the categories sidebar</h3>
-<p>The old site had a category filter sidebar on the homepage. It felt cluttered — the grid never got proper width, and the sidebar dominated on mobile.</p>
+<p>The old site had a category filter sidebar on the homepage. It felt cluttered, the grid never got proper width, and the sidebar dominated on mobile.</p>
 <p>The solution was a <strong>dedicated Categories page</strong>: - <strong>Home</strong> (<code>index.qmd</code>): <code>categories: false</code>, hero band, clean centered grid. - <strong>Categories</strong> (<code>categories.qmd</code>): <code>categories: true</code>, grid + sidebar, filtering in place.</p>
 <p>This is the standard blog pattern: home = latest posts (clean), separate page = browse by category. One new navbar entry, zero redundancy.</p>
 </section>
 <section id="dark-mode-comments-with-utterances" class="level3">
 <h3 class="anchored" data-anchor-id="dark-mode-comments-with-utterances">Dark-mode comments with Utterances</h3>
-<p>Comments are powered by Utterances (GitHub issues-backed). Quarto ships an automatic theme bridge for <strong>Giscus</strong>, but not for Utterances — the comment theme stayed light even in dark mode.</p>
+<p>Comments are powered by Utterances (GitHub issues-backed). Quarto ships an automatic theme bridge for <strong>Giscus</strong>, but not for Utterances, the comment theme stayed light even in dark mode.</p>
 <p>The fix was a custom JS snippet:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Listen for Quarto's theme toggle and postMessage the Utterances iframe</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">document</span><span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">'click'</span><span class="op">,</span> <span class="kw">function</span> (e) {</span>
@@ -456,10 +456,10 @@ Tip
 </section>
 <section id="what-i-learned" class="level2">
 <h2 class="anchored" data-anchor-id="what-i-learned">What I learned</h2>
-<p><strong>Migrate early, migrate often.</strong> The Jekyll→Quarto gap widened over time — waiting made the migration more painful than it needed to be.</p>
+<p><strong>Migrate early, migrate often.</strong> The Jekyll→Quarto gap widened over time: waiting made the migration more painful than it needed to be.</p>
 <p><strong>Trust the framework, don’t fight it.</strong> The hero band problem vanished once I stopped trying to outsmart Quarto’s title block and styled the existing element instead.</p>
-<p><strong>Test the dark mode.</strong> Features that work in light mode often break in dark — the Utterances theme mismatch was invisible until I toggled.</p>
-<p><strong>Document your conventions.</strong> The repo’s <code>CLAUDE.md</code> still described the Jekyll pipeline after the migration was complete — I ended up writing a Quarto-specific authoring skill to capture the real conventions. Future sessions (and future-me) will thank me.</p>
+<p><strong>Test the dark mode.</strong> Features that work in light mode often break in dark, the Utterances theme mismatch was invisible until I toggled.</p>
+<p><strong>Document your conventions.</strong> The repo’s <code>CLAUDE.md</code> still described the Jekyll pipeline after the migration was complete, I ended up writing a Quarto-specific authoring skill to capture the real conventions. Future sessions (and future-me) will thank me.</p>
 </section>
 <section id="the-result" class="level2">
 <h2 class="anchored" data-anchor-id="the-result">The result</h2>
