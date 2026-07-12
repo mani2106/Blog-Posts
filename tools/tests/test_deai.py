@@ -258,3 +258,48 @@ def test_fix_text_preserves_multiline_prose():
     from deai import _fix_text
     out = _fix_text("line1 — a\nline2 — b\nline3\n")
     assert out == "line1, a\nline2, b\nline3\n"
+
+
+import tempfile, os, io
+from contextlib import redirect_stdout
+from deai import main
+
+
+def test_cli_dry_run_prints_diff_no_write():
+    with tempfile.TemporaryDirectory() as tmp:
+        path = _write(tmp, "a — b\n")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = main([path])
+        after = open(path, encoding='utf-8').read()
+    assert rc == 0
+    assert "a, b" in buf.getvalue()       # diff shown
+    assert after == "a — b\n"             # not written
+
+
+def test_cli_write_changes_file():
+    with tempfile.TemporaryDirectory() as tmp:
+        path = _write(tmp, "a — b\n")
+        rc = main([path, '--write'])
+        after = open(path, encoding='utf-8').read()
+    assert rc == 0
+    assert after == "a, b\n"
+
+
+def test_cli_check_returns_nonzero_when_tells_present():
+    with tempfile.TemporaryDirectory() as tmp:
+        path = _write(tmp, "a — b\n")
+        rc = main([path, '--check'])
+    assert rc == 1
+
+
+def test_cli_refuses_write_on_notebook():
+    with tempfile.TemporaryDirectory() as tmp:
+        path = _write(tmp, "a — b\n")
+        ipynb_path = path.replace('.qmd', '.ipynb')
+        os.rename(path, ipynb_path)
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = main([ipynb_path, '--write'])
+    assert rc == 0
+    assert 'flag-only' in buf.getvalue() or 'flag only' in buf.getvalue().lower()

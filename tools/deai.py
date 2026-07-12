@@ -277,3 +277,79 @@ def process(path, write=False):
         p.write_text(fixed, encoding='utf-8')
     return result
 
+
+import argparse
+import difflib
+
+
+def _collect(target):
+    p = Path(target)
+    if p.is_file():
+        return [p]
+    if p.is_dir():
+        return sorted(p.rglob('index.qmd'))
+    return sorted(Path('.').glob(target))   # treat as glob pattern
+
+
+def _expand_targets(targets):
+    paths = []
+    for t in targets:
+        paths.extend(_collect(t))
+    return paths
+
+
+def _print_report(result, show_stats=True):
+    path = result['path']
+    if result['changed']:
+        diff = difflib.unified_diff(
+            result['original'].splitlines(keepends=True),
+            result['fixed'].splitlines(keepends=True),
+            fromfile=path, tofile=path, lineterm='',
+        )
+        print(f'\n=== {path} (Tier 1 diff) ===')
+        for line in diff:
+            print(line.rstrip('\n'))
+    else:
+        print(f'\n=== {path} (no Tier 1 changes) ===')
+    if result['flags']:
+        print('--- flags ---')
+        for line_no, cat, snippet, sug in result['flags']:
+            where = f'L{line_no}' if line_no else 'doc'
+            print(f'  [{cat}] {where}: {snippet!r} -> {sug}')
+    if show_stats:
+        print('--- stats ---')
+        for k, v in result['stats'].items():
+            print(f'  {k}: {v}')
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description='Reduce AI-generation tells in Quarto posts.')
+    parser.add_argument('target', nargs='*', help='file/dir/glob (default: posts/**/index.qmd)')
+    parser.add_argument('--write', action='store_true', help='apply Tier 1 fixes in place')
+    parser.add_argument('--check', action='store_true', help='exit 1 if any tell found')
+    parser.add_argument('--no-stats', action='store_true', help='suppress Tier 4 stats')
+    args = parser.parse_args(argv)
+
+    paths = _expand_targets(args.target or ['posts/**/index.qmd'])
+    if not paths:
+        print('no files matched')
+        return 0
+
+    rc = 0
+    for p in paths:
+        is_notebook = p.suffix == '.ipynb'
+        if is_notebook and args.write:
+            print(f'{p}: notebook (.ipynb) is flag-only; --write refused.')
+            args_write = False
+        else:
+            args_write = args.write
+        result = process(p, write=args_write)
+        _print_report(result, show_stats=not args.no_stats)
+        if args.check and (result['changed'] or result['flags']):
+            rc = 1
+    return rc
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
+
