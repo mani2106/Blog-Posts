@@ -41,9 +41,9 @@ The fix was mechanical but pervasive: demote all body headings one level (`# Int
 The old Jekyll site had decent spacing. The Quarto migration landed with Flatly/Darkly themes, but the homepage felt cramped, cards stretched edge-to-edge with no max-width cap, and the "breathing room" the old site had was gone.
 
 I wanted three things:
-1. **Space**, center the post grid at ~1100px, wider gaps between cards.
+1. **Space**: center the post grid at ~1100px, wider gaps between cards.
 2. **Polish**: card hover effects, uniform image aspect ratios, metadata (date + reading time) on each card.
-3. **Structure**, a full-width hero band with the blog title, then the centered grid below.
+3. **Structure**: a full-width hero band with the blog title, then the centered grid below.
 
 The hero implementation fought Quarto at first. I tried a hand-written `<div class="hero-band">` approach, but Quarto/Pandoc **absorbed the first body heading into the title block** when there was no YAML title. The band lost its heading. The fix was to make the title block *itself* the hero, set `title:` + `subtitle:` in front matter, then style `#title-block-header` as the accent band. Full-bleed width required a CSS breakout (`width: 100vw; left: 50%; translateX(-50%)`), because Quarto's `.column-page` grid still sits inside the container gutter even with `page-layout: full`.
 
