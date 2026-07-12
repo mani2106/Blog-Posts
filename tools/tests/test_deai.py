@@ -195,3 +195,57 @@ def test_stats_ignore_front_matter_and_code():
     text = "---\ntitle: **not counted**\n---\nreal **bold** word\n"
     st = compute_stats(text)
     assert st['bold_spans'] == 1   # the one in front matter is excluded
+
+
+import tempfile, os
+from deai import process
+
+
+def _write(tmp, body):
+    fd, path = tempfile.mkstemp(suffix='.qmd', dir=tmp)
+    with os.fdopen(fd, 'w', encoding='utf-8') as f:
+        f.write(body)
+    return path
+
+
+def test_process_dry_run_does_not_write():
+    body = "a — b\n"
+    with tempfile.TemporaryDirectory() as tmp:
+        path = _write(tmp, body)
+        before = open(path, encoding='utf-8').read()
+        result = process(path, write=False)
+        after = open(path, encoding='utf-8').read()
+    assert before == after                 # file untouched
+    assert result['changed'] is True
+    assert result['fixed'] == "a, b\n"
+
+
+def test_process_write_applies_tier1():
+    body = "a — b\n"
+    with tempfile.TemporaryDirectory() as tmp:
+        path = _write(tmp, body)
+        result = process(path, write=True)
+        after = open(path, encoding='utf-8').read()
+    assert after == "a, b\n"
+    assert result['changed'] is True
+
+
+def test_process_protected_regions_byte_identical():
+    body = "---\ntitle: 'T — keep'\n---\nprose — here\n```\ncode — stay\n```\n[link — x](http://y/z—w)\n"
+    with tempfile.TemporaryDirectory() as tmp:
+        path = _write(tmp, body)
+        result = process(path, write=True)
+        after = open(path, encoding='utf-8').read()
+    assert "title: 'T — keep'" in after           # front matter intact
+    assert "code — stay" in after                  # code block intact
+    assert "http://y/z—w" in after                 # URL intact
+    assert "prose, here" in after                  # prose fixed
+
+
+def test_process_returns_flags_and_stats():
+    body = "We delve into it. Done.\n"
+    with tempfile.TemporaryDirectory() as tmp:
+        path = _write(tmp, body)
+        result = process(path, write=False)
+    assert any(f[1] == 'vocab' for f in result['flags'])
+    assert 'word_count' in result['stats']

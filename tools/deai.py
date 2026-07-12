@@ -7,6 +7,7 @@ Stdlib only.
 """
 import re
 import unicodedata
+from pathlib import Path
 
 _FENCE_OPEN = re.compile(r'^\s{0,3}(`{3,}|~{3,})')
 
@@ -236,4 +237,43 @@ def compute_stats(text):
         'comma_density_per_1k': round(prose.count(',') * 1000 / wc, 1),
         'bold_spans': len(_BOLD.findall(prose)),
     }
+
+
+def _tier1(s):
+    """Compose the Tier 1 transforms for one prose string (no inline code)."""
+    s = fix_em_dashes(s)
+    s = normalize_typography(s)
+    s = strip_invisible_unicode(s)
+    return s
+
+
+def _fix_text(text):
+    """Apply Tier 1 to prose only; return fixed text."""
+    out = []
+    for kind, chunk in split_blocks(text):
+        if kind == 'prose':
+            line = chunk.rstrip('\n')
+            fixed = with_inline_protected(line, _tier1)
+            out.append(fixed + '\n')
+        else:
+            out.append(chunk)
+    return ''.join(out)
+
+
+def process(path, write=False):
+    """Run the full pipeline on one file. Never writes unless write=True."""
+    p = Path(path)
+    original = p.read_text(encoding='utf-8')
+    fixed = _fix_text(original)
+    result = {
+        'original': original,
+        'fixed': fixed,
+        'changed': fixed != original,
+        'flags': find_flags(original),
+        'stats': compute_stats(original),
+        'path': str(p),
+    }
+    if write:
+        p.write_text(fixed, encoding='utf-8')
+    return result
 
