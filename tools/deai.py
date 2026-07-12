@@ -70,3 +70,41 @@ def with_inline_protected(line, fn):
         last = m.end()
     out.append(fn(line[last:]))
     return ''.join(out)
+
+
+def _is_elaboration(right):
+    """Heuristic: does the right side of a dash elaborate/list (-> colon)
+    rather than continue a flowing clause (-> comma)?"""
+    r = right.lstrip()
+    if not r:
+        return False
+    if re.match(r'^to\s+\w', r):                 # infinitive: "to ship..."
+        return True
+    if re.match(r'^\w+ing\s+\w', r):             # gerund/imperative -ing: "converting..."
+        return True
+    head = r.split('.', 1)[0]                    # first clause only
+    if head.count(',') >= 2:                     # multi-item list
+        return True
+    return False
+
+
+def fix_em_dashes(s):
+    """Replace spaced em dashes (' — ') by context.
+
+    1 split  -> colon (elaboration) or comma (default)
+    2 splits -> parentheses (parenthetical pair)
+    3+       -> all commas
+    0 spaced -> unchanged (non-spaced em dashes left alone)
+    """
+    parts = s.split(' — ')
+    n = len(parts) - 1
+    if n <= 0:
+        return s
+    if n == 1:
+        left, right = parts
+        joiner = ': ' if _is_elaboration(right) else ', '
+        return left + joiner + right
+    if n == 2:
+        a, b, c = parts
+        return f'{a} ({b}) {c}'
+    return ', '.join(parts)

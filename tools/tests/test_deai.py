@@ -1,6 +1,6 @@
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
-from deai import split_blocks, iter_prose_lines, with_inline_protected
+from deai import split_blocks, iter_prose_lines, with_inline_protected, fix_em_dashes
 
 
 def test_split_blocks_frontmatter_is_protected():
@@ -60,3 +60,36 @@ def test_with_inline_protected_handles_code_span_adjacent_to_link():
     assert "`x`" in out              # code span untouched (lowercase x preserved)
     assert "http://x/y" in out       # link URL untouched
     assert "SEE" in out and "NOW" in out  # surrounding prose transformed
+
+
+def test_em_dash_single_clause_becomes_comma():
+    assert fix_em_dashes("first section — so Quarto dropped it") == \
+        "first section, so Quarto dropped it"
+
+
+def test_em_dash_elaboration_becomes_colon():
+    assert fix_em_dashes("straightforward — convert, standardize, and drop") == \
+        "straightforward: convert, standardize, and drop"
+
+
+def test_em_dash_infinitive_becomes_colon():
+    assert fix_em_dashes("the goal — to ship fast, well, now") == \
+        "the goal: to ship fast, well, now"
+
+
+def test_em_dash_pair_becomes_parens():
+    assert fix_em_dashes("My brother — the one in Norway — sent a fish") == \
+        "My brother (the one in Norway) sent a fish"
+
+
+def test_em_dash_three_or_more_all_commas():
+    assert fix_em_dashes("a — b — c — d") == "a, b, c, d"
+
+
+def test_em_dash_non_spaced_left_untouched():
+    # Non-spaced em dashes are left as-is (conservative).
+    assert fix_em_dashes("well—known and fine") == "well—known and fine"
+
+
+def test_em_dash_none_left_untouched():
+    assert fix_em_dashes("nothing here at all") == "nothing here at all"
