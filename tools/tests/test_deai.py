@@ -44,3 +44,19 @@ def test_with_inline_protected_leaves_link_urls_alone():
     out = with_inline_protected("see [a — b](http://x/y—z) now", fn)
     assert "http://x/y—z" in out    # URL untouched
     assert "a , b" in out           # link text is prose -> transformed
+
+
+def test_with_inline_protected_leaves_image_destinations_alone():
+    def fn(s):
+        return s.replace('—', ',')
+    out = with_inline_protected("![alt — x](http://y/z—w.png)", fn)
+    assert "http://y/z—w.png" in out   # image URL untouched
+
+
+def test_with_inline_protected_handles_code_span_adjacent_to_link():
+    def fn(s):
+        return s.upper()
+    out = with_inline_protected("see `x`](http://x/y) now", fn)
+    assert "`x`" in out              # code span untouched (lowercase x preserved)
+    assert "http://x/y" in out       # link URL untouched
+    assert "SEE" in out and "NOW" in out  # surrounding prose transformed
