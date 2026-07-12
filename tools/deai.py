@@ -208,3 +208,32 @@ def find_flags(text):
     if word_total and bold_total * 1000 / word_total > 5:
         flags.append(_flag(0, 'bold-overuse', f'{bold_total} bold spans / {word_total} words', 'reduce bolding'))
     return flags
+
+
+_SENT_SPLIT = re.compile(r'(?<=[.!?])\s+')
+
+
+def _prose_text(text):
+    return ''.join(chunk for kind, chunk in split_blocks(text) if kind == 'prose')
+
+
+def compute_stats(text):
+    """Tier 4: report-only statistical signals (burstiness proxy + densities)."""
+    prose = _prose_text(text)
+    sentences = [s for s in _SENT_SPLIT.split(prose) if s.strip()]
+    counts = [len(s.split()) for s in sentences]
+    n = len(counts)
+    mean = sum(counts) / n if n else 0.0
+    variance = sum((c - mean) ** 2 for c in counts) / n if n else 0.0
+    words = prose.split()
+    wc = len(words) if words else 1
+    return {
+        'word_count': len(words),
+        'sentence_count': n,
+        'sentence_length_mean': round(mean, 1),
+        'sentence_length_stdev': round(variance ** 0.5, 1),
+        'em_dash_density_per_1k': round(prose.count('—') * 1000 / wc, 1),
+        'comma_density_per_1k': round(prose.count(',') * 1000 / wc, 1),
+        'bold_spans': len(_BOLD.findall(prose)),
+    }
+

@@ -165,3 +165,33 @@ def test_flag_bold_overuse():
     text = " **a** **b** **c** **d** **e** **f** in a short post\n"
     cats = {f[1] for f in find_flags(text)}
     assert 'bold-overuse' in cats
+
+
+from deai import compute_stats
+
+
+def test_stats_burstiness_on_known_lengths():
+    # sentences of 2 and 10 words -> mean 6, stdev 4
+    text = "I am. One two three four five six seven eight nine ten.\n"
+    st = compute_stats(text)
+    assert st['sentence_count'] == 2
+    assert st['sentence_length_mean'] == 6.0
+    assert st['sentence_length_stdev'] == 4.0
+
+
+def test_stats_counts_em_dashes_and_commas():
+    text = "a — b — c, d, e, f\n"
+    st = compute_stats(text)
+    assert st['em_dash_density_per_1k'] > 0
+    assert st['comma_density_per_1k'] > 0
+
+
+def test_stats_bold_spans():
+    text = "this has **one** and **two** bold spans\n"
+    assert compute_stats(text)['bold_spans'] == 2
+
+
+def test_stats_ignore_front_matter_and_code():
+    text = "---\ntitle: **not counted**\n---\nreal **bold** word\n"
+    st = compute_stats(text)
+    assert st['bold_spans'] == 1   # the one in front matter is excluded
