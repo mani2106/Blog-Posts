@@ -6,6 +6,7 @@ patterns. Tier 4 (report only): burstiness + density stats.
 Stdlib only.
 """
 import re
+import unicodedata
 
 _FENCE_OPEN = re.compile(r'^\s{0,3}(`{3,}|~{3,})')
 
@@ -108,3 +109,20 @@ def fix_em_dashes(s):
         a, b, c = parts
         return f'{a} ({b}) {c}'
     return ', '.join(parts)
+
+
+def normalize_typography(s):
+    """Curly/smart quotes -> straight; unicode ellipsis -> '...'."""
+    s = s.replace("“", '"').replace("”", '"')   # double curly
+    s = s.replace("‘", "'").replace("’", "'")   # single curly / apostrophe
+    s = s.replace("…", '...')                        # ellipsis
+    return s
+
+
+def strip_invisible_unicode(s):
+    """Remove Unicode control (Cc) and format (Cf) chars, keep newlines/tabs."""
+    keep = ('\n', '\t', '\r')
+    return ''.join(
+        ch for ch in s
+        if ch in keep or unicodedata.category(ch) not in ('Cc', 'Cf')
+    )

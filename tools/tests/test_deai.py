@@ -1,6 +1,6 @@
 import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
-from deai import split_blocks, iter_prose_lines, with_inline_protected, fix_em_dashes
+from deai import split_blocks, iter_prose_lines, with_inline_protected, fix_em_dashes, normalize_typography, strip_invisible_unicode
 
 
 def test_split_blocks_frontmatter_is_protected():
@@ -93,3 +93,25 @@ def test_em_dash_non_spaced_left_untouched():
 
 def test_em_dash_none_left_untouched():
     assert fix_em_dashes("nothing here at all") == "nothing here at all"
+
+
+def test_normalize_curly_quotes_to_straight():
+    assert normalize_typography("“hello” world ‘x’") == '"hello" world \'x\''
+
+
+def test_normalize_unicode_ellipsis():
+    assert normalize_typography("wait…") == "wait..."
+
+
+def test_normalize_leaves_em_dash_for_engine():
+    # em dash is NOT normalized here; fix_em_dashes handles it.
+    assert normalize_typography("a — b") == "a — b"
+
+
+def test_strip_invisible_unicode_removes_zero_width_and_bom():
+    s = "a​b‍c﻿d"   # ZWSP, ZWJ, BOM
+    assert strip_invisible_unicode(s) == "abcd"
+
+
+def test_strip_invisible_unicode_keeps_newline_and_tab():
+    assert strip_invisible_unicode("a\nb\tc") == "a\nb\tc"
